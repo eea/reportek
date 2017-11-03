@@ -1,0 +1,48 @@
+- model: core.issue
+  pk: 1
+  fields:
+    name: Climate Change
+- model: core.issue
+  pk: 2
+  fields:
+    name: Ozone Depletion
+- model: core.issue
+  pk: 3
+  fields:
+    name: Acidification
+- model: core.issue
+  pk: 4
+  fields:
+    name: Soil
+- model: core.issue
+  pk: 6
+  fields:
+    name: Air quality
+- model: core.issue
+  pk: 7
+  fields:
+    name: Noise
+- model: core.issue
+  pk: 8
+  fields:
+    name: Natural Resources
+- model: core.issue
+  pk: 10
+  fields:
+    name: Chemicals
+- model: core.issue
+  pk: 12
+  fields:
+    name: Various other core.issues
+- model: core.issue
+  pk: 13
+  fields:
+    name: Waste
+- model: core.issue
+  pk: 14
+  fields:
+    name: Biodiversity Change and Nature
+- model: core.issue
+  pk: 15
+  fields:
+    name: Water

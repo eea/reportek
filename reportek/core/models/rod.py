@@ -13,6 +13,11 @@ class Country(models.Model):
     iso = models.CharField(max_length=2, unique=True)
     name = models.CharField(max_length=60)
 
+
+class Issue(models.Model):
+    """Environmental issues"""
+    name = models.CharField(max_length=60)
+
 # class Obligation(models.Model):
 
 
