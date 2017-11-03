@@ -1,0 +1,364 @@
+- model: core.client
+  pk: 50
+  fields:
+    name: ACCOBAMS Secretariat
+    acronym: ACCOBAMS
+- model: core.client
+  pk: 68
+  fields:
+    name: Alpine Convention Secretariat
+    acronym: ''
+- model: core.client
+  pk: 8
+  fields:
+    name: Arctic Council, AMAP Secretariat
+    acronym: AMAP
+- model: core.client
+  pk: 72
+  fields:
+    name: Baltic Marine Environment Protection Commission (Helsinki Commission)
+    acronym: HELCOM
+- model: core.client
+  pk: 6
+  fields:
+    name: Basel Convention
+    acronym: SBC
+- model: core.client
+  pk: 63
+  fields:
+    name: Bern Convention
+    acronym: ''
+- model: core.client
+  pk: 55
+  fields:
+    name: Biosafety Clearing House
+    acronym: BCH
+- model: core.client
+  pk: 24
+  fields:
+    name: Black Sea Commission
+    acronym: BSC
+- model: core.client
+  pk: 84
+  fields:
+    name: Bonn Agreement Secretariat
+    acronym: ''
+- model: core.client
+  pk: 82
+  fields:
+    name: Caribbean Regional Co-ordinating Unit
+    acronym: CAR/RCU
+- model: core.client
+  pk: 58
+  fields:
+    name: CITES Secretariat
+    acronym: CITES
+- model: core.client
+  pk: 71
+  fields:
+    name: Commission for the Conservation of Antarctic Marine Living Resources
+    acronym: CCAMLR
+- model: core.client
+  pk: 77
+  fields:
+    name: Commission on Sustainable Development
+    acronym: CSD
+- model: core.client
+  pk: 70
+  fields:
+    name: Committee for Environmental Protection
+    acronym: CEP
+- model: core.client
+  pk: 59
+  fields:
+    name: Committee for the Habitats Directive, European Commission
+    acronym: DG ENV
+- model: core.client
+  pk: 75
+  fields:
+    name: Committee on Science and Technology
+    acronym: CST
+- model: core.client
+  pk: 81
+  fields:
+    name: Conference of the Parties to the Cartagena Convention, via the Caribbean
+      Regional Co-ordinating Unit (CAR/RCU)
+    acronym: CAR/RCU
+- model: core.client
+  pk: 42
+  fields:
+    name: Convention on Biological Diversity
+    acronym: CBD
+- model: core.client
+  pk: 38
+  fields:
+    name: Coordinating Unit for the Mediterranean Action Plan
+    acronym: MAP
+- model: core.client
+  pk: 78
+  fields:
+    name: Coordination Center for Effects
+    acronym: CCE
+- model: core.client
+  pk: 62
+  fields:
+    name: Council of Europe
+    acronym: COE
+- model: core.client
+  pk: 105
+  fields:
+    name: Council of the European Union
+    acronym: Council
+- model: core.client
+  pk: 90
+  fields:
+    name: EFTA Surveillance Authority
+    acronym: EFTA Surv
+- model: core.client
+  pk: 65
+  fields:
+    name: EUROBATS Secretariat
+    acronym: EUROBATS
+- model: core.client
+  pk: 104
+  fields:
+    name: European Commission
+    acronym: Commission
+- model: core.client
+  pk: 99
+  fields:
+    name: European Commission, Directorate General Climate Action
+    acronym: DG Clima
+- model: core.client
+  pk: 2
+  fields:
+    name: European Commission, Directorate General Environment
+    acronym: DG ENV (EC)
+- model: core.client
+  pk: 100
+  fields:
+    name: European Commission, Directorate General for Agriculture and Rural Development
+    acronym: DG AGRI
+- model: core.client
+  pk: 101
+  fields:
+    name: European Commission, Directorate General for Energy
+    acronym: DG Energy
+- model: core.client
+  pk: 102
+  fields:
+    name: European Commission, Directorate General for Maritime Affairs and Fisheries
+    acronym: DG MARE
+- model: core.client
+  pk: 103
+  fields:
+    name: European Commission, Directorate General for Regional and Urban Policy
+    acronym: DG REGIO
+- model: core.client
+  pk: 10
+  fields:
+    name: European Council
+    acronym: ''
+- model: core.client
+  pk: 3
+  fields:
+    name: European Environment Agency
+    acronym: EEA
+- model: core.client
+  pk: 89
+  fields:
+    name: European Free Trade Agreement Secretariat
+    acronym: EFTA
+- model: core.client
+  pk: 12
+  fields:
+    name: European Parliament and Council
+    acronym: EP&C
+- model: core.client
+  pk: 7
+  fields:
+    name: Eurostat
+    acronym: EUROSTAT
+- model: core.client
+  pk: 61
+  fields:
+    name: FAO Forestry Resources Assessment Programme
+    acronym: ''
+- model: core.client
+  pk: 60
+  fields:
+    name: Food and Agriculture Organization
+    acronym: FAO
+- model: core.client
+  pk: 83
+  fields:
+    name: Helsinki Commission
+    acronym: HELCOM
+- model: core.client
+  pk: 14
+  fields:
+    name: International Commission for the Protection of the Danube River
+    acronym: ICPDR
+- model: core.client
+  pk: 15
+  fields:
+    name: International Commission for the Protection of the Elbe
+    acronym: ICPE / IKSE / MKOL
+- model: core.client
+  pk: 79
+  fields:
+    name: International Cooperative Programme on Modelling and Mapping of Critical
+      Levels and Loads and Air Pollution Effects, Risks and Trends
+    acronym: ICP M&M
+- model: core.client
+  pk: 23
+  fields:
+    name: International Council for the Exploration of the Sea
+    acronym: ICES
+- model: core.client
+  pk: 25
+  fields:
+    name: International Maritime Organisation
+    acronym: IMO
+- model: core.client
+  pk: 66
+  fields:
+    name: International Whaling Commission
+    acronym: IWC
+- model: core.client
+  pk: 98
+  fields:
+    name: Joint Research Centre - European Commission
+    acronym: JRC
+- model: core.client
+  pk: 86
+  fields:
+    name: National Authorities, International Organisations, Public, Scientific Community
+      etc
+    acronym: ''
+- model: core.client
+  pk: 16
+  fields:
+    name: Oder Commission
+    acronym: ICPOAP
+- model: core.client
+  pk: 39
+  fields:
+    name: Organization for Economic Cooperation and Development
+    acronym: OECD
+- model: core.client
+  pk: 4
+  fields:
+    name: OSPAR Convention
+    acronym: OSPAR
+- model: core.client
+  pk: 69
+  fields:
+    name: Programme Co-ordinating Centre
+    acronym: PCC
+- model: core.client
+  pk: 49
+  fields:
+    name: Ramsar Bureau and the Scientific and Technical Review Panel
+    acronym: ''
+- model: core.client
+  pk: 48
+  fields:
+    name: Ramsar Convention
+    acronym: ''
+- model: core.client
+  pk: 37
+  fields:
+    name: Rhine Commission
+    acronym: ICPR (RHINE)
+- model: core.client
+  pk: 67
+  fields:
+    name: Scientific Committee, via the IWC Secretariat
+    acronym: SC-IWC
+- model: core.client
+  pk: 106
+  fields:
+    name: Secretariat of the Union for the Mediterranean
+    acronym: UfMS
+- model: core.client
+  pk: 73
+  fields:
+    name: The International Tropical Timber Organisation
+    acronym: ITTO
+- model: core.client
+  pk: 93
+  fields:
+    name: Trilateral Monitoring and Assessment Group
+    acronym: TMAP
+- model: core.client
+  pk: 35
+  fields:
+    name: UN Framework Convention on Climate Change
+    acronym: UNFCCC
+- model: core.client
+  pk: 74
+  fields:
+    name: UNCCD, Permanent Secretariat
+    acronym: UNCCD
+- model: core.client
+  pk: 34
+  fields:
+    name: UNECE Environment and Human Settlements Division
+    acronym: UNECE
+- model: core.client
+  pk: 1
+  fields:
+    name: UNEP - Ozone Secretariat
+    acronym: OZONE
+- model: core.client
+  pk: 44
+  fields:
+    name: UNEP-CMS Secretariat
+    acronym: CMS
+- model: core.client
+  pk: 45
+  fields:
+    name: UNEP/AEWA Secretariat
+    acronym: AEWA
+- model: core.client
+  pk: 46
+  fields:
+    name: UNEP/ASCOBANS Secretariat
+    acronym: ASCOBANS
+- model: core.client
+  pk: 54
+  fields:
+    name: UNESCO World Heritage Centre
+    acronym: UNESCO
+- model: core.client
+  pk: 11
+  fields:
+    name: United Nations
+    acronym: UN
+- model: core.client
+  pk: 51
+  fields:
+    name: United Nations Educational, Scientific and Cultural Organization
+    acronym: UNESCO
+- model: core.client
+  pk: 41
+  fields:
+    name: United Nations Environment Programme
+    acronym: UNEP
+- model: core.client
+  pk: 97
+  fields:
+    name: United Nations Statistics Division
+    acronym: UNSD
+- model: core.client
+  pk: 92
+  fields:
+    name: World Health Organization
+    acronym: WHO
+- model: core.client
+  pk: 53
+  fields:
+    name: World Heritage Committee, UNESCO World Heritage Centre
+    acronym: ''
+

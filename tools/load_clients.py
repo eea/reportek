@@ -12,7 +12,7 @@ from xml.etree import ElementTree
 
 
 URL = "http://rod.eionet.europa.eu/clients"
-MODELNAME = "core.country"
+MODELNAME = "core.client"
 
 
 def load_data():
@@ -30,6 +30,8 @@ def load_data():
         id = int(id_re.fullmatch(a.get('href'))[1])
         name = a.text
         abbr = td2.text
+        if abbr is None:
+            abbr = ""
 
         clients.append({
             "id": id,
@@ -46,7 +48,7 @@ def mk_fixture(clients):
             ("pk", c['id']),
             ("fields", OrderedDict((
                 ("name", c['name']),
-                ("abbr", c['abbr']),
+                ("acronym", c['abbr']),
             )))
         ))
         for c in clients
