@@ -1,3 +1,7 @@
+# project-related files
+reportek/site/localsettings.py
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
