@@ -14,8 +14,8 @@ endpoints = {
 }
 
 
-def dump_data(server, method):
-    with open(f'{endpoint}.yml', 'w') as yaml_file:
+def dump_data(server, data_cat, method):
+    with open(f'{data_cat}.yml', 'w') as yaml_file:
         data = getattr(server.WebRODService, method)()
         dump = yaml.dump(data, default_flow_style=False, allow_unicode=True, encoding=None)
         yaml_file.write(dump)
@@ -23,5 +23,6 @@ def dump_data(server, method):
 
 if __name__ == '__main__':
     server = xmlrpclib.Server('http://rod.eionet.europa.eu/rpcrouter')
-    for endpoint, method_name in endpoints.items():
-        dump_data(server, method_name)
+    for data_cat, rpc_method in endpoints.items():
+        print(f'Dumping WebRODService.{rpc_method}() to {data_cat}.yml ... ')
+        dump_data(server, data_cat, rpc_method)
