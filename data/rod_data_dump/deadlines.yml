@@ -1,0 +1,3431 @@
+- CLIENT_NAME: Basel Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Yearly report to the Basel Convention
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Due to changes in the reporting process, deliveries will be accepted
+    every year until 31 of March.
+  NEXT_DEADLINE: '2017-03-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Summary  of emission  inventory for large combustion plants (LCP), Art 4.(4)
+    and 15.(3) plants
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: 'First report 31/12/1990. Summary reports within 12 months after
+    each phase for reduction of emissions from existing plants. Intermediate reports:
+    in the middle of each phase.'
+  NEXT_DEADLINE: According to timetable.
+  NEXT_DEADLINE2: ''
+  TITLE: Report on programmes on emissions from large combustion plants
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: GHG emissions and projections (MM Decision 1999)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: The 2017 data call will be done under the new data model WISE-6.
+  NEXT_DEADLINE: '2018-04-15'
+  NEXT_DEADLINE2: '2019-04-15'
+  TITLE: WISE SoE - Water quality in transitional, coastal and marine waters (WISE-6)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-10-15'
+  NEXT_DEADLINE2: '2024-10-15'
+  TITLE: MSFD - Articles 8, 9 and 10 - XML data
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-10-15'
+  NEXT_DEADLINE2: '2024-10-15'
+  TITLE: MSFD - Article 4 - Spatial data
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-02-15'
+  NEXT_DEADLINE2: ''
+  TITLE: CLRTAP (AE-1)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-04-15'
+  NEXT_DEADLINE2: ''
+  TITLE: UNFCCC (AE-2)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-05-01'
+  NEXT_DEADLINE2: '2019-05-01'
+  TITLE: MONAS report for hydrographic and hydrochemical data (Recommendation 19/3)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: From bathing season 2007 onwards, MS can choose to report either
+    under Directive 76/160/EEC or Directive 2006/7/EC. Reporting under Directive 2006/7/EC
+    becomes obligatory from the 2012 bathing season on. Visit http://rod.eionet.europa.eu/instruments/609
+  NEXT_DEADLINE2: ''
+  TITLE: Bathing Water Directive - Report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: review 22/12/2018. Member States shall, within three years of the
+    publication of each WFD River Basin Management Plan or its update, submit an interim
+    report describing progress in the implementation of the planned programme of measures.
+  NEXT_DEADLINE: '2012-12-22'
+  NEXT_DEADLINE2: ''
+  TITLE: Water Framework Directive - Programmes of Measures - 2012 Reporting
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Terminated
+  NEXT_DEADLINE: New reporting obligations and format (2005-14) agreed in 2005
+  NEXT_DEADLINE2: ''
+  TITLE: Data submission for the Annual Report on Discharges, Waste Handling and Air
+    Emissions from Offshore Installations
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-08-31'
+  NEXT_DEADLINE2: '2023-08-31'
+  TITLE: PARCOM Decision 90/3 on Reducing Atmospheric Emissions from Existing Chlor-Alkali
+    Plants
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-10-01'
+  NEXT_DEADLINE2: ''
+  TITLE: EoI Data (AQ-1)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2004-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Corine Land Cover 2000 project progress
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2013-10-31'
+  NEXT_DEADLINE2: ''
+  TITLE: River quality (EWN-1)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2013-10-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Lake quality (EWN-2)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2013-10-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Groundwater quality (EWN-3)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-07-01'
+  NEXT_DEADLINE2: ''
+  TITLE: Ozone (AQ-2)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-03-15'
+  NEXT_DEADLINE2: '2019-03-15'
+  TITLE: Nationally designated areas (CDDA)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2012-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Soil Contamination (TE-2)
+- CLIENT_NAME: Rhine Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: According to international monitoring programme.
+  NEXT_DEADLINE2: ''
+  TITLE: Rhine River Monitoring
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2007-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Yearly report to the EU Commission on waste shipments
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 'No further reporting: obligation repealed by entry into force of  IPR
+    2011/850/EU (reporting covered April - September)'
+  NEXT_DEADLINE: '2013-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Monthly ozone exceedances
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Limitations of emissions to the atmosphere and discharges into water from
+    the glass industry (Recommendation 14/3)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Nitrogen removal at municipal sewage water treatment plants Recommendation
+    16/9
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1999-09-16'
+  NEXT_DEADLINE2: ''
+  TITLE: Summary of the national inventory of equipment containing PCBs
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1999-09-16'
+  NEXT_DEADLINE2: ''
+  TITLE: Plans and outlines for the collection and disposal of equipment containing
+    PCBs
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2011-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Titanium Dioxide Directive Implementation Report
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Inland waters (odd years)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Year and month only specified
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: OSPAR Report on Liquid Discharges from Nuclear Installations
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2006-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Inland waters (even years)
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2006-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Land data
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Within three months of receiving notification of Council Decision
+    99/296/EC
+  NEXT_DEADLINE: '1999-05-01'
+  NEXT_DEADLINE2: ''
+  TITLE: National programmes
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2008-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Noise data
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2006-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Waste data (even years)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: OSPAR Database on Offshore Wind-farms
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-10-01'
+  NEXT_DEADLINE2: '2018-10-01'
+  TITLE: OSPAR Reporting on Dumping of Wastes at Sea
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: Comprehensive Atmospheric Monitoring Programme (CAMP)
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2006-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Environmental protection expenditure and revenues
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-09-30'
+  NEXT_DEADLINE2: '2022-09-30'
+  TITLE: Landfill of Waste Directive Implementation Report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: For Member States that acceeded to the EU on 1 January 2007 (Bulgaria,
+    Romania) the reporting concerning the period 2004-2006 is voluntary.
+  NEXT_DEADLINE: '2007-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Incineration of Hazardous Waste Directive Implementation Report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: The next report will only cover 2012 and 2013. The previous reports
+    used to cover three years.
+  NEXT_DEADLINE: '2014-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Implementation Report of Waste Incineration Directive
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: status not confirmed
+  NEXT_DEADLINE: '2003-01-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Air quality assessment 3-year reporting
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-09-30'
+  NEXT_DEADLINE2: '2022-09-30'
+  TITLE: Packaging Directive implementation report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: Waste packaging yearly statistics report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: Waste packaging hazardous contents report and other voluntary data on packaging
+    and packaging waste
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2010-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Waste oils directive implementation report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-09-30'
+  NEXT_DEADLINE2: '2022-09-30'
+  TITLE: Implementation report Sewage Sludge Directive
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2010-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Hazardous Waste Directive implementation report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-09-30'
+  NEXT_DEADLINE2: '2022-09-30'
+  TITLE: New WEEE Directive Implementation Report
+- CLIENT_NAME: UNEP - Ozone Secretariat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: Ozone Depleting Substances Report
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2004-06-01'
+  NEXT_DEADLINE2: ''
+  TITLE: Ozone - monthly episodes (AQ-2b)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: whenever compensation measures are approved, MS need to report.
+  NEXT_DEADLINE: '0000-00-00'
+  NEXT_DEADLINE2: '0000-00-00'
+  TITLE: Information on compensation measures
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2011-05-15'
+  NEXT_DEADLINE2: ''
+  TITLE: Country fact sheets on waste policies
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2005-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Implementation Report Dangerous substances
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See for the deadlines of reporting obligations under the Water Framework
+    Directive (http://rod.eionet.europa.eu/show.jsv?id=516&mode=S).
+  NEXT_DEADLINE: It is not expected to report under the GroundWater Directive dangerous
+    substances integrated in the Water Framework Directive, but only under the last
+    one.
+  NEXT_DEADLINE2: ''
+  TITLE: GroundWater Directive dangerous substances report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Directive 80/778/EEC was repealed with effect from five years after
+    the entry into force of Directive 98/83/EC (i.e. on 25.12.2003). First report
+    under Directive 98/83/EC foreseen 28/02/2005.
+  NEXT_DEADLINE: '2002-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Drinking Water Directive - Report
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: Reference year 2008
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2020-06-30'
+  TITLE: Information on generation, recovery and disposal of waste
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2013-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: WEEE Directive implementation report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2013-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on the quantities and categories of electrical and electronic
+    equipment and on management of collected waste
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2011-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Shellfish Directive report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-01-21'
+  NEXT_DEADLINE2: '2021-01-21'
+  TITLE: ELV Directive implementation report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2005-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Drinking Water Abstraction Directive report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2005-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on methods of measurement and frequencies of sampling
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2005-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Fish Directive Report
+- CLIENT_NAME: UN Framework Convention on Climate Change
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-04-15'
+  NEXT_DEADLINE2: '2019-04-15'
+  TITLE: Greenhouse gas inventories (UNFCCC)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2007-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Water sampling methods and results of measurements
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2020-06-30'
+  NEXT_DEADLINE2: '2024-06-30'
+  TITLE: Nitrates Directive - Report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2011-07-01'
+  NEXT_DEADLINE2: ''
+  TITLE: National reports on the implementation of Directive 2003/30/EC
+- CLIENT_NAME: Oder Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: According to international monitoring programme
+  NEXT_DEADLINE2: ''
+  TITLE: Oder River Monitoring
+- CLIENT_NAME: International Commission for the Protection of the Elbe
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2010-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Elbe River Monitoring
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-02-01'
+  NEXT_DEADLINE2: '2021-02-01'
+  TITLE: Mining Waste Directive implementation report
+- CLIENT_NAME: Arctic Council, AMAP Secretariat
+  DATE_COMMENTS: The AMAP Monitoring Programme is currently being updated to meet
+    AMAP's future assessment needs.
+  NEXT_DEADLINE: Dates to be concluded by AMAP.
+  NEXT_DEADLINE2: ''
+  TITLE: Arctic Monitoring Programme
+- CLIENT_NAME: International Commission for the Protection of the Danube River
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: According to international monitoring programme.
+  NEXT_DEADLINE2: ''
+  TITLE: Emission inventory / reduction pollution
+- CLIENT_NAME: International Maritime Organisation
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Dates TBC, depending on specific situations.
+  NEXT_DEADLINE2: ''
+  TITLE: Prevention of Waste from Shipping
+- CLIENT_NAME: International Maritime Organisation
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Dates TBC
+  NEXT_DEADLINE2: ''
+  TITLE: Technical Reporting on maritime pollution by ships
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: (last resubmission of EPER dataset for reporting years 2001 and 2004)
+  NEXT_DEADLINE: '2010-03-01'
+  NEXT_DEADLINE2: ''
+  TITLE: EPER data reporting
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 'No further reporting: obligation repealed by entry into force of  IPR
+    2011/850/EU'
+  NEXT_DEADLINE: '2013-10-01'
+  NEXT_DEADLINE2: ''
+  TITLE: EoI Data on air quality measurements at monitoring stations
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2004-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Triennial progress report on progress ozone plans & programmes
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: was first due 22/03/2005. The establishment of register of protected
+    areas was due 22/12/2004.
+  NEXT_DEADLINE: '2007-03-22'
+  NEXT_DEADLINE2: ''
+  TITLE: Water Framework Directive - Characterisation of River Basin Districts
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 'No further reporting cycles: obligation repealed by entry into force
+    of IPR 2011/850/EU'
+  NEXT_DEADLINE: '2013-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Air quality assessment annual reporting for 1st daughter directive
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 'No further reporting cycles: obligation repealed by entry into force
+    of IPR 2011/850/EU'
+  NEXT_DEADLINE: '2013-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Air quality assessment annual reporting for 2nd daughter directive (Art.3,
+    4, & 5)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2016-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: National emission inventories and emission projections (Directive 2001/81/EC)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2007-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: EPER national overview report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2013-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Triennial air quality reviews, action plans and measures under 3rd daughter
+    directive
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2020-06-30'
+  TITLE: Urban Waste Water Treatment Directive - National Implementation Programme
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2013-10-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on the control of VOC emissions
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2014-10-01'
+  NEXT_DEADLINE2: ''
+  TITLE: Reporting obligation for Implementation report on limitation of VOC emissions
+    due to the use of organic solvents
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-02-28'
+  NEXT_DEADLINE2: '2019-02-28'
+  TITLE: Emerald Network
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-08-31'
+  NEXT_DEADLINE2: '2019-08-31'
+  TITLE: Fuel Quality Directive Article 8(1)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: Report on the sulphur content of certain liquid fuels
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2009-04-01'
+  NEXT_DEADLINE2: ''
+  TITLE: Monitoring report on CO2 emissions of new passenger cars
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2002-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Air quality implementing national laws, regulations and administrative provisions
+    under 2nd daughter directive (Dir.2000/69/EC, Art.10)
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-02-15'
+  NEXT_DEADLINE2: '2019-02-15'
+  TITLE: LRTAP Convention - National emission inventories
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: NEC Directive (AE-1b)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 1st report shall cover the years 2002, 2003, 2004; the 2nd – 2005,
+    2006, 2007; etc. The report shall be published within one calendar year of the
+    end of the reporting period  and sent to the Commission within two months of the
+    publication.
+  NEXT_DEADLINE: '2018-02-28'
+  NEXT_DEADLINE2: '2021-02-28'
+  TITLE: Drinking Water Directive - Report on Quality of Water for Human Consumption
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: Engine approval data sheet
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: report covering period 18 January 2001 until 31 December 2002.
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-12-31'
+  NEXT_DEADLINE2: '2019-12-31'
+  TITLE: WISE SoE - Water Quantity (WISE-3)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-12-15'
+  NEXT_DEADLINE2: '2019-12-15'
+  TITLE: EU Registry on industrial sites
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2002-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Soil Questionnaire
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Soil contamination from heavy metals in agricultural areas
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2002-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Waste Questionnaire
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Greenhouse Gas Data (AE-2b)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Soil sealing
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2002-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Water Questionnaire
+- CLIENT_NAME: UNEP-CMS Secretariat
+  DATE_COMMENTS: Upon accession and thereafter at least six months prior to each ordinary
+    triennial meeting of the Conference of the Parties to CMS.
+  NEXT_DEADLINE: '2020-06-30'
+  NEXT_DEADLINE2: '2023-06-30'
+  TITLE: National Report
+- CLIENT_NAME: Convention on Biological Diversity
+  DATE_COMMENTS: Approximately Four-yearly, next due before the 9th Conference of
+    the Parties
+  NEXT_DEADLINE: 31 March 2014
+  NEXT_DEADLINE2: ''
+  TITLE: National report on the implementation of the Convention on Biological Diversity
+- CLIENT_NAME: Convention on Biological Diversity
+  DATE_COMMENTS: Each thematic report is on a different topic and is a one-time-only
+    report.
+  NEXT_DEADLINE: A specific submission date is provided for each report requested.
+  NEXT_DEADLINE2: ''
+  TITLE: Thematic reports
+- CLIENT_NAME: Convention on Biological Diversity
+  DATE_COMMENTS: Four-yearly (approximately) and twelve months prior to the meeting
+    of the Conference of the Parties that will consider the report.
+  NEXT_DEADLINE: 31 March 2014
+  NEXT_DEADLINE2: ''
+  TITLE: National report on the implementation of the Cartagena Protocol
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-06-15'
+  NEXT_DEADLINE2: '2021-06-15'
+  TITLE: Biennial Report
+- CLIENT_NAME: Biosafety Clearing House
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Summaries of risk assessments or environmental reviews of living modified
+    organisms
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Updates by the MS are possible at any time.
+  NEXT_DEADLINE: '2005-07-18'
+  NEXT_DEADLINE2: ''
+  TITLE: Limit values in force report (DF 3)
+- CLIENT_NAME: Biosafety Clearing House
+  DATE_COMMENTS: As soon as a Party knows of an occurrence under its jurisdiction
+    resulting in a release that leads, or may lead, to an unintentional transboundary
+    movement that is likely to have significant adverse effects on conservation or
+    biodiversity.
+  NEXT_DEADLINE: As required
+  NEXT_DEADLINE2: ''
+  TITLE: Notification of unintentional transboundary movements of living modified
+    organisms
+- CLIENT_NAME: UNEP-CMS Secretariat
+  DATE_COMMENTS: Article III(7) states that Parties should inform the Secretariat
+    of exceptions "as soon as possible".  However, in practice, this reporting requirement
+    is satisfied through submission of the National Report.
+  NEXT_DEADLINE: '2005-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on exceptions to the taking of Appendix I species (endangered
+    migratory species)
+- CLIENT_NAME: UNEP/AEWA Secretariat
+  DATE_COMMENTS: Approximately every three years. Next before the 3rd Meeting of the
+    Parties (to be held end of 2005 or early 2006)  Resolution 1.3 requested that
+    a preliminary national report be submitted by 1 September 2000 for consideration
+    at the Technical Committee.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2020-12-31'
+  TITLE: Triennial National Report
+- CLIENT_NAME: UNEP/AEWA Secretariat
+  DATE_COMMENTS: Before the 3rd Meeting of the Parties, to be held at the end of 2005
+    or early in 2006. The information should be provided as soon as possible. This
+    reporting requirement is satisfied through the Triennial National Report.
+  NEXT_DEADLINE: '2002-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on exemptions to the prohibition on the taking of listed bird
+    species
+- CLIENT_NAME: Alpine Convention Secretariat
+  DATE_COMMENTS: Approximately regular. Reports are to be submitted to the Conference
+    of Parties, which is normally convened every two years. To date, there has been
+    no systematic submission of reports.
+  NEXT_DEADLINE: Not yet known
+  NEXT_DEADLINE2: ''
+  TITLE: Report on Implementation Measures
+- CLIENT_NAME: UNEP/AEWA Secretariat
+  DATE_COMMENTS: Before the 3rd Meeting of the Parties, to be held at the end of 2005
+    or early in 2006. Annual reporting is implied, but paragraph 4.1.3 of Annex 3
+    of the AEWA Agreement states that information should be provided when available.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Estimates relating to total annual take for each population
+- CLIENT_NAME: UNEP/AEWA Secretariat
+  DATE_COMMENTS: Before the 3rd Meeting of the Parties, to be held at the end of 2005
+    or early in 2006. May be accomplished through the Triennial National Report.
+  NEXT_DEADLINE: '2002-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on eco-tourism
+- CLIENT_NAME: UNEP/AEWA Secretariat
+  DATE_COMMENTS: Before the 3rd Meeting of the Parties, to be held at the end of 2005
+    or early in 2006. May be accomplished through the Triennial National Report.
+  NEXT_DEADLINE: '2002-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on the damage caused by waterbird populations
+- CLIENT_NAME: UNEP/AEWA Secretariat
+  DATE_COMMENTS: At the ordinary Meeting of the Parties. (Next held end of 2005 or
+    early in 2006) May be accomplished through the Triennial National Report.
+  NEXT_DEADLINE: '2002-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on progress made to phase out lead shot
+- CLIENT_NAME: UNEP/ASCOBANS Secretariat
+  DATE_COMMENTS: Each Party is required to submit a report no later than 31 March
+    each year, commencing with the first complete year after the entry into force
+    of the Agreement for that Party.
+  NEXT_DEADLINE: '2018-03-31'
+  NEXT_DEADLINE2: '2019-03-31'
+  TITLE: National Report
+- CLIENT_NAME: UNEP/ASCOBANS Secretariat
+  DATE_COMMENTS: Before the 12th Advisory Committee meeting in 2005.
+  NEXT_DEADLINE: '2005-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on approaches to reduce or eliminate adverse effects on small
+    cetaceans by military activities
+- CLIENT_NAME: UNEP/ASCOBANS Secretariat
+  DATE_COMMENTS: To be decided - no date is specified in Resolution 5 of the Fourth
+    Meeting of the Parties to ASCOBANS.
+  NEXT_DEADLINE: Not yet known.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on high energy seismic surveys
+- CLIENT_NAME: UNEP/ASCOBANS Secretariat
+  DATE_COMMENTS: No time-scale is specified in Resolution 6 of the Fourth Meeting
+    of the Parties to ASCOBANS.  It is to be assumed that these communications should
+    be made regularly, e.g. in advance of the meetings of the Advisory Committee and/or
+    Meetings of the Parties.
+  NEXT_DEADLINE: Continous
+  NEXT_DEADLINE2: ''
+  TITLE: Information on levels of bycatch
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Every year by 31 March on the data for the previous calendar year
+  NEXT_DEADLINE: '2018-03-31'
+  NEXT_DEADLINE2: '2019-03-31'
+  TITLE: Ozone depleting substances (ODS) reporting by undertakings (Article 27)
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: Approximately regular.  Parties should submit reports every three
+    years, at least six months prior to each ordinary meeting of the Conference of
+    the Parties.
+  NEXT_DEADLINE: '2012'
+  NEXT_DEADLINE2: ''
+  TITLE: Ramsar National Report
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: Approximately regular - three yearly.  The information is to be included
+    in the National Reports to CoP9, which are to be submitted at least six months
+    prior to CoP9.
+  NEXT_DEADLINE: '2005'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on the conservation status of coastal wetlands
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: Approximately regular - every three years.  The information is to
+    be included in the National Reports, which are to be submitted at least six months
+    prior to a Conference of the Parties (Resolution VIII.16).
+  NEXT_DEADLINE: '2012'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on progress to restore wetland sites
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: One time only.  The information is to be included in the National
+    Reports to CoP9, which are to be submitted at least six months prior to CoP9 (Resolution
+    VIII.33).
+  NEXT_DEADLINE: '2005-10-13'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on temporary pools
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: One time only.  The information is to be included in the National
+    Reports to CoP9, which are to be submitted at least six months prior to CoP9.
+  NEXT_DEADLINE: '2005-10-13'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on the application of participatory environmental management
+    (PEM)
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: An RIS should be submitted whenever a site is designated.  Parties
+    must verify data provided every 6 years or on the occasion of any significant
+    change in the sites' ecological character (Resolution VI.13).
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Information Sheet on Ramsar Wetlands (RIS)
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: Information should be provided whenever a site has changed, is changing
+    or is likely to change.  Parties should provide this information "without delay".  Parties
+    should report any changes in their National Reports.
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on changes to ecological character
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: As required.  May be accomplished through the provision of information
+    on changes to ecological character.
+  NEXT_DEADLINE: Continuous.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on changes to ecological character caused by dams
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: One time only.  The information is to be included in the National
+    Reports to CoP9, which are to be submitted at least 6 months prior to CoP9.
+  NEXT_DEADLINE: '2005'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on the impact of dams on wetlands
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: One time only. Information should be sent to the Ramsar Bureau so
+    that the information can be made available to the Scientific and Technical Review
+    Panel to assist its reporting to CoP9.
+  NEXT_DEADLINE: '2005-01-01'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on the impacts of drought and other natural disasters on the
+    ecological character of sites and on the livelihoods of local communities
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: As required.  May be accomplished through the provision of information
+    on changes to ecological character.
+  NEXT_DEADLINE: Continuous
+  NEXT_DEADLINE2: ''
+  TITLE: Information on the impacts of drought and other natural disasters on the
+    ecological character of sites
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: Approximately regular.  Information should be provided in time for
+    the Scientific and Technical Review Panel to produce its report for consideration
+    by CoP9, and also for subsequent meetings of the CoP (Resolution VIII.8).
+  NEXT_DEADLINE: 19-26 June 2012 (CoP11)
+  NEXT_DEADLINE2: ''
+  TITLE: Information on mangrove ecosystems
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: As required.  A questionnaire should be completed when a Party is
+    requesting the inclusion of a site in the Montreux Record and when considering
+    the removal of a site from the Record.
+  NEXT_DEADLINE: As required
+  NEXT_DEADLINE2: ''
+  TITLE: Montreux Record Questionnaire
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: Approximately regular.  The information is to be included in the
+    triennial National Reports to each meeting of the Conference of the Parties.
+  NEXT_DEADLINE: '2012'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on sites in the Montreux Record
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2007-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Waste data (odd years)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2001-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on management systems and programmes related to qualification requirements
+    (Art.16.5 & 16.6)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2006-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: National programmes on air emissions (NEC Directive)
+- CLIENT_NAME: ACCOBAMS Secretariat
+  DATE_COMMENTS: Year only specified. Approximately regular - every 3 years.  Reports
+    should be submitted not less than 120 days before the opening of the session of
+    the Meeting of the Parties.
+  NEXT_DEADLINE: '2005'
+  NEXT_DEADLINE2: ''
+  TITLE: Triennial National Report
+- CLIENT_NAME: UNESCO World Heritage Centre
+  DATE_COMMENTS: One time only - upon accession.
+  NEXT_DEADLINE: Upon accession
+  NEXT_DEADLINE2: ''
+  TITLE: Tentative List
+- CLIENT_NAME: World Heritage Committee, UNESCO World Heritage Centre
+  DATE_COMMENTS: As required. Parties can choose to nominate a site and submit a nomination
+    for inscription at any time, but only nominations received before 1 July each
+    year will be considered by the World Heritage Committee during the following year.
+  NEXT_DEADLINE: As required
+  NEXT_DEADLINE2: ''
+  TITLE: Information in support of inscription of a property
+- CLIENT_NAME: UNESCO World Heritage Centre
+  DATE_COMMENTS: Approximately regular - six-yearly according to a pre-established
+    schedule, region-by-region.
+  NEXT_DEADLINE: Six-year cycle, depending on the region
+  NEXT_DEADLINE2: ''
+  TITLE: Periodic National Report
+- CLIENT_NAME: World Heritage Committee, UNESCO World Heritage Centre
+  DATE_COMMENTS: As required - whenever changes occur or work is undertaken which
+    may have an effect on the state of conservation of a listed site. A report should
+    be submitted by 21 February if it is to be considered by the World Heritage Committee
+    that year.
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Reactive Monitoring
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Approximately regular - every two years.  However, the Parties have
+    not yet agreed on a deadline for the submission of biennial reports. ('baseline
+    reporting date' is fictious in order to create an numeric entry)
+  NEXT_DEADLINE: '2018-12-31'
+  NEXT_DEADLINE2: '2020-12-31'
+  TITLE: Biennial Report
+- CLIENT_NAME: International Whaling Commission
+  DATE_COMMENTS: Reporting is approximately regular and proceeds each annual Meeting
+    of the International Whaling Commission (usually held in May/June). No submission
+    dates are stipulated for these reports.
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: 'Report on Infractions: Commercial Whaling'
+- CLIENT_NAME: International Whaling Commission
+  DATE_COMMENTS: Reporting is approximately regular and proceeds each annual Meeting
+    of the International Whaling Commission (usually held in May/June). No submission
+    dates are stipulated for these reports.
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: 'Report on Infractions: Aboriginal Subsistence Whaling'
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: A Party should provide information if the Secretariat has identified
+    it as being a Party whose domestic measures do not properly enforce the provisions
+    of the Convention.  May be accomplished through the Biennial Report.
+  NEXT_DEADLINE: As required
+  NEXT_DEADLINE2: ''
+  TITLE: Information on procedures, actions and time-frames needed to establish adequate
+    measures to enforce the Convention
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Approximately regular.  Reports should be submitted at least six
+    months prior to each meeting of the Conference of the Parties.
+  NEXT_DEADLINE: '2018-03-31'
+  NEXT_DEADLINE2: '2021-03-31'
+  TITLE: Report on the conservation of and trade in African and Asian rhinoceros
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Not specified
+  NEXT_DEADLINE2: ''
+  TITLE: Notification of amounts of confiscated ivory
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Regular.  The information is to be included in the Annual Report.
+  NEXT_DEADLINE: '2004-10-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on exports of raw ivory
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Regular.
+  NEXT_DEADLINE: '2005-01-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Inventory of the stock of raw ivory
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Regular.  The information is to be included in the Annual Report.
+  NEXT_DEADLINE: '2017-10-31'
+  NEXT_DEADLINE2: '2018-10-31'
+  TITLE: Information on the number of certificates of ownership issued for live animals
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Regular.  Information relating to the previous calendar year is to
+    be included in the Annual Report.
+  NEXT_DEADLINE: '2017-10-31'
+  NEXT_DEADLINE2: '2018-10-31'
+  TITLE: Information on the number of live specimens per shipment and of mortality
+    in transport
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Approximately regular. May be accomplished through the biennial report.
+  NEXT_DEADLINE: '2006'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on significant cases of illegal trade
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Approximately regular.  May be accomplished through the Biennial
+    Report.
+  NEXT_DEADLINE: '2006'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on convicted illegal traders and persistent offenders
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Regular.  Information should be provided annually.  May be accomplished
+    through the Annual Report.
+  NEXT_DEADLINE: '2017-10-31'
+  NEXT_DEADLINE2: '2018-10-31'
+  TITLE: Information on the export of vicuna cloth
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Regular.  Annual.  May be accomplished through the Annual Report.
+  NEXT_DEADLINE: '2004-10-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on ranching operations of species transferred from Appendix I to Appendix
+    II
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Approximately regular.  May be accomplished through the Biennial
+    Report.
+  NEXT_DEADLINE: Nor frequency neither reporting date is specified.
+  NEXT_DEADLINE2: ''
+  TITLE: Report on the implementation of the International Plan of Action on the Conservation
+    and Management of Sharks (IPOA-Sharks)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Within 30 days of the receipt of notification by the competent authority
+    of the Member State within whose territory the release is to take place. A notification
+    is sent to the relevant competent authority before undertaking the deliberate
+    release.
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Summary of notifications of deliberate releases of GMOs for any other purpose
+    than for placing on the market
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: When the results of a release are received by the competent authority
+    of the Member State within which the release has occurred.
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Notification of the results of a deliberate release of GMOs for any other
+    purpose than for placing on the market
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Year only specified. Approximately regular - once a year.
+  NEXT_DEADLINE: '2005'
+  NEXT_DEADLINE2: ''
+  TITLE: List of GMOs which have been released and of notifications that were rejected
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Whenever a notification is received by the competent authority where
+    a GMO is to be placed on the market for the first time, the competent authority
+    must immediately forward the summary of the dossier to the Commission and other
+    competent authorities of o
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Summary of the dossier
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: The timing of the submission of the Assessment Report depends upon
+    whether or not the report indicates that the GMO(s) in question should be placed
+    on the market.
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Assessment Report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Approximately regular - every three years.
+  NEXT_DEADLINE: Every 3 years
+  NEXT_DEADLINE2: ''
+  TITLE: Triennial Report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: National Report on Derogations under the Habitats Directive
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-04-30'
+  NEXT_DEADLINE2: '2025-04-30'
+  TITLE: Report on Implementation Measures (Article 17, Habitats Directive)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: According to DG ENV timetable for updating
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: Information on Natura 2000 sites (SCIs/SACs, Habitats Directive)
+- CLIENT_NAME: FAO Forestry Resources Assessment Programme
+  DATE_COMMENTS: 'The country reporting process has three main phases: design and
+    text phase (completed November 2003); reporting by countries; and validation of
+    results before publishing (approximate deadline in July 2005).'
+  NEXT_DEADLINE: '2019-12-31'
+  NEXT_DEADLINE2: '2024-12-31'
+  TITLE: FRA Country Report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: According to DG ENV timetable for updating
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: Information on Natura 2000 sites (SPAs, Birds Directive)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2009-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Data for review of Independently Operated Waste Water Treatment Plants (IOWWTPs)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: National Report on Derogations under the Birds Directive
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-07-31'
+  NEXT_DEADLINE2: '2025-07-31'
+  TITLE: Progress/implementation report (Article 12, Birds Directive)
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: Approximately regular - every two years.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2019-12-31'
+  TITLE: Biennial National Report
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: To be submitted every fourth year in combination with the National
+    Report, as required under Article 9 of the Bern Convention.
+  NEXT_DEADLINE: '2021-01-01'
+  NEXT_DEADLINE2: '2025-01-01'
+  TITLE: General Report
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: No time period is specified. May be accomplished through the General
+    Report.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on species receiving protection in territory
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: No time period is specified in Article 11(3) of the Bern Convention.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on measures taken to improve conservation outside protected areas
+    proper
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: No time period is specified. May be accomplished through the General
+    Report.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on reintroduction projects for the European mink (Mustela lutreola)
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: No time period is specified in the Bern Convention. May be accomplished
+    through the General Report.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on the progress of conservation or recovery plans for Appendix
+    I species, and of other similar plans for other plant species
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: No time period is specified. May be accomplished through the General
+    Report.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on steps taken to facilitate the monitoring of the application
+    of the Bern Convention and legislative national measures
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: No time period is specified. May be accomplished through the General
+    Report.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on the outcome of measures adopted for the eradication of non-native
+    species
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: A form should be submitted whenever an Area of Special Conservation
+    Interest is designated.
+  NEXT_DEADLINE: As required
+  NEXT_DEADLINE2: ''
+  TITLE: Standard Data Form
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: States should provide information whenever it is known that changes
+    are likely to occur.
+  NEXT_DEADLINE: As required
+  NEXT_DEADLINE2: ''
+  TITLE: Information on negative and substantial changes to the ecological character
+    of designated Areas of Special Conservation Interest (ASCIs)
+- CLIENT_NAME: Bern Convention
+  DATE_COMMENTS: May be accomplished through the General Report
+  NEXT_DEADLINE: No time period is specified.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on habitats and species in need of conservation measures and
+    the development of recovery plans
+- CLIENT_NAME: EUROBATS Secretariat
+  DATE_COMMENTS: Approximately regular - every three years. National reports should
+    be submitted at least 90 days before the opening of each ordinary Meeting of the
+    Parties.
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2021-06-30'
+  TITLE: National Report
+- CLIENT_NAME: EUROBATS Secretariat
+  DATE_COMMENTS: Approximately regular. Reports should be submitted one month in advance
+    of each Advisory Committee meeting.  Meetings are annual and usually held in May.
+  NEXT_DEADLINE: '2018-04-01'
+  NEXT_DEADLINE2: '2019-04-01'
+  TITLE: Report preceding Advisory Committee Meeting
+- CLIENT_NAME: International Whaling Commission
+  DATE_COMMENTS: Reporting is approximately regular and proceeds each annual Meeting
+    of the International Whaling Commission (usually held in May/June).There are no
+    dates specified for these reports.
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: Progress report on cetacean research
+- CLIENT_NAME: International Whaling Commission
+  DATE_COMMENTS: Reporting is approximately regular and proceeds each annual Meeting
+    of the International Whaling Commission (usually held in May/June).
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: Checklist of Information
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Updates to the reported data by the MS are possible At Any Time.
+  NEXT_DEADLINE: '2010-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on major roads, railways, airports and agglomerations (DF1)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Notification of and information on the accidents should be provided
+    'as soon as possible'.
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on accidents
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Regular - at the end of each year.
+  NEXT_DEADLINE: '2008-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Summary report on class 3 and class 4 contained uses
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Regular
+  NEXT_DEADLINE: '2009-06-05'
+  NEXT_DEADLINE2: ''
+  TITLE: Summary report on experience with Directive 90/219/EEC
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Member states will have to submit annual reports (each year no later
+    than 31 December) on the implementation of the monitoring program and their monitoring
+    activity, with (geo-referenced) data gathered under the scheme and a report on
+    them.
+  NEXT_DEADLINE: '2006-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on data gathered under the scheme for the monitoring of the condition
+    of forests
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: One time only.
+  NEXT_DEADLINE: '2005-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on the results gained from the monitoring of forest ecosystems conditions
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Regular.
+  NEXT_DEADLINE: '2006-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: National report on the impact of fires on forests
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Reports are required when new national monitoring activities have
+    been established.
+  NEXT_DEADLINE: As required
+  NEXT_DEADLINE2: ''
+  TITLE: National report on the establishment of new monitoring activities
+- CLIENT_NAME: Scientific Committee, via the IWC Secretariat
+  DATE_COMMENTS: Contracting Governments should submit a proposal not later than 60
+    days before the next Annual Meeting of the Scientific Committee, i.e. in sufficient
+    time to allow the Scientific Committee to review and comment on them.
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Proposal for special permit for research purposes
+- CLIENT_NAME: International Whaling Commission
+  DATE_COMMENTS: Contracting Parties should report the issuance of a permit "at once".
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Notification of authorisation of a special permit
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Regular. Annual. Data collected should be submitted by 15th December,
+    with the written report by 31 December.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Data and accompanying report on crown condition Level I (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: The data has been reported once before, but the date for the next
+    survey has not yet been decided.
+  NEXT_DEADLINE: Optional reporting
+  NEXT_DEADLINE2: ''
+  TITLE: Data and accompanying report on forest foliage (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Soil condition has been asessed on around 5300 plots in the 1990s.
+    A new assessment is presently carried out within the BioSoil demonstration project.
+  NEXT_DEADLINE: 1993-1995
+  NEXT_DEADLINE2: ''
+  TITLE: Data and accompanying report on soil condition (ICP Forests-Level I)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Regular. Data collected by the end of each year should be submitted
+    annually by the end of the subsequent year.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Data and accompanying report on crown condition Level II (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: It has not yet been decided when the next report is due. Data collected
+    by the end of each year (of data collection) should be submitted annually by the
+    end of the subsequent year. Data is monitored every 10 years.
+  NEXT_DEADLINE: Probably 2008.
+  NEXT_DEADLINE2: ''
+  TITLE: Data and accompanying report on soil condition (ICP Forests-Level II)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Approximately regular; monitoring is continuous. Data collected by
+    the end of each year should be submitted annually by the end of the subsequent
+    year.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Data and accompanying report on soil solution (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Approximately regular. Data collected by the end of each year (of
+    data collection) should be submitted annually by the end of the subsequent year.
+    Report should be delivered every two years.
+  NEXT_DEADLINE: '2018-12-31'
+  NEXT_DEADLINE2: '2020-12-31'
+  TITLE: Data and accompanying report on foliage (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Approximately regular. Monitoring is continuous. Data collected by
+    the end of each year (of data collection) should be submitted annually by the
+    end of the subsequent year.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Data and accompanying report on deposition (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Approximately regular. Monitoring is continuous. Data collected by
+    the end of each year should be submitted annually by the end of the subsequent
+    year.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Data and accompanying report on ambient air quality (ICP forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Approximately regular.  Monitoring is continuous. Data collected
+    by the end of each year should be submitted annually by the end of the subsequent
+    year.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Data and accompanying report on meteorology (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Approximately regular. Data collected by the end of each year (of
+    data collection) should be submitted annually by the end of the subsequent year.
+  NEXT_DEADLINE: '2018-12-31'
+  NEXT_DEADLINE2: '2023-12-31'
+  TITLE: Data and accompanying report on forest growth (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Approximately regular.  Data collected by the end of each year (of
+    data collection) should be submitted annually by the end of the subsequent year.
+  NEXT_DEADLINE: '2020-12-31'
+  NEXT_DEADLINE2: '2025-12-31'
+  TITLE: Data and accompanying report on ground vegetation (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: Approximately regular, insofar as monitoring is required several
+    times per year. Data collected by the end of each year should be submitted annually
+    by the end of the subsequent year.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Data and accompanying report on phenology (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: At the time of the installation of a new plot and then 5 to 10 yearly
+    (on part of the plots; optional). Data collected by the end of each year should
+    be submitted annually by the end of the subsequent year.
+  NEXT_DEADLINE: At the time of the installation of a new plot (optional)
+  NEXT_DEADLINE2: ''
+  TITLE: Data and accompanying report on remote sensing (ICP Forests)
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Summary report on crown condition data (ICP Forests)
+- CLIENT_NAME: Committee for Environmental Protection
+  DATE_COMMENTS: Approximately regular.
+  NEXT_DEADLINE: '2018-04-24'
+  NEXT_DEADLINE2: '2019-04-24'
+  TITLE: Annual Report
+- CLIENT_NAME: Committee for Environmental Protection
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Description of national procedures
+- CLIENT_NAME: Committee for Environmental Protection
+  DATE_COMMENTS: Annual as required, whenever any Initial Environmental Evaluations
+    have been prepared or any decisions have been taken in consequence thereof.
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: List of Initial Environmental Evaluations
+- CLIENT_NAME: Committee for Environmental Protection
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: As required.
+  NEXT_DEADLINE2: ''
+  TITLE: Information obtained from procedures in accordance with Articles 2(2) and
+    5
+- CLIENT_NAME: Committee for Environmental Protection
+  DATE_COMMENTS: Regular. Reports should be submitted 'before the end of November
+    of each year'.
+  NEXT_DEADLINE: '2004-11-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Summary Report on Permits Issued
+- CLIENT_NAME: Committee for Environmental Protection
+  DATE_COMMENTS: Accomplished through the Annual Report
+  NEXT_DEADLINE: Not specified.
+  NEXT_DEADLINE2: ''
+  TITLE: Report on the implementation of waste management plans
+- CLIENT_NAME: Committee for Environmental Protection
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-11-01'
+  NEXT_DEADLINE2: '2018-11-01'
+  TITLE: Report on permits issued
+- CLIENT_NAME: Committee for Environmental Protection
+  DATE_COMMENTS: Regular.
+  NEXT_DEADLINE: '2017-11-30'
+  NEXT_DEADLINE2: '2018-11-30'
+  TITLE: Report on the implementation of Annex V
+- CLIENT_NAME: Commission for the Conservation of Antarctic Marine Living Resources
+  DATE_COMMENTS: Year only specified. Approximately regular - preceding the annual
+    meeting of the Commission.
+  NEXT_DEADLINE: '2005'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on implementation measures
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: Contracting Parties report their seal monitoring results to ICES
+    directly, no date or reporting format is set by HELCOM.
+  NEXT_DEADLINE: 01/09/2005
+  NEXT_DEADLINE2: ''
+  TITLE: Protection of Seals in the Baltic Sea Area (Recommendation 9/1)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Protection of the Coastal Strip (Recommendation 15/1)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: System of Coastal and Marine Baltic Sea Protected Areas (BSPA) (Recommendation
+    15/5)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: Governments of Contracting Parties to the Helsinki Commission should
+    inform HELCOM about new projects and master plans for coastal defence measures.
+  NEXT_DEADLINE: None specified
+  NEXT_DEADLINE2: ''
+  TITLE: Report on the Preservation of Natural Coastal Dynamics Recommendation 16/3
+- CLIENT_NAME: UNEP/ASCOBANS Secretariat
+  DATE_COMMENTS: Year and month only specified
+  NEXT_DEADLINE: '2019-12-31'
+  NEXT_DEADLINE2: '2022-12-31'
+  TITLE: Protection of Harbour Porpoise in the Baltic Sea Area (Recommendation 17/2)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: Reports should kept updated and be revised when appropriate by the
+    Environment Committee in accordance with the Procedure adopted by the Commission
+    (HELCOM 11/14, Annex 26)
+  NEXT_DEADLINE: Where a new installation is planned.
+  NEXT_DEADLINE2: ''
+  TITLE: Report on Information and Consultation with Regard to Constructions of New
+    Installations Affecting the Baltic Sea Recommendation 17/3
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Marine sediment extraction in the Baltic Sea (Recommendation 19/1)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Protection and improvement of the wild salmon populations in the Baltic Sea
+    area (Salmo salar L.) (Recommendation 19/2)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: No reporting dates provided
+  NEXT_DEADLINE2: ''
+  TITLE: Report on Sustainable and Environmentally Friendly Tourism in Coastal Zones
+    Recommendation 21/3
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Protection of heavily endangered or immediately threatened marine and coastal
+    biotopes in the Baltic Sea Area (Recommendation 21/4)
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: Baseline is ficticious
+  NEXT_DEADLINE: '2005-05-31'
+  NEXT_DEADLINE2: ''
+  TITLE: ITTO/UNECE/FAO/EUROSTAT Joint Forest Sector Questionnaire
+- CLIENT_NAME: The International Tropical Timber Organisation
+  DATE_COMMENTS: The frequency of reports has not yet been decided, but it is anticipated
+    that a reporting cycle of 3+ years will be established.
+  NEXT_DEADLINE: '2006-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report for Indicators at the Forest Management Unit (FMU) Level
+- CLIENT_NAME: The International Tropical Timber Organisation
+  DATE_COMMENTS: The frequency of reports has not yet been decided, but it is anticipated
+    that a reporting cycle of 3+ years will be established.
+  NEXT_DEADLINE: '2006-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report for Indicators at the National Level
+- CLIENT_NAME: UNCCD, Permanent Secretariat
+  DATE_COMMENTS: Approximately regular. Reports should be submitted at least six months
+    prior to the Conference of the Parties at which they are to be reviewed.
+  NEXT_DEADLINE: '2018-05-31'
+  NEXT_DEADLINE2: '2020-05-31'
+  TITLE: Report on Implementation
+- CLIENT_NAME: Committee on Science and Technology
+  DATE_COMMENTS: One time only. Parties should report to the seventh session of the
+    Committee on Science and Technology (CST).
+  NEXT_DEADLINE: '2005'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on indicators
+- CLIENT_NAME: Committee on Science and Technology
+  DATE_COMMENTS: One time only. Parties should report no later than four months before
+    the seventh session of the Committee on Science and Technology (CST).
+  NEXT_DEADLINE: '2005'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on pilot studies on early warning systems
+- CLIENT_NAME: Committee on Science and Technology
+  DATE_COMMENTS: One time only. Parties should report no later than four months before
+    the seventh session of the Committee on Science and Technology (CST).
+  NEXT_DEADLINE: '2003-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: 'Report on case studies relating to "land degradation, vulnerability and
+    rehabilitation: an integrated approach"'
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-15'
+  NEXT_DEADLINE2: '2019-06-15'
+  TITLE: Annual Report
+- CLIENT_NAME: Coordination Center for Effects
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-03-07'
+  NEXT_DEADLINE2: '2019-03-07'
+  TITLE: Report on Critical Thresholds and Target Loads for Air Pollutant Impacts
+    on Ecosystems (ICP M&M)
+- CLIENT_NAME: Commission on Sustainable Development
+  DATE_COMMENTS: Approximately regular. The reports are prepared for consideration
+    by sessions of the CSD every two years.
+  NEXT_DEADLINE: '2019-06-01'
+  NEXT_DEADLINE2: '2021-06-01'
+  TITLE: Agenda 21 National Report
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: Approximately regular.
+  NEXT_DEADLINE: '2006-03-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Wildlife data
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: Forestry data are collected through the ITTO/FAO/ECE/Eurostat Joint
+    Forest Sector Questionnaire serve this reporting obligation, since the 2002 reporting
+    year.
+  NEXT_DEADLINE: '2006-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Forests data
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: Changed reporting date from 2009 see http://www.unece.org/env/documents/2008/EB/ge1/ece.eb.air.ge.1.2008.9.rev.1.e.pdf
+  NEXT_DEADLINE: '2018-07-31'
+  NEXT_DEADLINE2: '2019-07-31'
+  TITLE: Air quality annual data reporting (EMEP/CCC)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-01'
+  NEXT_DEADLINE2: '2019-09-01'
+  TITLE: Monas report for biological data and harmful substances (Recommendation 19/3)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: Year only specified. Each contracting party required to update emissions
+    estimates of selected pollutants (2 years in arrears)
+  NEXT_DEADLINE: '2017-12-01'
+  NEXT_DEADLINE2: '2018-12-01'
+  TITLE: Monitoring of airborne pollution load (Recommendation 24/1)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2012-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Control of major-accident hazards report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: The deadline is mandatory for 1st round major sources and suggested
+    for all other sources.
+  NEXT_DEADLINE: '2020-06-30'
+  NEXT_DEADLINE2: '2025-06-30'
+  TITLE: Report on all major roads, railways, airports and agglomerations (DF1 and
+    DF5)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2007-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Strategic noise maps report 1 (DF4)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2010-02-26'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on EU Biodiversity Action Plan
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: 30/12/2017
+  NEXT_DEADLINE2: ''
+  TITLE: Strategic noise maps  (DF 4 and DF 8)
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-03-15'
+  NEXT_DEADLINE2: '2019-03-15'
+  TITLE: LRTAP Convention - Informative Inventory Report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2009-01-18'
+  NEXT_DEADLINE2: ''
+  TITLE: Action plan summaries 1 (DF 7)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: The 2017 data call will be done under a revised WISE-2 data model.
+  NEXT_DEADLINE: '2018-04-15'
+  NEXT_DEADLINE2: '2019-04-15'
+  TITLE: WISE SoE - Biological data in transitional and coastal waters (WISE-2)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: Designation types of designated areas
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2012-11-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Biocidal products monitoring report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2012-12-18'
+  NEXT_DEADLINE2: ''
+  TITLE: Statistical information  on the use of animals for experiments
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-01-31'
+  NEXT_DEADLINE2: '2020-01-31'
+  TITLE: Report on the convention on the Transboundary Effects of Industrial Accidents
+    implementation
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2014-11-01'
+  NEXT_DEADLINE2: ''
+  TITLE: Dangerous Substances Classification Directive implementation report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: According to the directive reports should be prepared every three
+    year, but the last questionnaire was sent by the Commission in 1997
+  NEXT_DEADLINE: Next reporting date is not settled
+  NEXT_DEADLINE2: ''
+  TITLE: Implementation report of the Asbestos Directive
+- CLIENT_NAME: Conference of the Parties to the Cartagena Convention, via the Caribbean
+    Regional Co-ordinating Unit (CAR/RCU)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Not yet known
+  NEXT_DEADLINE2: ''
+  TITLE: Report on measures adopted to implement the Convention
+- CLIENT_NAME: Caribbean Regional Co-ordinating Unit
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Not yet known
+  NEXT_DEADLINE2: ''
+  TITLE: Periodic Report
+- CLIENT_NAME: Caribbean Regional Co-ordinating Unit
+  DATE_COMMENTS: May be accomplished through the Periodic Report
+  NEXT_DEADLINE: Not yet known
+  NEXT_DEADLINE2: ''
+  TITLE: Information regarding exemptions to protective measures
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2014-01-15'
+  NEXT_DEADLINE2: ''
+  TITLE: Greenhouse gas inventories (MMD)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2013-03-15'
+  NEXT_DEADLINE2: ''
+  TITLE: Projections and national programmes
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: whenever compensation measures are approved, MS need to report.
+  NEXT_DEADLINE: '0000-00-00'
+  NEXT_DEADLINE2: '0000-00-00'
+  TITLE: Information on compensation measures under Art.6.4 of the Habitats Directive
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Compilation of Waterborne pollution load (PLC Water) (c) (Recommendtion 26/2)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 'No further reporting: obligation repealed by entry into force of
+    IPR 2011/850/EU; reporting covered period from April - September (summer season)'
+  NEXT_DEADLINE: '2013-10-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Summer ozone exceedances
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2007-03-22'
+  NEXT_DEADLINE2: ''
+  TITLE: Water Framework Directive - Monitoring Programmes
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See "Water Framework Directive - River Basin Management Plans - 2016
+    Reporting" for further information on the 2nd RBMP reporting.
+  NEXT_DEADLINE: '2010-03-22'
+  NEXT_DEADLINE2: ''
+  TITLE: Water Framework Directive - River Basin Management Plans - 2010 Reporting
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Member States should upload situation reports as they are published
+    every two years
+  NEXT_DEADLINE: ASAP
+  NEXT_DEADLINE2: ''
+  TITLE: Urban Waste Water Treatment Directive - Situation Report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-03-31'
+  NEXT_DEADLINE2: '2020-03-31'
+  TITLE: E-PRTR and LCP integrated data reporting (as from 2019 delivery)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Reporting deadline is within 6 months of a request by the Commission.
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2020-06-30'
+  TITLE: Urban Waste Water Treatment Directive - Implementation
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2021-06-30'
+  NEXT_DEADLINE2: '2026-06-30'
+  TITLE: Report on the results of the monitoring programme to demonstrate compliance
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 'No further reporting cycles: obligation repealed by entry into force
+    of IPR 2011/850/EU'
+  NEXT_DEADLINE: '2013-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Annual report (questionnaire) on air quality assessment and management (2004/461/EC)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-11-01'
+  NEXT_DEADLINE2: '2018-11-01'
+  TITLE: OSPAR Report on Discharges, Spills and Emissions from Offshore Oil and Gas
+    Installations
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2014-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Annual ozone exceedances reporting for 3rd daughter directive
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of emissions and discharges from the pulp and paper industry (Recommendations
+    16/4)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Basic principles in wastewater management in the leather industry (Recommendation
+    16/7)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Limitations of emissions into atmosphere and discharges into water from incineration
+    of household waste (Recommendation 27/1)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of emissions from transport sector affecting the Baltic Sea (Recommendation
+    17/1)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of pollution from discharges into water, emissions into the atmosphere
+    and phosphogypsum out of the production of fertilisers (Recommendation 17/6)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Basic principles for realisation of BAT and BEP in the food industry (Reccomendation
+    17/10)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Managing wetlands and freshwater ecosystems for retention of nutrients (Recommendation
+    18/4)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Approval of pesticides (plant protection products for use in the catchment
+    area of the Baltic Sea (Recommendation 20/2)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Antifouling paints containing organotin compounds (Recommendation 20/4)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Measures aimed at reduction of mercury pollution resulting from light sources
+    and electrical equipment (Recommendation 23/4)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of discharges from Urban areas by the proper management of storm
+    water systems (Recommendation 23/5)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of emissions and discharges of mercury from chloroalkali industry
+    (Recommendation 23/6)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of discharges from metal surface treatment industry (Recommendation
+    23/7)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of discharges from oil refineries (Recommendation 23/8)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Restriction of atmospheric emissions and waste water discharges from hard
+    coal cokeries (Recommendation 23/9)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of discharges and emissions from production and formulation of
+    pesticides (Recommendation 23/10)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Requirements for discharging wastewater from the chemical industry (Recommendation
+    23/11)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of discharges and emissions from production of textiles (Recommendation
+    23/12)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Batteries containing mercury, cadmium or lead (Recommendation 24/2)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Measures aimed at the reduction of emissions and discharges from agriculture
+    (Recommendation 24/3)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of emissions and discharges from the iron and steel industry (Recommendation
+    24/4)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Proper Handling of waste/landfilling (Recommendation 24/5)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Elimination of PCBs and PCTs (Recommendation 25/1)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of emissions and discharges from industry by effective use of BAT
+    (Recommendation 25/2)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of nutrients and other pollutants leaching from forestry land (Recommendation
+    25/3)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Measures aimed at reduction of discharges from fresh water and marine fish
+    farming (Recommendation 25/4)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-01'
+  NEXT_DEADLINE2: '2019-09-01'
+  TITLE: Monitoring of radioactive substances (Recommendation 26/3)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Implementation of integrated marine and coastal management of human activities
+    in the Baltic Sea Area (Recommendation 24/10)
+- CLIENT_NAME: Coordinating Unit for the Mediterranean Action Plan
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2019-12-31'
+  TITLE: Biennial general report, and report on the implementation of the Convention
+    for the Protection of the Mediterranean Environment and the Coastal Region of
+    the Mediterranean
+- CLIENT_NAME: Coordinating Unit for the Mediterranean Action Plan
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2019-12-31'
+  TITLE: 'National Report on the technical implementation of the Dumping Protocol:    Report
+    on the disposal of wastes or other matter in terms of Articles 4, 5, 6, 8 and
+    9.'
+- CLIENT_NAME: Coordinating Unit for the Mediterranean Action Plan
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2019-12-31'
+  TITLE: National Report on the technical implementation of the Prevention and Emergency
+    Protocol.
+- CLIENT_NAME: Coordinating Unit for the Mediterranean Action Plan
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2019-12-31'
+  TITLE: National Report on the technical implementation of the Land-based Sources
+    Protocol
+- CLIENT_NAME: Coordinating Unit for the Mediterranean Action Plan
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2019-12-31'
+  TITLE: National Report on the technical implementation of the SPA & Biodiversity
+    Protocol
+- CLIENT_NAME: Coordinating Unit for the Mediterranean Action Plan
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2019-12-31'
+  TITLE: National Report on the technical implementation of the Offshore Protocol
+- CLIENT_NAME: Coordinating Unit for the Mediterranean Action Plan
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2019-12-31'
+  TITLE: National Report on the technical implementation of the Hazardous Wastes Protocol
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: As required following breaches in reception facilities for sewage.
+  NEXT_DEADLINE: Continuous
+  NEXT_DEADLINE2: ''
+  TITLE: Application by the Baltic Sea States of a Helsinki Convention form for reporting
+    alleged inadequacy of reception facilities for sewage (Recommendation 10/6)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: Year only specified
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Measures to abate pollution by oil and other harmful substances in cases
+    of grounding, collision, sinking of a ship or other maratime casualty (Recommendation
+    17/12)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Offshore Activities (Recommendation 18/2)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Application of the no special-fee system to ship-generated wastes in the
+    Baltic Sea area. Recommendation 26/1
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: No reporting frequency given.
+  NEXT_DEADLINE2: ''
+  TITLE: Assessment of the need for escort towing in tanker transport routes to prevent
+    accidents in the Baltic Sea area (Recommendation 25/5)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Co-operation and assistance to Estonia, Latvia, Lithuania and Russia in the
+    field of Combatting marine pollution incidents (Recommendation 23/2)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-15'
+  NEXT_DEADLINE2: '2019-09-15'
+  TITLE: HELCOM Indicator Fact Sheets
+- CLIENT_NAME: Bonn Agreement Secretariat
+  DATE_COMMENTS: Polrep is used to exchange information amongst contracting parties
+    every time a pollution incident has occurred or is threatening to occur.
+  NEXT_DEADLINE: Continuous - report as and when incidents occur
+  NEXT_DEADLINE2: ''
+  TITLE: Transmission of pollution reporting system (POLREP) for notification of incidents
+    of marine pollution to contracting parties (Recommendation 96/1)
+- CLIENT_NAME: Bonn Agreement Secretariat
+  DATE_COMMENTS: Polrep is used to exchange information amongst contracting parties
+    after an algal bloom has occurred
+  NEXT_DEADLINE: Continuous - report as and when algal blooms occur
+  NEXT_DEADLINE2: ''
+  TITLE: International Early Warning Reporting System For Pollution caused by Algal
+    Blooms
+- CLIENT_NAME: Trilateral Monitoring and Assessment Group
+  DATE_COMMENTS: Year only specified
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2021-12-31'
+  TITLE: Trilateral Monitoring and Assessment programme
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: Year only specified
+  NEXT_DEADLINE: '2020-12-31'
+  NEXT_DEADLINE2: '2025-12-31'
+  TITLE: State of Environment of the Black Sea (Scientific Assessment Report)
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: Terminated
+  NEXT_DEADLINE: '2005-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Annual reporting to the Black Sea Commission on the State of the Environment
+    of the Black Sea
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: Terminated
+  NEXT_DEADLINE: '2005-09-15'
+  NEXT_DEADLINE2: ''
+  TITLE: Impact of Danube on the Black Sea Ecosystem
+- CLIENT_NAME: Bonn Agreement Secretariat
+  DATE_COMMENTS: Year and month only specified
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Annual Aerial Surveilance Report
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-07-31'
+  NEXT_DEADLINE2: '2019-07-31'
+  TITLE: Co-ordinated Environmental Monitoring Programme (CEMP)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-11-01'
+  NEXT_DEADLINE2: '2018-11-01'
+  TITLE: Comprehensive study on Riverine Inputs and Discharges to Convention Waters
+    (RID)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2008-08-01'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Decision 92/3 on the Phasing out of PCBs and Hazardous PCB Substitutes
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1993-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Decision 95/2 on Discharge and Emission Limit Values for the Integrated
+    and Non-Integrated Sulphite Paper Pulp Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2000-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Decision 95/3 on Discharge and Emission Limit Values for the Integrated
+    and Non-Integrated Kraft Pulp Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2020-08-31'
+  NEXT_DEADLINE2: '2024-08-31'
+  TITLE: OSPAR Decision 98/4 on Emission and Discharge Limit Values for the Manufacture
+    of Vinyl Chloride Monomer (VCM) including the Manufacture of 1,2-dichloroethane
+    (EDC)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Reports submitted when permits are issued (see para. 9 and 10 of
+    decision)
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Decision 98/3 on the Disposal of Disused Offshore Installations
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2007-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Decision 98/5 on Emission and Discharge Limit Values for the Vinyl
+    Chloride Sector, Applying to the Manufacture of Suspension-PVC (s-PVC) from Vinyl
+    Chloride Monomer (VCM)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Year only specified
+  NEXT_DEADLINE: '2019-12-31'
+  NEXT_DEADLINE2: '2023-12-31'
+  TITLE: OSPAR Decision 2000/2 on a Harmonised Mandatory Control System for the Use
+    and Reduction of the Discharge of Offshore Chemicals
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Decision 2000/3 on the Use of Organic-phase Drilling Fluids (OPF) and
+    the Discharge of OPF-contaminated Cuttings
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1997-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 87/1 on the Use of Tributyl-Tin Compounds
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1997-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 88/1 on Measures to Reduce Organotin Compounds Reaching
+    the Aquatic Environment through Docking Activities
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-05-31'
+  NEXT_DEADLINE2: '2023-05-31'
+  TITLE: PARCOM Recommendation 88/2 on the Reduction in Inputs of Nutrients to the
+    Paris Convention Area
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1989-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 89/3 on Programmes and Measures for Reducing Mercury
+    Discharges from Various Sources
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Year only specified
+  NEXT_DEADLINE: '2019-05-01'
+  NEXT_DEADLINE2: '2021-05-01'
+  TITLE: PARCOM Recommendation 89/4 on a Coordinated Programme for the Reduction of
+    Nutrients
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1995-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 89/5 Concerning Refineries
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1995-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 92/1 on Best Available Technology for Plants Producing
+    Anodes and for New Electrolysis Installations in the Primary Aluminium Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Terminated by 2007 reporting
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 92/5 Concerning Best Available Technology in the Pharmaceutical
+    Manufacturing Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Terminated
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 92/7 on the Reduction of Nutrients Inputs from Agriculture
+    into Areas where these Inputs are Likely, Directly or Indirectly, to Cause Pollution
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1993-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 92/8 on Nonylphenol-Ethoxylates
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Terminated
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 93/1 on the Limitation of Pollution from Existing Primary
+    Iron and Steel Production Installations
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1997-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 93/2 on Further Restrictions on the Discharge of Mercury
+    from Dentistry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Terminated
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 93/4 on the Phasing Out of Cationic Detergents DTDMAC,
+    DSDMAC and DHTDMAC in Fabric Softeners
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Year only specified
+  NEXT_DEADLINE: Terminated
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 94/4 on Best Available Techniques for the Organic Chemical
+    Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1996-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 94/5 Concerning Best Available Techniques and Best
+    Environmental Practivce for Wet Processes in the Textile Processing Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1993-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 94/6 on Best Environmental Practice (BEP) for the Reduction
+    of Inputs of Potentially Toxic Chemicals from Aquaculture Use
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1993-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 94/7 on the Elaboration of National Action Plans and
+    Best Environmental Practice (BEP) for the Reduction of Inputs to the Environment
+    of Pesticides from Agricultural Use
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1999-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 96/1 on Best Available Techniques and Best Environmental
+    Practice for Existing Aluminium Electrolysis Plants
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Terminated
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Decision 96/2 on the Phasing-Out of Processes Using Molecular Chlorine
+    (Cl2) in the Bleaching of Kraft and Sulphite Pulp
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Reports required in intersessional period of 2008/2009
+  NEXT_DEADLINE: '2020-08-31'
+  NEXT_DEADLINE2: '2024-08-31'
+  TITLE: OSPAR Recommendation 99/1 on the Best Available Techniques for the Manufacture
+    of Emulsion PVC (e-PVC)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: This has been replaced by OSPAR Recommendation 2010/4
+  NEXT_DEADLINE: Implementation reports on effectiveness asessed through info submitted
+    for the Annual Report on Discharges
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Recommendation 2000/4 on a Harmonised Pre-Screening Scheme for Offshore
+    Chemicals
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Implementation reports on effectiveness asessed through info submitted
+    for the Annual Report on Discharges
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Recommendation 2000/5 on a Harmonised Offshore Chemical Notification
+    Format (HOCNF)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-09-30'
+  NEXT_DEADLINE2: '2023-09-30'
+  TITLE: OSPAR Recommendation 2000/1 on Best Environmental Practice (BEP) for the
+    Reduction of Inputs of Agricultural Pesticides to the Environment through the
+    Use of Integrated Crop Management Techniques
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Terminated
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Recommendation 2000/2 on Best Environmental Practice (BEP) for the
+    Use of Pesticides on Amenity Areas
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2022-06-30'
+  TITLE: OSPAR Recommendation 2000/3 on Emission and Discharge Limit Values for the
+    Manufacture of Emulsion PVC (e-PVC) from Vinyl Chloride Monomer
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2020-12-31'
+  TITLE: OSPAR Recommendation 2001/1 for the Management of Produced Water from Offshore
+    Installations
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2003-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Recommendation 2002/1 on Discharge Limit Values for Existing Aluminium
+    Electrolysis Plants
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Contracting Parties are required to report encounters on a three
+    year cycle. If clusters of munitions encounters occur these should be reported
+    as soon as possible.
+  NEXT_DEADLINE: '2017-09-01'
+  NEXT_DEADLINE2: '2020-09-01'
+  TITLE: Recommendation 2003/2 on an OSPAR Framework for Reporting Encounters with
+    Marine Dumped Conventional and Chemical Munitions (attached to the measure)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: OSPAR Recommendation 2003/3 on a Network of Marine Protected Areas
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: After 2009, reports are required every 5 years.
+  NEXT_DEADLINE: '2019-09-30'
+  NEXT_DEADLINE2: '2024-09-30'
+  TITLE: OSPAR Recommendation 2003/4 on Controlling the Dispersal of Mercury from
+    Crematoria
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-10-15'
+  NEXT_DEADLINE2: '2021-10-15'
+  TITLE: OSPAR Recommendation 2003/5 to Promote the Use and Implementation of Environmental
+    Management Systems by the Offshore Industry
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2014-03-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Fluorinated gases (F-Gases) reporting by undertakings (Regulation 2006)
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1996-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 92/2 Concerning Limitation of Pollution from New Primary
+    Iron and Steel Production Installations
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1996-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 92/3 Concerning Limitation of Pollution from New Secondary
+    Steel Production and Rolling Mills
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1997-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 92/4 on the Reduction of Emissions from the Electroplating
+    Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Terminated
+  NEXT_DEADLINE: '2003-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 94/1 on Best Available Techniques for New Aluminium
+    Electrolysis Plants
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-12-31'
+  NEXT_DEADLINE2: '2023-12-31'
+  TITLE: PARCOM Decision 92/1 on the Reduction of Discharges of Chlorinated Organic
+    Substances from the Production of Bleached Kraft and Sulphite Pulp
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1996-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 94/3 on Best Available Techniques and Best Environmental
+    Practice for the Integrated and Non-Integrated Kraft Pulp Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1996-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 94/2 on Best Available Techniques and Best Environmental
+    Practice for the Integrated and Non-Integrated Sulphite Paper Pulp Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-12-31'
+  NEXT_DEADLINE2: '2023-12-31'
+  TITLE: PARCOM Recommendation 91/4 on Radioactive Discharges
+- CLIENT_NAME: EFTA Surveillance Authority
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: In accordance with EU legislation and EEA agreement
+  NEXT_DEADLINE2: ''
+  TITLE: Exchange of information and notification procedures
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: As specified in EU statistical work programmes
+  NEXT_DEADLINE2: ''
+  TITLE: Cooperation in the field of statistics
+- CLIENT_NAME: Programme Co-ordinating Centre
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Report on Sampling and Analysis of Litterfall
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: The last period only refers to 2012 and 2013 while before it used
+    to cover 3 years.
+  NEXT_DEADLINE: '2014-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: IPPC questionnaire
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 'No further reporting cycles: obligation repealed by entry into force
+    of IPR 2011/850/EU; Reporting under this obligation was conditional. It was required
+    only if at least in one place in MS there was an exceedance of limit value + margin
+    of tolerance in y'
+  NEXT_DEADLINE: '2013-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Annual reporting on ambient air quality limit values plans or programmes
+    for SO2, NO2, NOx, PM10 and Pb, and benzene and CO and ozone
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2008-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture
+    of Suspension PVC from Vinyl Chloride Monomer
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2004-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 97/1 Concerning Reference Values for Effluent Discharges
+    for Wet Processes in the Textile Processing Industry
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: 01/05/2004 for Cyprus, Czech Republic, Estonia, Hungary, Latvia,
+    Lithuania, Malta, Poland, Slovakia, Slovenia and 1/1/2007 for Bulgaria, Romania.
+    Complete reporting only once, update as soon as available, within 3 months of
+    publication
+  NEXT_DEADLINE: '2003-12-22'
+  NEXT_DEADLINE2: ''
+  TITLE: Water Framework Directive - Transposition in national legislation
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: For the years prior to 2006, available data shall be reported only
+    for monitoring purposes to the Commission within 12 months of the end of the relevant
+    year.
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: ELV reuse/recycling/recovery targets compliance report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Information to be provided within 3 months of any change
+  NEXT_DEADLINE: ASAP
+  NEXT_DEADLINE2: ''
+  TITLE: Water Framework Directive - River Basin Districts and Competent Authorities
+- CLIENT_NAME: CITES Secretariat
+  DATE_COMMENTS: Regular. Each annual report should cover the period 1 January to
+    31 December, and should be submitted by 31 October of the year following the year
+    for which the report was due.
+  NEXT_DEADLINE: '2017-10-31'
+  NEXT_DEADLINE2: '2018-10-31'
+  TITLE: Annual Report
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: until Recommendation is fully completed
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2020-12-31'
+  TITLE: PARCOM Recommendation 96/4 for the Phasing-Out of the Use of One-Component
+    Coal Tar Coating Systems for Inland Ships
+- CLIENT_NAME: UNEP - Ozone Secretariat
+  DATE_COMMENTS: biannually, this reporting to be send jointly with annual reporting
+    obligation to UNEP Ozone Secretariat
+  NEXT_DEADLINE: '2017-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: Summary of activities
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-01-18'
+  NEXT_DEADLINE2: '2024-01-18'
+  TITLE: Action plan summaries  (DF 7 and DF 10)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: MS have to report under Directive 2006/7/EC starting from bathing
+    season 2012 at the latest in case of 4 year assessment period or can decide to
+    report earlier (from the bathing season 2007).
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Bathing Water Directive - Monitoring and Classification of Bathing Waters
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-20'
+  NEXT_DEADLINE2: '2018-12-20'
+  TITLE: Environmental Quality Standards Directive - Watch list
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: From 2009 bathing season on, it is due after 1 January and before
+    the start of the bathing season.
+  NEXT_DEADLINE2: ''
+  TITLE: Bathing Water Directive - Identification of Bathing Areas
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: Before 1 august of each year
+  NEXT_DEADLINE: '2009-07-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on inspection measures for plant protection products commercialization
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Terminated
+  NEXT_DEADLINE: Terminated
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Decision 95/1 on the Phasing Out of the Use of Short-Chained Chlorinated
+    Paraffins
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See for the deadlines of reporting obligations under the Water Framework
+    Directive (http://rod.eionet.europa.eu/show.jsv?id=516&mode=S).
+  NEXT_DEADLINE: It is not expected to report under the 2006/11/EC Dangerous Substances
+    Directive integrated in the Water Framework Directive, but only under the last
+    one.
+  NEXT_DEADLINE2: ''
+  TITLE: Implementation Report Dangerous substances
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2006-08-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on assessment of risks to man and the environment of existing substances
+    in accordance with Council Regulation (EEC) No 793/93
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2011-02-05'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on the evaluation and control of the risks of existing substances
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-05-20'
+  NEXT_DEADLINE2: '2019-05-20'
+  TITLE: Report on persistent organic pollutants
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 'Reporting: within 15 months after the end of the reporting year
+    (by 31/03/20xx covering reporting year xx-2).'
+  NEXT_DEADLINE: '2018-03-31'
+  NEXT_DEADLINE2: '2019-03-31'
+  TITLE: E-PRTR data reporting
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: A single report based on the information from the last three reporting
+    years to be delivered every three years together with the data provided in accordance
+    with Article 7. The reporting deadline of 31/03/2014 was extended by the Commission
+    to 30/09/2014.
+  NEXT_DEADLINE: '2018-03-31'
+  NEXT_DEADLINE2: '2022-03-31'
+  TITLE: E-PRTR report on practice and measures
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: Information on Competent Bodies and Accreditation and Licensing Bodies
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-08-04'
+  NEXT_DEADLINE2: '2021-08-04'
+  TITLE: UNECE water convention report
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of discharges from Kraft Pulp industry Recommendation  17/8
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of discharges from the sulphite pulp industry Recommendation 17/9
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Regular Intervals
+  NEXT_DEADLINE2: ''
+  TITLE: Safety of winter navigation in the Baltic Sea Area Recommendation 25/7
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Regular Intervals
+  NEXT_DEADLINE2: ''
+  TITLE: Ensuring adequate emergency capacity Recommendation 24/9
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Regular intervals
+  NEXT_DEADLINE2: ''
+  TITLE: Amendments to Annex IV "Prevention of pollution from ships" to the Helsinki
+    Convention, concerning discharge of sewage Recommendation 24/8
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Regular Intervals
+  NEXT_DEADLINE2: ''
+  TITLE: Further development and use of Drift Forecasting for Oils and other Harmful
+    Substances in the Baltic
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Regular Intervals
+  NEXT_DEADLINE2: ''
+  TITLE: Guidelines on bunkering operations and ship to ship cargo transfers of oils,
+    subject to Annex I of MARPOL 73/78, in the Baltic Sea Area
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Reduction of the Discharges from the Kraft Pulp industry Recommendation 17/8
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Recommendation concerning measures aimed at the reduction of discharges from
+    urban areas by the development of sewerage systems Recommendation 7/3
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Recommendation concerning measures aimed at the reduction of discharges from
+    urban areas by the use of effective methods in wastewater treatment
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: HELCOM has stopped regularly reporting and will decide next reporting
+    to be related to thematic assessment.
+  NEXT_DEADLINE2: ''
+  TITLE: Industrial connections and point sources other than household connected to
+    municipal sewerage systems
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-02-04'
+  NEXT_DEADLINE2: '2022-02-04'
+  TITLE: Report for UNECE Protocol on Water and Health
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: Application of the Emissions Trading Directive 2003/87/EC (Article 21)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-07-01'
+  NEXT_DEADLINE2: '2019-07-01'
+  TITLE: Information on events notified by the operators of extractive industries
+    waste facilities
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2009-01-18'
+  NEXT_DEADLINE2: ''
+  TITLE: Noise control programmes 1 (DF 6)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Deadline is mandatory only for 2nd round major sources.
+  NEXT_DEADLINE: '2014-01-18'
+  NEXT_DEADLINE2: ''
+  TITLE: Noise control programmes (DF 6 and DF 9)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-01-15'
+  NEXT_DEADLINE2: '2019-01-15'
+  TITLE: Concluded transfers under the Effort Sharing Decision
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Updates by Member States possible At Any Time
+  NEXT_DEADLINE: '2005-07-18'
+  NEXT_DEADLINE2: ''
+  TITLE: Competent bodies (DF 2)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: Year and month only specified
+  NEXT_DEADLINE: '2001-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Waterborne pollution load compilation (quantified point and non-point sources)
+    (Recommendtion 19/4)
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: Year only specified
+  NEXT_DEADLINE: '2021-12-31'
+  NEXT_DEADLINE2: '2026-12-31'
+  TITLE: Implemenation of the Strategic Action Plan for Rehabilitation and Protection
+    of the Black Sea (indicator-based) (BSSAP) 2002-2006, Report of the Commission
+    on the Protection of the Black Sea Against Pollution
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: No dates stated
+  NEXT_DEADLINE2: ''
+  TITLE: PARCOM Recommendation 93/5 on Increases in Radioactive Discharges from Nuclear
+    Reprocessing Plants
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 'No further reporting cycles: obligation repealed by entry into force
+    of IPR 2011/850/EU'
+  NEXT_DEADLINE: '2013-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Plans and programmes for the abatement of air pollution
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See for the deadlines of reporting obligations under the Water Framework
+    Directive (http://rod.eionet.europa.eu/show.jsv?id=516&mode=S).
+  NEXT_DEADLINE: It is not expected to report under the 84/156/EEC Mercury Daughter
+    Directive to DSD integrated in the Water Framework Directive, but only under the
+    last one.
+  NEXT_DEADLINE2: ''
+  TITLE: Reporting obligation for Council Directive 84/156/EEC
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See for the deadlines of reporting obligations under the Water Framework
+    Directive (http://rod.eionet.europa.eu/show.jsv?id=516&mode=S).
+  NEXT_DEADLINE: It is not expected to report under the 86/280/EEC List I Daughter
+    Directive to DSD integrated in the Water Framework Directive, but only under the
+    last one.
+  NEXT_DEADLINE2: ''
+  TITLE: Reporting obligation for Council Directive 86/280/EEC
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See for the deadlines of reporting obligations under the Water Framework
+    Directive (http://rod.eionet.europa.eu/show.jsv?id=516&mode=S).
+  NEXT_DEADLINE: It is not expected to report under the 84/491/EEC Hexachlorocyclohexane
+    Daughter Directive to DSD integrated in the Water Framework Directive, but only
+    under the last one.
+  NEXT_DEADLINE2: ''
+  TITLE: Reporting obligation for Council Directive 84/491/EEC
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See for the deadlines of reporting obligations under the Water Framework
+    Directive (http://rod.eionet.europa.eu/show.jsv?id=516&mode=S).
+  NEXT_DEADLINE: It is not expected to report under the 83/513/EEC Cadmium Daughter
+    Directive to DSD integrated in the Water Framework Directive, but only under the
+    last one.
+  NEXT_DEADLINE2: ''
+  TITLE: Report obligation for Council Directive 83/513/EEC
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-04-30'
+  NEXT_DEADLINE2: '2019-04-30'
+  TITLE: Reporting obligation for Commission Decision 2001/720/EC
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2012-12-03'
+  NEXT_DEADLINE2: ''
+  TITLE: Reporting obligation for Council Directive 82/883/EEC
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-09-30'
+  NEXT_DEADLINE2: '2020-09-30'
+  TITLE: Reporting obligation for Council Directive 91/692/EEC
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2007-02-15'
+  NEXT_DEADLINE2: ''
+  TITLE: Preliminary assessment and implementation of laws, regulations and administrative
+    provisions for 4th daughter directive (Art.10)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: 'No further reporting: obligation repealed by entry into force of  IPR
+    2011/850/EU'
+  NEXT_DEADLINE: '2013-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: 4th air quality daughter directive (Art.5) assessment annual reporting exceedances
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See for the deadlines of reporting obligations under the Water Framework
+    Directive (http://rod.eionet.europa.eu/show.jsv?id=516&mode=S).
+  NEXT_DEADLINE: It is not expected to report under the 82/176/EEC Mercury Daughter
+    Directive to DSD integrated in the Water Framework Directive, but only under the
+    last one.
+  NEXT_DEADLINE2: ''
+  TITLE: Reporting obligation for Council Directive 82/176/EEC
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2000-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Corine Land Cover 2000 extension (TE-1)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: According to national schedule
+  NEXT_DEADLINE2: ''
+  TITLE: Corine Land Cover
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Only reporting in 2007 and 2010
+  NEXT_DEADLINE: '2010-01-31'
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Recommendation 2005/2 on Environmental Goals for the Discharge by the
+    Offshore Industry of Chemicals
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See for the deadlines of reporting obligations under the Water Framework
+    Directive (http://rod.eionet.europa.eu/show.jsv?id=516&mode=S).
+  NEXT_DEADLINE: It is not expected to report under the 2006/44/EC Fish Directive
+    integrated in the Water Framework Directive, but only under the last one.
+  NEXT_DEADLINE2: ''
+  TITLE: Fish Directive Report
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: Continuous throughout year
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: Near real-time ozone data
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Yearly additional report to the EU Commission on waste shipments and sending
+    a copy of the report submitted to the Basel Convention Secretariat for the previous
+    calendar year
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-06-26'
+  NEXT_DEADLINE2: '2022-06-26'
+  TITLE: Batteries Directive implementation report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: Batteries collection targets compliance report
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: Batteries recycling targets compliance report
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: Test data for 2008. Reporting frequency after 2008 is to be decided.
+  NEXT_DEADLINE: '2008-06-06'
+  NEXT_DEADLINE2: ''
+  TITLE: Test Reporting for Pollutant Emissions to Water
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See for the deadlines of reporting obligations under the Water Framework
+    Directive (http://rod.eionet.europa.eu/show.jsv?id=516&mode=S).
+  NEXT_DEADLINE: It is not expected to report under the 2006/113/EC Shellfish Directive
+    integrated in the Water Framework Directive, but only under the last one.
+  NEXT_DEADLINE2: ''
+  TITLE: Shellfish Directive report
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1995-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Recommendation 98/2 on Emission and Discharge Limit Values for Existing
+    Aluminium Electrolysis Plants (as amended by OSPAR Recommendation 2002/1)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: was first due 22/03/2010. First draft of RBMP one year before (end
+    of 2008, of 2014,...). Threshold values shall be established by 22 December 2008.
+  NEXT_DEADLINE: '2022-03-22'
+  NEXT_DEADLINE2: '2028-03-22'
+  TITLE: Groundwater in WFD River Basin Management Plan including programme of measures
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: review 22/12/2018
+  NEXT_DEADLINE: '2019-03-22'
+  NEXT_DEADLINE2: '2025-03-22'
+  TITLE: Groundwater in WFD progress on implementation of programmes of measures
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: The report should be submitted for the first time in the meeting
+    cycle 2007/2008 and, if the Commission judges it necessary, every four years thereafter
+    until the specified OSPAR measures are fully implemented.
+  NEXT_DEADLINE: '2019-08-31'
+  NEXT_DEADLINE2: '2023-08-31'
+  TITLE: OSPAR Recommendation 2005/1 on Reporting Formats on the Implementation and
+    Effectiveness of OSPAR Measures Relating to the Non-Ferrous Metal Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '1995-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Recommendation 98/1 concerning Best Available Techniques and Best Environmental
+    Practice for the Primary Non-Ferrous Metal Industry
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See extra information as well as reporting obligation 9
+  NEXT_DEADLINE: '2017-03-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Report on existing plants declared for eligibility under Article 4.4 of LCP
+    Directive
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: HELCOM seal expert group to report annually to HELCOM Habitat
+  NEXT_DEADLINE: '2018-09-01'
+  NEXT_DEADLINE2: '2019-09-01'
+  TITLE: Conservation of seals in the Baltic Sea Area (Recommendation 17-28/2)
+- CLIENT_NAME: Baltic Marine Environment Protection Commission (Helsinki Commission)
+  DATE_COMMENTS: Year and months specified
+  NEXT_DEADLINE: '2019-09-01'
+  NEXT_DEADLINE2: '2022-09-01'
+  TITLE: Protection of harbour porpoise in the Baltic Sea Area (Recommendation 17/2)
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: Yearly
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Regular national reporting on the exotic species within the established procedure
+    and formats and its improvement
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-12-31'
+  NEXT_DEADLINE2: '2023-12-31'
+  TITLE: OSPAR Recommendation 2006/1 on Reporting Formats on the Implementation and
+    Effectiveness of OSPAR Measures Relating to the Vinyl Chloride Industry
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Only reporting in 2007 and 2010
+  NEXT_DEADLINE: '2010-01-31'
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Recommendation 2006/2 Amending OSPAR Recommendation 2003/4 on Controlling
+    the Dispersal of Mercury from Crematoria
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2020-01-31'
+  NEXT_DEADLINE2: '2023-01-31'
+  TITLE: OSPAR Recommendation 2006/3 on Environmental Goals for the Discharge by the
+    Offshore Industry of Chemicals that are, or Which Contain Substances Identified
+    as Candidates for Substitution
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2020-12-31'
+  NEXT_DEADLINE2: '2024-12-31'
+  TITLE: OSPAR Recommendation 2006/4 Amending OSPAR Recommendation 2001/1 for the
+    Management of Produced Water from Offshore Installations
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Subsequent reports on implementation if deemed necessary.
+  NEXT_DEADLINE: '2008-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Recommendation 2006/5 on a Management Regime for Offshore Cuttings
+    Piles
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-01'
+  NEXT_DEADLINE2: '2019-09-01'
+  TITLE: OSPAR Report on Mercury Losses from the Chlor-Alkali Industry
+- CLIENT_NAME: United Nations Environment Programme
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Within two years of ratification
+  NEXT_DEADLINE2: ''
+  TITLE: Implementation plan
+- CLIENT_NAME: United Nations Environment Programme
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-12-31'
+  NEXT_DEADLINE2: '2022-12-31'
+  TITLE: National  Report pursuent to Article 15
+- CLIENT_NAME: United Nations Environment Programme
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-12-31'
+  NEXT_DEADLINE2: '2022-12-31'
+  TITLE: DDT Registration
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: The PFRA shall be completed by 22/12/2011 and made available to the
+    Commission three months after. First review and, if necessary, update, is due
+    by 22/12/2018 and every 6 years thereafter.
+  NEXT_DEADLINE: '2019-03-22'
+  NEXT_DEADLINE2: '2025-03-22'
+  TITLE: Floods Directive - Preliminary Flood Risk Assessment and Areas of Potential
+    Significant Flood Risk
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: The flood hazard maps and flood risk maps shall be completed by 22/12/
+    2013 and made available to the Commission three months after. First review, and
+    if necessary update, shall be completed by 22/12/2019 and every 6 years thereafter.
+  NEXT_DEADLINE: '2020-03-22'
+  NEXT_DEADLINE2: '2026-03-22'
+  TITLE: Floods Directive - Flood Hazard Maps and Flood Risk Maps
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: The FRMP shall be completed by 22/12/2015 and made available to the
+    Commission three months after. First review, and if necessary update, shall be
+    completed by 22/12/2021 and every 6 years thereafter.
+  NEXT_DEADLINE: '2022-03-22'
+  NEXT_DEADLINE2: '2028-03-22'
+  TITLE: Floods Directive - Flood Risk Management Plans
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2010-07-15'
+  NEXT_DEADLINE2: ''
+  TITLE: MSFD transposition in national legislation
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Designation of competent authorities by 15/07/2010. Informing the
+    Commission of any changes within six months.
+  NEXT_DEADLINE: '2012-06-01'
+  NEXT_DEADLINE2: ''
+  TITLE: MSFD report on Marine Region or Subregion competent authority or authorities
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Reporting of text-based ('paper') reports is due 15/10/2012. Reporting
+    of reporting sheet 'priority' fields is due 15/10/2012. Reporting of all remaining
+    fields in reporting sheets is due 15/04/2013.
+  NEXT_DEADLINE: '2012-10-15'
+  NEXT_DEADLINE2: ''
+  TITLE: MSFD reporting on Initial Assessments (Art. 8), Good Environmental Status
+    (Art.9), Env. targets & associated indicators (Art.10) & related reporting on
+    geographic areas, regional cooperation and metadata.
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2020-10-15'
+  NEXT_DEADLINE2: '2026-10-15'
+  TITLE: MSFD monitoring programmes (Art. 11)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Year only specified.
+  NEXT_DEADLINE: '2022-03-31'
+  NEXT_DEADLINE2: '2028-03-31'
+  TITLE: MSFD programmes of measures, including establishment of marine protected
+    areas, and exceptions
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: The reporting date of the two sibling obligations (INSPIRE Monitoring
+    and Reporting) is synchronized. Both have to be submitted by 15 May - one on annual
+    cycles, the other every three years.
+  NEXT_DEADLINE: '2019-05-15'
+  NEXT_DEADLINE2: '2022-05-15'
+  TITLE: Country report on implementation and use of infrastructures for spatial information
+- CLIENT_NAME: Scientific Committee, via the IWC Secretariat
+  DATE_COMMENTS: Article VIII(3) requires Contracting Parties that have issued special
+    permits to report at intervals of not more than one year.
+  NEXT_DEADLINE: '0000-00-00'
+  NEXT_DEADLINE2: '0000-00-00'
+  TITLE: Results of research conducted under special permit
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: 'AQD pilot: up-to-date primary data'
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: 'AQD pilot: zones'
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See extra information as well as reporting obligation 9
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Exemptions to be reported under article 15(3) of the Large Combustion Plants
+    Directive (LCP)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: The 2017 data call will be done under the new data model WISE-1.
+  NEXT_DEADLINE: '2018-04-15'
+  NEXT_DEADLINE2: '2019-04-15'
+  TITLE: WISE SoE - Emissions (WISE-1)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2022-03-22'
+  NEXT_DEADLINE2: '2028-03-22'
+  TITLE: Water Framework Directive - River Basin Management Plans - 2016 Spatial data
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2009-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: 'SoER Part C Commonality Air Pollution: why do we care about this theme?'
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2009-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: 'SoER Part C Commonality Air Pollution: What are the state (S) and impacts
+    (I) related to this theme, including impacts on the natural environment and human
+    health/human well-being, both at national level as well as in transboundary terms?'
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2009-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: 'SoER Part C Commonality Air Pollution: What are the related key drivers
+    (D) and pressures (P) at national level?'
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: 'SoER Part C Commonality Air Pollution: What is the 2020 outlook for the
+    topic in question and how will this affect possible impacts on the natural environment
+    and human health/well-being?'
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: 'SoER Part C Commonality Air Pollution: Which responses (R) have been put
+    in place or are planned at national level for the theme in question?'
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-03-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Reporting on Combustion Plants under Art 72 of the Industrial Emissions Directive
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-03-31'
+  NEXT_DEADLINE2: '2020-03-31'
+  TITLE: Questionnaire on Strategies and Policies for Air Pollution Abatement
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2012-12-12'
+  NEXT_DEADLINE2: ''
+  TITLE: Inland waters
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Every year by 30 June on the data for the previous calendar year
+  NEXT_DEADLINE: '2018-06-30'
+  NEXT_DEADLINE2: '2019-06-30'
+  TITLE: Reporting on methyl bromide, halons and cases of illegal trade
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-09-30'
+  NEXT_DEADLINE2: '2022-09-30'
+  TITLE: Waste Framework Directive implementation report
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-08-01'
+  NEXT_DEADLINE2: '2019-08-01'
+  TITLE: LBS reporting
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-08-01'
+  NEXT_DEADLINE2: '2019-08-01'
+  TITLE: ICZM reporting
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-08-01'
+  NEXT_DEADLINE2: '2019-08-01'
+  TITLE: ESAS Reporting
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-08-01'
+  NEXT_DEADLINE2: '2019-08-01'
+  TITLE: FOMLR Reporting
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-08-01'
+  NEXT_DEADLINE2: '2019-08-01'
+  TITLE: CBD reporting
+- CLIENT_NAME: Black Sea Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-08-01'
+  NEXT_DEADLINE2: '2019-08-01'
+  TITLE: PMA reporting
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-02-28'
+  NEXT_DEADLINE2: '2019-02-28'
+  TITLE: Monitoring and reporting of average CO2 emissions (passenger cars)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Any changes in administrative arrangements need to be communicated
+    to the Commission within three months of the change coming into effect.
+  NEXT_DEADLINE: '2010-05-26'
+  NEXT_DEADLINE2: ''
+  TITLE: Floods Directive - Units of Management and Competent Authorities
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2010-06-15'
+  NEXT_DEADLINE2: ''
+  TITLE: SEIS Baseline Assessment
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Member States shall, within three years of the publication of each
+    MSFD programmes of measures or update, submit a brief interim report describing
+    progress in the implementation of that programme.
+  NEXT_DEADLINE: '2018-12-31'
+  NEXT_DEADLINE2: '2024-12-31'
+  TITLE: MSFD progress on implementation of programmes of measures
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-02-28'
+  NEXT_DEADLINE2: '2019-02-28'
+  TITLE: Monitoring and reporting of average CO2 emissions (light commercial vehicles)
+- CLIENT_NAME: Ramsar Convention
+  DATE_COMMENTS: As required.  Resolution VIII.18 states that this information should
+    be provided "without delay".  May be accomplished through the provision of information
+    on changes to ecological character.
+  NEXT_DEADLINE: Continuous
+  NEXT_DEADLINE2: ''
+  TITLE: Information on invasive alien species
+- CLIENT_NAME: OSPAR Convention
+  DATE_COMMENTS: Reports should be submitted in accordance with the timing of the
+    implementation reporting on OSPAR Decision 2000/2.
+  NEXT_DEADLINE: Reports should be made on a biennial basis
+  NEXT_DEADLINE2: ''
+  TITLE: OSPAR Recommendation 2010/4 on a Harmonised Pre-screening Scheme for Offshore
+    Chemicals
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: 'AQD pilot: modelled primary data'
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: (B) Information on zones and agglomerations (Article 6)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: (C) Information on the assessment regime (Article 7)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: (D) Information on the assessment methods (Articles 8 and 9) - for fixed
+    and indicative measurements
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: (E1a) Information on primary validated assessment data - measurements (Article
+    10)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: (E1b) Information on primary validated assessment data -modelled (Article
+    10)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: (E2a) Information on primary up-to-date assessment data -measurements (Article
+    10)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: for testing purposes during pilot
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: (F1a) Information on generated aggregated data - primary validated measurements
+    (Article 11)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: for testing purposes during pilot
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: (F1b) Information on generated aggregated data - primary validated modelled
+    (Article 11)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: for testing purposes during pilot
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: (F2) Information on generated aggregated data - primary up-to-date measurements
+    (Article 11)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: (G) Information on the attainment of environmental objectives (Article 12)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: (H) Information on air quality plans (Article 13)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: (I) Information on source apportionment (Article 13)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: (J) Information on the scenario for the attainment year (Article 13)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: (K) Information on measures (Articles 13 and 14)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: Definition of reporting structure (DF 0)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: Frequency of reporting to be agreed
+  NEXT_DEADLINE: Reporting date to be agreed
+  NEXT_DEADLINE2: ''
+  TITLE: ENPI-SEIS East indicators
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-09-30'
+  NEXT_DEADLINE2: '2022-09-30'
+  TITLE: Waste Directive target report
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2013-06-30'
+  NEXT_DEADLINE2: ''
+  TITLE: European Red list of Birds
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-04-30'
+  NEXT_DEADLINE2: '2024-04-30'
+  TITLE: Horizon 2020 initiative for de-pollution of the Mediterranean Sea by 2020
+    (SoE)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: The reporting date of the two sibling obligations (INSPIRE Monitoring
+    and Reporting) is synchronized. Both have to be submitted by 15 May - one on annual
+    cycles, the other every three years.
+  NEXT_DEADLINE: '2018-05-15'
+  NEXT_DEADLINE2: '2019-05-15'
+  TITLE: Monitoring of implementation and use of infrastructures for spatial information
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: (B) Preliminary  information on zones and agglomerations  (Article 6)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: (C) Preliminary information on the assessment regime (Article 7)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-03-15'
+  NEXT_DEADLINE2: '2021-03-15'
+  TITLE: National policies and measures (climate change mitigation)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-03-15'
+  NEXT_DEADLINE2: '2021-03-15'
+  TITLE: Projections (greenhouse gas emissions and removals)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-07-31'
+  NEXT_DEADLINE2: '2019-07-31'
+  TITLE: Use of auctioning revenue and project credits
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-07-31'
+  NEXT_DEADLINE2: '2019-07-31'
+  TITLE: Approximated greenhouse gas inventories
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Reporting on the status of implementation of low-carbon development
+    strategies by 9 January 2015 or in accordance with any timetable agreed internationally
+    in the context of the UNFCCC process
+  NEXT_DEADLINE: '2015-01-09'
+  NEXT_DEADLINE2: ''
+  TITLE: Low-carbon development strategies
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-01-15'
+  NEXT_DEADLINE2: '2019-01-15'
+  TITLE: Greenhouse gas inventories
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-03-15'
+  NEXT_DEADLINE2: '2023-03-15'
+  TITLE: National adaptation actions
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: Financial and technology support provided to developing countries
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Reporting dates to be determined in decisions from the Conference
+    of Parties to the UNFCCC.
+  NEXT_DEADLINE: '2018-01-01'
+  NEXT_DEADLINE2: '2020-01-01'
+  TITLE: Biennial reports and national communications
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2014-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Annex I Questionnaire
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: The deadline included in Decision 2012/795/EU was postponed by the
+    European Commission by official letter sent to EU countries on 30/05/2017. The
+    new deadline is 28/02/2018.
+  NEXT_DEADLINE: '2018-02-28'
+  NEXT_DEADLINE2: ''
+  TITLE: MS implementation of IED (Annex II Decision 2012/795/EU)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2015-12-31'
+  NEXT_DEADLINE2: ''
+  TITLE: Kyoto true-up period reports
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-01-15'
+  NEXT_DEADLINE2: '2019-01-15'
+  TITLE: Land use, land-use change and forestry (LULUCF)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-06-05'
+  NEXT_DEADLINE2: '2021-06-05'
+  TITLE: Three-yearly summary report on the experience with the Directive
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Yearly summary report on class 3 and class 4 contained uses
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-03-31'
+  NEXT_DEADLINE2: '2019-03-31'
+  TITLE: Fluorinated gases (F-Gases) reporting by undertakings (Regulation 2014)
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-12-31'
+  NEXT_DEADLINE2: '2019-12-31'
+  TITLE: WISE SoE - Water Quality (WISE-4)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: See "Water Framework Directive - River Basin Management Plans - 2010
+    Reporting" for further information on the 1st RBMP reporting.
+  NEXT_DEADLINE: '2022-03-22'
+  NEXT_DEADLINE2: '2028-03-22'
+  TITLE: Water Framework Directive - River Basin Management Plans - 2016 Reporting
+- CLIENT_NAME: European Environment Agency
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: WISE - Spatial Data (WISE-5)
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2022-03-22'
+  NEXT_DEADLINE2: '2028-03-22'
+  TITLE: Water Framework Directive - River Basin Management Plans - 2016 RBDSUCA XML
+    data
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2022-03-22'
+  NEXT_DEADLINE2: '2028-03-22'
+  TITLE: Water Framework Directive - River Basin Management Plans - 2016 RBD XML data
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: The deadline included in Decision 2012/795/EU was postponed by the
+    European Commission by official letter sent to EU countries on 30/05/2017. The
+    new deadline is 28/02/2018.
+  NEXT_DEADLINE: '2018-02-28'
+  NEXT_DEADLINE2: ''
+  TITLE: Sectoral spotlight of IED installation – BAT conclusion implementation
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: The deadline included in Decision 2012/795/EU was postponed by the
+    European Commission by official letter sent to EU countries on 30/05/2017. The
+    new deadline is 28/02/2018.
+  NEXT_DEADLINE: '2018-02-28'
+  NEXT_DEADLINE2: ''
+  TITLE: Waste incineration and solvent emissions under IED
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2020-09-30'
+  NEXT_DEADLINE2: ''
+  TITLE: Integrated emission management techniques applied in mineral oil and gas
+    refineries under IED
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2026-10-01'
+  NEXT_DEADLINE2: '2031-10-01'
+  TITLE: MCP Directive implementation report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2021-01-01'
+  NEXT_DEADLINE2: ''
+  TITLE: Annual CO emissions and concentration of CO emissions from MCPs
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-06-01'
+  NEXT_DEADLINE2: '2025-06-01'
+  TITLE: Report on invasive alien species
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2015-11-05'
+  NEXT_DEADLINE2: ''
+  TITLE: Information on competent authorities
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: Reporting only in case of accidents.
+  NEXT_DEADLINE: The information shall be provided as soon as practicable and at the
+    latest within one year of the date of the accident.
+  NEXT_DEADLINE2: ''
+  TITLE: Information on major accidents
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-09-30'
+  NEXT_DEADLINE2: '2023-09-30'
+  TITLE: Implementation report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Continuous reporting
+  NEXT_DEADLINE2: ''
+  TITLE: Information on establishments
+- CLIENT_NAME: Council of the European Union
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Reporting every two years, no start date mentioned.
+  NEXT_DEADLINE2: ''
+  TITLE: Updated information on the measures taken
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-03-03'
+  NEXT_DEADLINE2: '2021-03-03'
+  TITLE: Report on the application of the Regulation
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2020-06-30'
+  NEXT_DEADLINE2: '2023-06-30'
+  TITLE: Implementation report
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2017-12-31'
+  NEXT_DEADLINE2: '2018-12-31'
+  TITLE: Statistics on the placing on the market of pesticides
+- CLIENT_NAME: Eurostat
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2020-12-31'
+  NEXT_DEADLINE2: '2025-12-31'
+  TITLE: Statistics on agricultural use of pesticides
+- CLIENT_NAME: Council of the European Union
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-11-20'
+  NEXT_DEADLINE2: '2023-11-20'
+  TITLE: Implementation report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-09-30'
+  NEXT_DEADLINE2: '2022-09-30'
+  TITLE: Three-yearly report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: Reporting is every 3 years. No start date given in the Regulation.
+  NEXT_DEADLINE2: ''
+  TITLE: Information concerning the operation of the procedures
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-03-15'
+  NEXT_DEADLINE2: '2019-03-15'
+  TITLE: Air emission annual data reporting (CLRTAP/EMEP) - informative inventory
+    report
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: The first report was due by 20 January 2012.
+  NEXT_DEADLINE: '2017-07-01'
+  NEXT_DEADLINE2: '2022-07-01'
+  TITLE: Report on the results of the official controls, and other enforcement measures
+    taken
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-08-31'
+  NEXT_DEADLINE2: '2019-08-31'
+  TITLE: Fuel Quality Directive Article 7a
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-09-30'
+  NEXT_DEADLINE2: '2019-09-30'
+  TITLE: (D1b) Information on the assessment methods (Articles 8 and 9) - for models
+    and objective estimation
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-03-15'
+  NEXT_DEADLINE2: '2023-03-15'
+  TITLE: LRTAP Convention - Projected emissions
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2021-05-01'
+  NEXT_DEADLINE2: '2025-05-01'
+  TITLE: LRTAP Convention - Large point source (LPS)
+- CLIENT_NAME: UNECE Environment and Human Settlements Division
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2021-05-01'
+  NEXT_DEADLINE2: '2025-05-01'
+  TITLE: LRTAP Convention - Gridded emissions data
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-02-15'
+  NEXT_DEADLINE2: '2019-02-15'
+  TITLE: National Emission Ceiling Directive (NECD) - National emission inventories
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2021-05-01'
+  NEXT_DEADLINE2: '2025-05-01'
+  TITLE: National Emission Ceiling Directive (NECD) - National gridded data of emissions
+    by source category (GNFR)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2021-05-01'
+  NEXT_DEADLINE2: '2025-05-01'
+  TITLE: National Emission Ceiling Directive (NECD) - Large point source (LPS) emissions
+    data by source category (GNFR)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-03-15'
+  NEXT_DEADLINE2: '2021-03-15'
+  TITLE: National Emission Ceiling Directive (NECD) - Projected emissions by aggregated
+    NFR sectors
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-03-15'
+  NEXT_DEADLINE2: '2019-03-15'
+  TITLE: National Emission Ceiling Directive (NECD) - Informative Inventory Report
+    (IIR)
+- CLIENT_NAME: European Commission, Directorate General Environment
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2019-07-01'
+  NEXT_DEADLINE2: '2021-01-01'
+  TITLE: National Emission Ceiling Directive (NECD) - National air pollution control
+    programmes
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-07-15'
+  NEXT_DEADLINE2: '2024-07-15'
+  TITLE: MSFD - Articles 8, 9 and 10 - Text reports
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-12-22'
+  NEXT_DEADLINE2: '2024-12-22'
+  TITLE: Water Framework Directive - Programmes of Measures - 2018 Reporting
+- CLIENT_NAME: European Commission
+  DATE_COMMENTS: ''
+  NEXT_DEADLINE: '2018-12-22'
+  NEXT_DEADLINE2: '2024-12-22'
+  TITLE: Water Framework Directive - Programmes of Measures - 2018 RBD XML data

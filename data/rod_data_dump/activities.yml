@@ -1,0 +1,4899 @@
+- LAST_UPDATE: '2009-12-15'
+  PK_RA_ID: '8'
+  PK_SOURCE_ID: '142'
+  SOURCE_TITLE: Basel Convention
+  TITLE: Yearly report to the Basel Convention
+  details_url: http://rod.eionet.europa.eu/obligations/8
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/8
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '9'
+  PK_SOURCE_ID: '500'
+  SOURCE_TITLE: LCP Directive
+  TITLE: Summary  of emission  inventory for large combustion plants (LCP), Art 4.(4)
+    and 15.(3) plants
+  details_url: http://rod.eionet.europa.eu/obligations/9
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/9
+- LAST_UPDATE: '2009-05-11'
+  PK_RA_ID: '11'
+  PK_SOURCE_ID: '500'
+  SOURCE_TITLE: LCP Directive
+  TITLE: Report on programmes on emissions from large combustion plants
+  details_url: http://rod.eionet.europa.eu/obligations/11
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/11
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '13'
+  PK_SOURCE_ID: '501'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism, Council Decision 1999/296/EC
+  TITLE: GHG emissions and projections (MM Decision 1999)
+  details_url: http://rod.eionet.europa.eu/obligations/13
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/13
+- LAST_UPDATE: '2017-10-13'
+  PK_RA_ID: '14'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: WISE SoE - Water quality in transitional, coastal and marine waters (WISE-6)
+  details_url: http://rod.eionet.europa.eu/obligations/14
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/14
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '15'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: CLRTAP (AE-1)
+  details_url: http://rod.eionet.europa.eu/obligations/15
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/15
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '16'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: UNFCCC (AE-2)
+  details_url: http://rod.eionet.europa.eu/obligations/16
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/16
+- LAST_UPDATE: '2017-09-26'
+  PK_RA_ID: '21'
+  PK_SOURCE_ID: '204'
+  SOURCE_TITLE: Bathing Water Directive (consolidated)
+  TITLE: Bathing Water Directive - Report
+  details_url: http://rod.eionet.europa.eu/obligations/21
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/21
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '23'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: Data submission for the Annual Report on Discharges, Waste Handling and Air
+    Emissions from Offshore Installations
+  details_url: http://rod.eionet.europa.eu/obligations/23
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/23
+- LAST_UPDATE: '2011-08-26'
+  PK_RA_ID: '24'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Decision 90/3 on Reducing Atmospheric Emissions from Existing Chlor-Alkali
+    Plants
+  details_url: http://rod.eionet.europa.eu/obligations/24
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/24
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '26'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: EoI Data (AQ-1)
+  details_url: http://rod.eionet.europa.eu/obligations/26
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/26
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '27'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Corine Land Cover 2000 project progress
+  details_url: http://rod.eionet.europa.eu/obligations/27
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/27
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '28'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: River quality (EWN-1)
+  details_url: http://rod.eionet.europa.eu/obligations/28
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/28
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '29'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Lake quality (EWN-2)
+  details_url: http://rod.eionet.europa.eu/obligations/29
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/29
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '30'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Groundwater quality (EWN-3)
+  details_url: http://rod.eionet.europa.eu/obligations/30
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/30
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '31'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Ozone (AQ-2)
+  details_url: http://rod.eionet.europa.eu/obligations/31
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/31
+- LAST_UPDATE: '2016-10-19'
+  PK_RA_ID: '32'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Nationally designated areas (CDDA)
+  details_url: http://rod.eionet.europa.eu/obligations/32
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/32
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '33'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Soil Contamination (TE-2)
+  details_url: http://rod.eionet.europa.eu/obligations/33
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/33
+- LAST_UPDATE: '2007-07-18'
+  PK_RA_ID: '35'
+  PK_SOURCE_ID: '287'
+  SOURCE_TITLE: Waste Shipments Regulation
+  TITLE: Yearly report to the EU Commission on waste shipments
+  details_url: http://rod.eionet.europa.eu/obligations/35
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/35
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '37'
+  PK_SOURCE_ID: '264'
+  SOURCE_TITLE: 3rd daughter directive relating to ozone in ambient air
+  TITLE: Monthly ozone exceedances
+  details_url: http://rod.eionet.europa.eu/obligations/37
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/37
+- LAST_UPDATE: '2005-01-07'
+  PK_RA_ID: '39'
+  PK_SOURCE_ID: '272'
+  SOURCE_TITLE: PCBs directive
+  TITLE: Summary of the national inventory of equipment containing PCBs
+  details_url: http://rod.eionet.europa.eu/obligations/39
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/39
+- LAST_UPDATE: '2005-01-07'
+  PK_RA_ID: '40'
+  PK_SOURCE_ID: '272'
+  SOURCE_TITLE: PCBs directive
+  TITLE: Plans and outlines for the collection and disposal of equipment containing
+    PCBs
+  details_url: http://rod.eionet.europa.eu/obligations/40
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/40
+- LAST_UPDATE: '2016-05-02'
+  PK_RA_ID: '43'
+  PK_SOURCE_ID: '209'
+  SOURCE_TITLE: Titanium Dioxide Directive (consolidated)
+  TITLE: Titanium Dioxide Directive Implementation Report
+  details_url: http://rod.eionet.europa.eu/obligations/43
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/43
+- LAST_UPDATE: '2009-10-08'
+  PK_RA_ID: '48'
+  PK_SOURCE_ID: '583'
+  SOURCE_TITLE: EU Statistical Work Programme (consolidated)
+  TITLE: Inland waters (even years)
+  details_url: http://rod.eionet.europa.eu/obligations/48
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/48
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '49'
+  PK_SOURCE_ID: '583'
+  SOURCE_TITLE: EU Statistical Work Programme (consolidated)
+  TITLE: Land data
+  details_url: http://rod.eionet.europa.eu/obligations/49
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/49
+- LAST_UPDATE: '2010-04-22'
+  PK_RA_ID: '51'
+  PK_SOURCE_ID: '583'
+  SOURCE_TITLE: EU Statistical Work Programme (consolidated)
+  TITLE: Noise data
+  details_url: http://rod.eionet.europa.eu/obligations/51
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/51
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '52'
+  PK_SOURCE_ID: '583'
+  SOURCE_TITLE: EU Statistical Work Programme (consolidated)
+  TITLE: Waste data (even years)
+  details_url: http://rod.eionet.europa.eu/obligations/52
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/52
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '54'
+  PK_SOURCE_ID: '583'
+  SOURCE_TITLE: EU Statistical Work Programme (consolidated)
+  TITLE: Environmental protection expenditure and revenues
+  details_url: http://rod.eionet.europa.eu/obligations/54
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/54
+- LAST_UPDATE: '2009-12-08'
+  PK_RA_ID: '56'
+  PK_SOURCE_ID: '195'
+  SOURCE_TITLE: Landfill of waste directive
+  TITLE: Landfill of Waste Directive Implementation Report
+  details_url: http://rod.eionet.europa.eu/obligations/56
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/56
+- LAST_UPDATE: '2007-06-29'
+  PK_RA_ID: '57'
+  PK_SOURCE_ID: '508'
+  SOURCE_TITLE: Incineration of hazardous waste directive
+  TITLE: Incineration of Hazardous Waste Directive Implementation Report
+  details_url: http://rod.eionet.europa.eu/obligations/57
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/57
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '59'
+  PK_SOURCE_ID: '510'
+  SOURCE_TITLE: Waste Incineration Directive
+  TITLE: Implementation Report of Waste Incineration Directive
+  details_url: http://rod.eionet.europa.eu/obligations/59
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/59
+- LAST_UPDATE: '2009-12-15'
+  PK_RA_ID: '65'
+  PK_SOURCE_ID: '511'
+  SOURCE_TITLE: Packaging directive
+  TITLE: Packaging Directive implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/65
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/65
+- LAST_UPDATE: '2009-12-15'
+  PK_RA_ID: '66'
+  PK_SOURCE_ID: '511'
+  SOURCE_TITLE: Packaging directive
+  TITLE: Waste packaging yearly statistics report
+  details_url: http://rod.eionet.europa.eu/obligations/66
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/66
+- LAST_UPDATE: '2009-12-15'
+  PK_RA_ID: '67'
+  PK_SOURCE_ID: '511'
+  SOURCE_TITLE: Packaging directive
+  TITLE: Waste packaging hazardous contents report and other voluntary data on packaging
+    and packaging waste
+  details_url: http://rod.eionet.europa.eu/obligations/67
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/67
+- LAST_UPDATE: '2013-09-16'
+  PK_RA_ID: '68'
+  PK_SOURCE_ID: '512'
+  SOURCE_TITLE: Waste oils directive
+  TITLE: Waste oils directive implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/68
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/68
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '69'
+  PK_SOURCE_ID: '514'
+  SOURCE_TITLE: Sewage Sludge Directive
+  TITLE: Implementation report Sewage Sludge Directive
+  details_url: http://rod.eionet.europa.eu/obligations/69
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/69
+- LAST_UPDATE: '2009-05-11'
+  PK_RA_ID: '71'
+  PK_SOURCE_ID: '344'
+  SOURCE_TITLE: Montreal Ozone Protocol
+  TITLE: Ozone Depleting Substances Report
+  details_url: http://rod.eionet.europa.eu/obligations/71
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/71
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '72'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Ozone - monthly episodes (AQ-2b)
+  details_url: http://rod.eionet.europa.eu/obligations/72
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/72
+- LAST_UPDATE: '2007-08-27'
+  PK_RA_ID: '83'
+  PK_SOURCE_ID: '205'
+  SOURCE_TITLE: Dangerous Substances Directive
+  TITLE: Implementation Report Dangerous substances
+  details_url: http://rod.eionet.europa.eu/obligations/83
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/83
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '84'
+  PK_SOURCE_ID: '217'
+  SOURCE_TITLE: GroundWater Directive dangerous substances (consolidated)
+  TITLE: GroundWater Directive dangerous substances report
+  details_url: http://rod.eionet.europa.eu/obligations/84
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/84
+- LAST_UPDATE: '2015-03-02'
+  PK_RA_ID: '85'
+  PK_SOURCE_ID: '218'
+  SOURCE_TITLE: Drinking Water Directive (consolidated)
+  TITLE: Drinking Water Directive - Report
+  details_url: http://rod.eionet.europa.eu/obligations/85
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/85
+- LAST_UPDATE: '2008-10-24'
+  PK_RA_ID: '94'
+  PK_SOURCE_ID: '214'
+  SOURCE_TITLE: Shellfish Directive (consolidated)
+  TITLE: Shellfish Directive report
+  details_url: http://rod.eionet.europa.eu/obligations/94
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/94
+- LAST_UPDATE: '2007-09-04'
+  PK_RA_ID: '96'
+  PK_SOURCE_ID: '202'
+  SOURCE_TITLE: Drinking Water Abstraction Directive (consolidated)
+  TITLE: Drinking Water Abstraction Directive report
+  details_url: http://rod.eionet.europa.eu/obligations/96
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/96
+- LAST_UPDATE: '2008-08-29'
+  PK_RA_ID: '97'
+  PK_SOURCE_ID: '213'
+  SOURCE_TITLE: Sampling Drinking Water Daughter Directive to DWAD (consolidated)
+  TITLE: Report on methods of measurement and frequencies of sampling
+  details_url: http://rod.eionet.europa.eu/obligations/97
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/97
+- LAST_UPDATE: '2008-03-27'
+  PK_RA_ID: '98'
+  PK_SOURCE_ID: '210'
+  SOURCE_TITLE: Fish Directive (consolidated)
+  TITLE: Fish Directive Report
+  details_url: http://rod.eionet.europa.eu/obligations/98
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/98
+- LAST_UPDATE: '2017-01-26'
+  PK_RA_ID: '102'
+  PK_SOURCE_ID: '411'
+  SOURCE_TITLE: UNFCCC
+  TITLE: Greenhouse gas inventories (UNFCCC)
+  details_url: http://rod.eionet.europa.eu/obligations/102
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/102
+- LAST_UPDATE: '2007-09-05'
+  PK_RA_ID: '104'
+  PK_SOURCE_ID: '36'
+  SOURCE_TITLE: Exchange of information Decision on fresh water (consolidated)
+  TITLE: Water sampling methods and results of measurements
+  details_url: http://rod.eionet.europa.eu/obligations/104
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/104
+- LAST_UPDATE: '2016-11-17'
+  PK_RA_ID: '106'
+  PK_SOURCE_ID: '257'
+  SOURCE_TITLE: Nitrates Directive (consolidated)
+  TITLE: Nitrates Directive - Report
+  details_url: http://rod.eionet.europa.eu/obligations/106
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/106
+- LAST_UPDATE: '2007-08-23'
+  PK_RA_ID: '117'
+  PK_SOURCE_ID: '183'
+  SOURCE_TITLE: Oder Convention
+  TITLE: Oder River Monitoring
+  details_url: http://rod.eionet.europa.eu/obligations/117
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/117
+- LAST_UPDATE: '2007-08-23'
+  PK_RA_ID: '118'
+  PK_SOURCE_ID: '182'
+  SOURCE_TITLE: Elbe River Protection Convention
+  TITLE: Elbe River Monitoring
+  details_url: http://rod.eionet.europa.eu/obligations/118
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/118
+- LAST_UPDATE: '2008-04-10'
+  PK_RA_ID: '122'
+  PK_SOURCE_ID: '378'
+  SOURCE_TITLE: AMAP
+  TITLE: Arctic Monitoring Programme
+  details_url: http://rod.eionet.europa.eu/obligations/122
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/122
+- LAST_UPDATE: '2009-12-24'
+  PK_RA_ID: '123'
+  PK_SOURCE_ID: '174'
+  SOURCE_TITLE: Danube River Protection Convention (DRPC)
+  TITLE: Emission inventory / reduction pollution
+  details_url: http://rod.eionet.europa.eu/obligations/123
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/123
+- LAST_UPDATE: '2004-08-12'
+  PK_RA_ID: '125'
+  PK_SOURCE_ID: '498'
+  SOURCE_TITLE: MARPOL Convention
+  TITLE: Prevention of Waste from Shipping
+  details_url: http://rod.eionet.europa.eu/obligations/125
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/125
+- LAST_UPDATE: '2004-06-09'
+  PK_RA_ID: '126'
+  PK_SOURCE_ID: '389'
+  SOURCE_TITLE: International Maritime Organization
+  TITLE: Technical Reporting on maritime pollution by ships
+  details_url: http://rod.eionet.europa.eu/obligations/126
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/126
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '130'
+  PK_SOURCE_ID: '381'
+  SOURCE_TITLE: EPER decision
+  TITLE: EPER data reporting
+  details_url: http://rod.eionet.europa.eu/obligations/130
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/130
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '131'
+  PK_SOURCE_ID: '191'
+  SOURCE_TITLE: Exchange on Information decision (EoI) on Air
+  TITLE: EoI Data on air quality measurements at monitoring stations
+  details_url: http://rod.eionet.europa.eu/obligations/131
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/131
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '136'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - Characterisation of River Basin Districts
+  details_url: http://rod.eionet.europa.eu/obligations/136
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/136
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '137'
+  PK_SOURCE_ID: '517'
+  SOURCE_TITLE: 1st daughter directive relating to limit values for NOx, SO2, PM2.5,
+    PM10 and Pb in ambient air
+  TITLE: Air quality assessment annual reporting for 1st daughter directive
+  details_url: http://rod.eionet.europa.eu/obligations/137
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/137
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '138'
+  PK_SOURCE_ID: '518'
+  SOURCE_TITLE: 2nd daughter directive relating to benzene and carbon monoxide in
+    ambient air
+  TITLE: Air quality assessment annual reporting for 2nd daughter directive (Art.3,
+    4, & 5)
+  details_url: http://rod.eionet.europa.eu/obligations/138
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/138
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '141'
+  PK_SOURCE_ID: '522'
+  SOURCE_TITLE: NEC Directive
+  TITLE: National emission inventories and emission projections (Directive 2001/81/EC)
+  details_url: http://rod.eionet.europa.eu/obligations/141
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/141
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '143'
+  PK_SOURCE_ID: '381'
+  SOURCE_TITLE: EPER decision
+  TITLE: EPER national overview report
+  details_url: http://rod.eionet.europa.eu/obligations/143
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/143
+- LAST_UPDATE: '2016-05-11'
+  PK_RA_ID: '144'
+  PK_SOURCE_ID: '524'
+  SOURCE_TITLE: Rhine river protection convention
+  TITLE: Rhine River Monitoring
+  details_url: http://rod.eionet.europa.eu/obligations/144
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/144
+- LAST_UPDATE: '2009-12-08'
+  PK_RA_ID: '146'
+  PK_SOURCE_ID: '526'
+  SOURCE_TITLE: ELV Directive
+  TITLE: ELV Directive implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/146
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/146
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '147'
+  PK_SOURCE_ID: '527'
+  SOURCE_TITLE: WEEE Directive 2002/96/EC
+  TITLE: Information on the quantities and categories of electrical and electronic
+    equipment and on management of collected waste
+  details_url: http://rod.eionet.europa.eu/obligations/147
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/147
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '148'
+  PK_SOURCE_ID: '527'
+  SOURCE_TITLE: WEEE Directive 2002/96/EC
+  TITLE: WEEE Directive implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/148
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/148
+- LAST_UPDATE: '2010-01-06'
+  PK_RA_ID: '149'
+  PK_SOURCE_ID: '528'
+  SOURCE_TITLE: Waste Statistics Regulation
+  TITLE: Information on generation, recovery and disposal of waste
+  details_url: http://rod.eionet.europa.eu/obligations/149
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/149
+- LAST_UPDATE: '2016-11-04'
+  PK_RA_ID: '156'
+  PK_SOURCE_ID: '535'
+  SOURCE_TITLE: Directive on VOC emissions resulting from storage and distribution
+    of petrol
+  TITLE: Report on the control of VOC emissions
+  details_url: http://rod.eionet.europa.eu/obligations/156
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/156
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '157'
+  PK_SOURCE_ID: '536'
+  SOURCE_TITLE: VOC Solvent Emissions Directive
+  TITLE: Reporting obligation for Implementation report on limitation of VOC emissions
+    due to the use of organic solvents
+  details_url: http://rod.eionet.europa.eu/obligations/157
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/157
+- LAST_UPDATE: '2017-04-12'
+  PK_RA_ID: '158'
+  PK_SOURCE_ID: '537'
+  SOURCE_TITLE: Fuel Quality Directive
+  TITLE: Fuel Quality Directive Article 8(1)
+  details_url: http://rod.eionet.europa.eu/obligations/158
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/158
+- LAST_UPDATE: '2016-06-16'
+  PK_RA_ID: '159'
+  PK_SOURCE_ID: '663'
+  SOURCE_TITLE: Sulphur Content of Certain Liquid Fuels Directive
+  TITLE: Report on the sulphur content of certain liquid fuels
+  details_url: http://rod.eionet.europa.eu/obligations/159
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/159
+- LAST_UPDATE: '2010-02-11'
+  PK_RA_ID: '160'
+  PK_SOURCE_ID: '539'
+  SOURCE_TITLE: Decision on emissions of CO2 from new passenger cars
+  TITLE: Monitoring report on CO2 emissions of new passenger cars
+  details_url: http://rod.eionet.europa.eu/obligations/160
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/160
+- LAST_UPDATE: '2006-11-01'
+  PK_RA_ID: '162'
+  PK_SOURCE_ID: '518'
+  SOURCE_TITLE: 2nd daughter directive relating to benzene and carbon monoxide in
+    ambient air
+  TITLE: Air quality implementing national laws, regulations and administrative provisions
+    under 2nd daughter directive (Dir.2000/69/EC, Art.10)
+  details_url: http://rod.eionet.europa.eu/obligations/162
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/162
+- LAST_UPDATE: '2014-02-18'
+  PK_RA_ID: '163'
+  PK_SOURCE_ID: '274'
+  SOURCE_TITLE: Air quality framework directive
+  TITLE: Air quality assessment 3-year reporting
+  details_url: http://rod.eionet.europa.eu/obligations/163
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/163
+- LAST_UPDATE: '2009-05-11'
+  PK_RA_ID: '164'
+  PK_SOURCE_ID: '264'
+  SOURCE_TITLE: 3rd daughter directive relating to ozone in ambient air
+  TITLE: Triennial progress report on progress ozone plans & programmes
+  details_url: http://rod.eionet.europa.eu/obligations/164
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/164
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '169'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: NEC Directive (AE-1b)
+  details_url: http://rod.eionet.europa.eu/obligations/169
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/169
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '171'
+  PK_SOURCE_ID: '545'
+  SOURCE_TITLE: New Drinking Water Directive (consolidated)
+  TITLE: Drinking Water Directive - Report on Quality of Water for Human Consumption
+  details_url: http://rod.eionet.europa.eu/obligations/171
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/171
+- LAST_UPDATE: '2014-02-20'
+  PK_RA_ID: '172'
+  PK_SOURCE_ID: '546'
+  SOURCE_TITLE: Directive on emissions from non-road mobile machinery
+  TITLE: Engine approval data sheet
+  details_url: http://rod.eionet.europa.eu/obligations/172
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/172
+- LAST_UPDATE: '2007-10-18'
+  PK_RA_ID: '173'
+  PK_SOURCE_ID: '547'
+  SOURCE_TITLE: Car Labelling Directive
+  TITLE: report covering period 18 January 2001 until 31 December 2002.
+  details_url: http://rod.eionet.europa.eu/obligations/173
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/173
+- LAST_UPDATE: '2013-11-28'
+  PK_RA_ID: '174'
+  PK_SOURCE_ID: '264'
+  SOURCE_TITLE: 3rd daughter directive relating to ozone in ambient air
+  TITLE: Triennial air quality reviews, action plans and measures under 3rd daughter
+    directive
+  details_url: http://rod.eionet.europa.eu/obligations/174
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/174
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '177'
+  PK_SOURCE_ID: '548'
+  SOURCE_TITLE: Environment for Europe
+  TITLE: Soil Questionnaire
+  details_url: http://rod.eionet.europa.eu/obligations/177
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/177
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '178'
+  PK_SOURCE_ID: '548'
+  SOURCE_TITLE: Environment for Europe
+  TITLE: Waste Questionnaire
+  details_url: http://rod.eionet.europa.eu/obligations/178
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/178
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '179'
+  PK_SOURCE_ID: '548'
+  SOURCE_TITLE: Environment for Europe
+  TITLE: Water Questionnaire
+  details_url: http://rod.eionet.europa.eu/obligations/179
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/179
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '180'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Soil sealing
+  details_url: http://rod.eionet.europa.eu/obligations/180
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/180
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '181'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Soil contamination from heavy metals in agricultural areas
+  details_url: http://rod.eionet.europa.eu/obligations/181
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/181
+- LAST_UPDATE: '2017-10-16'
+  PK_RA_ID: '184'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: WISE SoE - Water Quantity (WISE-3)
+  details_url: http://rod.eionet.europa.eu/obligations/184
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/184
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '185'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Greenhouse Gas Data (AE-2b)
+  details_url: http://rod.eionet.europa.eu/obligations/185
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/185
+- LAST_UPDATE: '2011-07-25'
+  PK_RA_ID: '186'
+  PK_SOURCE_ID: '549'
+  SOURCE_TITLE: CBD
+  TITLE: National report on the implementation of the Convention on Biological Diversity
+  details_url: http://rod.eionet.europa.eu/obligations/186
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/186
+- LAST_UPDATE: '2011-07-25'
+  PK_RA_ID: '187'
+  PK_SOURCE_ID: '549'
+  SOURCE_TITLE: CBD
+  TITLE: Thematic reports
+  details_url: http://rod.eionet.europa.eu/obligations/187
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/187
+- LAST_UPDATE: '2011-07-25'
+  PK_RA_ID: '188'
+  PK_SOURCE_ID: '550'
+  SOURCE_TITLE: Cartagena Protocol
+  TITLE: National report on the implementation of the Cartagena Protocol
+  details_url: http://rod.eionet.europa.eu/obligations/188
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/188
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '199'
+  PK_SOURCE_ID: '551'
+  SOURCE_TITLE: Bonn Convention / CMS
+  TITLE: National Report
+  details_url: http://rod.eionet.europa.eu/obligations/199
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/199
+- LAST_UPDATE: '2005-10-14'
+  PK_RA_ID: '200'
+  PK_SOURCE_ID: '551'
+  SOURCE_TITLE: Bonn Convention / CMS
+  TITLE: Information on exceptions to the taking of Appendix I species (endangered
+    migratory species)
+  details_url: http://rod.eionet.europa.eu/obligations/200
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/200
+- LAST_UPDATE: '2017-01-03'
+  PK_RA_ID: '201'
+  PK_SOURCE_ID: '552'
+  SOURCE_TITLE: AEWA
+  TITLE: Triennial National Report
+  details_url: http://rod.eionet.europa.eu/obligations/201
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/201
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '202'
+  PK_SOURCE_ID: '552'
+  SOURCE_TITLE: AEWA
+  TITLE: Information on exemptions to the prohibition on the taking of listed bird
+    species
+  details_url: http://rod.eionet.europa.eu/obligations/202
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/202
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '205'
+  PK_SOURCE_ID: '552'
+  SOURCE_TITLE: AEWA
+  TITLE: Estimates relating to total annual take for each population
+  details_url: http://rod.eionet.europa.eu/obligations/205
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/205
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '206'
+  PK_SOURCE_ID: '552'
+  SOURCE_TITLE: AEWA
+  TITLE: Information on eco-tourism
+  details_url: http://rod.eionet.europa.eu/obligations/206
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/206
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '207'
+  PK_SOURCE_ID: '552'
+  SOURCE_TITLE: AEWA
+  TITLE: Information on the damage caused by waterbird populations
+  details_url: http://rod.eionet.europa.eu/obligations/207
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/207
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '208'
+  PK_SOURCE_ID: '552'
+  SOURCE_TITLE: AEWA
+  TITLE: Report on progress made to phase out lead shot
+  details_url: http://rod.eionet.europa.eu/obligations/208
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/208
+- LAST_UPDATE: '2006-10-06'
+  PK_RA_ID: '209'
+  PK_SOURCE_ID: '553'
+  SOURCE_TITLE: ASCOBANS
+  TITLE: National Report
+  details_url: http://rod.eionet.europa.eu/obligations/209
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/209
+- LAST_UPDATE: '2008-10-31'
+  PK_RA_ID: '210'
+  PK_SOURCE_ID: '553'
+  SOURCE_TITLE: ASCOBANS
+  TITLE: Information on approaches to reduce or eliminate adverse effects on small
+    cetaceans by military activities
+  details_url: http://rod.eionet.europa.eu/obligations/210
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/210
+- LAST_UPDATE: '2006-10-06'
+  PK_RA_ID: '211'
+  PK_SOURCE_ID: '553'
+  SOURCE_TITLE: ASCOBANS
+  TITLE: Information on high energy seismic surveys
+  details_url: http://rod.eionet.europa.eu/obligations/211
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/211
+- LAST_UPDATE: '2006-10-06'
+  PK_RA_ID: '212'
+  PK_SOURCE_ID: '553'
+  SOURCE_TITLE: ASCOBANS
+  TITLE: Information on levels of bycatch
+  details_url: http://rod.eionet.europa.eu/obligations/212
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/212
+- LAST_UPDATE: '2017-03-20'
+  PK_RA_ID: '213'
+  PK_SOURCE_ID: '554'
+  SOURCE_TITLE: Regulation on Ozone Depleting Substances (ODS Regulation)
+  TITLE: Ozone depleting substances (ODS) reporting by undertakings (Article 27)
+  details_url: http://rod.eionet.europa.eu/obligations/213
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/213
+- LAST_UPDATE: '2011-10-01'
+  PK_RA_ID: '214'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Ramsar National Report
+  details_url: http://rod.eionet.europa.eu/obligations/214
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/214
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '215'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on the conservation status of coastal wetlands
+  details_url: http://rod.eionet.europa.eu/obligations/215
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/215
+- LAST_UPDATE: '2011-10-01'
+  PK_RA_ID: '216'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on progress to restore wetland sites
+  details_url: http://rod.eionet.europa.eu/obligations/216
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/216
+- LAST_UPDATE: '2011-07-22'
+  PK_RA_ID: '217'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on temporary pools
+  details_url: http://rod.eionet.europa.eu/obligations/217
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/217
+- LAST_UPDATE: '2011-07-22'
+  PK_RA_ID: '218'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on the application of participatory environmental management
+    (PEM)
+  details_url: http://rod.eionet.europa.eu/obligations/218
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/218
+- LAST_UPDATE: '2011-07-24'
+  PK_RA_ID: '219'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information Sheet on Ramsar Wetlands (RIS)
+  details_url: http://rod.eionet.europa.eu/obligations/219
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/219
+- LAST_UPDATE: '2011-08-09'
+  PK_RA_ID: '220'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on changes to ecological character
+  details_url: http://rod.eionet.europa.eu/obligations/220
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/220
+- LAST_UPDATE: '2011-08-09'
+  PK_RA_ID: '221'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on changes to ecological character caused by dams
+  details_url: http://rod.eionet.europa.eu/obligations/221
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/221
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '222'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on the impact of dams on wetlands
+  details_url: http://rod.eionet.europa.eu/obligations/222
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/222
+- LAST_UPDATE: '2011-08-09'
+  PK_RA_ID: '223'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on the impacts of drought and other natural disasters on the
+    ecological character of sites and on the livelihoods of local communities
+  details_url: http://rod.eionet.europa.eu/obligations/223
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/223
+- LAST_UPDATE: '2011-08-09'
+  PK_RA_ID: '224'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on the impacts of drought and other natural disasters on the
+    ecological character of sites
+  details_url: http://rod.eionet.europa.eu/obligations/224
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/224
+- LAST_UPDATE: '2011-10-01'
+  PK_RA_ID: '225'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on invasive alien species
+  details_url: http://rod.eionet.europa.eu/obligations/225
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/225
+- LAST_UPDATE: '2011-10-01'
+  PK_RA_ID: '226'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on mangrove ecosystems
+  details_url: http://rod.eionet.europa.eu/obligations/226
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/226
+- LAST_UPDATE: '2011-07-23'
+  PK_RA_ID: '227'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Montreux Record Questionnaire
+  details_url: http://rod.eionet.europa.eu/obligations/227
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/227
+- LAST_UPDATE: '2011-10-01'
+  PK_RA_ID: '228'
+  PK_SOURCE_ID: '555'
+  SOURCE_TITLE: Ramsar Convention
+  TITLE: Information on sites in the Montreux Record
+  details_url: http://rod.eionet.europa.eu/obligations/228
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/228
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '229'
+  PK_SOURCE_ID: '583'
+  SOURCE_TITLE: EU Statistical Work Programme (consolidated)
+  TITLE: Waste data (odd years)
+  details_url: http://rod.eionet.europa.eu/obligations/229
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/229
+- LAST_UPDATE: '2007-08-21'
+  PK_RA_ID: '230'
+  PK_SOURCE_ID: '583'
+  SOURCE_TITLE: EU Statistical Work Programme (consolidated)
+  TITLE: Inland waters (odd years)
+  details_url: http://rod.eionet.europa.eu/obligations/230
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/230
+- LAST_UPDATE: '2014-02-24'
+  PK_RA_ID: '231'
+  PK_SOURCE_ID: '501'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism, Council Decision 1999/296/EC
+  TITLE: National programmes
+  details_url: http://rod.eionet.europa.eu/obligations/231
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/231
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '232'
+  PK_SOURCE_ID: '522'
+  SOURCE_TITLE: NEC Directive
+  TITLE: National programmes on air emissions (NEC Directive)
+  details_url: http://rod.eionet.europa.eu/obligations/232
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/232
+- LAST_UPDATE: '2008-02-07'
+  PK_RA_ID: '233'
+  PK_SOURCE_ID: '556'
+  SOURCE_TITLE: ACCOBAMS
+  TITLE: Triennial National Report
+  details_url: http://rod.eionet.europa.eu/obligations/233
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/233
+- LAST_UPDATE: '2008-01-04'
+  PK_RA_ID: '234'
+  PK_SOURCE_ID: '557'
+  SOURCE_TITLE: World Heritage Convention / WHC
+  TITLE: Tentative List
+  details_url: http://rod.eionet.europa.eu/obligations/234
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/234
+- LAST_UPDATE: '2006-10-06'
+  PK_RA_ID: '235'
+  PK_SOURCE_ID: '557'
+  SOURCE_TITLE: World Heritage Convention / WHC
+  TITLE: Information in support of inscription of a property
+  details_url: http://rod.eionet.europa.eu/obligations/235
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/235
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '236'
+  PK_SOURCE_ID: '557'
+  SOURCE_TITLE: World Heritage Convention / WHC
+  TITLE: Periodic National Report
+  details_url: http://rod.eionet.europa.eu/obligations/236
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/236
+- LAST_UPDATE: '2006-10-06'
+  PK_RA_ID: '237'
+  PK_SOURCE_ID: '557'
+  SOURCE_TITLE: World Heritage Convention / WHC
+  TITLE: Reactive Monitoring
+  details_url: http://rod.eionet.europa.eu/obligations/237
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/237
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '239'
+  PK_SOURCE_ID: '550'
+  SOURCE_TITLE: Cartagena Protocol
+  TITLE: Notification of unintentional transboundary movements of living modified
+    organisms
+  details_url: http://rod.eionet.europa.eu/obligations/239
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/239
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '240'
+  PK_SOURCE_ID: '550'
+  SOURCE_TITLE: Cartagena Protocol
+  TITLE: Summaries of risk assessments or environmental reviews of living modified
+    organisms
+  details_url: http://rod.eionet.europa.eu/obligations/240
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/240
+- LAST_UPDATE: '2010-06-10'
+  PK_RA_ID: '241'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Annual Report
+  details_url: http://rod.eionet.europa.eu/obligations/241
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/241
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '243'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Biennial Report
+  details_url: http://rod.eionet.europa.eu/obligations/243
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/243
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '247'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Information on procedures, actions and time-frames needed to establish adequate
+    measures to enforce the Convention
+  details_url: http://rod.eionet.europa.eu/obligations/247
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/247
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '248'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Report on the conservation of and trade in African and Asian rhinoceros
+  details_url: http://rod.eionet.europa.eu/obligations/248
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/248
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '249'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Notification of amounts of confiscated ivory
+  details_url: http://rod.eionet.europa.eu/obligations/249
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/249
+- LAST_UPDATE: '2005-10-14'
+  PK_RA_ID: '250'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Information on exports of raw ivory
+  details_url: http://rod.eionet.europa.eu/obligations/250
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/250
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '251'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Inventory of the stock of raw ivory
+  details_url: http://rod.eionet.europa.eu/obligations/251
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/251
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '252'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Information on the number of certificates of ownership issued for live animals
+  details_url: http://rod.eionet.europa.eu/obligations/252
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/252
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '253'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Information on the number of live specimens per shipment and of mortality
+    in transport
+  details_url: http://rod.eionet.europa.eu/obligations/253
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/253
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '254'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Information on significant cases of illegal trade
+  details_url: http://rod.eionet.europa.eu/obligations/254
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/254
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '255'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Information on convicted illegal traders and persistent offenders
+  details_url: http://rod.eionet.europa.eu/obligations/255
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/255
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '256'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Information on the export of vicuna cloth
+  details_url: http://rod.eionet.europa.eu/obligations/256
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/256
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '257'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Report on ranching operations of species transferred from Appendix I to Appendix
+    II
+  details_url: http://rod.eionet.europa.eu/obligations/257
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/257
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '258'
+  PK_SOURCE_ID: '558'
+  SOURCE_TITLE: CITES
+  TITLE: Report on the implementation of the International Plan of Action on the Conservation
+    and Management of Sharks (IPOA-Sharks)
+  details_url: http://rod.eionet.europa.eu/obligations/258
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/258
+- LAST_UPDATE: '2008-01-07'
+  PK_RA_ID: '259'
+  PK_SOURCE_ID: '559'
+  SOURCE_TITLE: GMO Directive
+  TITLE: Summary of notifications of deliberate releases of GMOs for any other purpose
+    than for placing on the market
+  details_url: http://rod.eionet.europa.eu/obligations/259
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/259
+- LAST_UPDATE: '2008-01-07'
+  PK_RA_ID: '260'
+  PK_SOURCE_ID: '559'
+  SOURCE_TITLE: GMO Directive
+  TITLE: Notification of the results of a deliberate release of GMOs for any other
+    purpose than for placing on the market
+  details_url: http://rod.eionet.europa.eu/obligations/260
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/260
+- LAST_UPDATE: '2008-01-07'
+  PK_RA_ID: '261'
+  PK_SOURCE_ID: '559'
+  SOURCE_TITLE: GMO Directive
+  TITLE: List of GMOs which have been released and of notifications that were rejected
+  details_url: http://rod.eionet.europa.eu/obligations/261
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/261
+- LAST_UPDATE: '2008-01-07'
+  PK_RA_ID: '262'
+  PK_SOURCE_ID: '559'
+  SOURCE_TITLE: GMO Directive
+  TITLE: Summary of the dossier
+  details_url: http://rod.eionet.europa.eu/obligations/262
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/262
+- LAST_UPDATE: '2008-01-07'
+  PK_RA_ID: '263'
+  PK_SOURCE_ID: '559'
+  SOURCE_TITLE: GMO Directive
+  TITLE: Assessment Report
+  details_url: http://rod.eionet.europa.eu/obligations/263
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/263
+- LAST_UPDATE: '2008-01-07'
+  PK_RA_ID: '264'
+  PK_SOURCE_ID: '559'
+  SOURCE_TITLE: GMO Directive
+  TITLE: Triennial Report
+  details_url: http://rod.eionet.europa.eu/obligations/264
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/264
+- LAST_UPDATE: '2017-03-17'
+  PK_RA_ID: '268'
+  PK_SOURCE_ID: '560'
+  SOURCE_TITLE: Habitats Directive 92/43/EEC
+  TITLE: National Report on Derogations under the Habitats Directive
+  details_url: http://rod.eionet.europa.eu/obligations/268
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/268
+- LAST_UPDATE: '2017-05-15'
+  PK_RA_ID: '269'
+  PK_SOURCE_ID: '560'
+  SOURCE_TITLE: Habitats Directive 92/43/EEC
+  TITLE: Report on Implementation Measures (Article 17, Habitats Directive)
+  details_url: http://rod.eionet.europa.eu/obligations/269
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/269
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '273'
+  PK_SOURCE_ID: '561'
+  SOURCE_TITLE: FRA (Forest Resources Assessment)
+  TITLE: FRA Country Report
+  details_url: http://rod.eionet.europa.eu/obligations/273
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/273
+- LAST_UPDATE: '2016-11-17'
+  PK_RA_ID: '274'
+  PK_SOURCE_ID: '658'
+  SOURCE_TITLE: Birds Directive 2009/147/EC
+  TITLE: Information on Natura 2000 sites (SPAs, Birds Directive)
+  details_url: http://rod.eionet.europa.eu/obligations/274
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/274
+- LAST_UPDATE: '2017-03-17'
+  PK_RA_ID: '276'
+  PK_SOURCE_ID: '658'
+  SOURCE_TITLE: Birds Directive 2009/147/EC
+  TITLE: National Report on Derogations under the Birds Directive
+  details_url: http://rod.eionet.europa.eu/obligations/276
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/276
+- LAST_UPDATE: '2017-05-15'
+  PK_RA_ID: '278'
+  PK_SOURCE_ID: '658'
+  SOURCE_TITLE: Birds Directive 2009/147/EC
+  TITLE: Progress/implementation report (Article 12, Birds Directive)
+  details_url: http://rod.eionet.europa.eu/obligations/278
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/278
+- LAST_UPDATE: '2011-08-12'
+  PK_RA_ID: '280'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Biennial National Report
+  details_url: http://rod.eionet.europa.eu/obligations/280
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/280
+- LAST_UPDATE: '2011-08-12'
+  PK_RA_ID: '281'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: General Report
+  details_url: http://rod.eionet.europa.eu/obligations/281
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/281
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '282'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Information on species receiving protection in territory
+  details_url: http://rod.eionet.europa.eu/obligations/282
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/282
+- LAST_UPDATE: '2011-08-12'
+  PK_RA_ID: '283'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Information on measures taken to improve conservation outside protected areas
+    proper
+  details_url: http://rod.eionet.europa.eu/obligations/283
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/283
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '284'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Information on reintroduction projects for the European mink (Mustela lutreola)
+  details_url: http://rod.eionet.europa.eu/obligations/284
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/284
+- LAST_UPDATE: '2011-08-09'
+  PK_RA_ID: '285'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Information on the progress of conservation or recovery plans for Appendix
+    I species, and of other similar plans for other plant species
+  details_url: http://rod.eionet.europa.eu/obligations/285
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/285
+- LAST_UPDATE: '2011-08-12'
+  PK_RA_ID: '286'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Information on steps taken to facilitate the monitoring of the application
+    of the Bern Convention and legislative national measures
+  details_url: http://rod.eionet.europa.eu/obligations/286
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/286
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '287'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Information on the outcome of measures adopted for the eradication of non-native
+    species
+  details_url: http://rod.eionet.europa.eu/obligations/287
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/287
+- LAST_UPDATE: '2011-07-26'
+  PK_RA_ID: '288'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Standard Data Form
+  details_url: http://rod.eionet.europa.eu/obligations/288
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/288
+- LAST_UPDATE: '2011-10-01'
+  PK_RA_ID: '289'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Information on negative and substantial changes to the ecological character
+    of designated Areas of Special Conservation Interest (ASCIs)
+  details_url: http://rod.eionet.europa.eu/obligations/289
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/289
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '290'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Information on habitats and species in need of conservation measures and
+    the development of recovery plans
+  details_url: http://rod.eionet.europa.eu/obligations/290
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/290
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '291'
+  PK_SOURCE_ID: '565'
+  SOURCE_TITLE: EUROBATS
+  TITLE: National Report
+  details_url: http://rod.eionet.europa.eu/obligations/291
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/291
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '292'
+  PK_SOURCE_ID: '565'
+  SOURCE_TITLE: EUROBATS
+  TITLE: Report preceding Advisory Committee Meeting
+  details_url: http://rod.eionet.europa.eu/obligations/292
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/292
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '293'
+  PK_SOURCE_ID: '566'
+  SOURCE_TITLE: ICRW
+  TITLE: Checklist of Information
+  details_url: http://rod.eionet.europa.eu/obligations/293
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/293
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '294'
+  PK_SOURCE_ID: '566'
+  SOURCE_TITLE: ICRW
+  TITLE: Progress report on cetacean research
+  details_url: http://rod.eionet.europa.eu/obligations/294
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/294
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '295'
+  PK_SOURCE_ID: '566'
+  SOURCE_TITLE: ICRW
+  TITLE: 'Report on Infractions: Commercial Whaling'
+  details_url: http://rod.eionet.europa.eu/obligations/295
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/295
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '296'
+  PK_SOURCE_ID: '566'
+  SOURCE_TITLE: ICRW
+  TITLE: 'Report on Infractions: Aboriginal Subsistence Whaling'
+  details_url: http://rod.eionet.europa.eu/obligations/296
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/296
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '297'
+  PK_SOURCE_ID: '566'
+  SOURCE_TITLE: ICRW
+  TITLE: Results of research conducted under special permit
+  details_url: http://rod.eionet.europa.eu/obligations/297
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/297
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '298'
+  PK_SOURCE_ID: '567'
+  SOURCE_TITLE: Alpine Convention
+  TITLE: Report on Implementation Measures
+  details_url: http://rod.eionet.europa.eu/obligations/298
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/298
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '301'
+  PK_SOURCE_ID: '569'
+  SOURCE_TITLE: Directive 98/81/EC on GMOs
+  TITLE: Information on accidents
+  details_url: http://rod.eionet.europa.eu/obligations/301
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/301
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '302'
+  PK_SOURCE_ID: '569'
+  SOURCE_TITLE: Directive 98/81/EC on GMOs
+  TITLE: Summary report on class 3 and class 4 contained uses
+  details_url: http://rod.eionet.europa.eu/obligations/302
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/302
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '303'
+  PK_SOURCE_ID: '569'
+  SOURCE_TITLE: Directive 98/81/EC on GMOs
+  TITLE: Summary report on experience with Directive 90/219/EEC
+  details_url: http://rod.eionet.europa.eu/obligations/303
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/303
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '304'
+  PK_SOURCE_ID: '570'
+  SOURCE_TITLE: Regulation No. 2152/2003
+  TITLE: Report on data gathered under the scheme for the monitoring of the condition
+    of forests
+  details_url: http://rod.eionet.europa.eu/obligations/304
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/304
+- LAST_UPDATE: '2005-07-04'
+  PK_RA_ID: '305'
+  PK_SOURCE_ID: '570'
+  SOURCE_TITLE: Regulation No. 2152/2003
+  TITLE: Report on the results gained from the monitoring of forest ecosystems conditions
+  details_url: http://rod.eionet.europa.eu/obligations/305
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/305
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '306'
+  PK_SOURCE_ID: '570'
+  SOURCE_TITLE: Regulation No. 2152/2003
+  TITLE: National report on the impact of fires on forests
+  details_url: http://rod.eionet.europa.eu/obligations/306
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/306
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '307'
+  PK_SOURCE_ID: '570'
+  SOURCE_TITLE: Regulation No. 2152/2003
+  TITLE: National report on the establishment of new monitoring activities
+  details_url: http://rod.eionet.europa.eu/obligations/307
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/307
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '308'
+  PK_SOURCE_ID: '566'
+  SOURCE_TITLE: ICRW
+  TITLE: Proposal for special permit for research purposes
+  details_url: http://rod.eionet.europa.eu/obligations/308
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/308
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '309'
+  PK_SOURCE_ID: '566'
+  SOURCE_TITLE: ICRW
+  TITLE: Notification of authorisation of a special permit
+  details_url: http://rod.eionet.europa.eu/obligations/309
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/309
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '310'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on crown condition Level I (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/310
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/310
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '311'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on forest foliage (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/311
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/311
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '312'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on soil condition (ICP Forests-Level I)
+  details_url: http://rod.eionet.europa.eu/obligations/312
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/312
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '313'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on crown condition Level II (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/313
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/313
+- LAST_UPDATE: '2006-11-28'
+  PK_RA_ID: '314'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on soil condition (ICP Forests-Level II)
+  details_url: http://rod.eionet.europa.eu/obligations/314
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/314
+- LAST_UPDATE: '2006-11-28'
+  PK_RA_ID: '315'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on soil solution (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/315
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/315
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '316'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on foliage (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/316
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/316
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '317'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on deposition (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/317
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/317
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '318'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on ambient air quality (ICP forests)
+  details_url: http://rod.eionet.europa.eu/obligations/318
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/318
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '319'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on meteorology (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/319
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/319
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '320'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on forest growth (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/320
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/320
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '321'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on ground vegetation (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/321
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/321
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '322'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on phenology (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/322
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/322
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '323'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Data and accompanying report on remote sensing (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/323
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/323
+- LAST_UPDATE: '2006-11-23'
+  PK_RA_ID: '324'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Summary report on crown condition data (ICP Forests)
+  details_url: http://rod.eionet.europa.eu/obligations/324
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/324
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '325'
+  PK_SOURCE_ID: '576'
+  SOURCE_TITLE: Madrid Protocol
+  TITLE: Annual Report
+  details_url: http://rod.eionet.europa.eu/obligations/325
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/325
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '326'
+  PK_SOURCE_ID: '576'
+  SOURCE_TITLE: Madrid Protocol
+  TITLE: Description of national procedures
+  details_url: http://rod.eionet.europa.eu/obligations/326
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/326
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '327'
+  PK_SOURCE_ID: '576'
+  SOURCE_TITLE: Madrid Protocol
+  TITLE: List of Initial Environmental Evaluations
+  details_url: http://rod.eionet.europa.eu/obligations/327
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/327
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '328'
+  PK_SOURCE_ID: '576'
+  SOURCE_TITLE: Madrid Protocol
+  TITLE: Information obtained from procedures in accordance with Articles 2(2) and
+    5
+  details_url: http://rod.eionet.europa.eu/obligations/328
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/328
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '329'
+  PK_SOURCE_ID: '576'
+  SOURCE_TITLE: Madrid Protocol
+  TITLE: Summary Report on Permits Issued
+  details_url: http://rod.eionet.europa.eu/obligations/329
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/329
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '330'
+  PK_SOURCE_ID: '576'
+  SOURCE_TITLE: Madrid Protocol
+  TITLE: Report on the implementation of waste management plans
+  details_url: http://rod.eionet.europa.eu/obligations/330
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/330
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '331'
+  PK_SOURCE_ID: '576'
+  SOURCE_TITLE: Madrid Protocol
+  TITLE: Report on permits issued
+  details_url: http://rod.eionet.europa.eu/obligations/331
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/331
+- LAST_UPDATE: '2006-10-02'
+  PK_RA_ID: '332'
+  PK_SOURCE_ID: '576'
+  SOURCE_TITLE: Madrid Protocol
+  TITLE: Report on the implementation of Annex V
+  details_url: http://rod.eionet.europa.eu/obligations/332
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/332
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '333'
+  PK_SOURCE_ID: '577'
+  SOURCE_TITLE: CCAMLR
+  TITLE: Report on implementation measures
+  details_url: http://rod.eionet.europa.eu/obligations/333
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/333
+- LAST_UPDATE: '2008-12-22'
+  PK_RA_ID: '334'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Protection of Seals in the Baltic Sea Area (Recommendation 9/1)
+  details_url: http://rod.eionet.europa.eu/obligations/334
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/334
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '335'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Protection of the Coastal Strip (Recommendation 15/1)
+  details_url: http://rod.eionet.europa.eu/obligations/335
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/335
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '336'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: System of Coastal and Marine Baltic Sea Protected Areas (BSPA) (Recommendation
+    15/5)
+  details_url: http://rod.eionet.europa.eu/obligations/336
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/336
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '337'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Report on the Preservation of Natural Coastal Dynamics Recommendation 16/3
+  details_url: http://rod.eionet.europa.eu/obligations/337
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/337
+- LAST_UPDATE: '2008-10-31'
+  PK_RA_ID: '338'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Protection of Harbour Porpoise in the Baltic Sea Area (Recommendation 17/2)
+  details_url: http://rod.eionet.europa.eu/obligations/338
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/338
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '339'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Report on Information and Consultation with Regard to Constructions of New
+    Installations Affecting the Baltic Sea Recommendation 17/3
+  details_url: http://rod.eionet.europa.eu/obligations/339
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/339
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '340'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Marine sediment extraction in the Baltic Sea (Recommendation 19/1)
+  details_url: http://rod.eionet.europa.eu/obligations/340
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/340
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '341'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Protection and improvement of the wild salmon populations in the Baltic Sea
+    area (Salmo salar L.) (Recommendation 19/2)
+  details_url: http://rod.eionet.europa.eu/obligations/341
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/341
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '342'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Report on Sustainable and Environmentally Friendly Tourism in Coastal Zones
+    Recommendation 21/3
+  details_url: http://rod.eionet.europa.eu/obligations/342
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/342
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '343'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Protection of heavily endangered or immediately threatened marine and coastal
+    biotopes in the Baltic Sea Area (Recommendation 21/4)
+  details_url: http://rod.eionet.europa.eu/obligations/343
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/343
+- LAST_UPDATE: '2005-10-14'
+  PK_RA_ID: '344'
+  PK_SOURCE_ID: '571'
+  SOURCE_TITLE: ITTA
+  TITLE: ITTO/UNECE/FAO/EUROSTAT Joint Forest Sector Questionnaire
+  details_url: http://rod.eionet.europa.eu/obligations/344
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/344
+- LAST_UPDATE: '2016-05-04'
+  PK_RA_ID: '345'
+  PK_SOURCE_ID: '571'
+  SOURCE_TITLE: ITTA
+  TITLE: Report for Indicators at the Forest Management Unit (FMU) Level
+  details_url: http://rod.eionet.europa.eu/obligations/345
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/345
+- LAST_UPDATE: '2016-05-04'
+  PK_RA_ID: '346'
+  PK_SOURCE_ID: '571'
+  SOURCE_TITLE: ITTA
+  TITLE: Report for Indicators at the National Level
+  details_url: http://rod.eionet.europa.eu/obligations/346
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/346
+- LAST_UPDATE: '2005-07-05'
+  PK_RA_ID: '347'
+  PK_SOURCE_ID: '572'
+  SOURCE_TITLE: UNCCD
+  TITLE: Report on Implementation
+  details_url: http://rod.eionet.europa.eu/obligations/347
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/347
+- LAST_UPDATE: '2006-10-20'
+  PK_RA_ID: '348'
+  PK_SOURCE_ID: '572'
+  SOURCE_TITLE: UNCCD
+  TITLE: Report on indicators
+  details_url: http://rod.eionet.europa.eu/obligations/348
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/348
+- LAST_UPDATE: '2005-06-07'
+  PK_RA_ID: '349'
+  PK_SOURCE_ID: '572'
+  SOURCE_TITLE: UNCCD
+  TITLE: Report on pilot studies on early warning systems
+  details_url: http://rod.eionet.europa.eu/obligations/349
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/349
+- LAST_UPDATE: '2005-10-21'
+  PK_RA_ID: '350'
+  PK_SOURCE_ID: '572'
+  SOURCE_TITLE: UNCCD
+  TITLE: 'Report on case studies relating to "land degradation, vulnerability and
+    rehabilitation: an integrated approach"'
+  details_url: http://rod.eionet.europa.eu/obligations/350
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/350
+- LAST_UPDATE: '2008-12-09'
+  PK_RA_ID: '354'
+  PK_SOURCE_ID: '582'
+  SOURCE_TITLE: UNCED Agenda 21
+  TITLE: Agenda 21 National Report
+  details_url: http://rod.eionet.europa.eu/obligations/354
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/354
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '355'
+  PK_SOURCE_ID: '583'
+  SOURCE_TITLE: EU Statistical Work Programme (consolidated)
+  TITLE: Wildlife data
+  details_url: http://rod.eionet.europa.eu/obligations/355
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/355
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '356'
+  PK_SOURCE_ID: '583'
+  SOURCE_TITLE: EU Statistical Work Programme (consolidated)
+  TITLE: Forests data
+  details_url: http://rod.eionet.europa.eu/obligations/356
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/356
+- LAST_UPDATE: '2017-02-01'
+  PK_RA_ID: '357'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: LRTAP Convention - National emission inventories
+  details_url: http://rod.eionet.europa.eu/obligations/357
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/357
+- LAST_UPDATE: '2010-04-22'
+  PK_RA_ID: '358'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Air quality annual data reporting (EMEP/CCC)
+  details_url: http://rod.eionet.europa.eu/obligations/358
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/358
+- LAST_UPDATE: '2009-08-04'
+  PK_RA_ID: '359'
+  PK_SOURCE_ID: '584'
+  SOURCE_TITLE: EU Wildlife Trade Regulation
+  TITLE: Annual Report
+  details_url: http://rod.eionet.europa.eu/obligations/359
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/359
+- LAST_UPDATE: '2007-03-06'
+  PK_RA_ID: '360'
+  PK_SOURCE_ID: '584'
+  SOURCE_TITLE: EU Wildlife Trade Regulation
+  TITLE: Biennial Report
+  details_url: http://rod.eionet.europa.eu/obligations/360
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/360
+- LAST_UPDATE: '2008-12-22'
+  PK_RA_ID: '362'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: MONAS report for hydrographic and hydrochemical data (Recommendation 19/3)
+  details_url: http://rod.eionet.europa.eu/obligations/362
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/362
+- LAST_UPDATE: '2008-12-22'
+  PK_RA_ID: '363'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Monas report for biological data and harmful substances (Recommendation 19/3)
+  details_url: http://rod.eionet.europa.eu/obligations/363
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/363
+- LAST_UPDATE: '2016-11-07'
+  PK_RA_ID: '365'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Limit values in force report (DF 3)
+  details_url: http://rod.eionet.europa.eu/obligations/365
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/365
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '366'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Report on major roads, railways, airports and agglomerations (DF1)
+  details_url: http://rod.eionet.europa.eu/obligations/366
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/366
+- LAST_UPDATE: '2016-11-07'
+  PK_RA_ID: '367'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Report on all major roads, railways, airports and agglomerations (DF1 and
+    DF5)
+  details_url: http://rod.eionet.europa.eu/obligations/367
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/367
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '368'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Strategic noise maps report 1 (DF4)
+  details_url: http://rod.eionet.europa.eu/obligations/368
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/368
+- LAST_UPDATE: '2017-07-27'
+  PK_RA_ID: '369'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Strategic noise maps  (DF 4 and DF 8)
+  details_url: http://rod.eionet.europa.eu/obligations/369
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/369
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '370'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Action plan summaries 1 (DF 7)
+  details_url: http://rod.eionet.europa.eu/obligations/370
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/370
+- LAST_UPDATE: '2016-11-07'
+  PK_RA_ID: '371'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Action plan summaries  (DF 7 and DF 10)
+  details_url: http://rod.eionet.europa.eu/obligations/371
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/371
+- LAST_UPDATE: '2012-01-10'
+  PK_RA_ID: '372'
+  PK_SOURCE_ID: '554'
+  SOURCE_TITLE: Regulation on Ozone Depleting Substances (ODS Regulation)
+  TITLE: Report on management systems and programmes related to qualification requirements
+    (Art.16.5 & 16.6)
+  details_url: http://rod.eionet.europa.eu/obligations/372
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/372
+- LAST_UPDATE: '2015-11-18'
+  PK_RA_ID: '373'
+  PK_SOURCE_ID: '587'
+  SOURCE_TITLE: Biocidal products Directive (consolidated)
+  TITLE: Biocidal products monitoring report
+  details_url: http://rod.eionet.europa.eu/obligations/373
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/373
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '374'
+  PK_SOURCE_ID: '586'
+  SOURCE_TITLE: Animals used for experimental and other scientific purposes directive
+  TITLE: Statistical information  on the use of animals for experiments
+  details_url: http://rod.eionet.europa.eu/obligations/374
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/374
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '375'
+  PK_SOURCE_ID: '588'
+  SOURCE_TITLE: Seveso II directive
+  TITLE: Control of major-accident hazards report
+  details_url: http://rod.eionet.europa.eu/obligations/375
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/375
+- LAST_UPDATE: '2017-06-22'
+  PK_RA_ID: '376'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Report on Critical Thresholds and Target Loads for Air Pollutant Impacts
+    on Ecosystems (ICP M&M)
+  details_url: http://rod.eionet.europa.eu/obligations/376
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/376
+- LAST_UPDATE: '2006-10-05'
+  PK_RA_ID: '377'
+  PK_SOURCE_ID: '589'
+  SOURCE_TITLE: UNECE Industrial Accidents Convention
+  TITLE: Report on the convention on the Transboundary Effects of Industrial Accidents
+    implementation
+  details_url: http://rod.eionet.europa.eu/obligations/377
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/377
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '378'
+  PK_SOURCE_ID: '590'
+  SOURCE_TITLE: Dangerous Substances Classification Directive
+  TITLE: Dangerous Substances Classification Directive implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/378
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/378
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '380'
+  PK_SOURCE_ID: '591'
+  SOURCE_TITLE: Asbestos Directive (consolidated)
+  TITLE: Implementation report of the Asbestos Directive
+  details_url: http://rod.eionet.europa.eu/obligations/380
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/380
+- LAST_UPDATE: '2005-04-11'
+  PK_RA_ID: '381'
+  PK_SOURCE_ID: '575'
+  SOURCE_TITLE: Cartagena Convention
+  TITLE: Report on measures adopted to implement the Convention
+  details_url: http://rod.eionet.europa.eu/obligations/381
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/381
+- LAST_UPDATE: '2006-10-06'
+  PK_RA_ID: '382'
+  PK_SOURCE_ID: '579'
+  SOURCE_TITLE: SPAW Protocol
+  TITLE: Periodic Report
+  details_url: http://rod.eionet.europa.eu/obligations/382
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/382
+- LAST_UPDATE: '2008-12-10'
+  PK_RA_ID: '383'
+  PK_SOURCE_ID: '579'
+  SOURCE_TITLE: SPAW Protocol
+  TITLE: Information regarding exemptions to protective measures
+  details_url: http://rod.eionet.europa.eu/obligations/383
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/383
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '384'
+  PK_SOURCE_ID: '592'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Decision (MMD)
+  TITLE: Greenhouse gas inventories (MMD)
+  details_url: http://rod.eionet.europa.eu/obligations/384
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/384
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '385'
+  PK_SOURCE_ID: '592'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Decision (MMD)
+  TITLE: Projections and national programmes
+  details_url: http://rod.eionet.europa.eu/obligations/385
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/385
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '386'
+  PK_SOURCE_ID: '264'
+  SOURCE_TITLE: 3rd daughter directive relating to ozone in ambient air
+  TITLE: Summer ozone exceedances
+  details_url: http://rod.eionet.europa.eu/obligations/386
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/386
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '387'
+  PK_SOURCE_ID: '543'
+  SOURCE_TITLE: Urban Waste Water Treatment Directive (consolidated)
+  TITLE: Urban Waste Water Treatment Directive - Situation Report
+  details_url: http://rod.eionet.europa.eu/obligations/387
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/387
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '389'
+  PK_SOURCE_ID: '595'
+  SOURCE_TITLE: Questionnaire for annual reporting on ambient air quality assessment
+    and management (2004/461/EC)
+  TITLE: Annual report (questionnaire) on air quality assessment and management (2004/461/EC)
+  details_url: http://rod.eionet.europa.eu/obligations/389
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/389
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '390'
+  PK_SOURCE_ID: '264'
+  SOURCE_TITLE: 3rd daughter directive relating to ozone in ambient air
+  TITLE: Annual ozone exceedances reporting for 3rd daughter directive
+  details_url: http://rod.eionet.europa.eu/obligations/390
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/390
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '391'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Nitrogen removal at municipal sewage water treatment plants Recommendation
+    16/9
+  details_url: http://rod.eionet.europa.eu/obligations/391
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/391
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '392'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Limitations of emissions to the atmosphere and discharges into water from
+    the glass industry (Recommendation 14/3)
+  details_url: http://rod.eionet.europa.eu/obligations/392
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/392
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '393'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of emissions and discharges from the pulp and paper industry (Recommendations
+    16/4)
+  details_url: http://rod.eionet.europa.eu/obligations/393
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/393
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '394'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Basic principles in wastewater management in the leather industry (Recommendation
+    16/7)
+  details_url: http://rod.eionet.europa.eu/obligations/394
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/394
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '395'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Limitations of emissions into atmosphere and discharges into water from incineration
+    of household waste (Recommendation 27/1)
+  details_url: http://rod.eionet.europa.eu/obligations/395
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/395
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '396'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of emissions from transport sector affecting the Baltic Sea (Recommendation
+    17/1)
+  details_url: http://rod.eionet.europa.eu/obligations/396
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/396
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '397'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of pollution from discharges into water, emissions into the atmosphere
+    and phosphogypsum out of the production of fertilisers (Recommendation 17/6)
+  details_url: http://rod.eionet.europa.eu/obligations/397
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/397
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '398'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Basic principles for realisation of BAT and BEP in the food industry (Reccomendation
+    17/10)
+  details_url: http://rod.eionet.europa.eu/obligations/398
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/398
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '399'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Managing wetlands and freshwater ecosystems for retention of nutrients (Recommendation
+    18/4)
+  details_url: http://rod.eionet.europa.eu/obligations/399
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/399
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '400'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Approval of pesticides (plant protection products for use in the catchment
+    area of the Baltic Sea (Recommendation 20/2)
+  details_url: http://rod.eionet.europa.eu/obligations/400
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/400
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '401'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Antifouling paints containing organotin compounds (Recommendation 20/4)
+  details_url: http://rod.eionet.europa.eu/obligations/401
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/401
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '402'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Measures aimed at reduction of mercury pollution resulting from light sources
+    and electrical equipment (Recommendation 23/4)
+  details_url: http://rod.eionet.europa.eu/obligations/402
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/402
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '403'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of discharges from Urban areas by the proper management of storm
+    water systems (Recommendation 23/5)
+  details_url: http://rod.eionet.europa.eu/obligations/403
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/403
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '404'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of emissions and discharges of mercury from chloroalkali industry
+    (Recommendation 23/6)
+  details_url: http://rod.eionet.europa.eu/obligations/404
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/404
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '405'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of discharges from metal surface treatment industry (Recommendation
+    23/7)
+  details_url: http://rod.eionet.europa.eu/obligations/405
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/405
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '406'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of discharges from oil refineries (Recommendation 23/8)
+  details_url: http://rod.eionet.europa.eu/obligations/406
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/406
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '407'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Restriction of atmospheric emissions and waste water discharges from hard
+    coal cokeries (Recommendation 23/9)
+  details_url: http://rod.eionet.europa.eu/obligations/407
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/407
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '408'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of discharges and emissions from production and formulation of
+    pesticides (Recommendation 23/10)
+  details_url: http://rod.eionet.europa.eu/obligations/408
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/408
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '409'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Requirements for discharging wastewater from the chemical industry (Recommendation
+    23/11)
+  details_url: http://rod.eionet.europa.eu/obligations/409
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/409
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '410'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of discharges and emissions from production of textiles (Recommendation
+    23/12)
+  details_url: http://rod.eionet.europa.eu/obligations/410
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/410
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '411'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Batteries containing mercury, cadmium or lead (Recommendation 24/2)
+  details_url: http://rod.eionet.europa.eu/obligations/411
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/411
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '412'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Measures aimed at the reduction of emissions and discharges from agriculture
+    (Recommendation 24/3)
+  details_url: http://rod.eionet.europa.eu/obligations/412
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/412
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '413'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of emissions and discharges from the iron and steel industry (Recommendation
+    24/4)
+  details_url: http://rod.eionet.europa.eu/obligations/413
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/413
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '414'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Proper Handling of waste/landfilling (Recommendation 24/5)
+  details_url: http://rod.eionet.europa.eu/obligations/414
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/414
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '415'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Elimination of PCBs and PCTs (Recommendation 25/1)
+  details_url: http://rod.eionet.europa.eu/obligations/415
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/415
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '416'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of emissions and discharges from industry by effective use of BAT
+    (Recommendation 25/2)
+  details_url: http://rod.eionet.europa.eu/obligations/416
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/416
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '417'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of nutrients and other pollutants leaching from forestry land (Recommendation
+    25/3)
+  details_url: http://rod.eionet.europa.eu/obligations/417
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/417
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '418'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Measures aimed at reduction of discharges from fresh water and marine fish
+    farming (Recommendation 25/4)
+  details_url: http://rod.eionet.europa.eu/obligations/418
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/418
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '419'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Monitoring of radioactive substances (Recommendation 26/3)
+  details_url: http://rod.eionet.europa.eu/obligations/419
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/419
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '420'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Compilation of Waterborne pollution load (PLC Water) (c) (Recommendtion 26/2)
+  details_url: http://rod.eionet.europa.eu/obligations/420
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/420
+- LAST_UPDATE: '2006-09-14'
+  PK_RA_ID: '421'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Waterborne pollution load compilation (quantified point and non-point sources)
+    (Recommendtion 19/4)
+  details_url: http://rod.eionet.europa.eu/obligations/421
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/421
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '422'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Monitoring of airborne pollution load (Recommendation 24/1)
+  details_url: http://rod.eionet.europa.eu/obligations/422
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/422
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '423'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Implementation of integrated marine and coastal management of human activities
+    in the Baltic Sea Area (Recommendation 24/10)
+  details_url: http://rod.eionet.europa.eu/obligations/423
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/423
+- LAST_UPDATE: '2013-09-24'
+  PK_RA_ID: '424'
+  PK_SOURCE_ID: '580'
+  SOURCE_TITLE: Barcelona Convention
+  TITLE: Biennial general report, and report on the implementation of the Convention
+    for the Protection of the Mediterranean Environment and the Coastal Region of
+    the Mediterranean
+  details_url: http://rod.eionet.europa.eu/obligations/424
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/424
+- LAST_UPDATE: '2013-09-24'
+  PK_RA_ID: '425'
+  PK_SOURCE_ID: '580'
+  SOURCE_TITLE: Barcelona Convention
+  TITLE: 'National Report on the technical implementation of the Dumping Protocol:    Report
+    on the disposal of wastes or other matter in terms of Articles 4, 5, 6, 8 and
+    9.'
+  details_url: http://rod.eionet.europa.eu/obligations/425
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/425
+- LAST_UPDATE: '2013-09-24'
+  PK_RA_ID: '426'
+  PK_SOURCE_ID: '580'
+  SOURCE_TITLE: Barcelona Convention
+  TITLE: National Report on the technical implementation of the Prevention and Emergency
+    Protocol.
+  details_url: http://rod.eionet.europa.eu/obligations/426
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/426
+- LAST_UPDATE: '2013-09-24'
+  PK_RA_ID: '427'
+  PK_SOURCE_ID: '580'
+  SOURCE_TITLE: Barcelona Convention
+  TITLE: National Report on the technical implementation of the Land-based Sources
+    Protocol
+  details_url: http://rod.eionet.europa.eu/obligations/427
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/427
+- LAST_UPDATE: '2013-09-24'
+  PK_RA_ID: '428'
+  PK_SOURCE_ID: '580'
+  SOURCE_TITLE: Barcelona Convention
+  TITLE: National Report on the technical implementation of the SPA & Biodiversity
+    Protocol
+  details_url: http://rod.eionet.europa.eu/obligations/428
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/428
+- LAST_UPDATE: '2013-09-24'
+  PK_RA_ID: '429'
+  PK_SOURCE_ID: '580'
+  SOURCE_TITLE: Barcelona Convention
+  TITLE: National Report on the technical implementation of the Offshore Protocol
+  details_url: http://rod.eionet.europa.eu/obligations/429
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/429
+- LAST_UPDATE: '2008-08-04'
+  PK_RA_ID: '430'
+  PK_SOURCE_ID: '580'
+  SOURCE_TITLE: Barcelona Convention
+  TITLE: National Report on the technical implementation of the Hazardous Wastes Protocol
+  details_url: http://rod.eionet.europa.eu/obligations/430
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/430
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '431'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Application by the Baltic Sea States of a Helsinki Convention form for reporting
+    alleged inadequacy of reception facilities for sewage (Recommendation 10/6)
+  details_url: http://rod.eionet.europa.eu/obligations/431
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/431
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '432'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Measures to abate pollution by oil and other harmful substances in cases
+    of grounding, collision, sinking of a ship or other maratime casualty (Recommendation
+    17/12)
+  details_url: http://rod.eionet.europa.eu/obligations/432
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/432
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '433'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Offshore Activities (Recommendation 18/2)
+  details_url: http://rod.eionet.europa.eu/obligations/433
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/433
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '434'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Application of the no special-fee system to ship-generated wastes in the
+    Baltic Sea area. Recommendation 26/1
+  details_url: http://rod.eionet.europa.eu/obligations/434
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/434
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '435'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Assessment of the need for escort towing in tanker transport routes to prevent
+    accidents in the Baltic Sea area (Recommendation 25/5)
+  details_url: http://rod.eionet.europa.eu/obligations/435
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/435
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '436'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Co-operation and assistance to Estonia, Latvia, Lithuania and Russia in the
+    field of Combatting marine pollution incidents (Recommendation 23/2)
+  details_url: http://rod.eionet.europa.eu/obligations/436
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/436
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '437'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: HELCOM Indicator Fact Sheets
+  details_url: http://rod.eionet.europa.eu/obligations/437
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/437
+- LAST_UPDATE: '2008-06-24'
+  PK_RA_ID: '438'
+  PK_SOURCE_ID: '600'
+  SOURCE_TITLE: Bonn Agreement
+  TITLE: Transmission of pollution reporting system (POLREP) for notification of incidents
+    of marine pollution to contracting parties (Recommendation 96/1)
+  details_url: http://rod.eionet.europa.eu/obligations/438
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/438
+- LAST_UPDATE: '2008-06-24'
+  PK_RA_ID: '439'
+  PK_SOURCE_ID: '600'
+  SOURCE_TITLE: Bonn Agreement
+  TITLE: International Early Warning Reporting System For Pollution caused by Algal
+    Blooms
+  details_url: http://rod.eionet.europa.eu/obligations/439
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/439
+- LAST_UPDATE: '2007-12-11'
+  PK_RA_ID: '440'
+  PK_SOURCE_ID: '601'
+  SOURCE_TITLE: Trilateral Cooperation
+  TITLE: Trilateral Monitoring and Assessment programme
+  details_url: http://rod.eionet.europa.eu/obligations/440
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/440
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '441'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: Implemenation of the Strategic Action Plan for Rehabilitation and Protection
+    of the Black Sea (indicator-based) (BSSAP) 2002-2006, Report of the Commission
+    on the Protection of the Black Sea Against Pollution
+  details_url: http://rod.eionet.europa.eu/obligations/441
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/441
+- LAST_UPDATE: '2010-01-06'
+  PK_RA_ID: '442'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: State of Environment of the Black Sea (Scientific Assessment Report)
+  details_url: http://rod.eionet.europa.eu/obligations/442
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/442
+- LAST_UPDATE: '2007-12-14'
+  PK_RA_ID: '443'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: Annual reporting to the Black Sea Commission on the State of the Environment
+    of the Black Sea
+  details_url: http://rod.eionet.europa.eu/obligations/443
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/443
+- LAST_UPDATE: '2007-12-14'
+  PK_RA_ID: '444'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: Impact of Danube on the Black Sea Ecosystem
+  details_url: http://rod.eionet.europa.eu/obligations/444
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/444
+- LAST_UPDATE: '2008-06-24'
+  PK_RA_ID: '445'
+  PK_SOURCE_ID: '600'
+  SOURCE_TITLE: Bonn Agreement
+  TITLE: Annual Aerial Surveilance Report
+  details_url: http://rod.eionet.europa.eu/obligations/445
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/445
+- LAST_UPDATE: '2009-12-15'
+  PK_RA_ID: '446'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Report on Discharges, Spills and Emissions from Offshore Oil and Gas
+    Installations
+  details_url: http://rod.eionet.europa.eu/obligations/446
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/446
+- LAST_UPDATE: '2011-07-28'
+  PK_RA_ID: '447'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Report on Liquid Discharges from Nuclear Installations
+  details_url: http://rod.eionet.europa.eu/obligations/447
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/447
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '448'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Database on Offshore Wind-farms
+  details_url: http://rod.eionet.europa.eu/obligations/448
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/448
+- LAST_UPDATE: '2011-07-28'
+  PK_RA_ID: '449'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Reporting on Dumping of Wastes at Sea
+  details_url: http://rod.eionet.europa.eu/obligations/449
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/449
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '450'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: Comprehensive Atmospheric Monitoring Programme (CAMP)
+  details_url: http://rod.eionet.europa.eu/obligations/450
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/450
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '451'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: Co-ordinated Environmental Monitoring Programme (CEMP)
+  details_url: http://rod.eionet.europa.eu/obligations/451
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/451
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '452'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: Comprehensive study on Riverine Inputs and Discharges to Convention Waters
+    (RID)
+  details_url: http://rod.eionet.europa.eu/obligations/452
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/452
+- LAST_UPDATE: '2016-07-14'
+  PK_RA_ID: '454'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Decision 92/3 on the Phasing out of PCBs and Hazardous PCB Substitutes
+  details_url: http://rod.eionet.europa.eu/obligations/454
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/454
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '455'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Decision 95/2 on Discharge and Emission Limit Values for the Integrated
+    and Non-Integrated Sulphite Paper Pulp Industry
+  details_url: http://rod.eionet.europa.eu/obligations/455
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/455
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '456'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Decision 95/3 on Discharge and Emission Limit Values for the Integrated
+    and Non-Integrated Kraft Pulp Industry
+  details_url: http://rod.eionet.europa.eu/obligations/456
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/456
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '458'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Decision 98/4 on Emission and Discharge Limit Values for the Manufacture
+    of Vinyl Chloride Monomer (VCM) including the Manufacture of 1,2-dichloroethane
+    (EDC)
+  details_url: http://rod.eionet.europa.eu/obligations/458
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/458
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '459'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Decision 98/3 on the Disposal of Disused Offshore Installations
+  details_url: http://rod.eionet.europa.eu/obligations/459
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/459
+- LAST_UPDATE: '2011-08-26'
+  PK_RA_ID: '460'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Decision 98/5 on Emission and Discharge Limit Values for the Vinyl
+    Chloride Sector, Applying to the Manufacture of Suspension-PVC (s-PVC) from Vinyl
+    Chloride Monomer (VCM)
+  details_url: http://rod.eionet.europa.eu/obligations/460
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/460
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '461'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Decision 2000/2 on a Harmonised Mandatory Control System for the Use
+    and Reduction of the Discharge of Offshore Chemicals
+  details_url: http://rod.eionet.europa.eu/obligations/461
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/461
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '462'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Decision 2000/3 on the Use of Organic-phase Drilling Fluids (OPF) and
+    the Discharge of OPF-contaminated Cuttings
+  details_url: http://rod.eionet.europa.eu/obligations/462
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/462
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '463'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 87/1 on the Use of Tributyl-Tin Compounds
+  details_url: http://rod.eionet.europa.eu/obligations/463
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/463
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '464'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 88/1 on Measures to Reduce Organotin Compounds Reaching
+    the Aquatic Environment through Docking Activities
+  details_url: http://rod.eionet.europa.eu/obligations/464
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/464
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '465'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 88/2 on the Reduction in Inputs of Nutrients to the
+    Paris Convention Area
+  details_url: http://rod.eionet.europa.eu/obligations/465
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/465
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '466'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 89/3 on Programmes and Measures for Reducing Mercury
+    Discharges from Various Sources
+  details_url: http://rod.eionet.europa.eu/obligations/466
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/466
+- LAST_UPDATE: '2010-03-24'
+  PK_RA_ID: '467'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 89/4 on a Coordinated Programme for the Reduction of
+    Nutrients
+  details_url: http://rod.eionet.europa.eu/obligations/467
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/467
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '468'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 89/5 Concerning Refineries
+  details_url: http://rod.eionet.europa.eu/obligations/468
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/468
+- LAST_UPDATE: '2011-12-09'
+  PK_RA_ID: '469'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 92/1 on Best Available Technology for Plants Producing
+    Anodes and for New Electrolysis Installations in the Primary Aluminium Industry
+  details_url: http://rod.eionet.europa.eu/obligations/469
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/469
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '470'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 92/5 Concerning Best Available Technology in the Pharmaceutical
+    Manufacturing Industry
+  details_url: http://rod.eionet.europa.eu/obligations/470
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/470
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '471'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 92/7 on the Reduction of Nutrients Inputs from Agriculture
+    into Areas where these Inputs are Likely, Directly or Indirectly, to Cause Pollution
+  details_url: http://rod.eionet.europa.eu/obligations/471
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/471
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '472'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 92/8 on Nonylphenol-Ethoxylates
+  details_url: http://rod.eionet.europa.eu/obligations/472
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/472
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '473'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 93/1 on the Limitation of Pollution from Existing Primary
+    Iron and Steel Production Installations
+  details_url: http://rod.eionet.europa.eu/obligations/473
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/473
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '474'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 93/2 on Further Restrictions on the Discharge of Mercury
+    from Dentistry
+  details_url: http://rod.eionet.europa.eu/obligations/474
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/474
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '475'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 93/4 on the Phasing Out of Cationic Detergents DTDMAC,
+    DSDMAC and DHTDMAC in Fabric Softeners
+  details_url: http://rod.eionet.europa.eu/obligations/475
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/475
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '476'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 94/4 on Best Available Techniques for the Organic Chemical
+    Industry
+  details_url: http://rod.eionet.europa.eu/obligations/476
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/476
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '477'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 94/5 Concerning Best Available Techniques and Best
+    Environmental Practivce for Wet Processes in the Textile Processing Industry
+  details_url: http://rod.eionet.europa.eu/obligations/477
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/477
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '478'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 94/6 on Best Environmental Practice (BEP) for the Reduction
+    of Inputs of Potentially Toxic Chemicals from Aquaculture Use
+  details_url: http://rod.eionet.europa.eu/obligations/478
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/478
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '479'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 94/7 on the Elaboration of National Action Plans and
+    Best Environmental Practice (BEP) for the Reduction of Inputs to the Environment
+    of Pesticides from Agricultural Use
+  details_url: http://rod.eionet.europa.eu/obligations/479
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/479
+- LAST_UPDATE: '2011-12-09'
+  PK_RA_ID: '480'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 96/1 on Best Available Techniques and Best Environmental
+    Practice for Existing Aluminium Electrolysis Plants
+  details_url: http://rod.eionet.europa.eu/obligations/480
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/480
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '481'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Decision 96/2 on the Phasing-Out of Processes Using Molecular Chlorine
+    (Cl2) in the Bleaching of Kraft and Sulphite Pulp
+  details_url: http://rod.eionet.europa.eu/obligations/481
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/481
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '482'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 99/1 on the Best Available Techniques for the Manufacture
+    of Emulsion PVC (e-PVC)
+  details_url: http://rod.eionet.europa.eu/obligations/482
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/482
+- LAST_UPDATE: '2011-07-28'
+  PK_RA_ID: '483'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2000/4 on a Harmonised Pre-Screening Scheme for Offshore
+    Chemicals
+  details_url: http://rod.eionet.europa.eu/obligations/483
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/483
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '484'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2000/5 on a Harmonised Offshore Chemical Notification
+    Format (HOCNF)
+  details_url: http://rod.eionet.europa.eu/obligations/484
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/484
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '485'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2000/1 on Best Environmental Practice (BEP) for the
+    Reduction of Inputs of Agricultural Pesticides to the Environment through the
+    Use of Integrated Crop Management Techniques
+  details_url: http://rod.eionet.europa.eu/obligations/485
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/485
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '486'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2000/2 on Best Environmental Practice (BEP) for the
+    Use of Pesticides on Amenity Areas
+  details_url: http://rod.eionet.europa.eu/obligations/486
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/486
+- LAST_UPDATE: '2011-07-28'
+  PK_RA_ID: '487'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2000/3 on Emission and Discharge Limit Values for the
+    Manufacture of Emulsion PVC (e-PVC) from Vinyl Chloride Monomer
+  details_url: http://rod.eionet.europa.eu/obligations/487
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/487
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '488'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2001/1 for the Management of Produced Water from Offshore
+    Installations
+  details_url: http://rod.eionet.europa.eu/obligations/488
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/488
+- LAST_UPDATE: '2011-08-26'
+  PK_RA_ID: '489'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2002/1 on Discharge Limit Values for Existing Aluminium
+    Electrolysis Plants
+  details_url: http://rod.eionet.europa.eu/obligations/489
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/489
+- LAST_UPDATE: '2011-07-28'
+  PK_RA_ID: '490'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: Recommendation 2003/2 on an OSPAR Framework for Reporting Encounters with
+    Marine Dumped Conventional and Chemical Munitions (attached to the measure)
+  details_url: http://rod.eionet.europa.eu/obligations/490
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/490
+- LAST_UPDATE: '2011-07-28'
+  PK_RA_ID: '491'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2003/3 on a Network of Marine Protected Areas
+  details_url: http://rod.eionet.europa.eu/obligations/491
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/491
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '492'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2003/4 on Controlling the Dispersal of Mercury from
+    Crematoria
+  details_url: http://rod.eionet.europa.eu/obligations/492
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/492
+- LAST_UPDATE: '2011-12-09'
+  PK_RA_ID: '493'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2003/5 to Promote the Use and Implementation of Environmental
+    Management Systems by the Offshore Industry
+  details_url: http://rod.eionet.europa.eu/obligations/493
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/493
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '494'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 92/2 Concerning Limitation of Pollution from New Primary
+    Iron and Steel Production Installations
+  details_url: http://rod.eionet.europa.eu/obligations/494
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/494
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '496'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 92/3 Concerning Limitation of Pollution from New Secondary
+    Steel Production and Rolling Mills
+  details_url: http://rod.eionet.europa.eu/obligations/496
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/496
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '497'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 92/4 on the Reduction of Emissions from the Electroplating
+    Industry
+  details_url: http://rod.eionet.europa.eu/obligations/497
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/497
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '498'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 94/1 on Best Available Techniques for New Aluminium
+    Electrolysis Plants
+  details_url: http://rod.eionet.europa.eu/obligations/498
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/498
+- LAST_UPDATE: '2011-12-09'
+  PK_RA_ID: '499'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Decision 92/1 on the Reduction of Discharges of Chlorinated Organic
+    Substances from the Production of Bleached Kraft and Sulphite Pulp
+  details_url: http://rod.eionet.europa.eu/obligations/499
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/499
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '500'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 94/3 on Best Available Techniques and Best Environmental
+    Practice for the Integrated and Non-Integrated Kraft Pulp Industry
+  details_url: http://rod.eionet.europa.eu/obligations/500
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/500
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '501'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 94/2 on Best Available Techniques and Best Environmental
+    Practice for the Integrated and Non-Integrated Sulphite Paper Pulp Industry
+  details_url: http://rod.eionet.europa.eu/obligations/501
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/501
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '502'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Decision 95/1 on the Phasing Out of the Use of Short-Chained Chlorinated
+    Paraffins
+  details_url: http://rod.eionet.europa.eu/obligations/502
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/502
+- LAST_UPDATE: '2011-07-30'
+  PK_RA_ID: '503'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 91/4 on Radioactive Discharges
+  details_url: http://rod.eionet.europa.eu/obligations/503
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/503
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '504'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 93/5 on Increases in Radioactive Discharges from Nuclear
+    Reprocessing Plants
+  details_url: http://rod.eionet.europa.eu/obligations/504
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/504
+- LAST_UPDATE: '2006-10-19'
+  PK_RA_ID: '506'
+  PK_SOURCE_ID: '603'
+  SOURCE_TITLE: EEA Agreement
+  TITLE: Exchange of information and notification procedures
+  details_url: http://rod.eionet.europa.eu/obligations/506
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/506
+- LAST_UPDATE: '2006-10-19'
+  PK_RA_ID: '507'
+  PK_SOURCE_ID: '603'
+  SOURCE_TITLE: EEA Agreement
+  TITLE: Cooperation in the field of statistics
+  details_url: http://rod.eionet.europa.eu/obligations/507
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/507
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '513'
+  PK_SOURCE_ID: '607'
+  SOURCE_TITLE: Arrangements for annual submission of plans or programmes on ambient
+    air quality limit values for SO2, NO2, NOx, PM10 and Pb, and benzene and CO  (Comm.
+    Dec. 2004/224/EC)
+  TITLE: Annual reporting on ambient air quality limit values plans or programmes
+    for SO2, NO2, NOx, PM10 and Pb, and benzene and CO and ozone
+  details_url: http://rod.eionet.europa.eu/obligations/513
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/513
+- LAST_UPDATE: '2007-12-11'
+  PK_RA_ID: '514'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM RECOMMENDATION 96/3 Concerning Best Available Techniques for the Manufacture
+    of Suspension PVC from Vinyl Chloride Monomer
+  details_url: http://rod.eionet.europa.eu/obligations/514
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/514
+- LAST_UPDATE: '2016-07-20'
+  PK_RA_ID: '515'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 97/1 Concerning Reference Values for Effluent Discharges
+    for Wet Processes in the Textile Processing Industry
+  details_url: http://rod.eionet.europa.eu/obligations/515
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/515
+- LAST_UPDATE: '2015-12-04'
+  PK_RA_ID: '516'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - Transposition in national legislation
+  details_url: http://rod.eionet.europa.eu/obligations/516
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/516
+- LAST_UPDATE: '2009-12-15'
+  PK_RA_ID: '518'
+  PK_SOURCE_ID: '526'
+  SOURCE_TITLE: ELV Directive
+  TITLE: ELV reuse/recycling/recovery targets compliance report
+  details_url: http://rod.eionet.europa.eu/obligations/518
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/518
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '519'
+  PK_SOURCE_ID: '608'
+  SOURCE_TITLE: Mining Waste Directive
+  TITLE: Mining Waste Directive implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/519
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/519
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '520'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - Monitoring Programmes
+  details_url: http://rod.eionet.europa.eu/obligations/520
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/520
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '521'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - River Basin Management Plans - 2010 Reporting
+  details_url: http://rod.eionet.europa.eu/obligations/521
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/521
+- LAST_UPDATE: '2017-10-23'
+  PK_RA_ID: '522'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - Programmes of Measures - 2012 Reporting
+  details_url: http://rod.eionet.europa.eu/obligations/522
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/522
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '523'
+  PK_SOURCE_ID: '273'
+  SOURCE_TITLE: IPPC Directive (consolidated)
+  TITLE: IPPC questionnaire
+  details_url: http://rod.eionet.europa.eu/obligations/523
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/523
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '524'
+  PK_SOURCE_ID: '543'
+  SOURCE_TITLE: Urban Waste Water Treatment Directive (consolidated)
+  TITLE: Urban Waste Water Treatment Directive - National Implementation Programme
+  details_url: http://rod.eionet.europa.eu/obligations/524
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/524
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '525'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - River Basin Districts and Competent Authorities
+  details_url: http://rod.eionet.europa.eu/obligations/525
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/525
+- LAST_UPDATE: '2013-05-02'
+  PK_RA_ID: '526'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Report on Sampling and Analysis of Litterfall
+  details_url: http://rod.eionet.europa.eu/obligations/526
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/526
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '527'
+  PK_SOURCE_ID: '274'
+  SOURCE_TITLE: Air quality framework directive
+  TITLE: Plans and programmes for the abatement of air pollution
+  details_url: http://rod.eionet.europa.eu/obligations/527
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/527
+- LAST_UPDATE: '2011-07-30'
+  PK_RA_ID: '528'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: PARCOM Recommendation 96/4 for the Phasing-Out of the Use of One-Component
+    Coal Tar Coating Systems for Inland Ships
+  details_url: http://rod.eionet.europa.eu/obligations/528
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/528
+- LAST_UPDATE: '2009-05-11'
+  PK_RA_ID: '530'
+  PK_SOURCE_ID: '344'
+  SOURCE_TITLE: Montreal Ozone Protocol
+  TITLE: Summary of activities
+  details_url: http://rod.eionet.europa.eu/obligations/530
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/530
+- LAST_UPDATE: '2016-10-26'
+  PK_RA_ID: '531'
+  PK_SOURCE_ID: '609'
+  SOURCE_TITLE: New Bathing Water Directive (consolidated)
+  TITLE: Bathing Water Directive - Monitoring and Classification of Bathing Waters
+  details_url: http://rod.eionet.europa.eu/obligations/531
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/531
+- LAST_UPDATE: '2016-10-26'
+  PK_RA_ID: '532'
+  PK_SOURCE_ID: '609'
+  SOURCE_TITLE: New Bathing Water Directive (consolidated)
+  TITLE: Bathing Water Directive - Identification of Bathing Areas
+  details_url: http://rod.eionet.europa.eu/obligations/532
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/532
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '533'
+  PK_SOURCE_ID: '610'
+  SOURCE_TITLE: 2006/11/EC Dangerous Substances Directive (codified version)
+  TITLE: Implementation Report Dangerous substances
+  details_url: http://rod.eionet.europa.eu/obligations/533
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/533
+- LAST_UPDATE: '2016-04-14'
+  PK_RA_ID: '534'
+  PK_SOURCE_ID: '611'
+  SOURCE_TITLE: Council Directive 91/414/EEC of 15 July 1991 concerning the placing
+    of plant protection products on the market
+  TITLE: Report on inspection measures for plant protection products commercialization
+  details_url: http://rod.eionet.europa.eu/obligations/534
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/534
+- LAST_UPDATE: '2010-03-24'
+  PK_RA_ID: '535'
+  PK_SOURCE_ID: '612'
+  SOURCE_TITLE: Commission Regulation (EC) No 1488/94 of 28 June 1994 laying down
+    the principles for the assessment of risks to man and the environment of existing
+    substances in accordance with Council Regulation (EEC) No 793/93
+  TITLE: Report on assessment of risks to man and the environment of existing substances
+    in accordance with Council Regulation (EEC) No 793/93
+  details_url: http://rod.eionet.europa.eu/obligations/535
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/535
+- LAST_UPDATE: '2011-03-03'
+  PK_RA_ID: '536'
+  PK_SOURCE_ID: '613'
+  SOURCE_TITLE: Council Regulation (EEC) No 793/93 of 23 March 1993 on the evaluation
+    and control of the risks of existing substances
+  TITLE: Report on the evaluation and control of the risks of existing substances
+  details_url: http://rod.eionet.europa.eu/obligations/536
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/536
+- LAST_UPDATE: '2017-04-19'
+  PK_RA_ID: '537'
+  PK_SOURCE_ID: '614'
+  SOURCE_TITLE: Persistent Organic Pollutants regulation
+  TITLE: Report on persistent organic pollutants
+  details_url: http://rod.eionet.europa.eu/obligations/537
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/537
+- LAST_UPDATE: '2017-03-02'
+  PK_RA_ID: '538'
+  PK_SOURCE_ID: '615'
+  SOURCE_TITLE: E-PRTR regulation
+  TITLE: E-PRTR data reporting
+  details_url: http://rod.eionet.europa.eu/obligations/538
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/538
+- LAST_UPDATE: '2017-03-06'
+  PK_RA_ID: '540'
+  PK_SOURCE_ID: '615'
+  SOURCE_TITLE: E-PRTR regulation
+  TITLE: E-PRTR report on practice and measures
+  details_url: http://rod.eionet.europa.eu/obligations/540
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/540
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '541'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of discharges from Kraft Pulp industry Recommendation  17/8
+  details_url: http://rod.eionet.europa.eu/obligations/541
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/541
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '542'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of discharges from the sulphite pulp industry Recommendation 17/9
+  details_url: http://rod.eionet.europa.eu/obligations/542
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/542
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '544'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Safety of winter navigation in the Baltic Sea Area Recommendation 25/7
+  details_url: http://rod.eionet.europa.eu/obligations/544
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/544
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '545'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Ensuring adequate emergency capacity Recommendation 24/9
+  details_url: http://rod.eionet.europa.eu/obligations/545
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/545
+- LAST_UPDATE: '2007-12-03'
+  PK_RA_ID: '546'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Amendments to Annex IV "Prevention of pollution from ships" to the Helsinki
+    Convention, concerning discharge of sewage Recommendation 24/8
+  details_url: http://rod.eionet.europa.eu/obligations/546
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/546
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '547'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Further development and use of Drift Forecasting for Oils and other Harmful
+    Substances in the Baltic
+  details_url: http://rod.eionet.europa.eu/obligations/547
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/547
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '548'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Guidelines on bunkering operations and ship to ship cargo transfers of oils,
+    subject to Annex I of MARPOL 73/78, in the Baltic Sea Area
+  details_url: http://rod.eionet.europa.eu/obligations/548
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/548
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '549'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Reduction of the Discharges from the Kraft Pulp industry Recommendation 17/8
+  details_url: http://rod.eionet.europa.eu/obligations/549
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/549
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '550'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Recommendation concerning measures aimed at the reduction of discharges from
+    urban areas by the development of sewerage systems Recommendation 7/3
+  details_url: http://rod.eionet.europa.eu/obligations/550
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/550
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '551'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Recommendation concerning measures aimed at the reduction of discharges from
+    urban areas by the use of effective methods in wastewater treatment
+  details_url: http://rod.eionet.europa.eu/obligations/551
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/551
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '552'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Industrial connections and point sources other than household connected to
+    municipal sewerage systems
+  details_url: http://rod.eionet.europa.eu/obligations/552
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/552
+- LAST_UPDATE: '2006-06-14'
+  PK_RA_ID: '554'
+  PK_SOURCE_ID: '184'
+  SOURCE_TITLE: UNECE Water Convention
+  TITLE: UNECE water convention report
+  details_url: http://rod.eionet.europa.eu/obligations/554
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/554
+- LAST_UPDATE: '2006-06-14'
+  PK_RA_ID: '555'
+  PK_SOURCE_ID: '618'
+  SOURCE_TITLE: UNECE protocol on Water and Health
+  TITLE: Report for UNECE Protocol on Water and Health
+  details_url: http://rod.eionet.europa.eu/obligations/555
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/555
+- LAST_UPDATE: '2016-06-02'
+  PK_RA_ID: '556'
+  PK_SOURCE_ID: '593'
+  SOURCE_TITLE: Emissions Trading Directive
+  TITLE: Application of the Emissions Trading Directive 2003/87/EC (Article 21)
+  details_url: http://rod.eionet.europa.eu/obligations/556
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/556
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '557'
+  PK_SOURCE_ID: '608'
+  SOURCE_TITLE: Mining Waste Directive
+  TITLE: Information on events notified by the operators of extractive industries
+    waste facilities
+  details_url: http://rod.eionet.europa.eu/obligations/557
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/557
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '558'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Noise control programmes 1 (DF 6)
+  details_url: http://rod.eionet.europa.eu/obligations/558
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/558
+- LAST_UPDATE: '2016-11-07'
+  PK_RA_ID: '559'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Noise control programmes (DF 6 and DF 9)
+  details_url: http://rod.eionet.europa.eu/obligations/559
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/559
+- LAST_UPDATE: '2016-11-07'
+  PK_RA_ID: '560'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Competent bodies (DF 2)
+  details_url: http://rod.eionet.europa.eu/obligations/560
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/560
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '561'
+  PK_SOURCE_ID: '532'
+  SOURCE_TITLE: 84/156/EEC Mercury Daughter Directive to DSD (consolidated)
+  TITLE: Reporting obligation for Council Directive 84/156/EEC
+  details_url: http://rod.eionet.europa.eu/obligations/561
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/561
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '562'
+  PK_SOURCE_ID: '534'
+  SOURCE_TITLE: 86/280/EEC List I Daughter Directive to DSD (consolidated)
+  TITLE: Reporting obligation for Council Directive 86/280/EEC
+  details_url: http://rod.eionet.europa.eu/obligations/562
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/562
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '563'
+  PK_SOURCE_ID: '533'
+  SOURCE_TITLE: 84/491/EEC Hexachlorocyclohexane Daughter Directive to DSD (consolidated)
+  TITLE: Reporting obligation for Council Directive 84/491/EEC
+  details_url: http://rod.eionet.europa.eu/obligations/563
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/563
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '564'
+  PK_SOURCE_ID: '531'
+  SOURCE_TITLE: 83/513/EEC Cadmium Daughter Directive to DSD (consolidated)
+  TITLE: Report obligation for Council Directive 83/513/EEC
+  details_url: http://rod.eionet.europa.eu/obligations/564
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/564
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '565'
+  PK_SOURCE_ID: '598'
+  SOURCE_TITLE: UWWT Directive derogation for Portugal
+  TITLE: Reporting obligation for Commission Decision 2001/720/EC
+  details_url: http://rod.eionet.europa.eu/obligations/565
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/565
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '566'
+  PK_SOURCE_ID: '599'
+  SOURCE_TITLE: Titanium Dioxide Surveillance Directive
+  TITLE: Reporting obligation for Council Directive 82/883/EEC
+  details_url: http://rod.eionet.europa.eu/obligations/566
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/566
+- LAST_UPDATE: '2014-02-20'
+  PK_RA_ID: '567'
+  PK_SOURCE_ID: '541'
+  SOURCE_TITLE: Standardised Reporting Directive (consolidated)
+  TITLE: Reporting obligation for Council Directive 91/692/EEC
+  details_url: http://rod.eionet.europa.eu/obligations/567
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/567
+- LAST_UPDATE: '2014-02-20'
+  PK_RA_ID: '568'
+  PK_SOURCE_ID: '606'
+  SOURCE_TITLE: 4th daughter directive relating to As, Cd, HG, Ni and PAHs in ambient
+    air
+  TITLE: Preliminary assessment and implementation of laws, regulations and administrative
+    provisions for 4th daughter directive (Art.10)
+  details_url: http://rod.eionet.europa.eu/obligations/568
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/568
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '569'
+  PK_SOURCE_ID: '606'
+  SOURCE_TITLE: 4th daughter directive relating to As, Cd, HG, Ni and PAHs in ambient
+    air
+  TITLE: 4th air quality daughter directive (Art.5) assessment annual reporting exceedances
+  details_url: http://rod.eionet.europa.eu/obligations/569
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/569
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '570'
+  PK_SOURCE_ID: '620'
+  SOURCE_TITLE: 82/176/EEC Mercury Daughter Directive to DSD (consolidated)
+  TITLE: Reporting obligation for Council Directive 82/176/EEC
+  details_url: http://rod.eionet.europa.eu/obligations/570
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/570
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '571'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Corine Land Cover 2000 extension (TE-1)
+  details_url: http://rod.eionet.europa.eu/obligations/571
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/571
+- LAST_UPDATE: '2017-03-06'
+  PK_RA_ID: '572'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Corine Land Cover
+  details_url: http://rod.eionet.europa.eu/obligations/572
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/572
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '574'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2005/2 on Environmental Goals for the Discharge by the
+    Offshore Industry of Chemicals
+  details_url: http://rod.eionet.europa.eu/obligations/574
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/574
+- LAST_UPDATE: '2016-04-18'
+  PK_RA_ID: '575'
+  PK_SOURCE_ID: '264'
+  SOURCE_TITLE: 3rd daughter directive relating to ozone in ambient air
+  TITLE: Near real-time ozone data
+  details_url: http://rod.eionet.europa.eu/obligations/575
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/575
+- LAST_UPDATE: '2016-12-12'
+  PK_RA_ID: '576'
+  PK_SOURCE_ID: '623'
+  SOURCE_TITLE: Waste shipments regulation
+  TITLE: Yearly additional report to the EU Commission on waste shipments and sending
+    a copy of the report submitted to the Basel Convention Secretariat for the previous
+    calendar year
+  details_url: http://rod.eionet.europa.eu/obligations/576
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/576
+- LAST_UPDATE: '2009-12-15'
+  PK_RA_ID: '577'
+  PK_SOURCE_ID: '624'
+  SOURCE_TITLE: Batteries directive (new)
+  TITLE: Batteries Directive implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/577
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/577
+- LAST_UPDATE: '2009-12-08'
+  PK_RA_ID: '578'
+  PK_SOURCE_ID: '624'
+  SOURCE_TITLE: Batteries directive (new)
+  TITLE: Batteries collection targets compliance report
+  details_url: http://rod.eionet.europa.eu/obligations/578
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/578
+- LAST_UPDATE: '2012-11-30'
+  PK_RA_ID: '579'
+  PK_SOURCE_ID: '624'
+  SOURCE_TITLE: Batteries directive (new)
+  TITLE: Batteries recycling targets compliance report
+  details_url: http://rod.eionet.europa.eu/obligations/579
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/579
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '580'
+  PK_SOURCE_ID: '625'
+  SOURCE_TITLE: 2006/118/EC Groundwater Daughter Directive to WFD
+  TITLE: Groundwater in WFD River Basin Management Plan including programme of measures
+  details_url: http://rod.eionet.europa.eu/obligations/580
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/580
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '581'
+  PK_SOURCE_ID: '625'
+  SOURCE_TITLE: 2006/118/EC Groundwater Daughter Directive to WFD
+  TITLE: Groundwater in WFD progress on implementation of programmes of measures
+  details_url: http://rod.eionet.europa.eu/obligations/581
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/581
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '582'
+  PK_SOURCE_ID: '626'
+  SOURCE_TITLE: 2006/44/EC Fish Directive (codified version)
+  TITLE: Fish Directive Report
+  details_url: http://rod.eionet.europa.eu/obligations/582
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/582
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '583'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2005/1 on Reporting Formats on the Implementation and
+    Effectiveness of OSPAR Measures Relating to the Non-Ferrous Metal Industry
+  details_url: http://rod.eionet.europa.eu/obligations/583
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/583
+- LAST_UPDATE: '2011-12-07'
+  PK_RA_ID: '584'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 98/1 concerning Best Available Techniques and Best Environmental
+    Practice for the Primary Non-Ferrous Metal Industry
+  details_url: http://rod.eionet.europa.eu/obligations/584
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/584
+- LAST_UPDATE: '2011-12-09'
+  PK_RA_ID: '585'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 98/2 on Emission and Discharge Limit Values for Existing
+    Aluminium Electrolysis Plants (as amended by OSPAR Recommendation 2002/1)
+  details_url: http://rod.eionet.europa.eu/obligations/585
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/585
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '586'
+  PK_SOURCE_ID: '500'
+  SOURCE_TITLE: LCP Directive
+  TITLE: Report on existing plants declared for eligibility under Article 4.4 of LCP
+    Directive
+  details_url: http://rod.eionet.europa.eu/obligations/586
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/586
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '588'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Conservation of seals in the Baltic Sea Area (Recommendation 17-28/2)
+  details_url: http://rod.eionet.europa.eu/obligations/588
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/588
+- LAST_UPDATE: '2007-12-04'
+  PK_RA_ID: '589'
+  PK_SOURCE_ID: '574'
+  SOURCE_TITLE: Helsinki Convention
+  TITLE: Protection of harbour porpoise in the Baltic Sea Area (Recommendation 17/2)
+  details_url: http://rod.eionet.europa.eu/obligations/589
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/589
+- LAST_UPDATE: '2007-12-05'
+  PK_RA_ID: '590'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: Regular national reporting on the exotic species within the established procedure
+    and formats and its improvement
+  details_url: http://rod.eionet.europa.eu/obligations/590
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/590
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '591'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2006/1 on Reporting Formats on the Implementation and
+    Effectiveness of OSPAR Measures Relating to the Vinyl Chloride Industry
+  details_url: http://rod.eionet.europa.eu/obligations/591
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/591
+- LAST_UPDATE: '2007-12-11'
+  PK_RA_ID: '592'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2006/2 Amending OSPAR Recommendation 2003/4 on Controlling
+    the Dispersal of Mercury from Crematoria
+  details_url: http://rod.eionet.europa.eu/obligations/592
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/592
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '593'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2006/3 on Environmental Goals for the Discharge by the
+    Offshore Industry of Chemicals that are, or Which Contain Substances Identified
+    as Candidates for Substitution
+  details_url: http://rod.eionet.europa.eu/obligations/593
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/593
+- LAST_UPDATE: '2011-07-29'
+  PK_RA_ID: '594'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2006/4 Amending OSPAR Recommendation 2001/1 for the
+    Management of Produced Water from Offshore Installations
+  details_url: http://rod.eionet.europa.eu/obligations/594
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/594
+- LAST_UPDATE: '2007-12-11'
+  PK_RA_ID: '595'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2006/5 on a Management Regime for Offshore Cuttings
+    Piles
+  details_url: http://rod.eionet.europa.eu/obligations/595
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/595
+- LAST_UPDATE: '2011-08-01'
+  PK_RA_ID: '596'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Report on Mercury Losses from the Chlor-Alkali Industry
+  details_url: http://rod.eionet.europa.eu/obligations/596
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/596
+- LAST_UPDATE: '2011-07-27'
+  PK_RA_ID: '597'
+  PK_SOURCE_ID: '627'
+  SOURCE_TITLE: Stockholm Convention
+  TITLE: Implementation plan
+  details_url: http://rod.eionet.europa.eu/obligations/597
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/597
+- LAST_UPDATE: '2008-01-10'
+  PK_RA_ID: '598'
+  PK_SOURCE_ID: '627'
+  SOURCE_TITLE: Stockholm Convention
+  TITLE: National  Report pursuent to Article 15
+  details_url: http://rod.eionet.europa.eu/obligations/598
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/598
+- LAST_UPDATE: '2008-01-11'
+  PK_RA_ID: '599'
+  PK_SOURCE_ID: '627'
+  SOURCE_TITLE: Stockholm Convention
+  TITLE: DDT Registration
+  details_url: http://rod.eionet.europa.eu/obligations/599
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/599
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '600'
+  PK_SOURCE_ID: '629'
+  SOURCE_TITLE: 2006/113/EC Shellfish Directive (codified version)
+  TITLE: Shellfish Directive report
+  details_url: http://rod.eionet.europa.eu/obligations/600
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/600
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '601'
+  PK_SOURCE_ID: '630'
+  SOURCE_TITLE: Floods Directive
+  TITLE: Floods Directive - Preliminary Flood Risk Assessment and Areas of Potential
+    Significant Flood Risk
+  details_url: http://rod.eionet.europa.eu/obligations/601
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/601
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '602'
+  PK_SOURCE_ID: '630'
+  SOURCE_TITLE: Floods Directive
+  TITLE: Floods Directive - Flood Hazard Maps and Flood Risk Maps
+  details_url: http://rod.eionet.europa.eu/obligations/602
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/602
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '603'
+  PK_SOURCE_ID: '630'
+  SOURCE_TITLE: Floods Directive
+  TITLE: Floods Directive - Flood Risk Management Plans
+  details_url: http://rod.eionet.europa.eu/obligations/603
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/603
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '604'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Test Reporting for Pollutant Emissions to Water
+  details_url: http://rod.eionet.europa.eu/obligations/604
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/604
+- LAST_UPDATE: '2009-12-08'
+  PK_RA_ID: '605'
+  PK_SOURCE_ID: '509'
+  SOURCE_TITLE: Hazardous waste directive
+  TITLE: Hazardous Waste Directive implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/605
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/605
+- LAST_UPDATE: '2013-09-05'
+  PK_RA_ID: '606'
+  PK_SOURCE_ID: '631'
+  SOURCE_TITLE: Marine Strategy Framework Directive
+  TITLE: MSFD transposition in national legislation
+  details_url: http://rod.eionet.europa.eu/obligations/606
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/606
+- LAST_UPDATE: '2017-03-06'
+  PK_RA_ID: '607'
+  PK_SOURCE_ID: '631'
+  SOURCE_TITLE: Marine Strategy Framework Directive
+  TITLE: MSFD report on Marine Region or Subregion competent authority or authorities
+  details_url: http://rod.eionet.europa.eu/obligations/607
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/607
+- LAST_UPDATE: '2017-09-19'
+  PK_RA_ID: '608'
+  PK_SOURCE_ID: '631'
+  SOURCE_TITLE: Marine Strategy Framework Directive
+  TITLE: MSFD reporting on Initial Assessments (Art. 8), Good Environmental Status
+    (Art.9), Env. targets & associated indicators (Art.10) & related reporting on
+    geographic areas, regional cooperation and metadata.
+  details_url: http://rod.eionet.europa.eu/obligations/608
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/608
+- LAST_UPDATE: '2017-06-14'
+  PK_RA_ID: '611'
+  PK_SOURCE_ID: '631'
+  SOURCE_TITLE: Marine Strategy Framework Directive
+  TITLE: MSFD monitoring programmes (Art. 11)
+  details_url: http://rod.eionet.europa.eu/obligations/611
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/611
+- LAST_UPDATE: '2017-06-14'
+  PK_RA_ID: '612'
+  PK_SOURCE_ID: '631'
+  SOURCE_TITLE: Marine Strategy Framework Directive
+  TITLE: MSFD programmes of measures, including establishment of marine protected
+    areas, and exceptions
+  details_url: http://rod.eionet.europa.eu/obligations/612
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/612
+- LAST_UPDATE: '2017-04-06'
+  PK_RA_ID: '613'
+  PK_SOURCE_ID: '543'
+  SOURCE_TITLE: Urban Waste Water Treatment Directive (consolidated)
+  TITLE: Urban Waste Water Treatment Directive - Implementation
+  details_url: http://rod.eionet.europa.eu/obligations/613
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/613
+- LAST_UPDATE: '2017-03-28'
+  PK_RA_ID: '614'
+  PK_SOURCE_ID: '632'
+  SOURCE_TITLE: INSPIRE Directive
+  TITLE: Country report on implementation and use of infrastructures for spatial information
+  details_url: http://rod.eionet.europa.eu/obligations/614
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/614
+- LAST_UPDATE: '2016-11-17'
+  PK_RA_ID: '616'
+  PK_SOURCE_ID: '560'
+  SOURCE_TITLE: Habitats Directive 92/43/EEC
+  TITLE: Information on Natura 2000 sites (SCIs/SACs, Habitats Directive)
+  details_url: http://rod.eionet.europa.eu/obligations/616
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/616
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '619'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Country fact sheets on waste policies
+  details_url: http://rod.eionet.europa.eu/obligations/619
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/619
+- LAST_UPDATE: '2009-02-11'
+  PK_RA_ID: '620'
+  PK_SOURCE_ID: '560'
+  SOURCE_TITLE: Habitats Directive 92/43/EEC
+  TITLE: Information on compensation measures
+  details_url: http://rod.eionet.europa.eu/obligations/620
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/620
+- LAST_UPDATE: '2009-02-11'
+  PK_RA_ID: '621'
+  PK_SOURCE_ID: '658'
+  SOURCE_TITLE: Birds Directive 2009/147/EC
+  TITLE: Information on compensation measures under Art.6.4 of the Habitats Directive
+  details_url: http://rod.eionet.europa.eu/obligations/621
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/621
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '622'
+  PK_SOURCE_ID: '615'
+  SOURCE_TITLE: E-PRTR regulation
+  TITLE: Data for review of Independently Operated Waste Water Treatment Plants (IOWWTPs)
+  details_url: http://rod.eionet.europa.eu/obligations/622
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/622
+- LAST_UPDATE: '2011-12-21'
+  PK_RA_ID: '626'
+  PK_SOURCE_ID: '633'
+  SOURCE_TITLE: Air Quality Directive
+  TITLE: 'AQD pilot: up-to-date primary data'
+  details_url: http://rod.eionet.europa.eu/obligations/626
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/626
+- LAST_UPDATE: '2011-12-21'
+  PK_RA_ID: '627'
+  PK_SOURCE_ID: '633'
+  SOURCE_TITLE: Air Quality Directive
+  TITLE: 'AQD pilot: zones'
+  details_url: http://rod.eionet.europa.eu/obligations/627
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/627
+- LAST_UPDATE: '2017-10-13'
+  PK_RA_ID: '630'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: WISE SoE - Biological data in transitional and coastal waters (WISE-2)
+  details_url: http://rod.eionet.europa.eu/obligations/630
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/630
+- LAST_UPDATE: '2017-09-26'
+  PK_RA_ID: '631'
+  PK_SOURCE_ID: '500'
+  SOURCE_TITLE: LCP Directive
+  TITLE: Exemptions to be reported under article 15(3) of the Large Combustion Plants
+    Directive (LCP)
+  details_url: http://rod.eionet.europa.eu/obligations/631
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/631
+- LAST_UPDATE: '2017-10-13'
+  PK_RA_ID: '632'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: WISE SoE - Emissions (WISE-1)
+  details_url: http://rod.eionet.europa.eu/obligations/632
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/632
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '633'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: 'SoER Part C Commonality Air Pollution: why do we care about this theme?'
+  details_url: http://rod.eionet.europa.eu/obligations/633
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/633
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '634'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: 'SoER Part C Commonality Air Pollution: What are the state (S) and impacts
+    (I) related to this theme, including impacts on the natural environment and human
+    health/human well-being, both at national level as well as in transboundary terms?'
+  details_url: http://rod.eionet.europa.eu/obligations/634
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/634
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '635'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: 'SoER Part C Commonality Air Pollution: What are the related key drivers
+    (D) and pressures (P) at national level?'
+  details_url: http://rod.eionet.europa.eu/obligations/635
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/635
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '636'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: 'SoER Part C Commonality Air Pollution: What is the 2020 outlook for the
+    topic in question and how will this affect possible impacts on the natural environment
+    and human health/well-being?'
+  details_url: http://rod.eionet.europa.eu/obligations/636
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/636
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '637'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: 'SoER Part C Commonality Air Pollution: Which responses (R) have been put
+    in place or are planned at national level for the theme in question?'
+  details_url: http://rod.eionet.europa.eu/obligations/637
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/637
+- LAST_UPDATE: '2010-01-14'
+  PK_RA_ID: '638'
+  PK_SOURCE_ID: '635'
+  SOURCE_TITLE: Biodiversity 2006 Communication and Action Plan
+  TITLE: Information on EU Biodiversity Action Plan
+  details_url: http://rod.eionet.europa.eu/obligations/638
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/638
+- LAST_UPDATE: '2016-05-03'
+  PK_RA_ID: '645'
+  PK_SOURCE_ID: '636'
+  SOURCE_TITLE: EU Statistical Work Programme
+  TITLE: Inland waters
+  details_url: http://rod.eionet.europa.eu/obligations/645
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/645
+- LAST_UPDATE: '2013-09-17'
+  PK_RA_ID: '648'
+  PK_SOURCE_ID: '643'
+  SOURCE_TITLE: Waste Framework Directive
+  TITLE: Waste Framework Directive implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/648
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/648
+- LAST_UPDATE: '2010-01-05'
+  PK_RA_ID: '649'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: LBS reporting
+  details_url: http://rod.eionet.europa.eu/obligations/649
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/649
+- LAST_UPDATE: '2010-01-05'
+  PK_RA_ID: '650'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: ICZM reporting
+  details_url: http://rod.eionet.europa.eu/obligations/650
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/650
+- LAST_UPDATE: '2010-01-05'
+  PK_RA_ID: '651'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: ESAS Reporting
+  details_url: http://rod.eionet.europa.eu/obligations/651
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/651
+- LAST_UPDATE: '2010-01-05'
+  PK_RA_ID: '652'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: FOMLR Reporting
+  details_url: http://rod.eionet.europa.eu/obligations/652
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/652
+- LAST_UPDATE: '2010-01-05'
+  PK_RA_ID: '653'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: CBD reporting
+  details_url: http://rod.eionet.europa.eu/obligations/653
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/653
+- LAST_UPDATE: '2010-01-05'
+  PK_RA_ID: '654'
+  PK_SOURCE_ID: '388'
+  SOURCE_TITLE: Bucharest Convention
+  TITLE: PMA reporting
+  details_url: http://rod.eionet.europa.eu/obligations/654
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/654
+- LAST_UPDATE: '2016-11-17'
+  PK_RA_ID: '655'
+  PK_SOURCE_ID: '644'
+  SOURCE_TITLE: CO2 emissions from passenger cars
+  TITLE: Monitoring and reporting of average CO2 emissions (passenger cars)
+  details_url: http://rod.eionet.europa.eu/obligations/655
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/655
+- LAST_UPDATE: '2016-05-25'
+  PK_RA_ID: '656'
+  PK_SOURCE_ID: '630'
+  SOURCE_TITLE: Floods Directive
+  TITLE: Floods Directive - Units of Management and Competent Authorities
+  details_url: http://rod.eionet.europa.eu/obligations/656
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/656
+- LAST_UPDATE: '2013-02-25'
+  PK_RA_ID: '657'
+  PK_SOURCE_ID: '645'
+  SOURCE_TITLE: SEIS Communication
+  TITLE: SEIS Baseline Assessment
+  details_url: http://rod.eionet.europa.eu/obligations/657
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/657
+- LAST_UPDATE: '2010-04-22'
+  PK_RA_ID: '658'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: Questionnaire on Strategies and Policies for Air Pollution Abatement
+  details_url: http://rod.eionet.europa.eu/obligations/658
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/658
+- LAST_UPDATE: '2016-05-04'
+  PK_RA_ID: '659'
+  PK_SOURCE_ID: '646'
+  SOURCE_TITLE: Biofuels Directive
+  TITLE: National reports on the implementation of Directive 2003/30/EC
+  details_url: http://rod.eionet.europa.eu/obligations/659
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/659
+- LAST_UPDATE: '2016-06-16'
+  PK_RA_ID: '660'
+  PK_SOURCE_ID: '647'
+  SOURCE_TITLE: VOC Paints Directive
+  TITLE: Report on the results of the monitoring programme to demonstrate compliance
+  details_url: http://rod.eionet.europa.eu/obligations/660
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/660
+- LAST_UPDATE: '2017-03-06'
+  PK_RA_ID: '661'
+  PK_SOURCE_ID: '631'
+  SOURCE_TITLE: Marine Strategy Framework Directive
+  TITLE: MSFD progress on implementation of programmes of measures
+  details_url: http://rod.eionet.europa.eu/obligations/661
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/661
+- LAST_UPDATE: '2017-03-23'
+  PK_RA_ID: '662'
+  PK_SOURCE_ID: '564'
+  SOURCE_TITLE: Bern Convention
+  TITLE: Emerald Network
+  details_url: http://rod.eionet.europa.eu/obligations/662
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/662
+- LAST_UPDATE: '2016-11-17'
+  PK_RA_ID: '665'
+  PK_SOURCE_ID: '648'
+  SOURCE_TITLE: CO2 emissions from light commercial vehicles
+  TITLE: Monitoring and reporting of average CO2 emissions (light commercial vehicles)
+  details_url: http://rod.eionet.europa.eu/obligations/665
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/665
+- LAST_UPDATE: '2011-07-28'
+  PK_RA_ID: '666'
+  PK_SOURCE_ID: '170'
+  SOURCE_TITLE: OSPAR Convention
+  TITLE: OSPAR Recommendation 2010/4 on a Harmonised Pre-screening Scheme for Offshore
+    Chemicals
+  details_url: http://rod.eionet.europa.eu/obligations/666
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/666
+- LAST_UPDATE: '2011-12-21'
+  PK_RA_ID: '667'
+  PK_SOURCE_ID: '633'
+  SOURCE_TITLE: Air Quality Directive
+  TITLE: 'AQD pilot: modelled primary data'
+  details_url: http://rod.eionet.europa.eu/obligations/667
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/667
+- LAST_UPDATE: '2016-04-05'
+  PK_RA_ID: '669'
+  PK_SOURCE_ID: '649'
+  SOURCE_TITLE: F-Gas regulation
+  TITLE: Fluorinated gases (F-Gases) reporting by undertakings (Regulation 2006)
+  details_url: http://rod.eionet.europa.eu/obligations/669
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/669
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '670'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (B) Information on zones and agglomerations (Article 6)
+  details_url: http://rod.eionet.europa.eu/obligations/670
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/670
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '671'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (C) Information on the assessment regime (Article 7)
+  details_url: http://rod.eionet.europa.eu/obligations/671
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/671
+- LAST_UPDATE: '2016-07-13'
+  PK_RA_ID: '672'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (D) Information on the assessment methods (Articles 8 and 9) - for fixed
+    and indicative measurements
+  details_url: http://rod.eionet.europa.eu/obligations/672
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/672
+- LAST_UPDATE: '2017-03-28'
+  PK_RA_ID: '673'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (E1a) Information on primary validated assessment data - measurements (Article
+    10)
+  details_url: http://rod.eionet.europa.eu/obligations/673
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/673
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '674'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (E1b) Information on primary validated assessment data -modelled (Article
+    10)
+  details_url: http://rod.eionet.europa.eu/obligations/674
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/674
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '675'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (E2a) Information on primary up-to-date assessment data -measurements (Article
+    10)
+  details_url: http://rod.eionet.europa.eu/obligations/675
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/675
+- LAST_UPDATE: '2013-11-28'
+  PK_RA_ID: '676'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (F1a) Information on generated aggregated data - primary validated measurements
+    (Article 11)
+  details_url: http://rod.eionet.europa.eu/obligations/676
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/676
+- LAST_UPDATE: '2013-11-28'
+  PK_RA_ID: '677'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (F1b) Information on generated aggregated data - primary validated modelled
+    (Article 11)
+  details_url: http://rod.eionet.europa.eu/obligations/677
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/677
+- LAST_UPDATE: '2013-11-28'
+  PK_RA_ID: '678'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (F2) Information on generated aggregated data - primary up-to-date measurements
+    (Article 11)
+  details_url: http://rod.eionet.europa.eu/obligations/678
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/678
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '679'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (G) Information on the attainment of environmental objectives (Article 12)
+  details_url: http://rod.eionet.europa.eu/obligations/679
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/679
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '680'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (H) Information on air quality plans (Article 13)
+  details_url: http://rod.eionet.europa.eu/obligations/680
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/680
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '681'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (I) Information on source apportionment (Article 13)
+  details_url: http://rod.eionet.europa.eu/obligations/681
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/681
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '682'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (J) Information on the scenario for the attainment year (Article 13)
+  details_url: http://rod.eionet.europa.eu/obligations/682
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/682
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '683'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (K) Information on measures (Articles 13 and 14)
+  details_url: http://rod.eionet.europa.eu/obligations/683
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/683
+- LAST_UPDATE: '2014-02-18'
+  PK_RA_ID: '684'
+  PK_SOURCE_ID: '554'
+  SOURCE_TITLE: Regulation on Ozone Depleting Substances (ODS Regulation)
+  TITLE: Reporting on methyl bromide, halons and cases of illegal trade
+  details_url: http://rod.eionet.europa.eu/obligations/684
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/684
+- LAST_UPDATE: '2016-11-07'
+  PK_RA_ID: '685'
+  PK_SOURCE_ID: '585'
+  SOURCE_TITLE: Environmental noise directive
+  TITLE: Definition of reporting structure (DF 0)
+  details_url: http://rod.eionet.europa.eu/obligations/685
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/685
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '686'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: ENPI-SEIS East indicators
+  details_url: http://rod.eionet.europa.eu/obligations/686
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/686
+- LAST_UPDATE: '2013-09-17'
+  PK_RA_ID: '688'
+  PK_SOURCE_ID: '643'
+  SOURCE_TITLE: Waste Framework Directive
+  TITLE: Waste Directive target report
+  details_url: http://rod.eionet.europa.eu/obligations/688
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/688
+- LAST_UPDATE: '2016-06-28'
+  PK_RA_ID: '689'
+  PK_SOURCE_ID: '651'
+  SOURCE_TITLE: WEEE directive 2012/19/EU
+  TITLE: New WEEE Directive Implementation Report
+  details_url: http://rod.eionet.europa.eu/obligations/689
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/689
+- LAST_UPDATE: '2017-03-17'
+  PK_RA_ID: '690'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: European Red list of Birds
+  details_url: http://rod.eionet.europa.eu/obligations/690
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/690
+- LAST_UPDATE: '2015-01-15'
+  PK_RA_ID: '691'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Horizon 2020 initiative for de-pollution of the Mediterranean Sea by 2020
+    (SoE)
+  details_url: http://rod.eionet.europa.eu/obligations/691
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/691
+- LAST_UPDATE: '2017-03-28'
+  PK_RA_ID: '692'
+  PK_SOURCE_ID: '632'
+  SOURCE_TITLE: INSPIRE Directive
+  TITLE: Monitoring of implementation and use of infrastructures for spatial information
+  details_url: http://rod.eionet.europa.eu/obligations/692
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/692
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '693'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (B) Preliminary  information on zones and agglomerations  (Article 6)
+  details_url: http://rod.eionet.europa.eu/obligations/693
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/693
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '694'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (C) Preliminary information on the assessment regime (Article 7)
+  details_url: http://rod.eionet.europa.eu/obligations/694
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/694
+- LAST_UPDATE: '2017-02-14'
+  PK_RA_ID: '696'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: National policies and measures (climate change mitigation)
+  details_url: http://rod.eionet.europa.eu/obligations/696
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/696
+- LAST_UPDATE: '2017-02-14'
+  PK_RA_ID: '697'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: Projections (greenhouse gas emissions and removals)
+  details_url: http://rod.eionet.europa.eu/obligations/697
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/697
+- LAST_UPDATE: '2016-06-02'
+  PK_RA_ID: '698'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: Use of auctioning revenue and project credits
+  details_url: http://rod.eionet.europa.eu/obligations/698
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/698
+- LAST_UPDATE: '2016-06-02'
+  PK_RA_ID: '700'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: Low-carbon development strategies
+  details_url: http://rod.eionet.europa.eu/obligations/700
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/700
+- LAST_UPDATE: '2017-03-17'
+  PK_RA_ID: '701'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: Greenhouse gas inventories
+  details_url: http://rod.eionet.europa.eu/obligations/701
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/701
+- LAST_UPDATE: '2017-03-17'
+  PK_RA_ID: '702'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: Approximated greenhouse gas inventories
+  details_url: http://rod.eionet.europa.eu/obligations/702
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/702
+- LAST_UPDATE: '2017-06-13'
+  PK_RA_ID: '703'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: National adaptation actions
+  details_url: http://rod.eionet.europa.eu/obligations/703
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/703
+- LAST_UPDATE: '2016-06-02'
+  PK_RA_ID: '704'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: Financial and technology support provided to developing countries
+  details_url: http://rod.eionet.europa.eu/obligations/704
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/704
+- LAST_UPDATE: '2016-06-02'
+  PK_RA_ID: '705'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: Biennial reports and national communications
+  details_url: http://rod.eionet.europa.eu/obligations/705
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/705
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '706'
+  PK_SOURCE_ID: '655'
+  SOURCE_TITLE: IED Implementing Decision
+  TITLE: Annex I Questionnaire
+  details_url: http://rod.eionet.europa.eu/obligations/706
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/706
+- LAST_UPDATE: '2017-05-30'
+  PK_RA_ID: '707'
+  PK_SOURCE_ID: '654'
+  SOURCE_TITLE: IED
+  TITLE: MS implementation of IED (Annex II Decision 2012/795/EU)
+  details_url: http://rod.eionet.europa.eu/obligations/707
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/707
+- LAST_UPDATE: '2017-08-31'
+  PK_RA_ID: '708'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: Kyoto true-up period reports
+  details_url: http://rod.eionet.europa.eu/obligations/708
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/708
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '710'
+  PK_SOURCE_ID: '656'
+  SOURCE_TITLE: GMM Directive
+  TITLE: Three-yearly summary report on the experience with the Directive
+  details_url: http://rod.eionet.europa.eu/obligations/710
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/710
+- LAST_UPDATE: '2017-03-09'
+  PK_RA_ID: '711'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: Land use, land-use change and forestry (LULUCF)
+  details_url: http://rod.eionet.europa.eu/obligations/711
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/711
+- LAST_UPDATE: '2016-06-01'
+  PK_RA_ID: '712'
+  PK_SOURCE_ID: '656'
+  SOURCE_TITLE: GMM Directive
+  TITLE: Yearly summary report on class 3 and class 4 contained uses
+  details_url: http://rod.eionet.europa.eu/obligations/712
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/712
+- LAST_UPDATE: '2016-06-16'
+  PK_RA_ID: '713'
+  PK_SOURCE_ID: '657'
+  SOURCE_TITLE: F-Gas Regulation 2014
+  TITLE: Fluorinated gases (F-Gases) reporting by undertakings (Regulation 2014)
+  details_url: http://rod.eionet.europa.eu/obligations/713
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/713
+- LAST_UPDATE: '2017-10-16'
+  PK_RA_ID: '714'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: WISE SoE - Water Quality (WISE-4)
+  details_url: http://rod.eionet.europa.eu/obligations/714
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/714
+- LAST_UPDATE: '2017-06-14'
+  PK_RA_ID: '715'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - River Basin Management Plans - 2016 Reporting
+  details_url: http://rod.eionet.europa.eu/obligations/715
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/715
+- LAST_UPDATE: '2017-05-15'
+  PK_RA_ID: '716'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: WISE - Spatial Data (WISE-5)
+  details_url: http://rod.eionet.europa.eu/obligations/716
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/716
+- LAST_UPDATE: '2017-03-28'
+  PK_RA_ID: '717'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - River Basin Management Plans - 2016 Spatial data
+  details_url: http://rod.eionet.europa.eu/obligations/717
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/717
+- LAST_UPDATE: '2017-03-28'
+  PK_RA_ID: '718'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - River Basin Management Plans - 2016 RBDSUCA XML
+    data
+  details_url: http://rod.eionet.europa.eu/obligations/718
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/718
+- LAST_UPDATE: '2017-03-28'
+  PK_RA_ID: '719'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - River Basin Management Plans - 2016 RBD XML data
+  details_url: http://rod.eionet.europa.eu/obligations/719
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/719
+- LAST_UPDATE: '2017-03-06'
+  PK_RA_ID: '720'
+  PK_SOURCE_ID: '615'
+  SOURCE_TITLE: E-PRTR regulation
+  TITLE: E-PRTR and LCP integrated data reporting (as from 2019 delivery)
+  details_url: http://rod.eionet.europa.eu/obligations/720
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/720
+- LAST_UPDATE: '2017-03-07'
+  PK_RA_ID: '721'
+  PK_SOURCE_ID: '654'
+  SOURCE_TITLE: IED
+  TITLE: EU Registry on industrial sites
+  details_url: http://rod.eionet.europa.eu/obligations/721
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/721
+- LAST_UPDATE: '2017-05-30'
+  PK_RA_ID: '722'
+  PK_SOURCE_ID: '654'
+  SOURCE_TITLE: IED
+  TITLE: Sectoral spotlight of IED installation – BAT conclusion implementation
+  details_url: http://rod.eionet.europa.eu/obligations/722
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/722
+- LAST_UPDATE: '2017-05-30'
+  PK_RA_ID: '723'
+  PK_SOURCE_ID: '654'
+  SOURCE_TITLE: IED
+  TITLE: Waste incineration and solvent emissions under IED
+  details_url: http://rod.eionet.europa.eu/obligations/723
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/723
+- LAST_UPDATE: '2016-06-16'
+  PK_RA_ID: '724'
+  PK_SOURCE_ID: '654'
+  SOURCE_TITLE: IED
+  TITLE: Integrated emission management techniques applied in mineral oil and gas
+    refineries under IED
+  details_url: http://rod.eionet.europa.eu/obligations/724
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/724
+- LAST_UPDATE: '2016-06-14'
+  PK_RA_ID: '725'
+  PK_SOURCE_ID: '659'
+  SOURCE_TITLE: Medium Combustion Plants (MCP) Directive
+  TITLE: MCP Directive implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/725
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/725
+- LAST_UPDATE: '2016-06-14'
+  PK_RA_ID: '726'
+  PK_SOURCE_ID: '659'
+  SOURCE_TITLE: Medium Combustion Plants (MCP) Directive
+  TITLE: Annual CO emissions and concentration of CO emissions from MCPs
+  details_url: http://rod.eionet.europa.eu/obligations/726
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/726
+- LAST_UPDATE: '2016-06-14'
+  PK_RA_ID: '727'
+  PK_SOURCE_ID: '660'
+  SOURCE_TITLE: Regulation on invasive alien species
+  TITLE: Report on invasive alien species
+  details_url: http://rod.eionet.europa.eu/obligations/727
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/727
+- LAST_UPDATE: '2016-06-15'
+  PK_RA_ID: '728'
+  PK_SOURCE_ID: '660'
+  SOURCE_TITLE: Regulation on invasive alien species
+  TITLE: Information on competent authorities
+  details_url: http://rod.eionet.europa.eu/obligations/728
+  terminated: '1'
+  uri: http://rod.eionet.europa.eu/obligations/728
+- LAST_UPDATE: '2016-06-15'
+  PK_RA_ID: '729'
+  PK_SOURCE_ID: '661'
+  SOURCE_TITLE: Seveso III Directive
+  TITLE: Information on major accidents
+  details_url: http://rod.eionet.europa.eu/obligations/729
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/729
+- LAST_UPDATE: '2016-06-15'
+  PK_RA_ID: '730'
+  PK_SOURCE_ID: '661'
+  SOURCE_TITLE: Seveso III Directive
+  TITLE: Implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/730
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/730
+- LAST_UPDATE: '2016-06-15'
+  PK_RA_ID: '731'
+  PK_SOURCE_ID: '661'
+  SOURCE_TITLE: Seveso III Directive
+  TITLE: Information on establishments
+  details_url: http://rod.eionet.europa.eu/obligations/731
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/731
+- LAST_UPDATE: '2016-06-16'
+  PK_RA_ID: '732'
+  PK_SOURCE_ID: '662'
+  SOURCE_TITLE: EMAS Regulation 2009
+  TITLE: Information on Competent Bodies and Accreditation and Licensing Bodies
+  details_url: http://rod.eionet.europa.eu/obligations/732
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/732
+- LAST_UPDATE: '2016-06-16'
+  PK_RA_ID: '733'
+  PK_SOURCE_ID: '662'
+  SOURCE_TITLE: EMAS Regulation 2009
+  TITLE: Updated information on the measures taken
+  details_url: http://rod.eionet.europa.eu/obligations/733
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/733
+- LAST_UPDATE: '2016-06-16'
+  PK_RA_ID: '734'
+  PK_SOURCE_ID: '664'
+  SOURCE_TITLE: EU Timber Regulation
+  TITLE: Report on the application of the Regulation
+  details_url: http://rod.eionet.europa.eu/obligations/734
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/734
+- LAST_UPDATE: '2016-06-17'
+  PK_RA_ID: '735'
+  PK_SOURCE_ID: '665'
+  SOURCE_TITLE: Carbon Capture and Storage (CCS) Directive
+  TITLE: Implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/735
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/735
+- LAST_UPDATE: '2016-06-20'
+  PK_RA_ID: '736'
+  PK_SOURCE_ID: '666'
+  SOURCE_TITLE: Regulation on pesticides statistics
+  TITLE: Statistics on the placing on the market of pesticides
+  details_url: http://rod.eionet.europa.eu/obligations/736
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/736
+- LAST_UPDATE: '2016-06-20'
+  PK_RA_ID: '737'
+  PK_SOURCE_ID: '666'
+  SOURCE_TITLE: Regulation on pesticides statistics
+  TITLE: Statistics on agricultural use of pesticides
+  details_url: http://rod.eionet.europa.eu/obligations/737
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/737
+- LAST_UPDATE: '2016-06-21'
+  PK_RA_ID: '738'
+  PK_SOURCE_ID: '668'
+  SOURCE_TITLE: Regulation on trade in seal products
+  TITLE: Implementation report
+  details_url: http://rod.eionet.europa.eu/obligations/738
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/738
+- LAST_UPDATE: '2016-06-21'
+  PK_RA_ID: '739'
+  PK_SOURCE_ID: '669'
+  SOURCE_TITLE: Regulation (EU) No 1257/2013 on ship recycling
+  TITLE: Three-yearly report
+  details_url: http://rod.eionet.europa.eu/obligations/739
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/739
+- LAST_UPDATE: '2016-06-21'
+  PK_RA_ID: '740'
+  PK_SOURCE_ID: '670'
+  SOURCE_TITLE: Regulation (EU) No 649/2012 on export and import of hazardous chemicals
+  TITLE: Information concerning the operation of the procedures
+  details_url: http://rod.eionet.europa.eu/obligations/740
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/740
+- LAST_UPDATE: '2016-06-22'
+  PK_RA_ID: '741'
+  PK_SOURCE_ID: '671'
+  SOURCE_TITLE: Regulation on classification, packaging and labelling of chemicals
+    and their mixtures
+  TITLE: Report on the results of the official controls, and other enforcement measures
+    taken
+  details_url: http://rod.eionet.europa.eu/obligations/741
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/741
+- LAST_UPDATE: '2017-03-08'
+  PK_RA_ID: '742'
+  PK_SOURCE_ID: '650'
+  SOURCE_TITLE: Air Quality Directive IPR
+  TITLE: (D1b) Information on the assessment methods (Articles 8 and 9) - for models
+    and objective estimation
+  details_url: http://rod.eionet.europa.eu/obligations/742
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/742
+- LAST_UPDATE: '2017-02-01'
+  PK_RA_ID: '743'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: LRTAP Convention - Projected emissions
+  details_url: http://rod.eionet.europa.eu/obligations/743
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/743
+- LAST_UPDATE: '2017-02-01'
+  PK_RA_ID: '744'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: LRTAP Convention - Large point source (LPS)
+  details_url: http://rod.eionet.europa.eu/obligations/744
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/744
+- LAST_UPDATE: '2017-02-01'
+  PK_RA_ID: '745'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: LRTAP Convention - Gridded emissions data
+  details_url: http://rod.eionet.europa.eu/obligations/745
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/745
+- LAST_UPDATE: '2017-10-24'
+  PK_RA_ID: '747'
+  PK_SOURCE_ID: '634'
+  SOURCE_TITLE: Environmental Quality Standards Directive
+  TITLE: Environmental Quality Standards Directive - Watch list
+  details_url: http://rod.eionet.europa.eu/obligations/747
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/747
+- LAST_UPDATE: '2017-03-01'
+  PK_RA_ID: '748'
+  PK_SOURCE_ID: '675'
+  SOURCE_TITLE: Revised NEC Directive
+  TITLE: National Emission Ceiling Directive (NECD) - National emission inventories
+  details_url: http://rod.eionet.europa.eu/obligations/748
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/748
+- LAST_UPDATE: '2017-03-01'
+  PK_RA_ID: '749'
+  PK_SOURCE_ID: '675'
+  SOURCE_TITLE: Revised NEC Directive
+  TITLE: National Emission Ceiling Directive (NECD) - National gridded data of emissions
+    by source category (GNFR)
+  details_url: http://rod.eionet.europa.eu/obligations/749
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/749
+- LAST_UPDATE: '2017-03-01'
+  PK_RA_ID: '750'
+  PK_SOURCE_ID: '675'
+  SOURCE_TITLE: Revised NEC Directive
+  TITLE: National Emission Ceiling Directive (NECD) - Large point source (LPS) emissions
+    data by source category (GNFR)
+  details_url: http://rod.eionet.europa.eu/obligations/750
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/750
+- LAST_UPDATE: '2017-03-01'
+  PK_RA_ID: '751'
+  PK_SOURCE_ID: '675'
+  SOURCE_TITLE: Revised NEC Directive
+  TITLE: National Emission Ceiling Directive (NECD) - Projected emissions by aggregated
+    NFR sectors
+  details_url: http://rod.eionet.europa.eu/obligations/751
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/751
+- LAST_UPDATE: '2017-03-01'
+  PK_RA_ID: '752'
+  PK_SOURCE_ID: '675'
+  SOURCE_TITLE: Revised NEC Directive
+  TITLE: National Emission Ceiling Directive (NECD) - Informative Inventory Report
+    (IIR)
+  details_url: http://rod.eionet.europa.eu/obligations/752
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/752
+- LAST_UPDATE: '2017-03-01'
+  PK_RA_ID: '753'
+  PK_SOURCE_ID: '675'
+  SOURCE_TITLE: Revised NEC Directive
+  TITLE: National Emission Ceiling Directive (NECD) - National air pollution control
+    programmes
+  details_url: http://rod.eionet.europa.eu/obligations/753
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/753
+- LAST_UPDATE: '2017-03-06'
+  PK_RA_ID: '754'
+  PK_SOURCE_ID: '578'
+  SOURCE_TITLE: CLRTAP
+  TITLE: LRTAP Convention - Informative Inventory Report
+  details_url: http://rod.eionet.europa.eu/obligations/754
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/754
+- LAST_UPDATE: '2017-02-14'
+  PK_RA_ID: '755'
+  PK_SOURCE_ID: '652'
+  SOURCE_TITLE: Greenhouse gas Monitoring Mechanism Regulation (MMR)
+  TITLE: Concluded transfers under the Effort Sharing Decision
+  details_url: http://rod.eionet.europa.eu/obligations/755
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/755
+- LAST_UPDATE: '2017-03-06'
+  PK_RA_ID: '756'
+  PK_SOURCE_ID: '654'
+  SOURCE_TITLE: IED
+  TITLE: Reporting on Combustion Plants under Art 72 of the Industrial Emissions Directive
+  details_url: http://rod.eionet.europa.eu/obligations/756
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/756
+- LAST_UPDATE: '2017-10-04'
+  PK_RA_ID: '757'
+  PK_SOURCE_ID: '537'
+  SOURCE_TITLE: Fuel Quality Directive
+  TITLE: Fuel Quality Directive Article 7a
+  details_url: http://rod.eionet.europa.eu/obligations/757
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/757
+- LAST_UPDATE: '2017-05-31'
+  PK_RA_ID: '758'
+  PK_SOURCE_ID: '499'
+  SOURCE_TITLE: EEA AWP
+  TITLE: Designation types of designated areas
+  details_url: http://rod.eionet.europa.eu/obligations/758
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/758
+- LAST_UPDATE: '2017-10-24'
+  PK_RA_ID: '759'
+  PK_SOURCE_ID: '631'
+  SOURCE_TITLE: Marine Strategy Framework Directive
+  TITLE: MSFD - Articles 8, 9 and 10 - XML data
+  details_url: http://rod.eionet.europa.eu/obligations/759
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/759
+- LAST_UPDATE: '2017-10-24'
+  PK_RA_ID: '760'
+  PK_SOURCE_ID: '631'
+  SOURCE_TITLE: Marine Strategy Framework Directive
+  TITLE: MSFD - Article 4 - Spatial data
+  details_url: http://rod.eionet.europa.eu/obligations/760
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/760
+- LAST_UPDATE: '2017-10-24'
+  PK_RA_ID: '761'
+  PK_SOURCE_ID: '631'
+  SOURCE_TITLE: Marine Strategy Framework Directive
+  TITLE: MSFD - Articles 8, 9 and 10 - Text reports
+  details_url: http://rod.eionet.europa.eu/obligations/761
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/761
+- LAST_UPDATE: '2017-10-23'
+  PK_RA_ID: '762'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - Programmes of Measures - 2018 Reporting
+  details_url: http://rod.eionet.europa.eu/obligations/762
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/762
+- LAST_UPDATE: '2017-10-23'
+  PK_RA_ID: '763'
+  PK_SOURCE_ID: '516'
+  SOURCE_TITLE: Water Framework Directive (consolidated)
+  TITLE: Water Framework Directive - Programmes of Measures - 2018 RBD XML data
+  details_url: http://rod.eionet.europa.eu/obligations/763
+  terminated: '0'
+  uri: http://rod.eionet.europa.eu/obligations/763
