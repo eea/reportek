@@ -18,6 +18,12 @@ class Issue(models.Model):
     """Environmental issues"""
     name = models.CharField(max_length=60)
 
+
+class Instrument(models.Model):
+    """Legislative instruments"""
+    title = models.CharField(max_length=256)
+
+
 # class Obligation(models.Model):
 
 
