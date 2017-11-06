@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Load (i.e. scrape) the list of clients and save it as a fixture.
+Load countries from RPC service and output them as fixture.
 """
 
 import re
