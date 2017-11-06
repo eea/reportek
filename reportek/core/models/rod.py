@@ -24,6 +24,22 @@ class Instrument(models.Model):
     title = models.CharField(max_length=256)
 
 
-# class Obligation(models.Model):
+class Obligation(models.Model):
+    """Reporting obligations"""
+    title = models.CharField(max_length=300)
+    description = models.TextField(blank=True)
+    # TODO: Clarify if nullable (no empties present in ROD dump)
+    last_update = models.DateField()
+    next_deadline = models.DateField(blank=True, null=True)
+    next_deadline2 = models.DateField(blank=True, null=True)
+    report_freq_months = models.IntegerField(blank=True, null=True)
+    report_freq = models.CharField(max_length=30, blank=True, null=True)
+    continuous_reporting = models.BooleanField(default=False)
+    client = models.ForeignKey(Client)
+    # Nullable because there is a single obligation in ROD (746) that
+    # has '0' as FK_SOURCE_ID
+    instrument = models.ForeignKey(Instrument, blank=True, null=True)
+    delivery_countries = models.ManyToManyField(Country)
 
+    URL_PATTERN = 'http://rod.eionet.europa.eu/obligations/{id}'
 
