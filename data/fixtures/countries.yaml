@@ -1,0 +1,341 @@
+- model: core.country
+  pk: 2
+  fields:
+    iso: AL
+    name: Albania
+- model: core.country
+  pk: 110
+  fields:
+    iso: DZ
+    name: Algeria
+- model: core.country
+  pk: 96
+  fields:
+    iso: AD
+    name: Andorra
+- model: core.country
+  pk: 97
+  fields:
+    iso: AM
+    name: Armenia
+- model: core.country
+  pk: 3
+  fields:
+    iso: AT
+    name: Austria
+- model: core.country
+  pk: 98
+  fields:
+    iso: AZ
+    name: Azerbaijan
+- model: core.country
+  pk: 4
+  fields:
+    iso: BY
+    name: Belarus
+- model: core.country
+  pk: 5
+  fields:
+    iso: BE
+    name: Belgium
+- model: core.country
+  pk: 6
+  fields:
+    iso: BA
+    name: Bosnia and Herzegovina
+- model: core.country
+  pk: 7
+  fields:
+    iso: BG
+    name: Bulgaria
+- model: core.country
+  pk: 8
+  fields:
+    iso: HR
+    name: Croatia
+- model: core.country
+  pk: 9
+  fields:
+    iso: CY
+    name: Cyprus
+- model: core.country
+  pk: 10
+  fields:
+    iso: CZ
+    name: Czech Republic
+- model: core.country
+  pk: 11
+  fields:
+    iso: DK
+    name: Denmark
+- model: core.country
+  pk: 109
+  fields:
+    iso: EG
+    name: Egypt
+- model: core.country
+  pk: 12
+  fields:
+    iso: EE
+    name: Estonia
+- model: core.country
+  pk: 1
+  fields:
+    iso: EU
+    name: European Union
+- model: core.country
+  pk: 13
+  fields:
+    iso: FI
+    name: Finland
+- model: core.country
+  pk: 14
+  fields:
+    iso: FR
+    name: France
+- model: core.country
+  pk: 99
+  fields:
+    iso: GE
+    name: Georgia
+- model: core.country
+  pk: 15
+  fields:
+    iso: DE
+    name: Germany
+- model: core.country
+  pk: 114
+  fields:
+    iso: GI
+    name: Gibraltar
+- model: core.country
+  pk: 16
+  fields:
+    iso: GR
+    name: Greece
+- model: core.country
+  pk: 120
+  fields:
+    iso: GL
+    name: Greenland
+- model: core.country
+  pk: 17
+  fields:
+    iso: HU
+    name: Hungary
+- model: core.country
+  pk: 18
+  fields:
+    iso: IS
+    name: Iceland
+- model: core.country
+  pk: 20
+  fields:
+    iso: IE
+    name: Ireland
+- model: core.country
+  pk: 116
+  fields:
+    iso: IL
+    name: Israel
+- model: core.country
+  pk: 19
+  fields:
+    iso: IT
+    name: Italy
+- model: core.country
+  pk: 108
+  fields:
+    iso: JO
+    name: Jordan
+- model: core.country
+  pk: 100
+  fields:
+    iso: KZ
+    name: Kazakhstan
+- model: core.country
+  pk: 42
+  fields:
+    iso: XK
+    name: Kosovo under the UNSCR 1244/99
+- model: core.country
+  pk: 101
+  fields:
+    iso: KG
+    name: Kyrgyzstan
+- model: core.country
+  pk: 21
+  fields:
+    iso: LV
+    name: Latvia
+- model: core.country
+  pk: 117
+  fields:
+    iso: LB
+    name: Lebanon
+- model: core.country
+  pk: 111
+  fields:
+    iso: LY
+    name: Libya
+- model: core.country
+  pk: 102
+  fields:
+    iso: LI
+    name: Liechtenstein
+- model: core.country
+  pk: 22
+  fields:
+    iso: LT
+    name: Lithuania
+- model: core.country
+  pk: 23
+  fields:
+    iso: LU
+    name: Luxembourg
+- model: core.country
+  pk: 25
+  fields:
+    iso: MT
+    name: Malta
+- model: core.country
+  pk: 26
+  fields:
+    iso: MD
+    name: Moldova
+- model: core.country
+  pk: 103
+  fields:
+    iso: MC
+    name: Monaco
+- model: core.country
+  pk: 115
+  fields:
+    iso: ME
+    name: Montenegro
+- model: core.country
+  pk: 112
+  fields:
+    iso: MA
+    name: Morocco
+- model: core.country
+  pk: 27
+  fields:
+    iso: NL
+    name: Netherlands
+- model: core.country
+  pk: 28
+  fields:
+    iso: 'NO'
+    name: Norway
+- model: core.country
+  pk: 118
+  fields:
+    iso: PS
+    name: Palestine
+- model: core.country
+  pk: 29
+  fields:
+    iso: PL
+    name: Poland
+- model: core.country
+  pk: 30
+  fields:
+    iso: PT
+    name: Portugal
+- model: core.country
+  pk: 31
+  fields:
+    iso: RO
+    name: Romania
+- model: core.country
+  pk: 32
+  fields:
+    iso: RU
+    name: Russian Federation
+- model: core.country
+  pk: 104
+  fields:
+    iso: SM
+    name: San Marino
+- model: core.country
+  pk: 41
+  fields:
+    iso: RS
+    name: Serbia
+- model: core.country
+  pk: 33
+  fields:
+    iso: SK
+    name: Slovakia
+- model: core.country
+  pk: 34
+  fields:
+    iso: SI
+    name: Slovenia
+- model: core.country
+  pk: 35
+  fields:
+    iso: ES
+    name: Spain
+- model: core.country
+  pk: 36
+  fields:
+    iso: SE
+    name: Sweden
+- model: core.country
+  pk: 37
+  fields:
+    iso: CH
+    name: Switzerland
+- model: core.country
+  pk: 119
+  fields:
+    iso: SY
+    name: Syria
+- model: core.country
+  pk: 105
+  fields:
+    iso: TJ
+    name: Tajikistan
+- model: core.country
+  pk: 24
+  fields:
+    iso: MK
+    name: The former Yugoslav Republic of Macedonia
+- model: core.country
+  pk: 113
+  fields:
+    iso: TN
+    name: Tunisia
+- model: core.country
+  pk: 38
+  fields:
+    iso: TR
+    name: Turkey
+- model: core.country
+  pk: 106
+  fields:
+    iso: TM
+    name: Turkmenistan
+- model: core.country
+  pk: 39
+  fields:
+    iso: UA
+    name: Ukraine
+- model: core.country
+  pk: 40
+  fields:
+    iso: GB
+    name: United Kingdom
+- model: core.country
+  pk: 107
+  fields:
+    iso: UZ
+    name: Uzbekistan
+- model: core.country
+  pk: 121
+  fields:
+    iso: VA
+    name: Vatican City
+
