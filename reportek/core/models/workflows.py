@@ -82,7 +82,8 @@ class WFTransition(models.Model):
     class Meta:
         verbose_name = 'workflow transition'
         verbose_name_plural = 'workflow transitions'
-
+        unique_together = ('name', 'workflow')
+        
 
 class WFTransitionSource(models.Model):
     transition = models.ForeignKey(WFTransition, related_name='sources')
