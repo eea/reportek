@@ -34,6 +34,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'reportek.core.apps.Config',
+    'django_xworkflows',
+    'typedmodels',
     'rest_framework',
     'django_extensions',
     'django.contrib.admin',
