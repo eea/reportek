@@ -33,6 +33,9 @@ class BaseReport(TypedModel):
     class Meta:
         db_table = 'core_reports'
 
+    def __str__(self):
+        return self.name
+
     def get_transition_methods(self):
         """Builds an 'attrs'-style dict of transition methods"""
         # Pick the transitions from the class not the instance,
