@@ -3,7 +3,7 @@ import xworkflows as xwf
 
 
 class WorkFlow(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
 
     class Meta:
         verbose_name = 'workflow'
