@@ -122,7 +122,7 @@ class Migration(migrations.Migration):
                 'proxy': True,
                 'indexes': [],
             },
-            bases=('core.basereport', reportek.core.models.reports.catalog.AgeMixin),
+            bases=('core.basereport', reportek.core.models.reports.catalog.FinishMixin),
         ),
         migrations.AlterUniqueTogether(
             name='wftransitionsource',
