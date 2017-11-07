@@ -46,6 +46,7 @@ class WFState(models.Model):
     class Meta:
         verbose_name = 'workflow state'
         verbose_name_plural = 'workflow states'
+        unique_together = ('name', 'workflow')
 
     def __str__(self):
         return f'{self.title} ({self.name}) [{self.workflow}]'
