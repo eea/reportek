@@ -4,13 +4,6 @@ import xworkflows as xwf
 
 class WorkFlow(models.Model):
     name = models.CharField(max_length=30)
-    # Initial state is nullable to avoid circular FK
-    # issues in admin
-    initial_state = models.ForeignKey(
-        'WFState',
-        related_name='workflows_initiated',
-        blank=True, null=True,
-    )
 
     class Meta:
         verbose_name = 'workflow'
@@ -56,6 +49,25 @@ class WFState(models.Model):
 
     def __str__(self):
         return f'{self.title} ({self.name}) [{self.workflow}]'
+
+
+class WFInitialState(models.Model):
+    """
+    The unfortunate consequence of Django missing support for
+    both composite PKs and deferrable constraints:
+
+     - no deferrables means a non-nullable FK to WFState cannot exist on WorkFlow
+     - no CPK means we can't simply have PK(WorkFlow FK, WFState FK) here.
+    """
+    workflow = models.ForeignKey(WorkFlow, primary_key=True, related_name='initial_state')
+    state = models.ForeignKey(WFState, unique=True)
+
+    class Meta:
+        verbose_name = 'workflow initial state'
+        verbose_name_plural = 'workflow initial states'
+
+    def __str__(self):
+        return f'{self.state.name} ({self.workflow.name})'
 
 
 class WFTransition(models.Model):

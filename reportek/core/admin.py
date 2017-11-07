@@ -15,6 +15,7 @@ from .models.reports import (
 from .models.workflows import (
     WorkFlow,
     WFState,
+    WFInitialState,
     WFTransition,
     WFTransitionSource
 )
@@ -29,11 +30,34 @@ admin.site.register(Instrument)
 admin.site.register(Obligation)
 
 # Workflows
-admin.site.register(WorkFlow)
-admin.site.register(WFState)
-admin.site.register(WFTransition)
-admin.site.register(WFTransitionSource)
+
+
+class WFStateInline(admin.TabularInline):
+    model = WFState
+
+
+class WFInitialStateInline(admin.TabularInline):
+    model = WFInitialState
+
+
+@admin.register(WorkFlow)
+class WorkFlowAdmin(admin.ModelAdmin):
+    inlines = [
+        WFStateInline,
+        WFInitialStateInline,
+    ]
+
+
+class WFTransitionSourceInline(admin.TabularInline):
+    model = WFTransitionSource
+
+
+@admin.register(WFTransition)
+class WFTransitionAdmin(admin.ModelAdmin):
+    inlines = [
+        WFTransitionSourceInline,
+    ]
+
 
 # Reports
 admin.site.register(ReportOne)
-
