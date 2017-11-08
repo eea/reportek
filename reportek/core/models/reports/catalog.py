@@ -49,7 +49,7 @@ class SendToQAMixin:
         self.report.wf_state = next_state
         self.report.save()
         print(f'"{self.report.name}" is now in state "{next_state.name}"')
-        self.report.qa_mgr.send(self.report)
+        self.report.qa_mgr.send(self.report, self.report.handle_qa_result)
 
     def handle_qa_result(self, result):
         trans_name = 'qa_succeeded' if result['valid'] else 'qa_failed'
