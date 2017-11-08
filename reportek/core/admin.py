@@ -8,9 +8,7 @@ from .models import (
     Obligation,
 )
 
-from .models.reports import (
-    ReportOne,
-)
+from .models.reports import *
 
 from .models.workflows import (
     WorkFlow,
@@ -60,4 +58,5 @@ class WFTransitionAdmin(admin.ModelAdmin):
 
 
 # Reports
-admin.site.register(ReportOne)
+# TODO: Register only the BaseReport without 'Untyped BaseReport cannot be saved' error
+admin.site.register(ReportSimple)

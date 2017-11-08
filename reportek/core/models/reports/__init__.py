@@ -1,2 +1,2 @@
 from .base import BaseReport
-from .catalog import ReportOne
+from .catalog import *

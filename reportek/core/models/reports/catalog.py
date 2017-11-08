@@ -4,6 +4,11 @@ from .base import BaseReport
 from .base import WFState
 
 
+__all__ = [
+    'ReportSimple',
+]
+
+
 class FinishMixin:
     @xwf.transition()
     def finish(self):
@@ -13,6 +18,7 @@ class FinishMixin:
         print(f'{self.report.name} is finished!!!')
 
 
-class ReportOne(BaseReport, FinishMixin):
+class ReportSimple(BaseReport, FinishMixin):
     class Meta:
-        verbose_name = 'report'
+        verbose_name = 'report (simple)'
+        verbose_name_plural = 'reports (simple)'
