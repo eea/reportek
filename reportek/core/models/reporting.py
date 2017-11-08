@@ -18,18 +18,13 @@ class _BrowsableModel(models.Model):
     def __str__(self):
         return self.name
 
-        
-class Workflow(models.Model):
-    # dummy model for the moment
-    pass
-
 
 class ObligationGroup(_BrowsableModel):
     name = models.CharField(max_length=256, unique=True)
     
     # the workflow is nullable to allow creation of the group
     # while its workflow doesn't exist, or by someone unprivileged 
-    workflow = models.ForeignKey(Workflow, null=True)
+    workflow = models.CharField(max_length=256, null=True)
     
     
 class Collection(_BrowsableModel):
@@ -54,4 +49,3 @@ class Envelope(_BrowsableModel):
         unique_together = (
             ('obligation_group', 'country', 'reporting_period'),
         )
-    

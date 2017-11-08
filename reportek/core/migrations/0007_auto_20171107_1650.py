@@ -42,21 +42,11 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('slug', models.SlugField(unique=True)),
                 ('name', models.CharField(max_length=256, unique=True)),
+                ('workflow', models.CharField(max_length=256, null=True)),
             ],
             options={
                 'abstract': False,
             },
-        ),
-        migrations.CreateModel(
-            name='Workflow',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-            ],
-        ),
-        migrations.AddField(
-            model_name='obligationgroup',
-            name='workflow',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='core.Workflow'),
         ),
         migrations.AddField(
             model_name='envelope',

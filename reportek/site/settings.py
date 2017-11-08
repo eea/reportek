@@ -34,6 +34,8 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'reportek.core.apps.Config',
+    'django_xworkflows',
+    'typedmodels',
     'rest_framework',
     'django_extensions',
     'django.contrib.admin',
@@ -87,6 +89,11 @@ DATABASES = {
         'PASSWORD': 'reportek'
     }
 }
+
+
+SILENCED_SYSTEM_CHECKS = [
+    'fields.W342',  # Disable OneToOneField recommendation
+]
 
 
 # Password validation
