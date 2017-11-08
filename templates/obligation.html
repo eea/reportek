@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block header %}
+  <h1>{{ obligation.title }}</h1>
+  <p>
+    <a href="/">Home</a> »
+    <a href="{{ url('country', country.slug) }}">{{ country.name }}</a> »
+    <a href="{{ url('instrument', country.slug, instrument.slug) }}">{{ instrument.title }}</a>
+  </p>
+{% endblock %}
+
+
+{% block content %}
+
+<p><small>Client: {{ obligation.client }}</small></p>
+{{ obligation.description|linebreaks }}
+  
+{% endblock %}

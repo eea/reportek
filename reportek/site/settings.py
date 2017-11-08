@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django_xworkflows',
     'typedmodels',
     'rest_framework',
+    'django_jinja',
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -59,6 +60,18 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'reportek.site.urls'
 
 TEMPLATES = [
+    {
+        'BACKEND': 'django_jinja.backend.Jinja2',
+        'DIRS': [
+            os.path.join(ROOT_DIR, 'templates'),
+        ],
+        'APP_DIRS': False,
+        'OPTIONS': {
+            # everything under our template dir is a jinja template
+            "match_extension": None,
+            # TODO: enable bytecode cache in production
+        },
+    },
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],

@@ -16,6 +16,21 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 
+from . import views
+
+
+_country = r'(?P<country>[a-z]{2})'
+_instrument = r'(?P<instrument>[\w-]+)'
+_obligation = r'(?P<obligation>[\w-]+)'
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$',
+        views.home, name='home'),
+    url(f'^{ _country }/$',
+        views.country, name='country'),
+    url(f'^{ _country }/{ _instrument }/$',
+        views.instrument, name='instrument'),
+    url(f'^{ _country }/{ _instrument }/{ _obligation }/$',
+        views.obligation, name='obligation'),
 ]

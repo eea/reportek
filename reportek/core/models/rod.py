@@ -19,6 +19,10 @@ class Country(models.Model):
     def __str__(self):
         return f'{self.name} [{self.iso}]'
 
+    @property
+    def slug(self):
+        return self.iso.lower()
+
 
 class Issue(models.Model):
     """Environmental issues"""
@@ -28,12 +32,33 @@ class Issue(models.Model):
         return self.name
 
 
+class InstrumentQuerySet(models.QuerySet):
+    def for_country(self, country):
+        obligations = Obligation.objects.for_country(country)
+        return self.filter(
+            obligation__in=obligations.values_list('pk', flat=True)
+        ).distinct()
+
+
 class Instrument(models.Model):
     """Legislative instruments"""
     title = models.CharField(max_length=256)
 
+    objects = InstrumentQuerySet.as_manager()
+
     def __str__(self):
         return self.title
+
+    @property
+    def slug(self):
+        return self.pk
+
+
+class ObligationQuerySet(models.QuerySet):
+    def for_country(self, country):
+        if isinstance(country, models.Model):
+            country = country.pk
+        return self.filter(delivery_countries__pk=country)
 
 
 class Obligation(models.Model):
@@ -53,7 +78,13 @@ class Obligation(models.Model):
     instrument = models.ForeignKey(Instrument, blank=True, null=True)
     delivery_countries = models.ManyToManyField(Country)
 
+    objects = ObligationQuerySet.as_manager()
+
     URL_PATTERN = 'http://rod.eionet.europa.eu/obligations/{id}'
 
     def __str__(self):
         return self.title
+
+    @property
+    def slug(self):
+        return self.pk
