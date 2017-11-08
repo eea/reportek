@@ -12,6 +12,7 @@ from xworkflows import WorkflowEnabled
 from xworkflows.base import TransitionWrapper
 
 from reportek.core.models import (
+    Country,
     Obligation,
 )
 from reportek.core.models.workflows import (
@@ -27,6 +28,7 @@ class TransitionLog(GenericTransitionLog):
 class BaseReport(TypedModel):
     name = models.CharField(max_length=100)
     obligation = models.ForeignKey(Obligation)
+    country = models.ForeignKey(Country)
     workflow = models.ForeignKey(WorkFlow)
     wf_state = models.ForeignKey(WFState)
 
