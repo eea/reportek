@@ -70,5 +70,5 @@ class BaseReport(TypedModel):
             (WorkflowEnabled,),
             attrs)
         wf = wf_bearer()
-        # TODO: Move wf to current state?
+        wf.state = self.wf_state.name  # Move to current state
         return wf
