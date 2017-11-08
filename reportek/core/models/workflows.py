@@ -23,7 +23,7 @@ class WorkFlow(models.Model):
             (t.name, (src.state.name for src in t.sources.all()), t.target.name)
             for t in self.transitions.all()
         )
-        initial_state = self.initial_state.name
+        initial_state = self.initial_state.first().state.name
 
         bases = (xwf.Workflow,)
         attrs = {
