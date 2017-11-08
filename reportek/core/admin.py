@@ -60,3 +60,4 @@ class WFTransitionAdmin(admin.ModelAdmin):
 # Reports
 # TODO: Register only the BaseReport without 'Untyped BaseReport cannot be saved' error
 admin.site.register(ReportSimple)
+admin.site.register(ReportWithQA)
