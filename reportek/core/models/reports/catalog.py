@@ -22,11 +22,13 @@ def dumb_transition(to_state):
     def decorator(f):
         @wraps(f)
         def wrapper(self, *args, **kwargs):
+            prev_state = self.report.wf_state
             next_state = WFState.objects.get(
                 name=to_state,
                 workflow=self.report.workflow)
             self.report.wf_state = next_state
             self.report.save()
+            self.report.log_transition(f.__name__, prev_state, next_state)
             print(f'"{self.report.name}" is now in state "{next_state.name}".')
         return wrapper
     return decorator
@@ -45,9 +47,11 @@ class SendToQAMixin:
 
     @xwf.transition()
     def send_to_qa(self):
+        prev_state = self.report.wf_state
         next_state = WFState.objects.get(name='auto_qa', workflow=self.report.workflow)
         self.report.wf_state = next_state
         self.report.save()
+        self.report.log_transition('send_to_qa', prev_state, next_state)
         print(f'"{self.report.name}" is now in state "{next_state.name}"')
         self.report.qa_mgr.send(self.report, self.report.handle_qa_result)
 
