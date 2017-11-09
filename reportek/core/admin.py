@@ -59,5 +59,11 @@ class WFTransitionAdmin(admin.ModelAdmin):
 
 # Reports
 # TODO: Register only the BaseReport without 'Untyped BaseReport cannot be saved' error
+
+@admin.register(ReportLog)
+class ReportLogAdmin(admin.ModelAdmin):
+    list_display = ['timestamp', 'content_object', 'from_state', 'to_state']
+
+
 admin.site.register(ReportSimple)
 admin.site.register(ReportWithQA)

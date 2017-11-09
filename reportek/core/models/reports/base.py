@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 from typedmodels.models import TypedModel
 from django_xworkflows.models import (
     GenericTransitionLog,
@@ -18,7 +19,9 @@ from reportek.core.models import (
 from reportek.core.models.workflows import (
     WorkFlow,
     WFState,
+    WFTransition,
 )
+from .log import ReportLog
 
 
 class TransitionLog(GenericTransitionLog):
@@ -31,6 +34,7 @@ class BaseReport(TypedModel):
     country = models.ForeignKey(Country)
     workflow = models.ForeignKey(WorkFlow)
     wf_state = models.ForeignKey(WFState)
+    log_events = GenericRelation(ReportLog)
 
     class Meta:
         db_table = 'core_reports'
@@ -72,3 +76,16 @@ class BaseReport(TypedModel):
         wf = wf_bearer()
         wf.state = self.wf_state.name  # Move to current state
         return wf
+
+    def log_transition(self, transition_name, from_state, to_state, extra=None):
+        transition = WFTransition.objects.get(
+            name=transition_name,
+            workflow=self.workflow
+        )
+        ReportLog.objects.create(
+            content_object=self,
+            transition=transition,
+            from_state=from_state,
+            to_state=to_state,
+            extra=extra
+        )
