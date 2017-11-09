@@ -9,6 +9,7 @@ from .reporting import (
     ObligationGroup,
     Collection,
     Envelope,
+    EnvelopeFile,
 )
 
 from .reports import *
