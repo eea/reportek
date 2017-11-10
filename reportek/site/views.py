@@ -56,13 +56,3 @@ def obligation(request, country, instrument, obligation):
         "instrument": instrument,
         "obligation": obligation,
     })
-
-
-from edw.djutils.protected import views as pv
-from reportek.core import permissions as perm
-
-
-class Z(pv.ProtectedDetailView):
-    permission_classes = (perm.IsAuthenticated,)
-    model = Country
-    pass

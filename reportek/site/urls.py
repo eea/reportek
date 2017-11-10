@@ -39,10 +39,4 @@ urlpatterns = [
         views.obligation, name='obligation'),
 
     url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
-
-
-url(r'^moo/(?P<pk>[0-9]+)$', views.Z.as_view())
-
-
-
 ]
