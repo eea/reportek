@@ -13,10 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 
+from . import api_urls
 from . import views
+
+
+API_VERSION = "0.1"
 
 
 _country = r'(?P<country>[a-z]{2})'
@@ -33,4 +37,12 @@ urlpatterns = [
         views.instrument, name='instrument'),
     url(f'^{ _country }/{ _instrument }/{ _obligation }/$',
         views.obligation, name='obligation'),
+
+    url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
+
+
+url(r'^moo/(?P<pk>[0-9]+)$', views.Z.as_view())
+
+
+
 ]
