@@ -19,7 +19,9 @@ class BaseWorkflow(TypedModel):
     name = models.CharField(max_length=100)
     previous_state = models.CharField(max_length=60, null=True, blank=True)
     current_state = models.CharField(max_length=60, null=True, blank=True)
-    envelope = models.ForeignKey(Envelope)
+    envelope = models.OneToOneField(Envelope,
+                                    on_delete=models.CASCADE,
+                                    related_name='workflow')
     history = GenericRelation(TransitionEvent)
 
     class Meta:
