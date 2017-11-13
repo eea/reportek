@@ -74,5 +74,5 @@ class EnvelopeFile(models.Model):
             os.path.basename(filename)
         )
 
-    envelope = models.ForeignKey(Envelope)
+    envelope = models.ForeignKey(Envelope, related_name='files')
     file = models.FileField(upload_to=get_envelope_directory)

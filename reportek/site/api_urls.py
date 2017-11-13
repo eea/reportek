@@ -1,6 +1,9 @@
 from rest_framework import routers
 
-from reportek.core.urls import router as core_router
+from reportek.core.urls import (
+    router as core_router,
+    nested_routers as core_nested_routers,
+)
 
 
 class DefaultRouter(routers.DefaultRouter):
@@ -12,7 +15,12 @@ class DefaultRouter(routers.DefaultRouter):
         self.registry.extend(router.registry)
 
 
-router = DefaultRouter()
-router.extend(core_router)
+root = DefaultRouter()
+root.extend(core_router)
 
-urlpatterns = router.urls
+urlpatterns = root.urls + [
+    url
+    for routers in [core_nested_routers]
+    for router in routers
+    for url in router.urls
+]
