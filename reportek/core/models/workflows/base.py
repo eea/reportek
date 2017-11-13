@@ -17,8 +17,8 @@ class BaseWorkflow(TypedModel):
     """
 
     name = models.CharField(max_length=100)
-    previous_state = models.CharField(max_length=60, null=True)
-    current_state = models.CharField(max_length=60)
+    previous_state = models.CharField(max_length=60, null=True, blank=True)
+    current_state = models.CharField(max_length=60, null=True, blank=True)
     envelope = models.ForeignKey(Envelope)
     history = GenericRelation(TransitionEvent)
 
