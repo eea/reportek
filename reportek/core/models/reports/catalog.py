@@ -1,15 +1,7 @@
 from functools import wraps
 import xworkflows as xwf
 
-from .base import BaseReport
-from .base import WFState
-
-from reportek.core.qa import QAManager
-
-__all__ = [
-    'ReportSimple',
-    'ReportWithQA',
-]
+from reportek.core.qa import QAConnection
 
 
 def dumb_transition(to_state):
@@ -23,11 +15,7 @@ def dumb_transition(to_state):
         @wraps(f)
         def wrapper(self, *args, **kwargs):
             prev_state = self.report.wf_state
-            next_state = WFState.objects.get(
-                name=to_state,
-                workflow=self.report.workflow)
-            self.report.wf_state = next_state
-            self.report.save()
+            next_state = ''
             self.report.log_transition(f.__name__, prev_state, next_state)
             print(f'"{self.report.name}" is now in state "{next_state.name}".')
         return wrapper
@@ -43,17 +31,11 @@ class FinishMixin:
 
 class SendToQAMixin:
 
-    qa_mgr = QAManager()
+    qa_mgr = QAConnection()
 
     @xwf.transition()
     def send_to_qa(self):
-        prev_state = self.report.wf_state
-        next_state = WFState.objects.get(name='auto_qa', workflow=self.report.workflow)
-        self.report.wf_state = next_state
-        self.report.save()
-        self.report.log_transition('send_to_qa', prev_state, next_state)
-        print(f'"{self.report.name}" is now in state "{next_state.name}"')
-        self.report.qa_mgr.send(self.report, self.report.handle_qa_result)
+        pass
 
     def handle_qa_result(self, result):
         trans_name = 'qa_succeeded' if result['valid'] else 'qa_failed'
@@ -84,14 +66,14 @@ class SendToQAMixin:
         pass
 
 
-class ReportSimple(BaseReport, FinishMixin):
+class ReportSimple(FinishMixin):
 
     class Meta:
         verbose_name = 'report (simple)'
         verbose_name_plural = 'reports (simple)'
 
 
-class ReportWithQA(BaseReport, SendToQAMixin):
+class ReportWithQA(SendToQAMixin):
 
     class Meta:
         verbose_name = 'report (with QA)'

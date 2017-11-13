@@ -5,20 +5,22 @@ from django.contrib.postgres.fields import JSONField
 from django.core.serializers.json import DjangoJSONEncoder
 
 
-class ReportLog(models.Model):
+class TransitionEvent(models.Model):
     """
-    Log for events in a report's life cycle.
-    Currently dedicated to transitions logging.
+    Transition events in a workflow's life cycle.
     """
     timestamp = models.DateTimeField(auto_now_add=True, editable=False)
 
-    # We use generic FKs to accomodate the various report types
+    # Use generic FKs to accomodate the various workflow types
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey()
 
+    transition = models.CharField(max_length=60)
+    from_state = models.CharField(max_length=60)
+    to_state = models.CharField(max_length=60)
     extra = JSONField(encoder=DjangoJSONEncoder, null=True)
 
     class Meta:
-        verbose_name = 'report log event'
-        unique_together = ('timestamp', 'from_state', 'to_state')
+        verbose_name = 'workflow event'
+        unique_together = ('timestamp', 'object_id', 'from_state', 'to_state')

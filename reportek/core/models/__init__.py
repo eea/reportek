@@ -12,4 +12,6 @@ from .reporting import (
     EnvelopeFile,
 )
 
-from .reports import *
+from .workflows import (
+    DemoAutoQAWorkflow,
+)
