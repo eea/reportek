@@ -29,6 +29,10 @@ class BaseWorkflow(TypedModel):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.current_state = self.current_state or self.initial_state
+        super().save(*args, **kwargs)
+
     # Concrete types must specify these per the XWorkflows API
     states = ()
     transitions = ()
