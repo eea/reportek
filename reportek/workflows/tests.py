@@ -6,13 +6,17 @@ from .models import (
 )
 
 
-class NewState(State):
+class _State(State):
+    def perform(self):
+        self.advance()
+
+class InitialState(_State):
     pass
 
-class FinalState(State):
+class FinalState(_State):
     pass
 
-class OtherState(State):
+class OtherState(_State):
     pass
 
 
@@ -27,7 +31,7 @@ class TestContextConfiguration():
     def test_missing_initial_state(self):
         class Ctx(Context):
             TRANSITIONS = (
-                (NewState, FinalState),
+                (InitialState, FinalState),
             )
         with pytest.raises(ConfigurationError) as einfo:
             c = Ctx()
@@ -36,8 +40,8 @@ class TestContextConfiguration():
     def test_missing_final_state(self):
         class Ctx(Context):
             TRANSITIONS = (
-                (None, NewState),
-                (NewState, FinalState),
+                (None, InitialState),
+                (InitialState, FinalState),
             )
         with pytest.raises(ConfigurationError) as einfo:
             c = Ctx()
@@ -46,8 +50,8 @@ class TestContextConfiguration():
     def test_simple_configuration_is_ok(self):
         class Ctx(Context):
             TRANSITIONS = (
-                (None, NewState),
-                (NewState, FinalState),
+                (None, InitialState),
+                (InitialState, FinalState),
                 (FinalState, None),
             )
         c = Ctx()
@@ -56,22 +60,22 @@ class TestContextConfiguration():
     def test_multiple_exit_paths(self):
         class Ctx(Context):
             TRANSITIONS = (
-                (None, NewState),
-                (NewState, OtherState),
-                (NewState, FinalState),
+                (None, InitialState),
+                (InitialState, OtherState),
+                (InitialState, FinalState),
                 (OtherState, FinalState),
                 (FinalState, None),
             )
         with pytest.raises(ConfigurationError) as einfo:
             c = Ctx()
-        assert str(einfo.value) == 'State `NewState` has multiple exit paths.'
+        assert str(einfo.value) == 'State `InitialState` has multiple exit paths.'
 
     def test_configuration_with_conditions_is_ok(self):
         class Ctx(Context):
             TRANSITIONS = (
-                (None, NewState),
-                (NewState, OtherState, (lambda state: True, )),
-                (NewState, FinalState,  (lambda state: False, )),
+                (None, InitialState),
+                (InitialState, OtherState, lambda state: True),
+                (InitialState, FinalState, lambda state: False),
                 (OtherState, FinalState),
                 (FinalState, None),
             )

@@ -11,37 +11,37 @@ class Context():
                                      % self.__class__.__name__)
 
         transitions = []
-        states = {}
-
-        def _get_state(cls):
-            if cls is None:
-                return None
-
-            try:
-                state = states[cls]
-            except KeyError:
-                state = cls(context=self)
-                states[cls] = state
-
-            return state
+        self.__states = {}
 
         for tdef in self.TRANSITIONS:
             try:
-                source, target, conditions = tdef
+                source, target, condition = tdef
             except ValueError:
                 source, target = tdef
-                conditions = None
+                condition = None
 
-            transition = Transition(_get_state(source),
-                                    _get_state(target),
-                                    conditions)
+            transition = Transition(self._get_state(source),
+                                    self._get_state(target),
+                                    condition)
             transitions.append(transition)
 
         self.transitions = tuple(transitions)
-        self.states = tuple(states.values())
+        self.states = tuple(self.__states.values())
 
         self.state = self.get_initial_state()
         self.state.perform()
+
+    def _get_state(self, cls):
+        if cls is None:
+            return None
+
+        try:
+            state = self.__states[cls]
+        except KeyError:
+            state = cls(context=self)
+            self.__states[cls] = state
+
+        return state
 
     def advance(self):
         self.state = self.get_next_state()
@@ -76,24 +76,27 @@ class State():
         self.context = context
 
     def perform(self):
+        raise NotImplementedError(
+            "Subclasses of `State` must provide a `perform`()` method.")
+
+    def advance(self):
         self.context.advance()
 
 
 class Transition():
-    def __init__(self, source=None, target=None, conditions=None):
+    def __init__(self, source=None, target=None, condition=None):
         if source is None and target is None:
             raise ConfigurationError(
                 "`source` and `target` can't both be undefined."
             )
-        if conditions is None:
-            conditions = ()
+
         self.source = source
         self.target = target
-        self.conditions = conditions
+        self.condition = condition
 
     def check(self):
-        # conditions are checked only against the source state
-        return all(
-            condition(self.source)
-            for condition in self.conditions
+        # the condition is checked against the source state
+        return (
+            self.condition is None
+            or self.condition(self.source)
         )
