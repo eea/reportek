@@ -78,12 +78,11 @@ class BaseWorkflow(TypedModel):
                 from_state=src,
                 to_state=dst
             )
-            print(f'"{self.envelope.name}" is now in state "{dst}".')
+            print(f'"{self.bearer.envelope.name}" is now in state "{dst}".')
 
         bases = (xwf.Workflow,)
         attrs = {
             'bearer': self,
-            'envelope': self.envelope,
             'states': self.states,
             'transitions': self.transitions,
             'initial_state': self.initial_state,
@@ -130,8 +129,6 @@ class BaseWorkflow(TypedModel):
             {
                 'state': self.xwf_cls(),
                 'bearer': self,
-                'envelope': self.envelope,
-                'qa_conn': self.qa_conn,
                 'post_transition': xwf.after_transition()(post_transition),
                 # XWorkflows needs __module__ set on the enabled class
                 '__module__': __name__
