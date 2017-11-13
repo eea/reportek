@@ -23,6 +23,7 @@ class BaseWorkflow(TypedModel):
     history = GenericRelation(TransitionEvent)
 
     class Meta:
+        db_table = 'core_workflow'
         verbose_name = 'workflow'
 
     def __str__(self):
