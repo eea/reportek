@@ -2,7 +2,9 @@ from django.conf.urls import url
 from rest_framework_nested import routers
 
 from .views import (
-    EnvelopeViewSet, EnvelopeFileViewSet,
+    EnvelopeViewSet,
+    EnvelopeFileViewSet,
+    EnvelopeWorkflowViewSet,
 )
 
 
@@ -21,7 +23,18 @@ files_router.register(
     base_name='envelope-file'
 )
 
-nested_routers = [files_router]
+workflow_router = routers.NestedSimpleRouter(
+    router, 'envelopes', lookup='envelope')
+workflow_router.register(
+    'workflow',
+    EnvelopeWorkflowViewSet,
+    base_name='envelope-workflow'
+)
+
+nested_routers = [
+    files_router,
+    workflow_router
+]
 
 urlpatterns = router.urls + [
     url
