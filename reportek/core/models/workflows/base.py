@@ -5,7 +5,6 @@ from django.contrib.contenttypes.fields import GenericRelation
 from typedmodels.models import TypedModel
 import xworkflows as xwf
 
-from reportek.core.models.reporting import Envelope
 from reportek.core.qa import QAConnection
 from .log import TransitionEvent
 
@@ -19,9 +18,6 @@ class BaseWorkflow(TypedModel):
     name = models.CharField(max_length=100)
     previous_state = models.CharField(max_length=60, null=True, blank=True)
     current_state = models.CharField(max_length=60, null=True, blank=True)
-    envelope = models.OneToOneField(Envelope,
-                                    on_delete=models.CASCADE,
-                                    related_name='workflow')
     history = GenericRelation(TransitionEvent)
 
     class Meta:

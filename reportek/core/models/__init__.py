@@ -5,6 +5,12 @@ from .rod import (
     Instrument,
     Obligation,
 )
+
+from .workflows import (
+    BaseWorkflow,
+    DemoAutoQAWorkflow,
+)
+
 from .reporting import (
     ObligationGroup,
     Collection,
@@ -12,6 +18,3 @@ from .reporting import (
     EnvelopeFile,
 )
 
-from .workflows import (
-    DemoAutoQAWorkflow,
-)

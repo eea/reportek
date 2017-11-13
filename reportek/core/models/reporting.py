@@ -4,8 +4,8 @@ from django.contrib.postgres import fields as pgfields
 
 from . import (
     Country,
+    BaseWorkflow,
 )
-
 
 ENVELOPE_ROOT_DIR = "envelopes"
 
@@ -28,7 +28,7 @@ class ObligationGroup(_BrowsableModel):
 
     # the workflow is nullable to allow creation of the group
     # while its workflow doesn't exist, or by someone unprivileged
-    workflow = models.CharField(max_length=256, null=True)
+    workflow = models.ForeignKey(BaseWorkflow, null=True, blank=True)
 
 
 class Collection(_BrowsableModel):
@@ -48,11 +48,22 @@ class Envelope(_BrowsableModel):
     country = models.ForeignKey(Country)
     # TODO: the reporting period needs to be derived from the obligation
     reporting_period = pgfields.DateRangeField()
+    workflow = models.OneToOneField(BaseWorkflow,
+                                    on_delete=models.CASCADE,
+                                    related_name='envelope',
+                                    null=True, blank=True)
 
     class Meta:
         unique_together = (
             ('obligation_group', 'country', 'reporting_period'),
         )
+
+    def save(self, *args, **kwargs):
+        # Force workflow to obligation group's one
+        if not self.workflow or self.workflow != self.obligation_group.workflow:
+            self.workflow = self.obligation_group.workflow
+
+        super().save(*args, **kwargs)
 
 
 class EnvelopeFile(models.Model):

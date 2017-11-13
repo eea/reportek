@@ -77,6 +77,7 @@ class Obligation(models.Model):
     # has '0' as FK_SOURCE_ID
     instrument = models.ForeignKey(Instrument, blank=True, null=True)
     delivery_countries = models.ManyToManyField(Country)
+    group = models.ForeignKey('core.ObligationGroup', null=True, blank=True)
 
     objects = ObligationQuerySet.as_manager()
 
