@@ -63,6 +63,24 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
 
         return Response(make_response())
 
+    @detail_route(methods=['get'])
+    def history(self, request, pk):
+        """
+        Returns an evelope's transition history.
+        """
+        envelope = self.get_object()
+        workflow = envelope.workflow
+        return Response(
+            {
+                ev.timestamp.isoformat(): {
+                    'transition': ev.transition,
+                    'from_state': ev.from_state,
+                    'to_state': ev.to_state
+                }
+                for ev in workflow.history.all()
+            }
+        )
+
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
     queryset = EnvelopeFile.objects.all()
