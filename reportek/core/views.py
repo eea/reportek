@@ -25,29 +25,31 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
         """
         Initiates a transition, expects `transition_name` in the POST data.
         """
+
         envelope = self.get_object()
         workflow = envelope.workflow
         transition_name = request.data.get('transition_name')
+
+        def make_response(with_error=None):
+            response = {
+                'transition': transition_name,
+                'current_state': workflow.current_state,
+            }
+            if with_error:
+                response['error'] = with_error
+            return response
 
         try:
             transition = getattr(workflow.xwf, transition_name)
         except AttributeError:
             return Response(
-                {
-                    'transition': transition_name,
-                    'current_state': workflow.current_state,
-                    'error': 'Invalid transition name'
-                },
+                make_response(with_error='Invalid transition name'),
                 status=status.HTTP_400_BAD_REQUEST
             )
 
         if not transition.is_available():
             return Response(
-                {
-                    'transition': transition_name,
-                    'current_state': workflow.current_state,
-                    'error': 'Transition not allowed from current state'
-                },
+                make_response(with_error='Transition not allowed from current state'),
                 status=status.HTTP_406_NOT_ACCEPTABLE
             )
 
@@ -55,20 +57,11 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
             transition()
         except Exception as err:
             return Response(
-                {
-                    'transition': transition_name,
-                    'current_state': workflow.current_state,
-                    'error': err
-                },
+                make_response(with_error=err),
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
-        return Response(
-            {
-                'transition': transition_name,
-                'current_state': workflow.current_state
-            }
-        )
+        return Response(make_response())
 
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
