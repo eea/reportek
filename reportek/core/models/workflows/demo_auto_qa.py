@@ -4,7 +4,7 @@ import xworkflows as xwf
 from .base import BaseWorkflow
 
 __all__ = [
-    'DemoAutoQA',
+    'DemoAutoQAWorkflow',
 ]
 
 log = logging.getLogger('reportek.workflows')
