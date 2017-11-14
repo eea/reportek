@@ -1,6 +1,8 @@
 import os.path
 from django.db import models
 from django.contrib.postgres import fields as pgfields
+from django.urls import reverse
+from edw.djutils import protected
 
 from . import (
     Country,
@@ -75,4 +77,14 @@ class EnvelopeFile(models.Model):
         )
 
     envelope = models.ForeignKey(Envelope, related_name='files')
-    file = models.FileField(upload_to=get_envelope_directory)
+    file = protected.fields.ProtectedFileField(upload_to=get_envelope_directory)
+
+    def get_file_url(self):
+        return reverse('core:envelope-file', kwargs={
+            'pk': self.envelope.pk,
+            'filename': self.basename,
+        })
+
+    @property
+    def basename(self):
+        return os.path.basename(self.file.name)

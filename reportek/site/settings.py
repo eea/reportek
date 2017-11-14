@@ -151,6 +151,9 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(PARENT_DIR, 'uploads')
 MEDIA_URL = '/files/'
 
+PROTECTED_ROOT = os.path.join(PARENT_DIR, 'protected_uploads')
+PROTECTED_URL = '/protected-files/'
+
 
 FIXTURE_DIRS = [
     os.path.join(ROOT_DIR, 'data', 'fixtures')

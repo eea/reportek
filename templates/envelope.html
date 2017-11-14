@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block header %}
+  <h1>{{ envelope.name }}</h1>
+  <p>
+    <a href="/">Home</a>
+    ...
+    <a href="#obligation-group-TODO">{{ envelope.obligation_group.name }}</a>
+  </p>
+{% endblock %}
+
+
+{% block content %}
+
+<h2>Files:</h2>
+<ul>
+  {% for file in envelope.files.all() %}
+    <li><a href="{{ url('core:envelope-file', envelope.pk, file.basename) }}">{{ file.basename }}</a></li>
+  {% endfor %}
+</ul>
+
+{% endblock %}
