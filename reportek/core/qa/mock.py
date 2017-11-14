@@ -1,6 +1,13 @@
+import logging
 import threading
 from random import random
 from uuid import uuid4
+
+log = logging.getLogger('reportek.qa')
+info = log.info
+debug = log.debug
+warn = log.warning
+error = log.error
 
 
 class QAConnectionMock:
@@ -13,7 +20,7 @@ class QAConnectionMock:
     def send(self, envelope, response_handler):
         request_id = uuid4()
         self.requests[request_id] = response_handler
-        print(f'[QA RPC] Sending envelope "{envelope.name}" to QA [id={request_id}] ...')
+        info(f'[QA RPC] Sending envelope "{envelope.name}" to QA [id={request_id}] ...')
         # Fake a variable time response
         t = threading.Timer(
             interval=(1 + random() * 1.5),
@@ -32,7 +39,7 @@ class QAConnectionMock:
             'id': request_id,
             'valid': random() >= .5
         }
-        print(f'[QA RPC] Received QA response for request id "{request_id}": '
-              f'{"VALID" if response["valid"] else "INVALID"}')
+        info(f'[QA RPC] Received QA response for request id "{request_id}": '
+             f'{"VALID" if response["valid"] else "INVALID"}')
         handler = self.requests.pop(request_id)
         handler(response)

@@ -1,4 +1,5 @@
 import re
+import logging
 from django.db import models
 from django.utils.functional import cached_property
 from django.contrib.contenttypes.fields import GenericRelation
@@ -7,6 +8,13 @@ import xworkflows as xwf
 
 from reportek.core.qa import QAConnection
 from .log import TransitionEvent
+
+
+log = logging.getLogger('reportek.workflows')
+info = log.info
+debug = log.debug
+warn = log.warning
+error = log.error
 
 
 class BaseWorkflow(TypedModel):
@@ -71,14 +79,14 @@ class BaseWorkflow(TypedModel):
             Transition event logger - supplied to the XWorkflow class.
             """
             trans, src, dst = transition.name, from_state, workflow.state
-            print(f'Logging transition "{trans}"')
+            info(f'Logging transition "{trans}"')
             TransitionEvent.objects.create(
                 content_object=self.bearer,
                 transition=trans,
                 from_state=src,
                 to_state=dst
             )
-            print(f'"{self.bearer.envelope.name}" is now in state "{dst}".')
+            info(f'"{self.bearer.envelope.name}" is now in state "{dst}".')
 
         bases = (xwf.Workflow,)
         attrs = {
@@ -117,7 +125,7 @@ class BaseWorkflow(TypedModel):
 
         def post_transition(self, *args, **kwargs):
             """After transition hook applied to all workflows"""
-            print(f'Persisting state change to "{self.state.name}".')
+            info(f'Persisting state change to "{self.state.name}".')
             # Persist state
             self.bearer.previous_state = self.bearer.current_state
             self.bearer.current_state = self.state.name
