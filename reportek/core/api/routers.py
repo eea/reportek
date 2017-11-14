@@ -1,4 +1,3 @@
-from django.conf.urls import url
 from rest_framework_nested import routers
 
 from .views import (
@@ -34,10 +33,4 @@ workflow_router.register(
 nested_routers = [
     files_router,
     workflow_router
-]
-
-urlpatterns = router.urls + [
-    url
-    for r in nested_routers
-    for url in r.urls
 ]

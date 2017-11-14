@@ -2,17 +2,17 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route
 from rest_framework.response import Response
 
-from .models import (
+from ..models import (
     Envelope,
     EnvelopeFile,
     BaseWorkflow,
 )
-from .serializers import (
+from ..serializers import (
     EnvelopeSerializer,
     EnvelopeFileSerializer,
     NestedEnvelopeWorkflowSerializer
 )
-from . import permissions
+from .. import permissions
 
 
 class EnvelopeViewSet(viewsets.ModelViewSet):
@@ -92,4 +92,3 @@ class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):
     queryset = BaseWorkflow.objects.all()
     serializer_class = NestedEnvelopeWorkflowSerializer
     permission_classes = (permissions.IsAuthenticated, )
-
