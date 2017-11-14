@@ -40,24 +40,20 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
             return response
 
         try:
-            transition = getattr(workflow.xwf, transition_name)
-        except AttributeError:
+            workflow.start_transition(transition_name)
+        except BaseWorkflow.TransitionDoesNotExist as err:
             return Response(
-                make_response(with_error='Invalid transition name'),
+                make_response(with_error=str(err)),
                 status=status.HTTP_400_BAD_REQUEST
             )
-
-        if not transition.is_available():
+        except BaseWorkflow.TransitionNotAvailable as err:
             return Response(
-                make_response(with_error='Transition not allowed from current state'),
+                make_response(with_error=str(err)),
                 status=status.HTTP_406_NOT_ACCEPTABLE
             )
-
-        try:
-            transition()
         except Exception as err:
             return Response(
-                make_response(with_error=err),
+                make_response(with_error=str(err)),
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 

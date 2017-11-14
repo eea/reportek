@@ -32,6 +32,12 @@ class BaseWorkflow(TypedModel):
         db_table = 'core_workflow'
         verbose_name = 'workflow'
 
+    class TransitionDoesNotExist(Exception):
+        pass
+
+    class TransitionNotAvailable(Exception):
+        pass
+
     def __str__(self):
         return self.name
 
@@ -149,3 +155,14 @@ class BaseWorkflow(TypedModel):
         wf = cls()
         wf.state = self.current_state  # Force to current state
         return wf
+
+    def start_transition(self, name):
+        """Starts a transition on the inner XWorkflow"""
+        wf = self.xwf
+        if name not in [t.name for t in wf.state.workflow.transitions]:
+            raise self.TransitionDoesNotExist('Invalid transition name')
+
+        if name not in [t.name for t in wf.state.transitions()]:
+            raise self.TransitionNotAvailable('Transition not allowed from current state')
+
+        getattr(wf, name)()
