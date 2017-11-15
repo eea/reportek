@@ -1,8 +1,9 @@
-import os.path
+import os
 from django.db import models
 from django.contrib.postgres import fields as pgfields
-from django.utils import timezone
+from django.core.exceptions import ValidationError
 from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
 from edw.djutils import protected
 
 from . import (
@@ -71,6 +72,15 @@ class Envelope(_BrowsableModel):
         super().save(*args, **kwargs)
 
 
+# TODO: move me somewhere nice (and improve me)
+def validate_filename(value):
+    if os.path.basename(os.path.join('test', value)) != value:
+        raise ValidationError(
+            _("'%(value)s' is not a valid file name"),
+            params={'value': value},
+        )
+
+
 class EnvelopeFile(models.Model):
     def get_envelope_directory(self, filename):
         return os.path.join(
@@ -80,14 +90,60 @@ class EnvelopeFile(models.Model):
         )
 
     envelope = models.ForeignKey(Envelope, related_name='files')
-    file = protected.fields.ProtectedFileField(upload_to=get_envelope_directory)
+    file = protected.fields.ProtectedFileField(upload_to=get_envelope_directory,
+                                               max_length=512)
+    # initially derived from the filename, a change triggers rename
+    name = models.CharField(max_length=256, validators=[validate_filename])
+
+    class Meta:
+        unique_together = ('envelope', 'name')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # keep track of the name to handle renames
+        self._prev_name = (None if self.pk is None
+                           else self.name)
+
+    def __repr__(self):
+        return '<%s: %s/%s>' % (self.__class__.__name__,
+                                self.envelope.pk,
+                                self.name)
+
+    def save(self, *args, **kwargs):
+        renamed = False
+        if self.pk is None:
+            self.name = os.path.basename(self.file.name)
+            # TODO: go full OCD and guard against receiving both name and file?
+        elif self.name != self._prev_name:
+            renamed = True
+
+        if renamed:
+            # WARNING, WARNING, WARNING:
+            # validations aren't performed at save, because django.
+            # forms and drf *will* validate, but if data might come in
+            # in other ways... warning!!! !! !!
+
+            old_name = self.file.name
+            new_name = os.path.join(os.path.dirname(old_name),
+                                    self.name)
+
+            old_path = self.file.path
+            new_path = os.path.join(os.path.dirname(old_path),
+                                    self.name)
+
+            self.file.name = new_name
+
+        # save first to catch data integrity errors.
+        # TODO: wrap this in a transaction with below, who knows
+        # how that might fail...
+        super().save(*args, **kwargs)
+
+        # and rename on disk
+        if renamed:
+            os.rename(old_path, new_path)
 
     def get_file_url(self):
         return reverse('core:envelope-file', kwargs={
             'pk': self.envelope.pk,
-            'filename': self.basename,
+            'filename': self.name,
         })
-
-    @property
-    def basename(self):
-        return os.path.basename(self.file.name)

@@ -10,7 +10,8 @@ from .models import (
 class EnvelopeFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnvelopeFile
-        fields = '__all__'
+        fields = ('id', 'name', 'file')
+        read_only_fields = ('file', )
 
 
 class NestedEnvelopeFileSerializer(NestedHyperlinkedModelSerializer,
@@ -20,7 +21,7 @@ class NestedEnvelopeFileSerializer(NestedHyperlinkedModelSerializer,
     }
 
     class Meta(EnvelopeFileSerializer.Meta):
-        fields = ['id', 'url', 'file']
+        fields = ('url', ) + EnvelopeFileSerializer.Meta.fields
         extra_kwargs = {
             'url': {
                 'view_name': 'api:envelope-file-detail',

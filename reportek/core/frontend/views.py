@@ -22,10 +22,10 @@ class EnvelopeFileDownloadView(protected.views.ProtectedBaseDetailFileView):
     @cached_property
     def _file(self):
         envelope = self.get_object()
-        # TODO: cache the basename under the file instance for a direct lookup
         try:
             efile = envelope.files.filter(
-                file__endswith=self.kwargs['filename']).get()
+                name=self.kwargs['filename']
+            ).get()
         except ObjectDoesNotExist:
             raise Http404()
         return efile.file

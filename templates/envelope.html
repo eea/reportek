@@ -15,7 +15,7 @@
 <h2>Files:</h2>
 <ul>
   {% for file in envelope.files.all() %}
-    <li><a href="{{ url('core:envelope-file', envelope.pk, file.basename) }}">{{ file.basename }}</a></li>
+    <li><a href="{{ url('core:envelope-file', envelope.pk, file.name) }}">{{ file.name }}</a></li>
   {% endfor %}
 </ul>
 
