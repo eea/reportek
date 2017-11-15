@@ -29,6 +29,12 @@ class NestedEnvelopeFileSerializer(NestedHyperlinkedModelSerializer,
         }
 
 
+class CreateEnvelopeFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnvelopeFile
+        fields = ('file', )
+
+
 class EnvelopeWorkflowSerializer(serializers.ModelSerializer):
     class Meta:
         model = BaseWorkflow

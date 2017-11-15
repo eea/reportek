@@ -9,7 +9,7 @@ from ..models import (
 )
 from ..serializers import (
     EnvelopeSerializer,
-    EnvelopeFileSerializer,
+    EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
     NestedEnvelopeWorkflowSerializer
 )
 from .. import permissions
@@ -80,8 +80,24 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
     queryset = EnvelopeFile.objects.all()
-    serializer_class = EnvelopeFileSerializer
     permission_classes = (permissions.IsAuthenticated, )
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return CreateEnvelopeFileSerializer
+        return EnvelopeFileSerializer
+
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            envelope_id=self.kwargs['envelope_pk']
+        )
+
+
+    def perform_create(self, serializer):
+        serializer.save(
+            envelope_id=self.kwargs['envelope_pk']
+        )
 
 
 class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):
