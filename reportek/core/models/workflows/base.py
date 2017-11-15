@@ -1,6 +1,7 @@
 import re
 import logging
 from django.db import models
+from django.utils import timezone
 from django.utils.functional import cached_property
 from django.contrib.contenttypes.fields import GenericRelation
 from typedmodels.models import TypedModel
@@ -27,6 +28,8 @@ class BaseWorkflow(TypedModel):
     previous_state = models.CharField(max_length=60, null=True, blank=True)
     current_state = models.CharField(max_length=60, null=True, blank=True)
     history = GenericRelation(TransitionEvent)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = 'core_workflow'
