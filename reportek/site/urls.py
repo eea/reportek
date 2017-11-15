@@ -19,6 +19,7 @@ Including another URLconf:
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework.documentation import include_docs_urls
 
 from . import api_urls
 from . import views
@@ -46,4 +47,5 @@ urlpatterns = [
         views.obligation, name='obligation'),
 
     url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
+    url(r'^docs/', include_docs_urls(title='Reportek API Documentation', public=False)),
 ]
