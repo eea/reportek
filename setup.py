@@ -22,7 +22,7 @@ config = {
     'long_description': readme + '\n\n' + changelog,
     'author': 'Eau de Web',
     'url': 'https://github.com/eea/reportek.git',
-    'download_url': 'https://github.com/eea/kraken.git',
+    'download_url': 'https://github.com/eea/reportek.git',
     'author_email': 'something@somewhere.eu',
     'setup_requires': pytest_runner,
     'tests_require': ['pytest'],
