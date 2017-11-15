@@ -52,6 +52,11 @@ class BaseWorkflow(TypedModel):
     states = ()
     transitions = ()
     initial_state = None
+    final_state = None
+
+    @property
+    def finished(self):
+        return self.current_state == self.final_state
 
     # NOTE: The QA connection is only a mock currently
     qa_conn = QAConnection()
@@ -139,6 +144,15 @@ class BaseWorkflow(TypedModel):
             self.bearer.previous_state = self.bearer.current_state
             self.bearer.current_state = self.state.name
             self.bearer.save()
+            # Mark envelope as finazized when workflow is done
+            if self.bearer.finished:
+                self.bearer.envelope.finalized = True
+                self.bearer.envelope.save()
+                info(f'Envelope "{self.bearer.envelope.name}" has been finalized.')
+            elif self.bearer.envelope.finalized:
+                self.bearer.envelope.finalized = False
+                self.bearer.envelope.save()
+                info(f'Envelope "{self.bearer.envelope.name}" is no longer finalized.')
 
         # Transplant the transition methods
         attrs = self.transition_methods

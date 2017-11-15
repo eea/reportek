@@ -30,6 +30,7 @@ class DemoAutoQAWorkflow(BaseWorkflow):
         ('accept', 'review', 'end')
     )
     initial_state = 'draft'
+    final_state = 'end'
 
     class Meta:
         verbose_name = 'Workflow - Auto QA'
