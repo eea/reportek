@@ -1,6 +1,7 @@
 import os.path
 from django.db import models
 from django.contrib.postgres import fields as pgfields
+from django.utils import timezone
 from django.urls import reverse
 from edw.djutils import protected
 
@@ -54,6 +55,8 @@ class Envelope(_BrowsableModel):
                                     on_delete=models.CASCADE,
                                     related_name='envelope',
                                     null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = (
