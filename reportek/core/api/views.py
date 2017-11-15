@@ -1,11 +1,14 @@
 from rest_framework import viewsets, status
-from rest_framework.decorators import detail_route
+from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
+from rest_framework.pagination import LimitOffsetPagination
 
 from ..models import (
     Envelope,
     EnvelopeFile,
     BaseWorkflow,
+    Obligation,
+    Country,
 )
 from ..serializers import (
     EnvelopeSerializer,
@@ -15,10 +18,16 @@ from ..serializers import (
 from .. import permissions
 
 
+class EnvelopeResultsSetPagination(LimitOffsetPagination):
+    default_limit = 20
+    max_limit = 100
+
+
 class EnvelopeViewSet(viewsets.ModelViewSet):
     queryset = Envelope.objects.all()
     serializer_class = EnvelopeSerializer
     permission_classes = (permissions.IsAuthenticated, )
+    pagination_class = EnvelopeResultsSetPagination
 
     @detail_route(methods=['post'])
     def transition(self, request, pk):
@@ -77,6 +86,57 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
             }
         )
 
+    @list_route(methods=['get'])
+    def status(self, request):
+        """
+        Returns a paginated list of envelopes matching the provided params:
+            - `country`: an ISO country code (multiple occurences allowed)
+            - `obligation`: an obligation id (multiple occurences allowed)
+            - `finalized`: 0/1 flag indicating envelope finalization status
+        """
+        countries = request.query_params.getlist('country')
+        obligations = request.query_params.getlist('obligation')
+        finalized = request.query_params.get('finalized')
+
+        envelopes = Envelope.objects
+
+        if countries:
+            countries = Country.objects.filter(iso__in=countries).all()
+            envelopes = envelopes.filter(country__in=countries)
+
+        if obligations:
+            obligation_ids = []
+            for o in obligations:
+                try:
+                    obligation_ids.append(int(o))
+                except ValueError:
+                    pass
+
+            obligations = Obligation.objects.filter(pk__in=obligation_ids).all()
+            obligation_groups = set([o.group for o in obligations])
+            envelopes = envelopes.filter(obligation_group__in=obligation_groups)
+
+        if finalized is not None:
+            try:
+                finalized = bool(int(finalized))
+                envelopes = envelopes.filter(finalized=finalized)
+            except ValueError:
+                pass
+
+        envelopes = envelopes.order_by(
+            'country',
+            'obligation_group',
+            '-updated_at'
+        )
+
+        page = self.paginate_queryset(envelopes)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(envelopes, many=True)
+        return Response(serializer.data)
+
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
     queryset = EnvelopeFile.objects.all()
@@ -87,12 +147,10 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
             return CreateEnvelopeFileSerializer
         return EnvelopeFileSerializer
 
-
     def get_queryset(self):
         return super().get_queryset().filter(
             envelope_id=self.kwargs['envelope_pk']
         )
-
 
     def perform_create(self, serializer):
         serializer.save(
