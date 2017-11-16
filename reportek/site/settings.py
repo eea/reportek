@@ -18,6 +18,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 PARENT_DIR = os.path.dirname(ROOT_DIR)
 
+if os.getenv('DOCKER_CONTAINER'):
+    POSTGRES_HOST = 'db'
+else:
+    POSTGRES_HOST = '127.0.0.1'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -97,10 +101,10 @@ WSGI_APPLICATION = 'reportek.site.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'reportek',
-        'HOST': '127.0.0.1',
-        'USER': 'reportek',
-        'PASSWORD': 'reportek'
+        'NAME': 'postgres',
+        'HOST': POSTGRES_HOST,
+        'USER': 'postgres',
+        'PASSWORD': 'postgres'
     }
 }
 
