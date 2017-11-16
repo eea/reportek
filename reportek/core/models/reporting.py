@@ -56,6 +56,7 @@ class Envelope(_BrowsableModel):
                                     on_delete=models.CASCADE,
                                     related_name='envelope',
                                     null=True, blank=True)
+    # TODO: this must never change, it's used below. must guard against it.
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     finalized = models.BooleanField(default=False)
@@ -72,6 +73,23 @@ class Envelope(_BrowsableModel):
 
         super().save(*args, **kwargs)
 
+    def get_storage_directory(self):
+        # generate a multi-level, stable path. say...
+        # reporting year / country / obligation group / envelope id
+        # TODO: switch to slugs? (and handle renames?)
+
+        year = str(
+            self.created_at.year
+            if self.reporting_period.upper_inf
+            else self.reporting_period.upper.year
+        )
+        country = self.country.slug
+        ogroup = str(self.obligation_group_id)
+        envelope = str(self.id)
+
+        return os.path.join(ENVELOPE_ROOT_DIR,
+                            year, country, ogroup, envelope)
+
 
 # TODO: move me somewhere nice (and improve me)
 def validate_filename(value):
@@ -83,10 +101,11 @@ def validate_filename(value):
 
 
 class EnvelopeFile(models.Model):
+    # TODO: rename this (and reset migrations)
+    #def get_upload_path(self, filename):
     def get_envelope_directory(self, filename):
         return os.path.join(
-            ENVELOPE_ROOT_DIR,
-            self.envelope.slug,
+            self.envelope.get_storage_directory(),
             os.path.basename(filename)
         )
 
