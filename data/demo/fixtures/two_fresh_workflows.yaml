@@ -1,0 +1,26 @@
+- fields: {type: core.demoautoqaworkflow, name: 'Workflow - Auto QA #1', previous_state: null,
+    current_state: draft, created_at: ! '2017-11-16 09:41:02.118868+00:00', updated_at: ! '2017-11-16
+      09:41:02.118889+00:00'}
+  model: core.baseworkflow
+  pk: 2
+- fields: {type: core.demoautoqaworkflow, name: 'Workflow - Auto QA #2', previous_state: null,
+    current_state: draft, created_at: ! '2017-11-16 09:41:19.060924+00:00', updated_at: ! '2017-11-16
+      09:41:19.060959+00:00'}
+  model: core.baseworkflow
+  pk: 3
+- model: core.obligationgroup
+  pk: 2
+  fields: {slug: og1, name: Obligation group 1, workflow: 2}
+- model: core.obligationgroup
+  pk: 3
+  fields: {slug: og2, name: Obligation group 2, workflow: 3}
+- model: core.envelope
+  pk: 2
+  fields: {slug: env1, name: Envelope 1, obligation_group: 2, country: 3, reporting_period: '{"bounds":
+      "[)", "lower": "2017-01-01", "upper": "2017-12-31"}', workflow: 2, created_at: ! '2017-11-16
+      09:42:35.988719+00:00', updated_at: ! '2017-11-16 09:42:35.988742+00:00', finalized: false}
+- model: core.envelope
+  pk: 3
+  fields: {slug: env2, name: Envelope 2, obligation_group: 3, country: 19, reporting_period: '{"bounds":
+      "[)", "lower": "2017-01-01", "upper": "2017-12-31"}', workflow: 3, created_at: ! '2017-11-16
+      09:43:14.296724+00:00', updated_at: ! '2017-11-16 09:43:14.296750+00:00', finalized: false}
