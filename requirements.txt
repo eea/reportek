@@ -11,5 +11,5 @@ django-permissions>=1.1,<1.2
 django-typed-models>=0.7.0,<0.8
 django-xworkflows>=0.12.1,<0.13
 xworkflows>=1.0.4,<1.1
-git+https://github.com/eaudeweb/edw.djutils.git@910727f
+git+https://github.com/eaudeweb/edw.djutils.git@22789c9#egg=edw.djutils
 coreapi>=2.3.3,<2.4
