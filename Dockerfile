@@ -1,10 +1,22 @@
-FROM python:3.6
-ENV PYTHONUNBUFFERED 1
-ENV DJANGO_ENV=prod
-ENV DOCKER_CONTAINER=1
-RUN mkdir /opt/reportek
-ADD requirements.txt /opt/reportek/
-WORKDIR /opt/reportek
-RUN pip3 install uwsgi
-RUN pip3 install -r requirements.txt
-ADD . /opt/reportek/
+FROM python:3.6-alpine3.6
+
+ENV PROJ_DIR=/var/local/reportek/
+
+RUN runDeps="gcc musl-dev postgresql-dev libressl-dev git" \
+    && apk add --no-cache $runDeps
+
+RUN apk add --no-cache --virtual .build-deps \
+        gcc musl-dev postgresql-dev libressl-dev \
+    && mkdir -p $PROJ_DIR
+
+# Add requirements.txt before rest of repo for caching
+COPY requirements.txt $PROJ_DIR
+WORKDIR $PROJ_DIR
+
+RUN pip install --no-cache-dir -r requirements.txt \
+    && apk del .build-deps
+
+COPY . $PROJ_DIR
+
+ENTRYPOINT ["./docker-entrypoint.sh"]
+CMD ["run"]

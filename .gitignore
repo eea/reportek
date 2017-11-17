@@ -103,3 +103,6 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Docker
+docker-compose.override.yml
