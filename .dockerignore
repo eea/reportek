@@ -1,0 +1,5 @@
+reportek/site/localsettings.py
+docs/_build
+*.egg-info/
+.DS_Store
+.idea
