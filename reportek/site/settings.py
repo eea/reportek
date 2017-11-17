@@ -19,7 +19,7 @@ ROOT_DIR = os.path.dirname(BASE_DIR)
 PARENT_DIR = os.path.dirname(ROOT_DIR)
 
 if os.getenv('DOCKER_CONTAINER'):
-    POSTGRES_HOST = 'db'
+    POSTGRES_HOST = 'postgres'
 else:
     POSTGRES_HOST = '127.0.0.1'
 
