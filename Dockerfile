@@ -18,5 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
 
 COPY . $PROJ_DIR
 
+RUN python manage.py collectstatic --noinput
+
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["run"]
