@@ -1,4 +1,5 @@
 import os
+import logging
 from django.db import models
 from django.contrib.postgres import fields as pgfields
 from django.core.exceptions import ValidationError
@@ -10,6 +11,15 @@ from . import (
     Country,
     BaseWorkflow,
 )
+
+from reportek.core.models.workflows import WORKFLOW_CLASSES
+
+log = logging.getLogger('reportek.workflows')
+info = log.info
+debug = log.debug
+warn = log.warning
+error = log.error
+
 
 ENVELOPE_ROOT_DIR = "envelopes"
 
@@ -32,7 +42,10 @@ class ObligationGroup(_BrowsableModel):
 
     # the workflow is nullable to allow creation of the group
     # while its workflow doesn't exist, or by someone unprivileged
-    workflow = models.ForeignKey(BaseWorkflow, null=True, blank=True)
+    workflow_class = models.CharField(
+        max_length=256, null=True, blank=True,
+        choices=WORKFLOW_CLASSES
+    )
 
 
 class Collection(_BrowsableModel):
@@ -71,10 +84,17 @@ class Envelope(_BrowsableModel):
         if self.finalized:
             raise RuntimeError("Envelope is final.")
 
-        # Force workflow to obligation group's one
-        if not self.workflow or self.workflow != self.obligation_group.workflow:
-            self.workflow = self.obligation_group.workflow
-
+        # Import the workflow class set on the envelope's obligation group
+        wf_path_components = self.obligation_group.workflow_class.split('.')
+        info(wf_path_components)
+        mod_name = '.'.join(wf_path_components[:-1])
+        class_name = wf_path_components[-1]
+        mod = __import__(mod_name, fromlist=[class_name])
+        # Instantiate a new workflow and set it on the envelope
+        wf_class = getattr(mod, class_name)
+        workflow = wf_class(name=f'Envelope "{self.name}"\'s workflow')
+        workflow.save()
+        self.workflow = workflow
         super().save(*args, **kwargs)
 
     def get_storage_directory(self):
