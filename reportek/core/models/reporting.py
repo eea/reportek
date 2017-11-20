@@ -67,6 +67,10 @@ class Envelope(_BrowsableModel):
         )
 
     def save(self, *args, **kwargs):
+        # don't allow any operations on a final envelope
+        if self.finalized:
+            raise RuntimeError("Envelope is final.")
+
         # Force workflow to obligation group's one
         if not self.workflow or self.workflow != self.obligation_group.workflow:
             self.workflow = self.obligation_group.workflow
@@ -130,6 +134,10 @@ class EnvelopeFile(models.Model):
                                 self.name)
 
     def save(self, *args, **kwargs):
+        # don't allow any operations on a final envelope
+        if self.envelope.finalized:
+            raise RuntimeError("Envelope is final.")
+
         renamed = False
         if self.pk is None:
             self.name = os.path.basename(self.file.name)

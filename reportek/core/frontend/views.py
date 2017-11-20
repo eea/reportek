@@ -6,18 +6,18 @@ from edw.djutils import protected
 from ..models import (
     Envelope, EnvelopeFile,
 )
-from ..permissions import IsAuthenticated
+from .. import permissions
 
 
 class EnvelopeView(protected.views.ProtectedDetailView):
     model = Envelope
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticatedOrEnvelopeIsPublic, )
     template_name = 'envelope.html'
 
 
 class EnvelopeFileDownloadView(protected.views.ProtectedBaseDetailFileView):
     model = Envelope
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticatedOrEnvelopeIsPublic, )
 
     @cached_property
     def _file(self):
