@@ -17,6 +17,7 @@ Including another URLconf:
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
@@ -49,3 +50,13 @@ urlpatterns = [
     url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
     url(r'^docs/', include_docs_urls(title='Reportek API Documentation', public=False)),
 ]
+
+if settings.DEBUG:
+    try:
+        import debug_toolbar
+    except ImportError:
+        pass
+    else:
+        urlpatterns.append(
+            url(r'^__debug__/', include(debug_toolbar.urls))
+        )

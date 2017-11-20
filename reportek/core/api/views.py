@@ -24,7 +24,7 @@ class EnvelopeResultsSetPagination(LimitOffsetPagination):
 
 
 class EnvelopeViewSet(viewsets.ModelViewSet):
-    queryset = Envelope.objects.all()
+    queryset = Envelope.objects.all().prefetch_related('files')
     serializer_class = EnvelopeSerializer
     permission_classes = (permissions.IsAuthenticated, )
     pagination_class = EnvelopeResultsSetPagination
@@ -98,7 +98,7 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
         obligations = request.query_params.getlist('obligation')
         finalized = request.query_params.get('finalized')
 
-        envelopes = Envelope.objects
+        envelopes = Envelope.objects.prefetch_related('files')
 
         if countries:
             countries = Country.objects.filter(iso__in=countries).all()

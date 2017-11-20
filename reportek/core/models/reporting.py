@@ -164,6 +164,6 @@ class EnvelopeFile(models.Model):
 
     def get_file_url(self):
         return reverse('core:envelope-file', kwargs={
-            'pk': self.envelope.pk,
+            'pk': self.envelope_id,
             'filename': self.name,
         })
