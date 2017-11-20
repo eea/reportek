@@ -65,10 +65,12 @@ class Obligation(models.Model):
     """Reporting obligations"""
     title = models.CharField(max_length=300)
     description = models.TextField(blank=True)
+    terminated = models.BooleanField(default=False)
     # TODO: Clarify if nullable (no empties present in ROD dump)
     last_update = models.DateField()
     next_deadline = models.DateField(blank=True, null=True)
     next_deadline2 = models.DateField(blank=True, null=True)
+    first_reporting = models.DateField(blank=True, null=True)
     report_freq_months = models.IntegerField(blank=True, null=True)
     report_freq = models.CharField(max_length=30, blank=True, null=True)
     continuous_reporting = models.BooleanField(default=False)

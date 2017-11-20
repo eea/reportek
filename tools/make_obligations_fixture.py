@@ -13,6 +13,13 @@ def make_fixture(obligations, fix_fd):
         # ROD FK lists have extra commas, e.g: ',102,34,2,36,8,28,'
         return [int(fk) for fk in fk_str.split(',')[1:-1]] if fk_str else []
 
+    _bool_dict = {
+        'Y': True,
+        'N': False,
+    }
+    def get_bool(v):
+        return _bool_dict[v]
+
     fixture = [
         {
             'model': 'core.obligation',
@@ -20,6 +27,8 @@ def make_fixture(obligations, fix_fd):
             'fields': {
                 'title': o['TITLE'],
                 'description': o['DESCRIPTION'],
+                'terminated': get_bool(o['TERMINATE']),
+                'first_reporting': valid_date(o['FIRST_REPORTING']),
                 'last_update': valid_date(o['LAST_UPDATE']),
                 'next_deadline': valid_date(o['NEXT_DEADLINE']),
                 'next_deadline2': valid_date(o['NEXT_DEADLINE2']),

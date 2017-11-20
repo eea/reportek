@@ -2,6 +2,9 @@
 
 {% block header %}
   <h1>{{ obligation.title }}</h1>
+  {% if obligation.terminated %}
+    <p><small>[terminated]</small></p>
+  {% endif %}
   <p>
     <a href="/">Home</a> »
     <a href="{{ url('country', country.slug) }}">{{ country.name }}</a> »
@@ -14,5 +17,5 @@
 
 <p><small>Client: {{ obligation.client }}</small></p>
 {{ obligation.description|linebreaks }}
-  
+
 {% endblock %}
