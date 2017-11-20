@@ -4,7 +4,6 @@ Workflow models - common functionality and specific implementations.
 from .base import BaseWorkflow
 from .log import TransitionEvent
 
-from .base import BaseWorkflow
 from .demo_auto_qa import DemoAutoQAWorkflow
 
 from reportek.core.utils import get_based_classes
