@@ -6,6 +6,8 @@ from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from edw.djutils import protected
+from model_utils import FieldTracker
+
 
 from . import (
     Country,
@@ -74,6 +76,8 @@ class Envelope(_BrowsableModel):
     updated_at = models.DateTimeField(auto_now=True)
     finalized = models.BooleanField(default=False)
 
+    tracker = FieldTracker()
+
     class Meta:
         unique_together = (
             ('obligation_group', 'country', 'reporting_period'),
@@ -81,20 +85,21 @@ class Envelope(_BrowsableModel):
 
     def save(self, *args, **kwargs):
         # don't allow any operations on a final envelope
-        if self.finalized:
+        if self.tracker.changed() and self.tracker.previous('finalized'):
             raise RuntimeError("Envelope is final.")
 
-        # Import the workflow class set on the envelope's obligation group
-        wf_path_components = self.obligation_group.workflow_class.split('.')
-        info(wf_path_components)
-        mod_name = '.'.join(wf_path_components[:-1])
-        class_name = wf_path_components[-1]
-        mod = __import__(mod_name, fromlist=[class_name])
-        # Instantiate a new workflow and set it on the envelope
-        wf_class = getattr(mod, class_name)
-        workflow = wf_class(name=f'Envelope "{self.name}"\'s workflow')
-        workflow.save()
-        self.workflow = workflow
+        # On first save, import the workflow class set on the envelope's obligation group
+        if not self.pk or kwargs.get('force_insert', False):
+            wf_path_components = self.obligation_group.workflow_class.split('.')
+            mod_name = '.'.join(wf_path_components[:-1])
+            class_name = wf_path_components[-1]
+            mod = __import__(mod_name, fromlist=[class_name])
+            # Instantiate a new workflow and set it on the envelope
+            wf_class = getattr(mod, class_name)
+            workflow = wf_class(name=f'Envelope "{self.name}"\'s workflow')
+            workflow.save()
+            self.workflow = workflow
+
         super().save(*args, **kwargs)
 
     def get_storage_directory(self):
