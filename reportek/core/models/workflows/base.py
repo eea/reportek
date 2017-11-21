@@ -115,14 +115,24 @@ class BaseWorkflow(TypedModel):
 
     # Resist the temptation to cache this - it will noop the XWF transitions
     @property
-    def transition_methods(self):
-        """Builds an 'attrs'-style dict of transition methods"""
+    def xwf_methods(self):
+        """
+        Builds an 'attrs'-style dict of transition & hook methods.
+
+        XWorkflows methods are identified based on the effects of their decorators:
+        - @transition wraps methods in a TransisionWrapper
+        - hook decorators (@before|after_transition, @on_enter|leave_state)
+          set a `xworkflows_hook` attribute on the method
+        """
         cls = self.__class__
         return {
             fname: getattr(cls, fname)
             for fname in dir(cls)
             if callable(getattr(cls, fname)) and
-            isinstance(getattr(cls, fname), xwf.base.TransitionWrapper)
+            (
+               isinstance(getattr(cls, fname), xwf.base.TransitionWrapper) or
+               hasattr(getattr(cls, fname), 'xworkflows_hook')
+            )
         }
 
     @cached_property
@@ -155,7 +165,7 @@ class BaseWorkflow(TypedModel):
                 info(f'Envelope "{self.bearer.envelope.name}" is no longer finalized.')
 
         # Transplant the transition methods
-        attrs = self.transition_methods
+        attrs = self.xwf_methods
         attrs.update(
             {
                 'state': self.xwf_cls(),
