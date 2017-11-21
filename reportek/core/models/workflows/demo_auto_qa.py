@@ -2,9 +2,12 @@ import logging
 import xworkflows as xwf
 
 from .base import BaseWorkflow
+from reportek.core.qa import QAConnection
 
 __all__ = [
     'DemoAutoQAWorkflow',
+    'DemoFailQAWorkflow',
+    'DemoPassQAWorkflow'
 ]
 
 log = logging.getLogger('reportek.workflows')
@@ -31,6 +34,8 @@ class DemoAutoQAWorkflow(BaseWorkflow):
     )
     initial_state = 'draft'
     final_state = 'end'
+
+    qa_conn = QAConnection(min_delay=1)
 
     class Meta:
         verbose_name = 'Workflow - Auto QA'
@@ -72,3 +77,29 @@ class DemoAutoQAWorkflow(BaseWorkflow):
     @xwf.transition()
     def accept(self):
         info('"accept" running')
+
+
+class DemoFailQAWorkflow(DemoAutoQAWorkflow):
+
+    @xwf.transition()
+    def send_to_qa(self):
+        info('Sending to QA ...')
+        info(f'QA submission successful')
+
+    @xwf.on_enter_state('auto_qa')
+    def hook_on_enter(self, *args, **kwargs):
+        info('Automatic transition "fail_qa" triggered by QA response: "INVALID"')
+        self.fail_qa()
+
+
+class DemoPassQAWorkflow(DemoAutoQAWorkflow):
+
+    @xwf.transition()
+    def send_to_qa(self):
+        info('Sending to QA ...')
+        info(f'QA submission successful')
+
+    @xwf.on_enter_state('auto_qa')
+    def hook_on_enter(self, *args, **kwargs):
+        info('Automatic transition "pass_qa" triggered by QA response: "VALID"')
+        self.pass_qa()
