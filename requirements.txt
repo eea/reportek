@@ -14,3 +14,6 @@ xworkflows>=1.0.4,<1.1
 git+https://github.com/eaudeweb/edw.djutils.git@22789c9#egg=edw.djutils
 coreapi>=2.3.3,<2.4
 gunicorn>=19.7.1,<19.8
+pytest>=3.2.5,<3.3
+pytest-django>=3.1.2,<3.2
+Faker>=0.8.7,<0.9
