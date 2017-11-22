@@ -147,6 +147,16 @@ class Collection(_BrowsableModel):
     obligation_groups = models.ManyToManyField(ObligationGroup)
 
 
+class EnvelopeQuerySet(models.QuerySet):
+    pass
+
+
+class EnvelopeManager(models.Manager.from_queryset(EnvelopeQuerySet)):
+    def get_queryset(self):
+        # we want to always fetch the reporting period along
+        return super().get_queryset().select_related('reporting_period')
+
+
 class Envelope(_BrowsableModel):
     name = models.CharField(max_length=256)
     obligation_group = models.ForeignKey(ObligationGroup)
@@ -161,6 +171,7 @@ class Envelope(_BrowsableModel):
     updated_at = models.DateTimeField(auto_now=True)
     finalized = models.BooleanField(default=False)
 
+    objects = EnvelopeManager()
     tracker = FieldTracker()
 
     class Meta:
@@ -201,8 +212,8 @@ class Envelope(_BrowsableModel):
 
         year = str(
             self.created_at.year
-            if self.reporting_period.upper_inf
-            else self.reporting_period.upper.year
+            if self.reporting_period.period.upper_inf
+            else self.reporting_period.period.upper.year
         )
         country = self.country.slug
         ogroup = str(self.obligation_group_id)
