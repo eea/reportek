@@ -50,6 +50,24 @@ class ObligationGroup(_BrowsableModel):
     )
 
 
+class ReportingPeriodQuerySet(models.QuerySet):
+    def current(self):
+        return self.filter(open=True)
+
+
+class ReportingPeriod(models.Model):
+    obligation_group = models.ForeignKey(ObligationGroup)
+    period = pgfields.DateRangeField()
+    open = models.BooleanField(default=True)
+
+    objects = ReportingPeriodQuerySet.as_manager()
+
+    class Meta:
+        unique_together = (
+            ('obligation_group', 'period'),
+        )
+
+
 class Collection(_BrowsableModel):
     """
     This is just a nice way to arbitrarily group things.
@@ -65,8 +83,7 @@ class Envelope(_BrowsableModel):
     name = models.CharField(max_length=256)
     obligation_group = models.ForeignKey(ObligationGroup)
     country = models.ForeignKey(Country)
-    # TODO: the reporting period needs to be derived from the obligation
-    reporting_period = pgfields.DateRangeField()
+    reporting_period = models.ForeignKey(ReportingPeriod)
     workflow = models.OneToOneField(BaseWorkflow,
                                     on_delete=models.CASCADE,
                                     related_name='envelope',
@@ -88,8 +105,15 @@ class Envelope(_BrowsableModel):
         if self.tracker.changed() and self.tracker.previous('finalized'):
             raise RuntimeError("Envelope is final.")
 
-        # On first save, import the workflow class set on the envelope's obligation group
+        # On first save:
         if not self.pk or kwargs.get('force_insert', False):
+            # - set the current reporting period
+            self.reporting_period = ReportingPeriod.objects.current().get(
+                obligation_group=self.obligation_group
+            )
+
+            # - import the workflow class set on the envelope's obligation group
+            # TODO: move this logic under ObligationGroup
             wf_path_components = self.obligation_group.workflow_class.split('.')
             mod_name = '.'.join(wf_path_components[:-1])
             class_name = wf_path_components[-1]
