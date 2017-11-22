@@ -2,6 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.authentication import (
+    TokenAuthentication
+)
 
 from ..models import (
     Envelope,
@@ -26,6 +29,7 @@ class EnvelopeResultsSetPagination(LimitOffsetPagination):
 class EnvelopeViewSet(viewsets.ModelViewSet):
     queryset = Envelope.objects.all().prefetch_related('files')
     serializer_class = EnvelopeSerializer
+    authentication_classes = viewsets.ModelViewSet.authentication_classes + [TokenAuthentication]
     permission_classes = (permissions.IsAuthenticated, )
     pagination_class = EnvelopeResultsSetPagination
 
