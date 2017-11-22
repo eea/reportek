@@ -1,6 +1,8 @@
 import os
 import logging
-from django.db import models
+from datetime import date
+from dateutil.relativedelta import relativedelta
+from django.db import models, transaction
 from django.contrib.postgres import fields as pgfields
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -39,6 +41,15 @@ class _BrowsableModel(models.Model):
         return self.name
 
 
+class ObligationGroupQuerySet(models.QuerySet):
+    def pending(self):
+        return self.filter(
+            next_reporting_start__isnull=False,
+            reporting_duration_months__isnull=False,
+            next_reporting_start__lte=date.today(),
+        )
+
+
 class ObligationGroup(_BrowsableModel):
     name = models.CharField(max_length=256, unique=True)
 
@@ -49,6 +60,36 @@ class ObligationGroup(_BrowsableModel):
         choices=WORKFLOW_CLASSES
     )
 
+    next_reporting_start = models.DateField(blank=True, null=True)
+    reporting_duration_months = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    objects = ObligationGroupQuerySet.as_manager()
+
+    def start_reporting_period(self):
+        assert (self.next_reporting_start is not None
+                and date.today() >= self.next_reporting_start)
+        assert self.reporting_duration_months is not None
+
+        start, end = (
+            self.next_reporting_start,
+            self.next_reporting_start + relativedelta(
+                months=self.reporting_duration_months
+            )
+        )
+
+        with transaction.atomic():
+            self.reporting_period_set.create(
+                period=(start, end)
+            )
+            self.next_reporting_start = end
+            self.save()
+
+    def close_reporting_period(self):
+        # TODO: this should be performed automatically when all parties
+        # have submitted their reports(?)
+        period = self.reporting_period_set.current().get()
+        period.close()
+
 
 class ReportingPeriodQuerySet(models.QuerySet):
     def current(self):
@@ -56,7 +97,8 @@ class ReportingPeriodQuerySet(models.QuerySet):
 
 
 class ReportingPeriod(models.Model):
-    obligation_group = models.ForeignKey(ObligationGroup)
+    obligation_group = models.ForeignKey(ObligationGroup,
+                                         related_name="reporting_period_set")
     period = pgfields.DateRangeField()
     open = models.BooleanField(default=True)
 
@@ -66,6 +108,25 @@ class ReportingPeriod(models.Model):
         unique_together = (
             ('obligation_group', 'period'),
         )
+
+    def save(self, *args, **kwargs):
+        if (not self.pk or kwargs.get('force_insert', False)) and (
+            self.__class__.objects.current()
+                .filter(obligation_group=self.obligation_group)
+                .exists()
+        ):
+            # TODO: make this a ValidationError
+            raise RuntimeError("Reporting period already open for %s."
+                               % self.obligation_group)
+
+        # TODO: one can still re-open a previously closed period
+        # and make a mess of things. fix it.
+        super().save(*args, **kwargs)
+
+    def close(self):
+        assert self.open is True
+        self.open = False
+        self.save()
 
 
 class Collection(_BrowsableModel):
