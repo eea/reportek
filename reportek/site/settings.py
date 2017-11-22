@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_xworkflows',
     'typedmodels',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_jinja',
     'django_extensions',
     'django.contrib.admin',
@@ -163,6 +164,11 @@ PROTECTED_URL = '/protected-files/'
 FIXTURE_DIRS = [
     os.path.join(ROOT_DIR, 'data', 'fixtures')
 ]
+
+
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
 
 
 LOGGING = {
