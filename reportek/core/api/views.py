@@ -24,7 +24,11 @@ class EnvelopeResultsSetPagination(LimitOffsetPagination):
 
 
 class EnvelopeViewSet(viewsets.ModelViewSet):
-    queryset = Envelope.objects.all().prefetch_related('files')
+    queryset = (
+        Envelope.objects.all()
+        .select_related('reporting_period')
+        .prefetch_related('files')
+    )
     serializer_class = EnvelopeSerializer
     permission_classes = (permissions.IsAuthenticated, )
     pagination_class = EnvelopeResultsSetPagination

@@ -13,8 +13,8 @@ from .workflows import (
 
 from .reporting import (
     ObligationGroup,
+    ReportingPeriod,
     Collection,
     Envelope,
     EnvelopeFile,
 )
-
