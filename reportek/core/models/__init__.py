@@ -18,3 +18,5 @@ from .reporting import (
     EnvelopeFile,
 )
 
+from . import auto_user_tokens
+
