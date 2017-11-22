@@ -3,6 +3,7 @@ from rest_framework_nested.serializers import NestedHyperlinkedModelSerializer
 
 from .models import (
     Envelope, EnvelopeFile,
+    ObligationGroup,
     BaseWorkflow,
 )
 
@@ -58,9 +59,13 @@ class NestedEnvelopeWorkflowSerializer(
 
 
 class EnvelopeSerializer(serializers.ModelSerializer):
+    obligation_group = serializers.PrimaryKeyRelatedField(
+        queryset=ObligationGroup.objects.open()
+    )
     files = NestedEnvelopeFileSerializer(many=True, read_only=True)
     workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
 
     class Meta:
         model = Envelope
         fields = '__all__'
+        read_only_fields = ('reporting_period', 'finalized')

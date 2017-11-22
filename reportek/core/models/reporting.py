@@ -44,9 +44,16 @@ class _BrowsableModel(models.Model):
 class ObligationGroupQuerySet(models.QuerySet):
     def pending(self):
         return self.filter(
+            workflow_class__isnull=False,
             next_reporting_start__isnull=False,
             reporting_duration_months__isnull=False,
             next_reporting_start__lte=date.today(),
+        )
+
+    def open(self):
+        return self.filter(
+            workflow_class__isnull=False,
+            reporting_period_set__open=True,
         )
 
 
