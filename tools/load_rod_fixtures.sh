@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 python manage.py loaddata data/fixtures/countries.yaml
 python manage.py loaddata data/fixtures/instruments.yaml
