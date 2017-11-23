@@ -8,7 +8,7 @@ services:
       - pg_backups:/pg_backups
 
   app:
-    image: eaudeweb/reportek2
+    image: eeacms/reportek
     environment:
       - DOCKER_CONTAINER=1
       - TZ=Europe/Copenhagen
