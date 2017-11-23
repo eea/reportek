@@ -72,7 +72,12 @@ class ObligationGroup(_BrowsableModel):
 
     objects = ObligationGroupQuerySet.as_manager()
 
+    @property
+    def open(self):
+        return self.reporting_period_set.current().exists()
+
     def start_reporting_period(self):
+        assert self.open is False
         assert (self.next_reporting_start is not None
                 and date.today() >= self.next_reporting_start)
         assert self.reporting_duration_months is not None
@@ -116,15 +121,17 @@ class ReportingPeriod(models.Model):
             ('obligation_group', 'period'),
         )
 
+    def __str__(self):
+        return '%s: %s - %s' % (
+            self.obligation_group, self.period.lower, self.period.upper
+        )
+
     def save(self, *args, **kwargs):
-        if (not self.pk or kwargs.get('force_insert', False)) and (
-            self.__class__.objects.current()
-                .filter(obligation_group=self.obligation_group)
-                .exists()
-        ):
-            # TODO: make this a ValidationError
-            raise RuntimeError("Reporting period already open for %s."
-                               % self.obligation_group)
+        if not self.pk or kwargs.get('force_insert', False):
+            if self.obligation_group.open:
+                # TODO: make this a ValidationError
+                raise RuntimeError("Reporting period already open for %s."
+                                   % self.obligation_group)
 
         # TODO: one can still re-open a previously closed period
         # and make a mess of things. fix it.

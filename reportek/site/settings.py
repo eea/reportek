@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'django_jinja',
     'django_extensions',
+    'django_object_actions',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
