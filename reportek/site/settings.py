@@ -23,6 +23,9 @@ if os.getenv('DOCKER_CONTAINER'):
 else:
     POSTGRES_HOST = '127.0.0.1'
 
+POSTGRES_PASSWORD = '' if os.getenv('TRAVIS') else 'postgres'
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     'django_xworkflows',
     'typedmodels',
     'rest_framework',
+    'rest_framework.authtoken',
     'django_jinja',
     'django_extensions',
     'django.contrib.admin',
@@ -104,7 +108,7 @@ DATABASES = {
         'NAME': 'postgres',
         'HOST': POSTGRES_HOST,
         'USER': 'postgres',
-        'PASSWORD': 'postgres'
+        'PASSWORD': POSTGRES_PASSWORD
     }
 }
 
@@ -163,6 +167,11 @@ PROTECTED_URL = '/protected-files/'
 FIXTURE_DIRS = [
     os.path.join(ROOT_DIR, 'data', 'fixtures')
 ]
+
+
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
 
 
 LOGGING = {
