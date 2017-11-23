@@ -48,7 +48,7 @@ urlpatterns = [
         views.obligation, name='obligation'),
 
     url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
-    url(r'^docs/', include_docs_urls(title='Reportek API Documentation', public=False)),
+    url(r'^api-docs/', include_docs_urls(title='Reportek API Documentation', public=False)),
 ]
 
 if settings.DEBUG:
