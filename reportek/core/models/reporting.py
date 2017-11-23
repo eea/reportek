@@ -1,6 +1,8 @@
 import os
 import logging
-from django.db import models
+from datetime import date
+from dateutil.relativedelta import relativedelta
+from django.db import models, transaction
 from django.contrib.postgres import fields as pgfields
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -39,6 +41,22 @@ class _BrowsableModel(models.Model):
         return self.name
 
 
+class ObligationGroupQuerySet(models.QuerySet):
+    def pending(self):
+        return self.filter(
+            workflow_class__isnull=False,
+            next_reporting_start__isnull=False,
+            reporting_duration_months__isnull=False,
+            next_reporting_start__lte=date.today(),
+        )
+
+    def open(self):
+        return self.filter(
+            workflow_class__isnull=False,
+            reporting_period_set__open=True,
+        )
+
+
 class ObligationGroup(_BrowsableModel):
     name = models.CharField(max_length=256, unique=True)
 
@@ -48,6 +66,74 @@ class ObligationGroup(_BrowsableModel):
         max_length=256, null=True, blank=True,
         choices=WORKFLOW_CLASSES
     )
+
+    next_reporting_start = models.DateField(blank=True, null=True)
+    reporting_duration_months = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    objects = ObligationGroupQuerySet.as_manager()
+
+    def start_reporting_period(self):
+        assert (self.next_reporting_start is not None
+                and date.today() >= self.next_reporting_start)
+        assert self.reporting_duration_months is not None
+
+        start, end = (
+            self.next_reporting_start,
+            self.next_reporting_start + relativedelta(
+                months=self.reporting_duration_months
+            )
+        )
+
+        with transaction.atomic():
+            self.reporting_period_set.create(
+                period=(start, end)
+            )
+            self.next_reporting_start = end
+            self.save()
+
+    def close_reporting_period(self):
+        # TODO: this should be performed automatically when all parties
+        # have submitted their reports(?)
+        period = self.reporting_period_set.current().get()
+        period.close()
+
+
+class ReportingPeriodQuerySet(models.QuerySet):
+    def current(self):
+        return self.filter(open=True)
+
+
+class ReportingPeriod(models.Model):
+    obligation_group = models.ForeignKey(ObligationGroup,
+                                         related_name="reporting_period_set")
+    period = pgfields.DateRangeField()
+    open = models.BooleanField(default=True)
+
+    objects = ReportingPeriodQuerySet.as_manager()
+
+    class Meta:
+        unique_together = (
+            ('obligation_group', 'period'),
+        )
+
+    def save(self, *args, **kwargs):
+        if (not self.pk or kwargs.get('force_insert', False)) and (
+            self.__class__.objects.current()
+                .filter(obligation_group=self.obligation_group)
+                .exists()
+        ):
+            # TODO: make this a ValidationError
+            raise RuntimeError("Reporting period already open for %s."
+                               % self.obligation_group)
+
+        # TODO: one can still re-open a previously closed period
+        # and make a mess of things. fix it.
+        super().save(*args, **kwargs)
+
+    def close(self):
+        assert self.open is True
+        self.open = False
+        self.save()
 
 
 class Collection(_BrowsableModel):
@@ -61,12 +147,21 @@ class Collection(_BrowsableModel):
     obligation_groups = models.ManyToManyField(ObligationGroup)
 
 
+class EnvelopeQuerySet(models.QuerySet):
+    pass
+
+
+class EnvelopeManager(models.Manager.from_queryset(EnvelopeQuerySet)):
+    def get_queryset(self):
+        # we want to always fetch the reporting period along
+        return super().get_queryset().select_related('reporting_period')
+
+
 class Envelope(_BrowsableModel):
     name = models.CharField(max_length=256)
     obligation_group = models.ForeignKey(ObligationGroup)
     country = models.ForeignKey(Country)
-    # TODO: the reporting period needs to be derived from the obligation
-    reporting_period = pgfields.DateRangeField()
+    reporting_period = models.ForeignKey(ReportingPeriod)
     workflow = models.OneToOneField(BaseWorkflow,
                                     on_delete=models.CASCADE,
                                     related_name='envelope',
@@ -76,6 +171,7 @@ class Envelope(_BrowsableModel):
     updated_at = models.DateTimeField(auto_now=True)
     finalized = models.BooleanField(default=False)
 
+    objects = EnvelopeManager()
     tracker = FieldTracker()
 
     class Meta:
@@ -88,8 +184,15 @@ class Envelope(_BrowsableModel):
         if self.tracker.changed() and self.tracker.previous('finalized'):
             raise RuntimeError("Envelope is final.")
 
-        # On first save, import the workflow class set on the envelope's obligation group
+        # On first save:
         if not self.pk or kwargs.get('force_insert', False):
+            # - set the current reporting period
+            self.reporting_period = ReportingPeriod.objects.current().get(
+                obligation_group=self.obligation_group
+            )
+
+            # - import the workflow class set on the envelope's obligation group
+            # TODO: move this logic under ObligationGroup
             wf_path_components = self.obligation_group.workflow_class.split('.')
             mod_name = '.'.join(wf_path_components[:-1])
             class_name = wf_path_components[-1]
@@ -109,8 +212,8 @@ class Envelope(_BrowsableModel):
 
         year = str(
             self.created_at.year
-            if self.reporting_period.upper_inf
-            else self.reporting_period.upper.year
+            if self.reporting_period.period.upper_inf
+            else self.reporting_period.period.upper.year
         )
         country = self.country.slug
         ogroup = str(self.obligation_group_id)

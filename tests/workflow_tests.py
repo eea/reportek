@@ -1,5 +1,7 @@
 import pytest
 
+from datetime import date
+
 from reportek.core.models import (
     Country,
     ObligationGroup,
@@ -15,10 +17,15 @@ def fix_og_pass_qa(request):
     og = ObligationGroup.objects.create(
         slug='og-pass-fix-1',
         name=fake_name('Obligation Group '),
-        workflow_class='reportek.core.models.workflows.demo_auto_qa.DemoPassQAWorkflow')
+        workflow_class='reportek.core.models.workflows.demo_auto_qa.DemoPassQAWorkflow',
+        next_reporting_start=date.today(),
+        reporting_duration_months=12,
+    )
     og.save()
+    og.start_reporting_period()
 
     def fin():
+        og.reporting_period_set.all().delete()
         og.delete()
 
     request.addfinalizer(fin)
@@ -36,7 +43,6 @@ def fix_env_pass_qa(request, fix_og_pass_qa):
         name=fake_name('Envelope '),
         country=country,
         obligation_group=og,
-        reporting_period=('2017-01-01', '2017-12-31')
     )
     env.save()
 
@@ -53,10 +59,15 @@ def fix_og_fail_qa(request):
     og = ObligationGroup.objects.create(
         slug='og-fail-fix-1',
         name=fake_name('Obligation Group '),
-        workflow_class='reportek.core.models.workflows.demo_auto_qa.DemoFailQAWorkflow')
+        workflow_class='reportek.core.models.workflows.demo_auto_qa.DemoFailQAWorkflow',
+        next_reporting_start=date.today(),
+        reporting_duration_months=12,
+    )
+    og.start_reporting_period()
     og.save()
 
     def fin():
+        og.reporting_period_set.all().delete()
         og.delete()
 
     request.addfinalizer(fin)
@@ -73,7 +84,6 @@ def fix_env_fail_qa(request, fix_og_fail_qa):
         name=fake_name('Envelope '),
         country=country,
         obligation_group=og,
-        reporting_period=('2017-01-01', '2017-12-31')
     )
     env.save()
 
