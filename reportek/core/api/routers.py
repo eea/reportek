@@ -4,18 +4,19 @@ from .views import (
     EnvelopeViewSet,
     EnvelopeFileViewSet,
     EnvelopeWorkflowViewSet,
+    UploadHookView
 )
 
 
-router = routers.SimpleRouter()
-router.register(
+envelopes_router = routers.SimpleRouter()
+envelopes_router.register(
     'envelopes',
     EnvelopeViewSet,
     base_name='envelope'
 )
 
 files_router = routers.NestedSimpleRouter(
-    router, 'envelopes', lookup='envelope')
+    envelopes_router, 'envelopes', lookup='envelope')
 files_router.register(
     'files',
     EnvelopeFileViewSet,
@@ -23,14 +24,22 @@ files_router.register(
 )
 
 workflow_router = routers.NestedSimpleRouter(
-    router, 'envelopes', lookup='envelope')
+    envelopes_router, 'envelopes', lookup='envelope')
 workflow_router.register(
     'workflow',
     EnvelopeWorkflowViewSet,
     base_name='envelope-workflow'
 )
 
-nested_routers = [
+nested_envelopes_routers = [
     files_router,
     workflow_router
 ]
+
+
+uploads_router = routers.SimpleRouter()
+uploads_router.register(
+    'uploads',
+    UploadHookView,
+    base_name='uploads'
+)

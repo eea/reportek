@@ -166,3 +166,52 @@ class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):
     queryset = BaseWorkflow.objects.all()
     serializer_class = NestedEnvelopeWorkflowSerializer
     permission_classes = (permissions.IsAuthenticated, )
+
+
+class UploadHookView(viewsets.ViewSet):
+    """
+    Handles upload notifications from tusd.
+    """
+    TUS_HOOKS = [
+        'pre-create',
+        'post-create',
+        'post-finish',
+        'post-terminate',
+        'post-receive'
+    ]
+
+    @staticmethod
+    def handle_pre_create(request):
+        print(f'pre-create: {request.data}')
+        return Response()
+
+    @staticmethod
+    def handle_post_receive(request):
+        print(f'post-receive: {request.data}')
+        return Response()
+
+    @staticmethod
+    def handle_post_create(request):
+        print(f'post-create: {request.data}')
+        return Response()
+
+    @staticmethod
+    def handle_post_finish(request):
+        print(f'post-finish: {request.data}')
+        return Response()
+
+    @staticmethod
+    def handle_post_terminate(request):
+        print(f'post-terminate: {request.data}')
+        return Response()
+
+    def create(self, request):
+        # Original header name sent by tusd is `Hook-Name`, Django mangles it
+        hook_name = self.request.META.get('HTTP_HOOK_NAME')
+        try:
+            return getattr(self, f'handle_{hook_name.replace("-", "_")}')(request)
+        except AttributeError:
+            return Response(
+                {'hook_not_supported': hook_name},
+                status=status.HTTP_400_BAD_REQUEST
+            )

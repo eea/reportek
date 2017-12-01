@@ -1,13 +1,14 @@
 from rest_framework import routers
 
 from reportek.core.api.routers import (
-    router as core_router,
-    nested_routers as core_nested_routers,
+    envelopes_router,
+    nested_envelopes_routers,
+    uploads_router
 )
 
 
-main_routers = [core_router]
-nested_routers_set = [core_nested_routers]
+main_routers = [envelopes_router, uploads_router]
+nested_routers = [nested_envelopes_routers]
 
 
 class DefaultRouter(routers.DefaultRouter):
@@ -20,13 +21,16 @@ class DefaultRouter(routers.DefaultRouter):
 
 
 root = DefaultRouter()
+
 for router in main_routers:
-    root.extend(core_router)
+    root.extend(router)
 
-
-urlpatterns = root.urls + [
-    url
-    for routers in nested_routers_set
-    for router in routers
-    for url in router.urls
-]
+urlpatterns = root.urls + \
+              envelopes_router.urls + \
+              uploads_router.urls + \
+              [
+                  url
+                  for nested_router in nested_routers
+                  for router in nested_router
+                  for url in router.urls
+              ]
