@@ -34,8 +34,9 @@ X-Content-Type-Options: nosniff
 
 ## Create new upload
 
-We're uploading a file named 'file_sample.xml', 1820041 bytes in size.
-Since `tusd` will store the uploaded data under a unique name it generates internally, we use the `Upload-Metadata` header to preserve any non-payload data about the upload.
+We're uploading a file named 'file_sample.xml', 1820041 bytes in size. The file size __must__ be provided, using an `Upload-Length` header.
+
+Since `tusd` will store the uploaded data under a unique name it generates internally, we use the optional `Upload-Metadata` header to preserve any non-payload data about the upload.
 Note that values in `Upload-Metadata` key-value pairs __must__ be base64 encoded.
 
 ### Request:
