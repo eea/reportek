@@ -1,3 +1,7 @@
+import os
+from pathlib import Path
+import logging
+from base64 import b64encode
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -6,12 +10,17 @@ from rest_framework.authentication import (
     TokenAuthentication
 )
 
+from django.conf import settings
+from django.core.files import File
+from django.utils import timezone
+
 from ..models import (
     Envelope,
     EnvelopeFile,
     BaseWorkflow,
     Obligation,
     Country,
+    UploadToken,
 )
 from ..serializers import (
     EnvelopeSerializer,
@@ -19,6 +28,12 @@ from ..serializers import (
     NestedEnvelopeWorkflowSerializer
 )
 from .. import permissions
+
+log = logging.getLogger('reportek.workflows')
+info = log.info
+debug = log.debug
+warn = log.warning
+error = log.error
 
 
 class EnvelopeResultsSetPagination(LimitOffsetPagination):
@@ -141,6 +156,33 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(envelopes, many=True)
         return Response(serializer.data)
 
+    @detail_route(methods=['post'])
+    def token(self, request, pk):
+        """
+        Creates an `UploadToken` for the envelope.
+        Used by `tusd` uploads server for user/envelope correlation.
+        Upload tokens cannot be issued for finalized envelopes.
+
+        Returns:
+         ```
+         {
+            'token': <base64 encoded token>
+         }
+         ```
+        """
+        envelope = self.get_object()
+        if envelope.finalized:
+            return Response(
+                {'error': 'envelope is finalized'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        token = envelope.upload_tokens.create(user=request.user)
+        return Response(
+            {
+                'token': b64encode(token.token.encode())
+            }
+        )
+
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
     queryset = EnvelopeFile.objects.all()
@@ -182,30 +224,163 @@ class UploadHookView(viewsets.ViewSet):
 
     @staticmethod
     def handle_pre_create(request):
-        print(f'pre-create: {request.data}')
+        """
+        Handles a pre-create notification from `tusd`.
+
+        Returns an OK response only if:
+         - the upload `token` the `MetaData` field is validated
+         - the token's user is authenticated
+         - a `filename` field is present in `MetaData`
+        """
+
+        info(f'UPLOAD pre-create: {request.data}')
+        meta_data = request.data.get('MetaData', {})
+        tok = meta_data.get('token', '')
+        try:
+            token = UploadToken.objects.get(token=tok)
+
+            # Token validity check allows a grace period
+            if token.valid_until < timezone.now() + timezone.timedelta(seconds=30):
+                token.delete()
+                error('UPLOAD denied: EXPIRED TOKEN')
+                return Response(
+                    {'error': 'expired token'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            # TODO Validate user access to envelope when roles are in place
+            if not token.user.is_authenticated():
+                error(f'UPLOAD denied on envelope "{token.envelope}" '
+                      f'for "{token.user}": NOT ALLOWED')
+                return Response(
+                    {'error': 'user not authenticated'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+
+            if meta_data.get('filename') is None:
+                error(f'UPLOAD denied on envelope "{token.envelope}" '
+                      f'for "{token.user}": filename is missing')
+                return Response(
+                    {'error': 'filename not in MetaData'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            info(f'UPLOAD authorized on envelope "{token.envelope}" for "{token.user}"')
+
+        except UploadToken.DoesNotExist:
+            error('UPLOAD denied: INVALID TOKEN')
+            return Response(
+                {'error': 'invalid token'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         return Response()
 
     @staticmethod
     def handle_post_receive(request):
-        print(f'post-receive: {request.data}')
+        """
+        Handles a post-receive notification from `tusd`.
+        Currently has no side-effects, exists only to avoid
+        'hook not implemented' errors in `tusd`.
+        """
+        info(f'UPLOAD post-receive: {request.data}')
         return Response()
 
     @staticmethod
     def handle_post_create(request):
-        print(f'post-create: {request.data}')
+        """
+        Handles a post-create notification from `tusd`.
+        Currently has no side-effects, exists only to avoid
+        'hook not implemented' errors in `tusd`.
+        """
+        info(f'UPLOAD post-create: {request.data}')
         return Response()
 
     @staticmethod
     def handle_post_finish(request):
-        print(f'post-finish: {request.data}')
+        """
+        Handles a post-finish notification from `tusd`.
+        The uploaded file is used to create an EnvelopeFile.
+        """
+        info(f'UPLOAD post-finish: {request.data}')
+        meta_data = request.data.get('MetaData', {})
+        tok = meta_data.get('token', '')
+        # filename presence was enforced during pre-create
+        file_name = meta_data['filename']
+        try:
+            token = UploadToken.objects.get(token=tok)
+            # TODO Validate user access to envelope when roles are in place
+            if not token.user.is_authenticated():
+                error(f'UPLOAD denied on envelope "{token.envelope}" '
+                      f'for "{token.user}": NOT ALLOWED')
+                return Response(
+                    {'error': 'user not authenticated'},
+                    status=status.HTTP_403_FORBIDDEN
+                )
+            file_path = os.path.join(
+                settings.TUSD_UPLOADS_DIR,
+                f'{request.data.get("ID")}.bin'
+            )
+
+            file_path = Path(file_path).resolve()
+            if not file_path.is_file():
+                raise FileNotFoundError
+
+            # Overrite envelope file if it exists
+            try:
+                envelope_file = EnvelopeFile.objects.get(
+                    envelope=token.envelope,
+                    name=file_name
+                )
+                # Delete existing file to avoid renaming in `Storage.get_available_name`
+                old_file = os.path.join(
+                    settings.PROTECTED_ROOT,
+                    envelope_file.get_envelope_directory(file_name)
+                )
+                info(f'UPLOAD deleting old file: {old_file}')
+                try:
+                    os.remove(old_file)
+                except FileNotFoundError:
+                    warn('UPLOAD could not find old upload "{old_file}"')
+            except EnvelopeFile.DoesNotExist:
+                envelope_file = EnvelopeFile(
+                    envelope=token.envelope,
+                    name=file_name
+                )
+            # Save the file through the protected storage field
+            envelope_file.file.save(file_name, File(file_path.open()))
+
+            # Finally, remove the token
+            token.delete()
+
+        except UploadToken.DoesNotExist:
+            error(f'UPLOAD denied on envelope "{token.envelope}" '
+                  f'for "{token.user}": INVALID TOKEN')
+            return Response(
+                {'error': 'invalid token'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        except FileNotFoundError:
+            error(f'UPLOAD file does not exist: "{file_path}"')
+            return Response(
+                {'error': 'file not found'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         return Response()
 
     @staticmethod
     def handle_post_terminate(request):
-        print(f'post-terminate: {request.data}')
+        """
+        Handles a post-terminate notification from `tusd`.
+        Currently has no side-effects, exists only to avoid
+        'hook not implemented' errors in `tusd`.
+        """
+        info(f'UPLOAD post-terminate: {request.data}')
         return Response()
 
     def create(self, request):
+        """
+        Dispatches notifications from `tusd` to appropriate handler.
+        """
         # Original header name sent by tusd is `Hook-Name`, Django mangles it
         hook_name = self.request.META.get('HTTP_HOOK_NAME')
         try:
