@@ -17,6 +17,7 @@ from .reporting import (
     Collection,
     Envelope,
     EnvelopeFile,
+    UploadToken,
 )
 
 from . import auto_user_tokens

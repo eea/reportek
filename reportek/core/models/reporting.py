@@ -2,10 +2,13 @@ import os
 import logging
 from datetime import date
 from dateutil.relativedelta import relativedelta
+from django.conf import settings
 from django.db import models, transaction
 from django.contrib.postgres import fields as pgfields
 from django.core.exceptions import ValidationError
 from django.urls import reverse
+from django.utils import timezone
+from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 from edw.djutils import protected
 from model_utils import FieldTracker
@@ -26,6 +29,9 @@ error = log.error
 
 
 ENVELOPE_ROOT_DIR = "envelopes"
+
+UPLOAD_TOKEN_LENGTH = 64
+UPLOAD_TOKEN_DURATION = 60 * 60  # 60 minutes
 
 
 class _BrowsableModel(models.Model):
@@ -296,6 +302,7 @@ class EnvelopeFile(models.Model):
 
             self.file.name = new_name
 
+        print(f'saving file name: {self.file.name}')
         # save first to catch data integrity errors.
         # TODO: wrap this in a transaction with below, who knows
         # how that might fail...
@@ -303,6 +310,7 @@ class EnvelopeFile(models.Model):
 
         # and rename on disk
         if renamed:
+            print('renamed: {old_path} to {new_path}')
             os.rename(old_path, new_path)
 
     def get_file_url(self):
@@ -310,3 +318,38 @@ class EnvelopeFile(models.Model):
             'pk': self.envelope_id,
             'filename': self.name,
         })
+
+
+def default_token():
+    return get_random_string(UPLOAD_TOKEN_LENGTH)
+
+
+def token_valid_until():
+    return timezone.now() + timezone.timedelta(seconds=UPLOAD_TOKEN_DURATION)
+
+
+class UploadToken(models.Model):
+    envelope = models.ForeignKey(
+        Envelope,
+        related_name='upload_tokens',
+        on_delete=models.CASCADE
+    )
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='upload_tokens',
+        on_delete=models.CASCADE
+    )
+    token = models.CharField(
+        max_length=100, db_index=True,
+        unique=True, default=default_token
+    )
+
+    created_at = models.DateTimeField(default=timezone.now)
+    valid_until = models.DateTimeField(default=token_valid_until)
+
+    class Meta:
+        ordering = ('-created_at',)
+
+    def __str__(self):
+        return f'Upload token for user "{self.user}" ' \
+               f'on envelope "{self.envelope}"'
