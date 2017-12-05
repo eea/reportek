@@ -26,6 +26,9 @@ else:
 POSTGRES_PASSWORD = '' if os.getenv('TRAVIS') else 'postgres'
 
 
+TUSD_UPLOADS_DIR = '/var/tusd/data'
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
