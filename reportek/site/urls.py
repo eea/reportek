@@ -60,7 +60,3 @@ if settings.DEBUG:
         urlpatterns.append(
             url(r'^__debug__/', include(debug_toolbar.urls))
         )
-
-print('in site')
-for p in urlpatterns:
-    print(p)
