@@ -1,3 +1,4 @@
+"""
 from django.contrib import admin
 from django_object_actions import DjangoObjectActions
 
@@ -63,3 +64,4 @@ class ReportingPeriodAdmin(admin.ModelAdmin):
     list_display = ('obligation_group', 'xperiod', 'open')
 
 admin.site.register(Envelope)
+"""
