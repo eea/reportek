@@ -93,7 +93,6 @@ class Obligation(RODModel):
     terminated = models.BooleanField(default=False)
 
     client = models.ForeignKey(Client)
-    reporters = models.ManyToManyField(Reporter, through='ObligationReporterMapping')
 
     # this part specifies the recurrence rule.
     # the start & end dates for the entire lifetime of the obligation:
@@ -109,21 +108,21 @@ class Obligation(RODModel):
         return self.reporting_duration is None
 
     @property
+    def spec(self):
+        """the current spec"""
+        return self.specs.get(current=True)
+
+    @property
+    def reporters(self):
+        return self.spec.reporters
+
+    @property
     def reporter_subdivision_categories(self):
         """
         this is a computed property, to help avoid exposing the
         m2m table below in the API.
         """
         pass
-
-
-class ObligationReporterMapping(models.Model):
-    obligation = models.ForeignKey(Obligation)
-    reporter = models.ForeignKey(Reporter)
-    # this is required only when reporting for the current entity
-    # must be split across subdivisions
-    subdivision_category = models.ForeignKey(ReporterSubdivisionCategory,
-                                             blank=True, null=True)
 
 
 class ObligationSpec(RODModel):
@@ -133,7 +132,7 @@ class ObligationSpec(RODModel):
     """
     URL_PATTERN = 'http://rod.eionet.europa.eu/obligation-specs/{id}'
 
-    obligation = models.ForeignKey(Obligation, related_name='spec')
+    obligation = models.ForeignKey(Obligation, related_name='specs')
     # increment version number for each spec change. TODO: do we want semver?
     version = models.PositiveSmallIntegerField(default=1)
     # implementation logic must make sure there's only one spec current per obligation.
@@ -142,9 +141,19 @@ class ObligationSpec(RODModel):
     # allow working on the new spec before making it official.
     draft = models.BooleanField(default=True)
 
+    reporters = models.ManyToManyField(Reporter, through='ObligationSpecReporterMapping')
     schema = ArrayField(
         models.URLField(max_length=1024)
     )
+
+
+class ObligationSpecReporterMapping(models.Model):
+    spec = models.ForeignKey(ObligationSpec)
+    reporter = models.ForeignKey(Reporter)
+    # this is required only when reporting for the current entity
+    # must be split across subdivisions
+    subdivision_category = models.ForeignKey(ReporterSubdivisionCategory,
+                                             blank=True, null=True)
 
 
 class ReportingCycle(RODModel):
