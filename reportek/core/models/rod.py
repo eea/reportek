@@ -92,8 +92,6 @@ class Obligation(RODModel):
     instrument = models.ForeignKey(Instrument, blank=True, null=True)
     terminated = models.BooleanField(default=False)
 
-    client = models.ForeignKey(Client)
-
     # this part specifies the recurrence rule.
     # the start & end dates for the entire lifetime of the obligation:
     active_since = models.DateTimeField()
@@ -111,6 +109,10 @@ class Obligation(RODModel):
     def spec(self):
         """the current spec"""
         return self.specs.get(current=True)
+
+    @property
+    def clients(self):
+        return self.spec.clients
 
     @property
     def reporters(self):
@@ -141,6 +143,7 @@ class ObligationSpec(RODModel):
     # allow working on the new spec before making it official.
     draft = models.BooleanField(default=True)
 
+    clients = models.ManyToManyField(Client)
     reporters = models.ManyToManyField(Reporter, through='ObligationSpecReporterMapping')
     schema = ArrayField(
         models.URLField(max_length=1024)
