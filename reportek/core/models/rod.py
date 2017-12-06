@@ -126,6 +126,27 @@ class ObligationReporterMapping(models.Model):
                                              blank=True, null=True)
 
 
+class ObligationSpec(RODModel):
+    """
+    The obligation specification, aka Dataset Definition.
+    Varies from one reporting cycle to another.
+    """
+    URL_PATTERN = 'http://rod.eionet.europa.eu/obligation-specs/{id}'
+
+    obligation = models.ForeignKey(Obligation, related_name='spec')
+    # increment version number for each spec change. TODO: do we want semver?
+    version = models.PositiveSmallIntegerField(default=1)
+    # implementation logic must make sure there's only one spec current per obligation.
+    # each new reporting cycle will default to the obligation's current spec.
+    is_current = models.BooleanField(default=False)
+    # allow working on the new spec before making it official.
+    draft = models.BooleanField(default=True)
+
+    schema = ArrayField(
+        models.URLField(max_length=1024)
+    )
+
+
 class ReportingCycle(RODModel):
     """
     Reporting cycles, per obligation. Each report is tied to a specific cycle.
@@ -133,6 +154,7 @@ class ReportingCycle(RODModel):
     URL_PATTERN = 'http://rod.eionet.europa.eu/reporting-cycles/{id}'
 
     obligation = models.ForeignKey(Obligation)
+    obligation_spec = models.ForeignKey(ObligationSpec)
 
     # this is always required, and can be in the future
     reporting_start_date = models.DateField()
@@ -154,16 +176,3 @@ class ReportingCycle(RODModel):
         return (self.is_open and
                 self.reporting_end_date is not None and
                 self.reporting_end_date < date.today())
-
-
-class ObligationSpec(RODModel):
-    """
-    The obligation specification, aka Dataset Definition.
-    Varies from one reporting cycle to another.
-    """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/obligation-specs/{id}'
-
-    cycle = models.OneToOneField(ReportingCycle, related_name='spec')
-    schema = ArrayField(
-        models.URLField(max_length=1024)
-    )
