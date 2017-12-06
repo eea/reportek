@@ -1,3 +1,4 @@
+import enum
 from datetime import date
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
@@ -17,22 +18,21 @@ class RODModel(models.Model):
         abstract = True
 
 
-class Client(RODModel):
-    URL_PATTERN = 'http://rod.eionet.europa.eu/clients/{id}'
-
-    name = models.CharField(max_length=256)
-    abbr = models.CharField(max_length=20, blank=True)
-
-    def __str__(self):
-        return self.name + (f' ({self.abbr})' if self.abbr else '')
+class ENTITY_ROLES(enum.IntEnum):
+    OBSERVER = 0
+    CLIENT = 1
+    REPORTER = 2
 
 
-class Reporter(RODModel):
+class Entity(RODModel):
     """
-    The reporting entity (usually countries in CDR and companies in BDR,
-    but can be other types of organisations as well).
+    Any entity involved in the reporting process, be it an organisation,
+    country, company etc.
+    They can assume different roles for different obligations
+    (e.g. be a client for an obligation while being a reporter for another,
+    or be an observing party or play another (yet unknown) role).
     """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/reporters/{id}'
+    URL_PATTERN = 'http://rod.eionet.europa.eu/entities/{id}'
 
     name = models.CharField(max_length=256)
     abbr = models.CharField(max_length=32, unique=True)
@@ -45,25 +45,25 @@ class Reporter(RODModel):
         return f'{self.name} [{self.abbr}]'
 
 
-class ReporterSubdivisionCategory(RODModel):
+class EntitySubdivisionCategory(RODModel):
     """
     Sometimes reporting for a certain country, for a certain obligation,
     must be split across subdivisions (usually territorial).
     This is the parent category for each such subdivisions.
     """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/reporter-subdivision-categories/{id}'
+    URL_PATTERN = 'http://rod.eionet.europa.eu/entity-subdivision-categories/{id}'
 
-    reporter = models.ForeignKey(Reporter)
+    entity = models.ForeignKey(Entity)
     name = models.CharField(max_length=128)
 
 
-class ReporterSubdivision(RODModel):
+class EntitySubdivision(RODModel):
     """
     Reporting subdivions.
     """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/reporter-subdivisions/{id}'
+    URL_PATTERN = 'http://rod.eionet.europa.eu/entity-subdivisions/{id}'
 
-    category = models.ForeignKey(ReporterSubdivisionCategory)
+    category = models.ForeignKey(EntitySubdivisionCategory)
     name = models.CharField(max_length=128)
 
 
@@ -143,20 +143,32 @@ class ObligationSpec(RODModel):
     # allow working on the new spec before making it official.
     draft = models.BooleanField(default=True)
 
-    clients = models.ManyToManyField(Client)
-    reporters = models.ManyToManyField(Reporter, through='ObligationSpecReporterMapping')
+    entities = models.ManyToManyField(Entity, through='ObligationSpecEntityRoles')
     schema = ArrayField(
         models.URLField(max_length=1024)
     )
 
+    @property
+    def clients(self):
+        return self.entities.filter(roles__role=ENTITY_ROLES.CLIENT)
 
-class ObligationSpecReporterMapping(models.Model):
+    @property
+    def reporters(self):
+        return self.entities.filter(roles__role=ENTITY_ROLES.REPORTER)
+
+
+class ObligationSpecEntityRoles(models.Model):
     spec = models.ForeignKey(ObligationSpec)
-    reporter = models.ForeignKey(Reporter)
+    entity = models.ForeignKey(Entity)
+    role = models.PositiveSmallIntegerField(choices=((r.value, r.name.title())
+                                                     for r in ENTITY_ROLES))
     # this is required only when reporting for the current entity
     # must be split across subdivisions
-    subdivision_category = models.ForeignKey(ReporterSubdivisionCategory,
+    subdivision_category = models.ForeignKey(EntitySubdivisionCategory,
                                              blank=True, null=True)
+
+    class Meta:
+        default_related_name = 'roles'
 
 
 class ReportingCycle(RODModel):
