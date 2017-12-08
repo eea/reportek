@@ -25,7 +25,8 @@ from ..models import (
 from ..serializers import (
     EnvelopeSerializer,
     EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
-    NestedEnvelopeWorkflowSerializer
+    NestedEnvelopeWorkflowSerializer,
+    NestedUploadTokenSerializer,
 )
 from .. import permissions
 
@@ -156,33 +157,6 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(envelopes, many=True)
         return Response(serializer.data)
 
-    @detail_route(methods=['post'])
-    def token(self, request, pk):
-        """
-        Creates an `UploadToken` for the envelope.
-        Used by `tusd` uploads server for user/envelope correlation.
-        Upload tokens cannot be issued for finalized envelopes.
-
-        Returns:
-         ```
-         {
-            'token': <base64 encoded token>
-         }
-         ```
-        """
-        envelope = self.get_object()
-        if envelope.finalized:
-            return Response(
-                {'error': 'envelope is finalized'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        token = envelope.upload_tokens.create(user=request.user)
-        return Response(
-            {
-                'token': b64encode(token.token.encode())
-            }
-        )
-
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
     queryset = EnvelopeFile.objects.all()
@@ -210,6 +184,48 @@ class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticated, )
 
 
+class UploadTokenViewSet(viewsets.ModelViewSet):
+    queryset = UploadToken.objects.all()
+    serializer_class = NestedUploadTokenSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def create(self, request, envelope_pk):
+        """
+        Creates an ``UploadToken`` for the envelope.
+        Used by `tusd` uploads server for user/envelope correlation.
+        Upload tokens cannot be issued for finalized envelopes.
+
+        Returns::
+
+            {
+              'token': <base64 encoded token>
+            }
+
+        """
+        envelope = Envelope.objects.get(pk=envelope_pk)
+
+        if envelope.finalized:
+            return Response(
+                {'error': 'envelope is finalized'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        token = envelope.upload_tokens.create(user=request.user)
+        return Response(
+            {
+                'token': b64encode(token.token.encode())
+            }
+        )
+
+    def list(self, request, envelope_pk):
+        """
+        Returns the tokens issued for a given envelope.
+        """
+        queryset = UploadToken.objects.filter(envelope=envelope_pk)
+        serializer = self.serializer_class(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
+
+
 class UploadHookView(viewsets.ViewSet):
     """
     Handles upload notifications from tusd.
@@ -227,6 +243,8 @@ class UploadHookView(viewsets.ViewSet):
         """
         Handles a pre-create notification from `tusd`.
 
+        Sets the file name on the token.
+
         Returns an OK response only if:
          - the upload `token` the `MetaData` field is validated
          - the token's user is authenticated
@@ -236,6 +254,7 @@ class UploadHookView(viewsets.ViewSet):
         info(f'UPLOAD pre-create: {request.data}')
         meta_data = request.data.get('MetaData', {})
         tok = meta_data.get('token', '')
+        filename = meta_data.get('filename')
         try:
             token = UploadToken.objects.get(token=tok)
 
@@ -257,13 +276,16 @@ class UploadHookView(viewsets.ViewSet):
                     status=status.HTTP_403_FORBIDDEN
                 )
 
-            if meta_data.get('filename') is None:
+            if filename is None:
                 error(f'UPLOAD denied on envelope "{token.envelope}" '
                       f'for "{token.user}": filename is missing')
                 return Response(
                     {'error': 'filename not in MetaData'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
+
+            token.filename = filename
+            token.save()
 
             info(f'UPLOAD authorized on envelope "{token.envelope}" for "{token.user}"')
 
@@ -289,10 +311,21 @@ class UploadHookView(viewsets.ViewSet):
     def handle_post_create(request):
         """
         Handles a post-create notification from `tusd`.
-        Currently has no side-effects, exists only to avoid
-        'hook not implemented' errors in `tusd`.
+        Sets the newly issued tus ID on the token.
         """
         info(f'UPLOAD post-create: {request.data}')
+        meta_data = request.data.get('MetaData', {})
+        tok = meta_data.get('token', '')
+        try:
+            token = UploadToken.objects.get(token=tok)
+            token.tus_id = request.data.get('ID')
+            token.save()
+        except UploadToken.DoesNotExist:
+            error('UPLOAD denied: INVALID TOKEN')
+            return Response(
+                {'error': 'invalid token'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
         return Response()
 
     @staticmethod
@@ -371,10 +404,16 @@ class UploadHookView(viewsets.ViewSet):
     def handle_post_terminate(request):
         """
         Handles a post-terminate notification from `tusd`.
-        Currently has no side-effects, exists only to avoid
-        'hook not implemented' errors in `tusd`.
+        Deletes the token issued for the upload.
         """
         info(f'UPLOAD post-terminate: {request.data}')
+        meta_data = request.data.get('MetaData', {})
+        tok = meta_data.get('token', '')
+        try:
+            token = UploadToken.objects.get(token=tok)
+            token.delete()
+        except UploadToken.DoesNotExist:
+            warn('UPLOAD could not find token to delete on post-terminate.')
         return Response()
 
     def create(self, request):

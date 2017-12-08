@@ -344,6 +344,9 @@ class UploadToken(models.Model):
         unique=True, default=default_token
     )
 
+    filename = models.CharField(max_length=256)
+    tus_id = models.CharField(max_length=32, blank=True, null=True)
+
     created_at = models.DateTimeField(default=timezone.now)
     valid_until = models.DateTimeField(default=token_valid_until)
 

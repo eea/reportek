@@ -4,7 +4,8 @@ from .views import (
     EnvelopeViewSet,
     EnvelopeFileViewSet,
     EnvelopeWorkflowViewSet,
-    UploadHookView
+    UploadHookView,
+    UploadTokenViewSet,
 )
 
 
@@ -31,14 +32,24 @@ workflow_router.register(
     base_name='envelope-workflow'
 )
 
+
+upload_token_router = routers.NestedSimpleRouter(
+    envelopes_router, 'envelopes', lookup='envelope')
+upload_token_router.register(
+    'token',
+    UploadTokenViewSet,
+    base_name='envelope-token'
+)
+
 nested_envelopes_routers = [
     files_router,
-    workflow_router
+    workflow_router,
+    upload_token_router,
 ]
 
 
-uploads_router = routers.SimpleRouter()
-uploads_router.register(
+upload_hooks_router = routers.SimpleRouter()
+upload_hooks_router.register(
     'uploads',
     UploadHookView,
     base_name='uploads'

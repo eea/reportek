@@ -3,11 +3,11 @@ from rest_framework import routers
 from reportek.core.api.routers import (
     envelopes_router,
     nested_envelopes_routers,
-    uploads_router
+    upload_hooks_router
 )
 
 
-main_routers = [envelopes_router, uploads_router]
+main_routers = [envelopes_router, upload_hooks_router]
 nested_routers = [nested_envelopes_routers]
 
 
@@ -26,11 +26,10 @@ for router in main_routers:
     root.extend(router)
 
 urlpatterns = root.urls + \
-              envelopes_router.urls + \
-              uploads_router.urls + \
               [
                   url
                   for nested_router in nested_routers
                   for router in nested_router
                   for url in router.urls
               ]
+

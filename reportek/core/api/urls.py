@@ -3,11 +3,11 @@
 from .routers import (
     envelopes_router,
     nested_envelopes_routers,
-    uploads_router,
+    upload_hooks_router,
 )
 
 
-urlpatterns = uploads_router.urls + envelopes_router.urls + [
+urlpatterns = upload_hooks_router.urls + envelopes_router.urls + [
     url
     for r in nested_envelopes_routers
     for url in r.urls

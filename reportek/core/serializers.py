@@ -5,6 +5,7 @@ from .models import (
     Envelope, EnvelopeFile,
     ObligationGroup, ReportingPeriod,
     BaseWorkflow,
+    UploadToken,
 )
 
 
@@ -54,6 +55,28 @@ class NestedEnvelopeWorkflowSerializer(
         extra_kwargs = {
             'url': {
                 'view_name': 'api:envelope-workflow-detail',
+            }
+        }
+
+
+class UploadTokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UploadToken
+        fields = '__all__'
+
+
+class NestedUploadTokenSerializer(
+        NestedHyperlinkedModelSerializer, UploadTokenSerializer):
+
+    parent_lookup_kwargs = {
+        'envelope_pk': 'envelope__pk'
+    }
+
+    class Meta(UploadTokenSerializer.Meta):
+        fields = ['id', 'created_at', 'token', 'filename', 'tus_id']
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:envelope-token-detail',
             }
         }
 
