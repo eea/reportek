@@ -62,9 +62,8 @@ Create new upload
 -----------------
 
 We’re uploading a file named ‘file_sample.xml’, 1820041 bytes in size.
-Since tusd_ will store the uploaded data under a unique name it
-generates internally, we use the ``Upload-Metadata`` header to preserve
-any non-payload data about the upload.
+Since tusd_ will store the uploaded data under a unique name it generates internally,
+we use the ``Upload-Metadata`` header to preserve any non-payload data about the upload.
 
 .. note::
  - Reportek **requires** the metadata keys ``token`` and ``filename``.
@@ -117,6 +116,7 @@ Hooks triggered:
 
 .. note::
   - at this stage the upload has not yet been issued an ID.
+  - Reportek will fill in the `filename` field on the token at this point.
   - tusd_ hooks send meta data values decoded from their posted base 64 content.
 
 Assuming a positive response from the ``pre-create`` hook, the creation proceeds:
@@ -159,6 +159,7 @@ Assuming a positive response from the ``pre-create`` hook, the creation proceeds
 
 .. note::
   - the ``IsPartial``/``IsFinal`` hook notification fields do **NOT** indicate the actual completeness of a regular resumable upload, and are only relevant when using the ``Concatenation`` extension (not currently used by Reportek).
+  - Reportek will fill in the `tus_id` field on the token at this point.
 
 Uploads storage
 ^^^^^^^^^^^^^^^
@@ -211,8 +212,42 @@ Hooks triggered
       'PartialUploads': None
     }
 
-Ask for status on the upload
-----------------------------
+Resuming uploads
+----------------
+
+An interrupted upload can be resumed by PATCHing requests to its initial URL.
+
+First we'll query Reportek on the envelope's tokens, to get the ``tus`` ID :
+
+.. code-block:: none
+   :caption: Request:
+
+   http GET http://localhost:8000/api/0.1/envelopes/4/token/                                                                                                                                          473ms
+
+.. code-block:: none
+   :caption: Response:
+
+   HTTP/1.0 200 OK
+   Allow: GET, POST, HEAD, OPTIONS
+   Content-Length: 202
+   Content-Type: application/json
+   Date: Fri, 01 Dec 2017 13:09:10 GMT
+   Server: WSGIServer/0.2 CPython/3.6.3
+   Vary: Accept, Cookie
+   X-Frame-Options: SAMEORIGIN
+
+   [
+       {
+           "created_at": "2017-12-01T13:08:04.438469Z",
+           "filename": "file_sample.xml",
+           "id": 23,
+           "token": "HBcSCUe6rlC4j1YOWxwI6wvWKY1nJrfD2NkmW7AqgfPsdRmPgcE1q2r4uZuaiYMd",
+           "tus_id": "c71fc15b393082f889b16e2443ae41f4"
+       }
+   ]
+
+
+Next we ask ``tusd`` for status on the upload, to know where to resume from:
 
 .. code-block:: none
    :caption: Request:
@@ -233,10 +268,7 @@ Ask for status on the upload
    Upload-Offset: 1820000
    X-Content-Type-Options: nosniff
 
-Resume and finish the upload
-----------------------------
-
-We continue from the offset indicated by the server.
+Finally, we resume from the offset indicated by the server, and finish the upload:
 
 .. code-block:: none
    :caption: Request:
@@ -279,7 +311,9 @@ Hooks triggered:
 
 .. note::
   - while tusd_ will issue the ``post-receive`` event before ``post-finish``, it’s possible they will be received by the hooks target in reverse order.
-  - upon receiving ``post-finish``, Reportek will use the metadata to move the file from tusd_'s data directory to the appropriate envelope, and with its original name.
+  - upon receiving ``post-finish``, Reportek will:
+      - use the metadata to move the file from tusd_'s data directory to the appropriate envelope, and with its original name.
+      - delete the token.
   - the current behaviour on receiving a file with a name already present on the envelope is to replace the existing one.
 
 Delete an upload
@@ -287,7 +321,6 @@ Delete an upload
 
 This is refered to in the protocol spec as ‘termination’, which is NOT meant as 'finishing an upload'.
 Terminating an upload will cause tusd_ to delete the actual ``.bin`` and ``.info`` files from its data directory.
-The ``post-finish`` hook implementation must process the ``.bin`` file as required (e.g. move and rename it per the ``Upload-Metadata`` information), and only then issue the termination request.
 
 .. code-block:: none
    :caption: Request:
@@ -324,6 +357,14 @@ Hooks triggered:
       'PartialUploads': None
     }
 
+.. note::
+  - ``post-terminate`` will cause Reportek to delete the token.
+
+
+Sequence diagram
+----------------
+
+.. image:: img/resumable_uploads_seq.png
 
 .. _tus: https://tus.io/protocols/resumable-upload.html
 .. _tusd: https://github.com/tus/tusd

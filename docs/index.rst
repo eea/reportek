@@ -7,9 +7,10 @@ Welcome to Reportek's documentation!
 ====================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
+   resumable_uploads
    reference
 
 Indices and tables
