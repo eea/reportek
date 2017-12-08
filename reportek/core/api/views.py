@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from zipfile import ZipFile, BadZipFile
 import logging
 from base64 import b64encode
 from rest_framework import viewsets, status
@@ -228,15 +229,14 @@ class UploadTokenViewSet(viewsets.ModelViewSet):
 
 class UploadHookView(viewsets.ViewSet):
     """
-    Handles upload notifications from tusd.
+    Handles upload notifications for tusd hooks:
+        - ``pre-create``
+        - ``post-create``
+        - ``post-finish``
+        - ``post-terminate``
+        - ``post-receive``
+
     """
-    TUS_HOOKS = [
-        'pre-create',
-        'post-create',
-        'post-finish',
-        'post-terminate',
-        'post-receive'
-    ]
 
     @staticmethod
     def handle_pre_create(request):
@@ -258,8 +258,7 @@ class UploadHookView(viewsets.ViewSet):
         try:
             token = UploadToken.objects.get(token=tok)
 
-            # Token validity check allows a grace period
-            if token.valid_until < timezone.now() + timezone.timedelta(seconds=30):
+            if token.has_expired():
                 token.delete()
                 error('UPLOAD denied: EXPIRED TOKEN')
                 return Response(
@@ -281,6 +280,14 @@ class UploadHookView(viewsets.ViewSet):
                       f'for "{token.user}": filename is missing')
                 return Response(
                     {'error': 'filename not in MetaData'},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+
+            if not EnvelopeFile.has_valid_extension(filename, include_archives=True):
+                error(f'UPLOAD denied on envelope "{token.envelope}" '
+                      f'for "{token.user}": bad file extension')
+                return Response(
+                    {'error': 'bad file extension'},
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
@@ -332,13 +339,19 @@ class UploadHookView(viewsets.ViewSet):
     def handle_post_finish(request):
         """
         Handles a post-finish notification from `tusd`.
-        The uploaded file is used to create an EnvelopeFile.
+        The uploaded file is used to create an EnvelopeFile, or replace its
+        underlying file on disk if one with the same name exists.
+
+        Archives (only ZIPs currently) are extracted *without* directory structure.
         """
+
         info(f'UPLOAD post-finish: {request.data}')
         meta_data = request.data.get('MetaData', {})
         tok = meta_data.get('token', '')
         # filename presence was enforced during pre-create
         file_name = meta_data['filename']
+        file_ext = file_name.split('.')[-1].lower()
+
         try:
             token = UploadToken.objects.get(token=tok)
             # TODO Validate user access to envelope when roles are in place
@@ -358,29 +371,43 @@ class UploadHookView(viewsets.ViewSet):
             if not file_path.is_file():
                 raise FileNotFoundError
 
-            # Overrite envelope file if it exists
-            try:
-                envelope_file = EnvelopeFile.objects.get(
-                    envelope=token.envelope,
-                    name=file_name
+            # Regular files
+            if file_ext not in settings.ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS:
+                # envelope_file, is_new = UploadHookView.get_or_create_envelope_file(
+                envelope_file, is_new = EnvelopeFile.get_or_create(
+                    token.envelope,
+                    file_name
                 )
-                # Delete existing file to avoid renaming in `Storage.get_available_name`
-                old_file = os.path.join(
-                    settings.PROTECTED_ROOT,
-                    envelope_file.get_envelope_directory(file_name)
-                )
-                info(f'UPLOAD deleting old file: {old_file}')
+                if not is_new:
+                    token.envelope.delete_disk_file(file_name)
+
+                envelope_file.file.save(file_name, File(file_path.open()))
+            # Archives, currently zip only
+            elif file_ext == 'zip':
                 try:
-                    os.remove(old_file)
-                except FileNotFoundError:
-                    warn('UPLOAD could not find old upload "{old_file}"')
-            except EnvelopeFile.DoesNotExist:
-                envelope_file = EnvelopeFile(
-                    envelope=token.envelope,
-                    name=file_name
-                )
-            # Save the file through the protected storage field
-            envelope_file.file.save(file_name, File(file_path.open()))
+                    with ZipFile(file_path) as up_zip:
+                        for zip_member in up_zip.namelist():
+                            member_info = up_zip.getinfo(zip_member)
+                            # Skip directories and files with non-allowed extensions
+                            if member_info.is_dir() or not EnvelopeFile.has_valid_extension(member_info.filename):
+                                continue
+                            member_name = os.path.basename(zip_member)
+                            # envelope_file, is_new = UploadHookView.get_or_create_envelope_file(
+                            envelope_file, is_new = EnvelopeFile.get_or_create(
+                                token.envelope,
+                                member_name
+                            )
+                            if not is_new:
+                                token.envelope.delete_disk_file(member_name)
+
+                            with up_zip.open(zip_member) as member_file:
+                                envelope_file.file.save(member_name, member_file)
+                except BadZipFile:
+                    error(f'UPLOAD Bad ZIP file: "{file_path}"')
+                    return Response(
+                        {'error': 'bad zip file'},
+                        status=status.HTTP_400_BAD_REQUEST
+                    )
 
             # Finally, remove the token
             token.delete()

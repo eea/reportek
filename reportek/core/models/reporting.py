@@ -235,6 +235,23 @@ class Envelope(_BrowsableModel):
         return os.path.join(ENVELOPE_ROOT_DIR,
                             year, country, ogroup, envelope)
 
+    def delete_disk_file(self, file_name):
+        """
+        Used to delete an existing envelope file from disk, to avoid
+        auto-renaming in `Storage.get_available_name` during
+        `EnvelopeFile.file.save()`.
+        """
+        env_file = os.path.join(
+            settings.PROTECTED_ROOT,
+            self.get_storage_directory(),
+            file_name
+        )
+        info(f'Deleting envelope file: {env_file}')
+        try:
+            os.remove(env_file)
+        except FileNotFoundError:
+            warn(f'Could not find envelope file "{env_file}"')
+
 
 # TODO: move me somewhere nice (and improve me)
 def validate_filename(value):
@@ -319,6 +336,38 @@ class EnvelopeFile(models.Model):
             'filename': self.name,
         })
 
+    @classmethod
+    def get_or_create(cls, envelope, file_name):
+        """
+        Locates an `EnvelopeFile` based on `file_name`, or creates a new one.
+        Returns a tuple of the `EnvelopeFile` instance and a boolean indicating
+        if it is newly created.
+        """
+        is_new = True
+        try:
+            obj = cls.objects.get(
+                envelope=envelope,
+                name=file_name
+            )
+            is_new = False
+
+        except cls.DoesNotExist:
+            obj = cls(envelope=envelope, name=file_name)
+
+        return obj, is_new
+
+    @staticmethod
+    def has_valid_extension(filename, include_archives=False):
+        """
+        Checks a file's extension against allowed extensions.
+        If `include_archives` is `True`, extensions in
+        `ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS` are permitted.
+        """
+        allowed_extensions = settings.ALLOWED_UPLOADS_EXTENSIONS
+        if include_archives:
+            allowed_extensions += settings.ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS
+        return filename.split('.')[-1].lower() in allowed_extensions
+
 
 def default_token():
     return get_random_string(UPLOAD_TOKEN_LENGTH)
@@ -329,6 +378,9 @@ def token_valid_until():
 
 
 class UploadToken(models.Model):
+
+    GRACE_SECONDS = 30
+
     envelope = models.ForeignKey(
         Envelope,
         related_name='upload_tokens',
@@ -356,3 +408,7 @@ class UploadToken(models.Model):
     def __str__(self):
         return f'Upload token for user "{self.user}" ' \
                f'on envelope "{self.envelope}"'
+
+    def has_expired(self):
+        return self.valid_until < (
+            timezone.now() + timezone.timedelta(seconds=self.GRACE_SECONDS))
