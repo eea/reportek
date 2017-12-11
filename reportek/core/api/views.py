@@ -31,6 +31,8 @@ from ..serializers import (
 )
 from .. import permissions
 
+from reportek.core.utils import path_parts
+
 log = logging.getLogger('reportek.workflows')
 info = log.info
 debug = log.debug
@@ -343,6 +345,9 @@ class UploadHookView(viewsets.ViewSet):
         underlying file on disk if one with the same name exists.
 
         Archives (only ZIPs currently) are extracted *without* directory structure.
+        If setting ``ARCHIVE_PATH_PREFIX`` is ``True`` (default), the files are saved with
+        a prefix of '_'-separated path components, i.e. 'dir1/dir2/file.xml' becomes
+        'dir1_dir2_file.xml'.
         """
 
         info(f'UPLOAD post-finish: {request.data}')
@@ -373,7 +378,6 @@ class UploadHookView(viewsets.ViewSet):
 
             # Regular files
             if file_ext not in settings.ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS:
-                # envelope_file, is_new = UploadHookView.get_or_create_envelope_file(
                 envelope_file, is_new = EnvelopeFile.get_or_create(
                     token.envelope,
                     file_name
@@ -391,8 +395,10 @@ class UploadHookView(viewsets.ViewSet):
                             # Skip directories and files with non-allowed extensions
                             if member_info.is_dir() or not EnvelopeFile.has_valid_extension(member_info.filename):
                                 continue
-                            member_name = os.path.basename(zip_member)
-                            # envelope_file, is_new = UploadHookView.get_or_create_envelope_file(
+                            if not settings.ARCHIVE_PATH_PREFIX:
+                                member_name = os.path.basename(zip_member)
+                            else:
+                                member_name = '_'.join([p.replace(' ', '') for p in path_parts(zip_member)])
                             envelope_file, is_new = EnvelopeFile.get_or_create(
                                 token.envelope,
                                 member_name

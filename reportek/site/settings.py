@@ -30,6 +30,13 @@ TUSD_UPLOADS_DIR = '/var/tusd/data'
 ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS = ['zip']
 ALLOWED_UPLOADS_EXTENSIONS = ['xml']
 
+# Toggles preservation of archive paths in names of unpacked files,
+# i.e. 'dir1/dir2/file.xml' becomes 'dir1_dir2_file.xml'.
+# This provides overwrite protection for cases where the archive
+# contains files with the same name in several directories.
+ARCHIVE_PATH_PREFIX = True
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
