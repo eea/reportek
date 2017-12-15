@@ -21,3 +21,8 @@ from .reporting import (
 )
 
 from . import auto_user_tokens
+
+from .qa import (
+    QAJob,
+    QAJobResult
+)

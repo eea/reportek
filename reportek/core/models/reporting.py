@@ -20,6 +20,7 @@ from . import (
 )
 
 from reportek.core.models.workflows import WORKFLOW_CLASSES
+from reportek.core.utils import get_xsd_uri
 
 log = logging.getLogger('reportek.workflows')
 info = log.info
@@ -75,6 +76,9 @@ class ObligationGroup(_BrowsableModel):
 
     next_reporting_start = models.DateField(blank=True, null=True)
     reporting_duration_months = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    # TODO After ROD models are final, move this to the appropriate one
+    qa_xmlrpc_uri = models.CharField(max_length=200, default=settings.QA_DEFAULT_XMLRPC_URI)
 
     objects = ObligationGroupQuerySet.as_manager()
 
@@ -277,6 +281,8 @@ class EnvelopeFile(models.Model):
     # initially derived from the filename, a change triggers rename
     name = models.CharField(max_length=256, validators=[validate_filename])
 
+    xml_schema = models.CharField(max_length=200, blank=True, null=True)
+
     class Meta:
         unique_together = ('envelope', 'name')
 
@@ -318,6 +324,8 @@ class EnvelopeFile(models.Model):
                                     self.name)
 
             self.file.name = new_name
+        else:
+            new_path = old_path = self.file.path
 
         print(f'saving file name: {self.file.name}')
         # save first to catch data integrity errors.
@@ -334,6 +342,12 @@ class EnvelopeFile(models.Model):
         return reverse('core:envelope-file', kwargs={
             'pk': self.envelope_id,
             'filename': self.name,
+        })
+
+    def get_api_download_url(self):
+        return reverse('api:envelope-file-download', kwargs={
+            'envelope_pk': self.envelope_id,
+            'pk': self.pk,
         })
 
     @classmethod
@@ -367,6 +381,9 @@ class EnvelopeFile(models.Model):
         if include_archives:
             allowed_extensions += settings.ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS
         return filename.split('.')[-1].lower() in allowed_extensions
+
+    def extract_xml_schema(self):
+        return get_xsd_uri(self.file.path)
 
 
 def default_token():
