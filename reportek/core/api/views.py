@@ -3,9 +3,11 @@ from pathlib import Path
 from zipfile import ZipFile, BadZipFile
 import logging
 from base64 import b64encode
+from django.views import static
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
+from rest_framework.renderers import StaticHTMLRenderer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.authentication import (
     TokenAuthentication
@@ -13,7 +15,6 @@ from rest_framework.authentication import (
 
 from django.conf import settings
 from django.core.files import File
-from django.utils import timezone
 
 from ..models import (
     Envelope,
@@ -179,6 +180,30 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         serializer.save(
             envelope_id=self.kwargs['envelope_pk']
         )
+
+    @detail_route(methods=['get', 'head'], renderer_classes=(StaticHTMLRenderer,))
+    def download(self, request, envelope_pk, pk):
+        envelope_file = self.get_object()
+        _file = envelope_file.file
+        relpath = _file.name
+
+        if relpath is None or relpath == '':
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        if settings.DEBUG:
+            response = static.serve(
+                request,
+                path=relpath,
+                document_root=_file.storage.location)
+        else:
+            # this does "X-Sendfile" on nginx, see
+            # https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/
+            response = Response(
+                headers={
+                    'X-Accel-Redirect': _file.storage.url(relpath)
+                }
+            )
+        return response
 
 
 class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):
@@ -386,6 +411,9 @@ class UploadHookView(viewsets.ViewSet):
                     token.envelope.delete_disk_file(file_name)
 
                 envelope_file.file.save(file_name, File(file_path.open()))
+                if file_ext == 'xml':
+                    envelope_file.xml_schema = envelope_file.extract_xml_schema()
+                    envelope_file.save()
             # Archives, currently zip only
             elif file_ext == 'zip':
                 try:
@@ -399,6 +427,7 @@ class UploadHookView(viewsets.ViewSet):
                                 member_name = os.path.basename(zip_member)
                             else:
                                 member_name = '_'.join([p.replace(' ', '') for p in path_parts(zip_member)])
+                            member_ext = member_name.split('.')[-1].lower()
                             envelope_file, is_new = EnvelopeFile.get_or_create(
                                 token.envelope,
                                 member_name
@@ -408,6 +437,10 @@ class UploadHookView(viewsets.ViewSet):
 
                             with up_zip.open(zip_member) as member_file:
                                 envelope_file.file.save(member_name, member_file)
+                                if member_ext == 'xml':
+                                    envelope_file.xml_schema = envelope_file.extract_xml_schema()
+                                    envelope_file.save()
+
                 except BadZipFile:
                     error(f'UPLOAD Bad ZIP file: "{file_path}"')
                     return Response(
