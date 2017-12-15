@@ -25,10 +25,27 @@ else:
 
 POSTGRES_PASSWORD = '' if os.getenv('TRAVIS') else 'postgres'
 
+REPORTEK_DOMAIN = os.getenv('REPORTEK_DOMAIN')
+REPORTEK_USE_TLS = True
 
 TUSD_UPLOADS_DIR = '/var/tusd/data'
 ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS = ['zip']
 ALLOWED_UPLOADS_EXTENSIONS = ['xml']
+
+
+# Celery
+CELERY_BROKER_HOST = 'localhost'
+CELERY_BROKER_VHOST = 'reportek'
+CELERY_BROKER_USER = 'reportek'
+CELERY_BROKER_PWD = 'reportek'
+CELERY_BROKER_URL = f'amqp://{CELERY_BROKER_USER}:{CELERY_BROKER_PWD}@{CELERY_BROKER_HOST}//{CELERY_BROKER_VHOST}'
+CELERY_RESULT_BACKEND = 'rpc'
+
+
+# QA
+QA_DEFAULT_XMLRPC_URI = os.getenv('QA_DEFAULT_XMLRPC_URI')
+QA_FETCH_RESULTS_FREQUENCY = os.getenv('QA_FETCH_RESULTS_FREQUENCY', 60)  # seconds
+
 
 # Toggles preservation of archive paths in names of unpacked files,
 # i.e. 'dir1/dir2/file.xml' becomes 'dir1_dir2_file.xml'.
@@ -111,6 +128,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'reportek.site.wsgi.application'
 
 
+# DRF
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
+}
+
+
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -148,7 +177,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -181,11 +209,6 @@ FIXTURE_DIRS = [
 ]
 
 
-REST_FRAMEWORK = {
-    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
-}
-
-
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -214,7 +237,10 @@ LOGGING = {
             'handlers': ['console'],
             'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
         },
-
+        'reportek.tasks': {
+            'handlers': ['console'],
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+        },
     },
 }
 

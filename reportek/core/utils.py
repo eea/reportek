@@ -7,6 +7,10 @@ import pyclbr
 from importlib import import_module
 from inspect import getmro
 from traceback import print_tb
+from lxml import etree
+
+from django.conf import settings
+
 
 log = logging.getLogger('reportek.workflows')
 info = log.info
@@ -88,3 +92,23 @@ def path_parts(path):
             path = parts[0]
             allparts.insert(0, parts[1])
     return allparts
+
+
+def get_xsd_uri(file_path):
+    try:
+        tree = etree.parse(file_path)
+    except etree.XMLSyntaxError:
+        return None
+
+    root = tree.getroot()
+    try:
+        return root.attrib[root.keys()[0]]
+    except (AttributeError, IndexError):
+        return None
+
+
+def fully_qualify_url(url):
+    if not url.startswith('/'):
+        url = f'/{url}'
+    proto = 'https' if settings.REPORTEK_USE_TLS else 'http'
+    return f'{proto}://{settings.REPORTEK_DOMAIN}{url}'

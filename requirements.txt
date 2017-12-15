@@ -25,3 +25,5 @@ coverage>=4.4.2,<4.5
 pytest-cov>=2.5.1,<2.6
 Sphinx>=1.6.5,<1.7
 sphinx-rtd-theme>=0.2.4,<0.3
+celery>=4.1.0,<4.2
+lxml>=4.1,<4.2
