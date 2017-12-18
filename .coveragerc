@@ -1,2 +1,2 @@
 [run]
-omit = reportek/core/migrations/*, reportek/core/management/commands/*, reportek/site/localsettings.py
+omit = reportek/tests/*, reportek/core/migrations/*, reportek/core/management/commands/*, reportek/site/localsettings.py
