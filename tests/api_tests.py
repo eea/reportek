@@ -38,6 +38,7 @@ def fix_og(request):
         workflow_class='reportek.core.models.workflows.demo_auto_qa.DemoPassQAWorkflow',
         next_reporting_start=date.today(),
         reporting_duration_months=12,
+        qa_xmlrpc_uri='http://localhost/RpcRouter',
     )
     og.save()
     og.start_reporting_period()
