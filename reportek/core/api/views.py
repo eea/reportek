@@ -34,6 +34,10 @@ from .. import permissions
 
 from reportek.core.utils import path_parts
 
+from reportek.core.qa import RemoteQA
+from reportek.core.utils import fully_qualify_url
+
+
 log = logging.getLogger('reportek.workflows')
 info = log.info
 debug = log.debug
@@ -204,6 +208,47 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
                 }
             )
         return response
+
+    @detail_route(methods=['get'])
+    def qa_scripts(self, request, envelope_pk, pk):
+        """
+        Returns the list of available QA rules for one particular schema,
+        as list of dicts with the keys:
+            `id`
+            `title`
+            `last_updated`
+            `max_size`
+        """
+        envelope_file = self.get_object()
+        remote_qa = RemoteQA(
+            envelope_file.envelope.obligation_group.qa_xmlrpc_uri
+        )
+
+        if envelope_file.xml_schema is None:
+            scripts = []
+        else:
+            scripts = remote_qa.get_scripts(envelope_file.xml_schema)
+
+        return Response(scripts)
+
+    @detail_route(methods=['post'])
+    def run_qa_script(self, request, envelope_pk, pk):
+        """
+        Runs the QA script with id POST-ed as ``script_id`` against the
+        XML file, and returns the result as dict with the keys:
+            `content-type`
+            `result`
+            `feedback_status`
+            `feedback_message`
+        """
+        script_id = request.data.get('script_id')
+        envelope_file = self.get_object()
+        remote_qa = RemoteQA(
+            envelope_file.envelope.obligation_group.qa_xmlrpc_uri
+        )
+        file_url = fully_qualify_url(envelope_file.get_api_download_url())
+
+        return Response(remote_qa.run_script(file_url, str(script_id)))
 
 
 class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):
