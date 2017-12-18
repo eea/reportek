@@ -20,6 +20,7 @@ def fix_og_pass_qa(request):
         workflow_class='reportek.core.models.workflows.demo_auto_qa.DemoPassQAWorkflow',
         next_reporting_start=date.today(),
         reporting_duration_months=12,
+        qa_xmlrpc_uri='http://localhost/RpcRouter',
     )
     og.save()
     og.start_reporting_period()
@@ -62,6 +63,7 @@ def fix_og_fail_qa(request):
         workflow_class='reportek.core.models.workflows.demo_auto_qa.DemoFailQAWorkflow',
         next_reporting_start=date.today(),
         reporting_duration_months=12,
+        qa_xmlrpc_uri='http://localhost/RpcRouter',
     )
     og.start_reporting_period()
     og.save()
@@ -104,7 +106,9 @@ def test_og_wf_display(wf_class, wf_display):
     og = ObligationGroup.objects.create(
         slug=fake_name('og-'),
         name=fake_name('Obligation Group '),
-        workflow_class=wf_class)
+        workflow_class=wf_class,
+        qa_xmlrpc_uri='http://localhost/RpcRouter',
+    )
     assert og.get_workflow_class_display() == wf_display
 
 
