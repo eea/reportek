@@ -32,6 +32,31 @@ class RemoteQA:
     def __init__(self, uri):
         self.uri = uri
 
+    @staticmethod
+    def bin_to_str(bin_obj, encoding='utf-8'):
+        """
+        Converts a xmlrpc.Binary object to string.
+        """
+        try:
+            return str(bin_obj.data, encoding)
+        except Exception:
+            return 'ERROR: could not decode'
+
+    @staticmethod
+    def get_content_encoding(result):
+        """
+        Extracts the encoding from a content_type string
+        (e.g. 'text/html;charset=UTF-8').
+        """
+        _result = result.split(';')
+        if len(_result) < 2 or not 'charset=' in _result[1]:
+            return None
+        else:
+            enc = _result[1].split('=')
+            if len(enc) < 2:
+                return None
+            return enc[1]
+
     @log_xmlrpc_errors
     def validate(self, file_url):
         """
@@ -82,10 +107,20 @@ class RemoteQA:
     @log_xmlrpc_errors
     def get_scripts(self, xml_schema):
         """
-        Returns the list of available QA rules for one particular schema.
+        Returns the list of available QA rules for one particular schema,
+        as list of dicts with the keys:
+            `id`
+            `title`
+            `last_updated`
+            `max_size`
         """
         with xmlrpc.client.ServerProxy(self.uri) as proxy:
-            return proxy.XQueryService.listQAScripts(xml_schema)
+            scripts = proxy.XQueryService.listQAScripts(xml_schema)
+            scripts = scripts or []
+            return [
+                dict(zip(['id', 'title', 'last_updated', 'max_size'], s))
+                for s in scripts
+            ]
 
     @log_xmlrpc_errors
     def get_queries(self, xml_schema):
@@ -98,7 +133,21 @@ class RemoteQA:
     @log_xmlrpc_errors
     def run_script(self, file_url, script_id):
         """
-        Runs the QA script with specified id against the source XML file and returns the result as a byte array.
+        Runs the QA script with specified id against the XML file at the URL,
+        and returns the result as dict with the keys:
+            `content-type`
+            `result`
+            `feedback_status`
+            `feedback_message`
         """
         with xmlrpc.client.ServerProxy(self.uri) as proxy:
-            return proxy.XQueryService.runQAScript(file_url, script_id)
+            result = proxy.XQueryService.runQAScript(file_url, script_id)
+            if result:
+                encoding = self.get_content_encoding(result[0]) or 'utf-8'
+                result = {
+                    'content-type': result[0],
+                    'result': self.bin_to_str(result[1], encoding=encoding),
+                    'feedback_status': self.bin_to_str(result[2], encoding=encoding),
+                    'feedback_message': self.bin_to_str(result[3], encoding=encoding)
+                }
+            return result
