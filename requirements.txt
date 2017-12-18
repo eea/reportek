@@ -27,3 +27,5 @@ Sphinx>=1.6.5,<1.7
 sphinx-rtd-theme>=0.2.4,<0.3
 celery>=4.1.0,<4.2
 lxml>=4.1,<4.2
+django-celery-beat>=1.1.0,<1.2
+gevent>=1.2.2,<1.3

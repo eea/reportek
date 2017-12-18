@@ -32,16 +32,6 @@ TUSD_UPLOADS_DIR = '/var/tusd/data'
 ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS = ['zip']
 ALLOWED_UPLOADS_EXTENSIONS = ['xml']
 
-
-# Celery
-CELERY_BROKER_HOST = 'localhost'
-CELERY_BROKER_VHOST = 'reportek'
-CELERY_BROKER_USER = 'reportek'
-CELERY_BROKER_PWD = 'reportek'
-CELERY_BROKER_URL = f'amqp://{CELERY_BROKER_USER}:{CELERY_BROKER_PWD}@{CELERY_BROKER_HOST}//{CELERY_BROKER_VHOST}'
-CELERY_RESULT_BACKEND = 'rpc'
-
-
 # QA
 QA_DEFAULT_XMLRPC_URI = os.getenv('QA_DEFAULT_XMLRPC_URI')
 QA_FETCH_RESULTS_FREQUENCY = os.getenv('QA_FETCH_RESULTS_FREQUENCY', 60)  # seconds
@@ -75,6 +65,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_jinja',
+    'django_celery_beat',
     'django_extensions',
     'django_object_actions',
     'django.contrib.admin',
@@ -182,7 +173,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.getenv('REPORTEK_TZ', 'UTC')
 
 USE_I18N = True
 
@@ -207,6 +198,32 @@ PROTECTED_URL = '/protected-files/'
 FIXTURE_DIRS = [
     os.path.join(ROOT_DIR, 'data', 'fixtures')
 ]
+
+
+# Celery
+CELERY_BROKER_HOST = os.getenv('BROKER_HOST', '')
+CELERY_BROKER_VHOST = os.getenv('BROKER_VHOST', '')
+CELERY_BROKER_USER = os.getenv('BROKER_USER', '')
+CELERY_BROKER_PWD = os.getenv('BROKER_PWD', '')
+CELERY_BROKER_URL = f'amqp://{CELERY_BROKER_USER}:{CELERY_BROKER_PWD}@{CELERY_BROKER_HOST}/{CELERY_BROKER_VHOST}'
+CELERY_RESULT_BACKEND = 'rpc'
+
+CELERY_TASK_DEFAULT_QUEUE = 'reportek'
+CELERY_TASK_DEFAULT_EXCHANGE = 'reportek'
+CELERY_TASK_DEFAULT_ROUTING_KEY = 'reportek'
+
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_IGNORE_RESULT = True
+CELERY_ACKS_LATE = True
+CELERY_DISABLE_RATE_LIMITS = False
+CELERY_IGNORE_RESULT = True
+CELERY_TASK_RESULT_EXPIRES = 600
+
+CELERY_ACCEPT_CONTENT = ['application/json']
+
+CELERYD_HIJACK_ROOT_LOGGER = False
+CELERYD_PREFETCH_MULTIPLIER = 1
+CELERYD_MAX_TASKS_PER_CHILD = 1000
 
 
 LOGGING = {
