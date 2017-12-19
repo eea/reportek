@@ -12,48 +12,64 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 
 import os
 
+
+def split_env_var(name, sep=','):
+    env_var = os.getenv(name, '')
+    return [e.strip() for e in env_var.split(sep)]
+
+
+def get_bool_env_var(name, default=None):
+    env_var = os.getenv(name)
+    if env_var is None:
+        return default or None
+    return env_var.lower() == 'true' or env_var.lower() == 'yes'
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # repo root dir
 ROOT_DIR = os.path.dirname(BASE_DIR)
 PARENT_DIR = os.path.dirname(ROOT_DIR)
 
-if os.getenv('DOCKER_CONTAINER'):
-    POSTGRES_HOST = 'postgres'
+if os.getenv('TRAVIS'):
+    POSTGRES_HOST = 'localhost'
+    POSTGRES_DB = 'postgres'
+    POSTGRES_USER = 'postgres'
+    POSTGRES_PASSWORD = ''
 else:
-    POSTGRES_HOST = '127.0.0.1'
-
-POSTGRES_PASSWORD = '' if os.getenv('TRAVIS') else 'postgres'
+    POSTGRES_HOST = os.getenv('POSTGRES_HOST')
+    POSTGRES_DB = os.getenv('POSTGRES_DB')
+    POSTGRES_USER = os.getenv('POSTGRES_USER')
+    POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
 
 REPORTEK_DOMAIN = os.getenv('REPORTEK_DOMAIN')
-REPORTEK_USE_TLS = True
+REPORTEK_USE_TLS = get_bool_env_var('REPORTEK_USE_TLS')
 
-TUSD_UPLOADS_DIR = '/var/tusd/data'
-ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS = ['zip']
-ALLOWED_UPLOADS_EXTENSIONS = ['xml']
+TUSD_UPLOADS_DIR = os.getenv('TUSD_UPLOADS_DIR')
+ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS = split_env_var('ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS')
+ALLOWED_UPLOADS_EXTENSIONS = split_env_var('ALLOWED_UPLOADS_EXTENSIONS')
 
 # QA
 QA_DEFAULT_XMLRPC_URI = os.getenv('QA_DEFAULT_XMLRPC_URI')
-QA_FETCH_RESULTS_FREQUENCY = os.getenv('QA_FETCH_RESULTS_FREQUENCY', 60)  # seconds
 
 
 # Toggles preservation of archive paths in names of unpacked files,
 # i.e. 'dir1/dir2/file.xml' becomes 'dir1_dir2_file.xml'.
 # This provides overwrite protection for cases where the archive
 # contains files with the same name in several directories.
-ARCHIVE_PATH_PREFIX = True
+ARCHIVE_PATH_PREFIX = get_bool_env_var('ARCHIVE_PATH_PREFIX', True)
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$l7kk5pin%!m7hr5lzy-pagdo*1o8$wx2&rxxes@e%mo3(ap$&'
+SECRET_KEY = os.getenv('SECRET_KEY', 'secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', 'false').lower() == 'true'
+DEBUG = get_bool_env_var('DEBUG', False)
 
-ALLOWED_HOSTS = [os.getenv('ALLOWED_HOSTS')]
+ALLOWED_HOSTS = split_env_var('ALLOWED_HOSTS')
 
 
 # Application definition
@@ -137,9 +153,9 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': POSTGRES_DB,
         'HOST': POSTGRES_HOST,
-        'USER': 'postgres',
+        'USER': POSTGRES_USER,
         'PASSWORD': POSTGRES_PASSWORD
     }
 }
@@ -201,10 +217,10 @@ FIXTURE_DIRS = [
 
 
 # Celery
-CELERY_BROKER_HOST = os.getenv('BROKER_HOST', '')
-CELERY_BROKER_VHOST = os.getenv('BROKER_VHOST', '')
-CELERY_BROKER_USER = os.getenv('BROKER_USER', '')
-CELERY_BROKER_PWD = os.getenv('BROKER_PWD', '')
+CELERY_BROKER_HOST = os.getenv('RABBITMQ_HOST')
+CELERY_BROKER_VHOST = os.getenv('RABBITMQ_DEFAULT_VHOST')
+CELERY_BROKER_USER = os.getenv('RABBITMQ_DEFAULT_USER')
+CELERY_BROKER_PWD = os.getenv('RABBITMQ_DEFAULT_PASS')
 CELERY_BROKER_URL = f'amqp://{CELERY_BROKER_USER}:{CELERY_BROKER_PWD}@{CELERY_BROKER_HOST}/{CELERY_BROKER_VHOST}'
 CELERY_RESULT_BACKEND = 'rpc'
 

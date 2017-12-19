@@ -106,5 +106,6 @@ ENV/
 
 # Docker
 docker-compose.override.yml
+*.env
 
 celerybeat*

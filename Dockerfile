@@ -2,11 +2,11 @@ FROM python:3.6-alpine3.6
 
 ENV PROJ_DIR=/var/local/reportek/
 
-RUN runDeps="gcc musl-dev postgresql-dev postgresql-client libressl-dev git" \
+RUN runDeps="gcc musl-dev postgresql-dev postgresql-client libressl-dev libxml2-dev libxslt-dev git" \
     && apk add --no-cache $runDeps
 
 RUN apk add --no-cache --virtual .build-deps \
-        gcc musl-dev postgresql-dev libressl-dev \
+        gcc musl-dev postgresql-dev libressl-dev libxml2-dev libxslt-dev \
     && mkdir -p $PROJ_DIR
 
 # Add requirements.txt before rest of repo for caching

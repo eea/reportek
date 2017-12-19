@@ -4,9 +4,6 @@ services:
   app:
     build: .
     image: <account>/<repo>
-    environment:
-      - ALLOWED_HOSTS=*
-      - DEBUG=true
 volumes:
   pg_data:
     driver: local
