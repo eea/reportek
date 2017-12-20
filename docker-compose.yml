@@ -60,9 +60,7 @@ services:
     volumes:
     - tusd-uploads:/var/local/tusd_uploads
     depends_on:
-      - postgres
-      - rabbitmq
-      - tusd
+      - app
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
@@ -78,9 +76,6 @@ services:
     - tusd-uploads:/var/local/tusd_uploads
     depends_on:
       - celery-worker
-      - postgres
-      - rabbitmq
-      - tusd
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
