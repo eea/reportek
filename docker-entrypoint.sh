@@ -11,6 +11,10 @@ done
 
 python manage.py migrate
 
+if [ -z "$REPORETEK_GUNICORN_PORT" ]; then
+  export REPORTEK_GUNICORN_PORT=8000
+fi
+
 case "$1" in
     manage)
         exec python manage.py "$1"
@@ -18,7 +22,7 @@ case "$1" in
     run)
         exec gunicorn reportek.site.wsgi:application \
             --name reportek \
-            --bind 0.0.0.0:80 \
+            --bind 0.0.0.0:${REPORTEK_GUNICORN_PORT} \
             --workers 3 \
             --access-logfile - \
             --error-logfile -

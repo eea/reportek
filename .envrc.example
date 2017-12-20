@@ -15,6 +15,9 @@ export REPORTEK_DOMAIN=localhost:8000
 # Accepts yes/no or true/false
 export REPORTEK_USE_TLS=false
 
+export REPORTEK_HOST=localhost
+export REPORTEK_GUNICORN_PORT=8000
+
 # export REPORTEK_TZ=UTC
 
 export TUSD_UPLOADS_DIR=$HOME/src/tusd-bin/data
