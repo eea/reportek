@@ -20,7 +20,7 @@ COPY . $PROJ_DIR
 
 RUN python manage.py collectstatic --noinput
 
-RUN python setup.py build_sphinx
+# RUN python setup.py build_sphinx
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["run"]
