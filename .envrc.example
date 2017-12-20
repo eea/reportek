@@ -1,0 +1,36 @@
+# Development environment settings for direnv [ https://direnv.net/ ]
+
+export SECRET_KEY='secret-key'
+export ALLOWED_HOSTS=*
+export DEBUG=True
+
+export POSTGRES_HOST=localhost
+export POSTGRES_DB=reportek
+export POSTGRES_USER=reportek
+export POSTGRES_PASSWORD=reportek
+
+# Used to build fully qualified URLs for XMLCONV
+export REPORTEK_DOMAIN=localhost:8000
+
+# Accepts yes/no or true/false
+export REPORTEK_USE_TLS=false
+
+# export REPORTEK_TZ=UTC
+
+export TUSD_UPLOADS_DIR=$HOME/src/tusd-bin/data
+
+# Comma-separated list, e.g. xml,tif
+export ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS=zip
+export ALLOWED_UPLOADS_EXTENSIONS=xml
+
+# export ARCHIVE_PATH_PREFIX=true
+
+export QA_DEFAULT_XMLRPC_URI=http://localhost:1082/RpcRouter
+
+export RABBITMQ_HOST=localhost
+export RABBITMQ_DEFAULT_VHOST=/reportek
+export RABBITMQ_DEFAULT_USER=reportek
+export RABBITMQ_DEFAULT_PASS=reportek
+
+# Used by tusd on hooks URL
+export API_VERSION=0.1
