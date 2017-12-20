@@ -3,9 +3,10 @@ version: '2'
 services:
   app:
     build: .
-    image: <account>/<repo>
 volumes:
-  pg_data:
+  pg-data:
     driver: local
-  pg_backups:
+  pg-backups:
+    driver: local
+  tusd-uploads:
     driver: local
