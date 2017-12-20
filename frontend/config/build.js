@@ -8,7 +8,7 @@ const rm = require('rimraf') //UNIX command rm -rf for node
 const path = require('path') //provides utilities for working with file and directory paths
 const chalk = require('chalk') //Terminal string styling done right
 const webpack = require('webpack')
-const config = require('../config')
+const config = require('./conf.js')
 const webpackConfig = require('./webpack.prod.conf')
 
 const spinner = ora('building for production...')

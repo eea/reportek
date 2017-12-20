@@ -5,13 +5,13 @@
   "author": "Alexandru Medesan <alex.medesan@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+    "dev": "webpack-dev-server --inline --progress --config frontend/config/webpack.dev.conf.js",
     "start": "npm run dev",
-    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "e2e": "node test/e2e/runner.js",
+    "unit": "cross-env BABEL_ENV=test karma start frontend/tests/unit/karma.conf.js --single-run",
+    "e2e": "node tests/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "build": "node build/build.js"
+    "lint": "eslint --ext .js,.vue src frontend/tests/unit/specs tests/e2e/specs",
+    "build": "node frontend/config/build.js"
   },
   "dependencies": {
     "vue": "^2.5.2",
@@ -88,6 +88,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not ie <= 8"
+    "not ie <= 10"
   ]
 }
