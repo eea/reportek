@@ -8,12 +8,15 @@ services:
     volumes:
       - pg-data:/var/lib/postgresql/data
       - pg-backups:/pg_backups
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
   rabbitmq:
     image: rabbitmq:3-management
     env_file:
       - ./docker/rabbitmq.env
-
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
   tusd:
     image: tusproject/tusd:latest
@@ -27,16 +30,54 @@ services:
       - http://app/api/${API_VERSION}/uploads/
     volumes:
       - tusd-uploads:/srv/tusd-data
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
   app:
     image: eeacms/reportek
     env_file:
-      - ./docker/postgres.env
       - ./docker/demo.env
+      - ./docker/postgres.env
+      - ./docker/rabbitmq.env
     volumes:
     - static-files:/var/local/reportek/reportek/static
     - tusd-uploads:/var/local/tusd_uploads
     depends_on:
+      - postgres
+      - rabbitmq
+      - tusd
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label_ne: reserved=yes
+
+  celery-worker:
+    image: eeacms/reportek
+    env_file:
+      - ./docker/demo.env
+      - ./docker/postgres.env
+      - ./docker/rabbitmq.env
+    entrypoint: ["./run_celery_worker.sh"]
+    volumes:
+    - tusd-uploads:/var/local/tusd_uploads
+    depends_on:
+      - postgres
+      - rabbitmq
+      - tusd
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label_ne: reserved=yes
+
+  celery-beat:
+    image: eeacms/reportek
+    env_file:
+      - ./docker/demo.env
+      - ./docker/postgres.env
+      - ./docker/rabbitmq.env
+    entrypoint: ["./run_celery_beat.sh"]
+    volumes:
+    - tusd-uploads:/var/local/tusd_uploads
+    depends_on:
+      - celery-worker
       - postgres
       - rabbitmq
       - tusd
@@ -72,6 +113,8 @@ services:
     - static-files:/var/local/reportek/reportek/static:ro
     depends_on:
       - app
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
 volumes:
   pg-data:
@@ -81,4 +124,4 @@ volumes:
   tusd-uploads:
     driver: rancher-nfs
   static-files:
-    driver: local
+    driver: rancher-nfs
