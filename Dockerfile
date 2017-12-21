@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt \
 
 COPY . $PROJ_DIR
 
-RUN python manage.py collectstatic --noinput
+RUN if [ "x$DJANGO_COLLECT_STATIC" = "xyes" ] ; then python manage.py collectstatic --noinput ; fi
 
 # RUN python setup.py build_sphinx
 
