@@ -9,10 +9,12 @@ while ! nc -z ${POSTGRES_HOST} 5432; do
   sleep 1s
 done
 
-python manage.py migrate
+if [ "x$DJANGO_MIGRATE" = 'xyes' ]; then
+    python manage.py migrate --noinput
+fi
 
-if [ -z "$REPORETEK_GUNICORN_PORT" ]; then
-  export REPORTEK_GUNICORN_PORT=8000
+if [ "x$DJANGO_LOAD_ROD_FIXTURES" = 'xyes' ]; then
+    python manage.py load_rod_fixtures
 fi
 
 case "$1" in
@@ -22,7 +24,7 @@ case "$1" in
     run)
         exec gunicorn reportek.site.wsgi:application \
             --name reportek \
-            --bind 0.0.0.0:${REPORTEK_GUNICORN_PORT} \
+            --bind 0.0.0.0:${REPORTEK_GUNICORN_PORT:-8000} \
             --workers 3 \
             --access-logfile - \
             --error-logfile -
