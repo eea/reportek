@@ -51,6 +51,9 @@ services:
       - ./docker/demo.env
       - ./docker/postgres.env
       - ./docker/rabbitmq.env
+    environment:
+      - DJANGO_MIGRATE=no
+      - DJANGO_LOAD_ROD_FIXTURES=no
     entrypoint: ["./run_celery_worker.sh"]
     volumes:
     - tusd-uploads:/var/local/tusd_uploads
@@ -66,6 +69,9 @@ services:
       - ./docker/demo.env
       - ./docker/postgres.env
       - ./docker/rabbitmq.env
+    environment:
+      - DJANGO_MIGRATE=no
+      - DJANGO_LOAD_ROD_FIXTURES=no
     entrypoint: ["./run_celery_beat.sh"]
     volumes:
     - tusd-uploads:/var/local/tusd_uploads

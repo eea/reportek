@@ -22,7 +22,7 @@ def get_bool_env_var(name, default=None):
     env_var = os.getenv(name)
     if env_var is None:
         return default or None
-    return env_var.lower() == 'true' or env_var.lower() == 'yes'
+    return env_var.lower() == 'yes'
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)

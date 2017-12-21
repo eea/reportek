@@ -2,18 +2,22 @@
 
 export SECRET_KEY='secret-key'
 export ALLOWED_HOSTS=*
-export DEBUG=True
+export DEBUG=yes
 
 export POSTGRES_HOST=localhost
 export POSTGRES_DB=reportek
 export POSTGRES_USER=reportek
 export POSTGRES_PASSWORD=reportek
 
+export DJANGO_COLLECT_STATIC=yes
+export DJANGO_MIGRATE=yes
+export DJANGO_LOAD_ROD_FIXTURES=yes
+
 # Used to build fully qualified URLs for XMLCONV
 export REPORTEK_DOMAIN=localhost:8000
 
-# Accepts yes/no or true/false
-export REPORTEK_USE_TLS=false
+# Accepts yes/no
+export REPORTEK_USE_TLS=no
 
 export REPORTEK_HOST=localhost
 export REPORTEK_GUNICORN_PORT=8000
@@ -26,7 +30,7 @@ export TUSD_UPLOADS_DIR=$HOME/src/tusd-bin/data
 export ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS=zip
 export ALLOWED_UPLOADS_EXTENSIONS=xml
 
-# export ARCHIVE_PATH_PREFIX=true
+# export ARCHIVE_PATH_PREFIX=yes
 
 export QA_DEFAULT_XMLRPC_URI=http://localhost:1082/RpcRouter
 
