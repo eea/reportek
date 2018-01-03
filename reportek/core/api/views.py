@@ -23,13 +23,17 @@ from ..models import (
     Obligation,
     Country,
     UploadToken,
+    QAJob,
 )
+
 from ..serializers import (
     EnvelopeSerializer,
     EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
     NestedEnvelopeWorkflowSerializer,
     NestedUploadTokenSerializer,
+    QAJobSerializer,
 )
+
 from .. import permissions
 
 from reportek.core.utils import path_parts
@@ -165,6 +169,22 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(envelopes, many=True)
         return Response(serializer.data)
 
+    @detail_route(methods=['get'])
+    def feedback(self, request, pk):
+        """
+        Returns a paginated list of completed QA jobs for the envelope's files.
+        """
+        envelope = self.get_object()
+        qa_jobs = QAJob.objects.filter(completed=True, envelope_file__envelope=envelope)
+
+        page = self.paginate_queryset(qa_jobs)
+        if page is not None:
+            serializer = QAJobSerializer(page, many=True, context={'request': request})
+            return self.get_paginated_response(serializer.data)
+
+        serializer = QAJobSerializer(qa_jobs, many=True, context={'request': request})
+        return Response(serializer.data)
+
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
     queryset = EnvelopeFile.objects.all()
@@ -249,6 +269,16 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         file_url = fully_qualify_url(envelope_file.get_api_download_url())
 
         return Response(remote_qa.run_script(file_url, str(script_id)))
+
+    @detail_route(methods=['get'])
+    def feedback(self, request, envelope_pk, pk):
+        """
+        Returns the QA feedback, if any, for the envelope file.
+        """
+        envelope_file = self.get_object()
+        qa_jobs = QAJob.objects.filter(completed=True, envelope_file=envelope_file)
+        serializer = QAJobSerializer(qa_jobs, many=True, context={'request': request})
+        return Response(serializer.data)
 
 
 class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):

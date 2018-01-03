@@ -6,6 +6,8 @@ from .models import (
     ObligationGroup, ReportingPeriod,
     BaseWorkflow,
     UploadToken,
+    QAJob,
+    QAJobResult,
 )
 
 
@@ -102,3 +104,20 @@ class EnvelopeSerializer(serializers.ModelSerializer):
         model = Envelope
         fields = '__all__'
         read_only_fields = ('reporting_period', 'finalized')
+
+
+class QAJobResultSerializer(serializers.ModelSerializer):
+    code = serializers.CharField(source='get_code_display')
+    feedback_status = serializers.CharField(source='get_feedback_status_display')
+
+    class Meta:
+        model = QAJobResult
+        fields = '__all__'
+
+
+class QAJobSerializer(serializers.ModelSerializer):
+    latest_result = QAJobResultSerializer(read_only=True)
+
+    class Meta:
+        model = QAJob
+        fields = ['latest_result'] + [f.name for f in QAJob._meta.fields]
