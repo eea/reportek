@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       envelope: null,
-    }
+    };
   },
 
   // Fetches posts when the component is created.
@@ -33,12 +33,12 @@ export default {
       .then((response) => {
         // JSON responses are automatically parsed.
         this.envelope = response.results;
-      })
-      .catch((e) => {
-        console.log(e);
       });
+      // .catch((e) => {
+      //   // consol-e.log(e);
+      // });
   },
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
