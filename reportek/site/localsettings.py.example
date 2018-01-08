@@ -25,3 +25,8 @@ INSTALLED_APPS = INSTALLED_APPS + [
 MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 ] + MIDDLEWARE
+
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8080',
+)
+
