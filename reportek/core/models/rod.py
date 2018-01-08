@@ -1,13 +1,14 @@
 from datetime import date
 from django.db import models
+from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 
 
 class RODModel(models.Model):
-    URL_PATTERN = None
+    URL_PATTERN = settings.ROD_ROOT_URL
 
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     @property
     def url(self):
@@ -18,10 +19,10 @@ class RODModel(models.Model):
 
 
 class Client(RODModel):
-    URL_PATTERN = 'http://rod.eionet.europa.eu/clients/{id}'
+    URL_PATTERN = RODModel.URL_PATTERN + '/clients/{id}'
 
-    name = models.CharField(max_length=256)
-    abbr = models.CharField(max_length=20, blank=True)
+    name = models.CharField(max_length=256, unique=True, null=True)
+    abbr = models.CharField(max_length=20, blank=True, null=True)
 
     def __str__(self):
         return self.name + (f' ({self.abbr})' if self.abbr else '')
@@ -32,10 +33,10 @@ class Reporter(RODModel):
     The reporting entity (usually countries in CDR and companies in BDR,
     but can be other types of organisations as well).
     """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/reporters/{id}'
+    URL_PATTERN = RODModel.URL_PATTERN + '/reporters/{id}'
 
-    name = models.CharField(max_length=256)
-    abbr = models.CharField(max_length=32, unique=True)
+    name = models.CharField(max_length=256, unique=True, null=True)
+    abbr = models.CharField(max_length=32, unique=True, null=True)
 
     @property
     def slug(self):
@@ -51,29 +52,35 @@ class ReporterSubdivisionCategory(RODModel):
     must be split across subdivisions (usually territorial).
     This is the parent category for each such subdivisions.
     """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/reporter-subdivision-categories/{id}'
+    URL_PATTERN = RODModel.URL_PATTERN + '/reporter-subdivision-categories/{id}'
 
     reporter = models.ForeignKey(Reporter)
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, null=True)
+
+    class Meta:
+        unique_together = ('reporter', 'name')
 
 
 class ReporterSubdivision(RODModel):
     """
     Reporting subdivions.
     """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/reporter-subdivisions/{id}'
+    URL_PATTERN = RODModel.URL_PATTERN + '/reporter-subdivisions/{id}'
 
     category = models.ForeignKey(ReporterSubdivisionCategory)
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=128, null=True)
+
+    class Meta:
+        unique_together = ('category', 'name')
 
 
 class Instrument(RODModel):
     """
     Legislative instrument. It's what creates obligations.
     """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/instruments/{id}'
+    URL_PATTERN = RODModel.URL_PATTERN + '/instruments/{id}'
 
-    title = models.CharField(max_length=256)
+    title = models.CharField(max_length=256, unique=True, null=True)
 
     def __str__(self):
         return self.title
@@ -83,7 +90,7 @@ class Obligation(RODModel):
     """
     The reporting obligation.
     """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/obligations/{id}'
+    URL_PATTERN = RODModel.URL_PATTERN + '/obligations/{id}'
 
     title = models.CharField(max_length=300)
     description = models.TextField(blank=True)
@@ -110,7 +117,7 @@ class Obligation(RODModel):
     @property
     def spec(self):
         """the current spec"""
-        return self.specs.get(current=True)
+        return self.specs.get(is_current=True)
 
     @property
     def reporters(self):
@@ -130,7 +137,7 @@ class ObligationSpec(RODModel):
     The obligation specification, aka Dataset Definition.
     Varies from one reporting cycle to another.
     """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/obligation-specs/{id}'
+    URL_PATTERN = RODModel.URL_PATTERN + '/obligation-specs/{id}'
 
     obligation = models.ForeignKey(Obligation, related_name='specs')
     # increment version number for each spec change. TODO: do we want semver?
@@ -160,7 +167,7 @@ class ReportingCycle(RODModel):
     """
     Reporting cycles, per obligation. Each report is tied to a specific cycle.
     """
-    URL_PATTERN = 'http://rod.eionet.europa.eu/reporting-cycles/{id}'
+    URL_PATTERN = RODModel.URL_PATTERN + '/reporting-cycles/{id}'
 
     obligation = models.ForeignKey(Obligation)
     obligation_spec = models.ForeignKey(ObligationSpec)
