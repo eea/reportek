@@ -1,3 +1,4 @@
+/* eslint-disable */
 import axios from 'axios';
 
 const logRequests = process.env.NODE_ENV === 'development';
@@ -14,7 +15,7 @@ function fetch(child) {
 }
 
 export function fetchEnvelopes() {
-  return fetch(`envelopes/`);
+  return fetch('envelopes/');
 }
 
 export function fetchEnvelopeItem(id) {

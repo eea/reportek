@@ -1,29 +1,29 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Envelopes from './components/Envelopes'
-import EnvelopeItem from './components/EnvelopeItem'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Envelopes from './components/Envelopes';
+import EnvelopeItem from './components/EnvelopeItem';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
     {
       path: '/',
-      component: Envelopes
+      component: Envelopes,
     },
     {
       path: '/envelopes',
       name: 'Envelopes',
-      component: Envelopes
+      component: Envelopes,
     },
     {
       path: '/envelopes/:envelope_id',
       name: 'EnvelopeItem',
-      component: EnvelopeItem
+      component: EnvelopeItem,
     },
     {
       path: '*',
-      redirect: '/'
-    }
-  ]
-})
+      redirect: '/',
+    },
+  ],
+});

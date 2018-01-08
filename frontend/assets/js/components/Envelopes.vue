@@ -19,19 +19,19 @@ export default {
   data() {
     return {
       envelopes: [],
-    }
+    };
   },
   created() {
     fetchEnvelopes()
       .then((response) => {
         // JSON responses are automatically parsed.
         this.envelopes = response.results;
-      })
-      .catch((e) => {
-        console.log(e);
       });
+      // .catch((e) => {
+      //   // console.log(e);
+      // });
   },
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
