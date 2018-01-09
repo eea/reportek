@@ -21,7 +21,7 @@ from ..models import (
     EnvelopeFile,
     BaseWorkflow,
     Obligation,
-    Country,
+    Reporter,
     UploadToken,
     QAJob,
 )
@@ -126,15 +126,15 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
             - `obligation`: an obligation id (multiple occurences allowed)
             - `finalized`: 0/1 flag indicating envelope finalization status
         """
-        countries = request.query_params.getlist('country')
+        reporters = request.query_params.getlist('reporter')
         obligations = request.query_params.getlist('obligation')
         finalized = request.query_params.get('finalized')
 
         envelopes = Envelope.objects.prefetch_related('files')
 
-        if countries:
-            countries = Country.objects.filter(iso__in=countries).all()
-            envelopes = envelopes.filter(country__in=countries)
+        if reporters:
+            reporters = Reporter.objects.filter(abbr__in=reporters).all()
+            envelopes = envelopes.filter(reporter__in=reporters)
 
         if obligations:
             obligation_ids = []
@@ -145,8 +145,7 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
                     pass
 
             obligations = Obligation.objects.filter(pk__in=obligation_ids).all()
-            obligation_groups = set([o.group for o in obligations])
-            envelopes = envelopes.filter(obligation_group__in=obligation_groups)
+            envelopes = envelopes.filter(obligation__in=obligations)
 
         if finalized is not None:
             try:
@@ -156,8 +155,7 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
                 pass
 
         envelopes = envelopes.order_by(
-            'country',
-            'obligation_group',
+            'reporter',
             '-updated_at'
         )
 
@@ -314,11 +312,15 @@ class UploadTokenViewSet(viewsets.ModelViewSet):
             )
 
         token = envelope.upload_tokens.create(user=request.user)
-        return Response(
-            {
-                'token': b64encode(token.token.encode())
+        response = {
+                'token': token.token
             }
-        )
+
+        # Include base64 encoded token in development environments
+        if settings.DEBUG:
+            response['token_base64'] = b64encode(token.token.encode())
+
+        return Response(response)
 
     def list(self, request, envelope_pk):
         """
