@@ -14,12 +14,22 @@ function fetch(child) {
   return api.get(child);
 }
 
+function post(child) {
+  logRequests && console.log(`posting ${child}...`);
+
+  return api.post(child);
+}
+
 export function fetchEnvelopes() {
   return fetch('envelopes/');
 }
 
 export function fetchEnvelopeItem(id) {
   return fetch(`envelopes/${id}`);
+}
+
+export function fetchEnvelopeToken(id) {
+  return post(`envelopes/${id}/token/`);
 }
 
 export function fetchEnvelopeFiles(id) {
