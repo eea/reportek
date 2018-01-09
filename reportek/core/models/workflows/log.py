@@ -22,5 +22,6 @@ class TransitionEvent(models.Model):
     extra = JSONField(encoder=DjangoJSONEncoder, null=True)
 
     class Meta:
+        db_table = 'core_transition_event'
         verbose_name = 'workflow event'
         unique_together = ('timestamp', 'object_id', 'from_state', 'to_state')

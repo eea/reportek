@@ -3,12 +3,14 @@ from django.db import models
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 
+from .workflows import WORKFLOW_CLASSES
+
 
 class RODModel(models.Model):
     URL_PATTERN = settings.ROD_ROOT_URL
 
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
 
     @property
     def url(self):
@@ -58,6 +60,7 @@ class ReporterSubdivisionCategory(RODModel):
     name = models.CharField(max_length=128, null=True)
 
     class Meta:
+        db_table = 'core_reporter_subdiv_cat'
         unique_together = ('reporter', 'name')
 
 
@@ -71,6 +74,7 @@ class ReporterSubdivision(RODModel):
     name = models.CharField(max_length=128, null=True)
 
     class Meta:
+        db_table = 'core_reporter_subdiv'
         unique_together = ('category', 'name')
 
 
@@ -129,7 +133,7 @@ class Obligation(RODModel):
         this is a computed property, to help avoid exposing the
         m2m table below in the API.
         """
-        pass
+        return
 
 
 class ObligationSpec(RODModel):
@@ -148,19 +152,33 @@ class ObligationSpec(RODModel):
     # allow working on the new spec before making it official.
     draft = models.BooleanField(default=True)
 
-    reporters = models.ManyToManyField(Reporter, through='ObligationSpecReporterMapping')
+    reporters = models.ManyToManyField(Reporter, through='core.ObligationSpecReporter')
     schema = ArrayField(
         models.URLField(max_length=1024)
     )
+    workflow_class = models.CharField(
+        max_length=256, null=True, blank=True,
+        choices=WORKFLOW_CLASSES
+    )
+    qa_xmlrpc_uri = models.CharField(
+        max_length=200,
+        default=settings.QA_DEFAULT_XMLRPC_URI
+    )
+
+    class Meta:
+        db_table = 'core_oblig_spec'
 
 
-class ObligationSpecReporterMapping(models.Model):
+class ObligationSpecReporter(models.Model):
     spec = models.ForeignKey(ObligationSpec)
     reporter = models.ForeignKey(Reporter)
     # this is required only when reporting for the current entity
     # must be split across subdivisions
     subdivision_category = models.ForeignKey(ReporterSubdivisionCategory,
                                              blank=True, null=True)
+
+    class Meta:
+        db_table = 'core_oblig_spec_reporter'
 
 
 class ReportingCycle(RODModel):
@@ -192,3 +210,6 @@ class ReportingCycle(RODModel):
         return (self.is_open and
                 self.reporting_end_date is not None and
                 self.reporting_end_date < date.today())
+
+    class Meta:
+        db_table = 'core_reporting_cycle'
