@@ -6,7 +6,7 @@ def make_fixture(obligations, fix_fd):
     def valid_date(d):
         # Guard against nonsensical values in ROD
         if d and d != '0000-00-00':
-            return d
+            return d + 'T00:00:00+00:00'
         return None
 
     def fk_list(fk_str):
@@ -17,6 +17,7 @@ def make_fixture(obligations, fix_fd):
         'Y': True,
         'N': False,
     }
+
     def get_bool(v):
         return _bool_dict[v]
 
@@ -28,20 +29,13 @@ def make_fixture(obligations, fix_fd):
                 'title': o['TITLE'],
                 'description': o['DESCRIPTION'],
                 'terminated': get_bool(o['TERMINATE']),
-                'first_reporting': valid_date(o['FIRST_REPORTING']),
-                'last_update': valid_date(o['LAST_UPDATE']),
-                'next_deadline': valid_date(o['NEXT_DEADLINE']),
-                'next_deadline2': valid_date(o['NEXT_DEADLINE2']),
-                'report_freq_months':
-                    int(o['REPORT_FREQ_MONTHS']) if o['REPORT_FREQ_MONTHS'] else None,
-                'report_freq': o['REPORT_FREQ'],
-                'continuous_reporting': o['CONTINOUS_REPORTING'] != 'no',  # Misspelled in ROD
+                'created_at': valid_date(o['FIRST_REPORTING']) or '1990-01-01T00:00:00+00:00',
+                'active_since': valid_date(o['FIRST_REPORTING']) or '1990-01-01T00:00:00+00:00',
                 'client': int(o['FK_CLIENT_ID']) if o['FK_CLIENT_ID'] else None,
                 'instrument':
                     # Prevent entries with 'FK_SOURCE_ID' = '0' from causing integrity errors
                     int(o['FK_SOURCE_ID']) \
                     if o['FK_SOURCE_ID'] and o['FK_SOURCE_ID'] != '0' else None,
-                'delivery_countries': fk_list(o['FK_DELIVERY_COUNTRY_IDS'])
             }
         }
         for o in obligations

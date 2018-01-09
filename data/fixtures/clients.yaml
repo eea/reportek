@@ -1,364 +1,436 @@
 - model: core.client
   pk: 50
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: ACCOBAMS Secretariat
-    acronym: ACCOBAMS
+    abbr: ACCOBAMS
 - model: core.client
   pk: 68
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Alpine Convention Secretariat
-    acronym: ''
+    abbr: ''
 - model: core.client
   pk: 8
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Arctic Council, AMAP Secretariat
-    acronym: AMAP
+    abbr: AMAP
 - model: core.client
   pk: 72
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Baltic Marine Environment Protection Commission (Helsinki Commission)
-    acronym: HELCOM
+    abbr: HELCOM
 - model: core.client
   pk: 6
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Basel Convention
-    acronym: SBC
+    abbr: SBC
 - model: core.client
   pk: 63
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Bern Convention
-    acronym: ''
+    abbr: ''
 - model: core.client
   pk: 55
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Biosafety Clearing House
-    acronym: BCH
+    abbr: BCH
 - model: core.client
   pk: 24
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Black Sea Commission
-    acronym: BSC
+    abbr: BSC
 - model: core.client
   pk: 84
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Bonn Agreement Secretariat
-    acronym: ''
+    abbr: ''
 - model: core.client
   pk: 82
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Caribbean Regional Co-ordinating Unit
-    acronym: CAR/RCU
+    abbr: CAR/RCU
 - model: core.client
   pk: 58
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: CITES Secretariat
-    acronym: CITES
+    abbr: CITES
 - model: core.client
   pk: 71
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Commission for the Conservation of Antarctic Marine Living Resources
-    acronym: CCAMLR
+    abbr: CCAMLR
 - model: core.client
   pk: 77
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Commission on Sustainable Development
-    acronym: CSD
+    abbr: CSD
 - model: core.client
   pk: 70
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Committee for Environmental Protection
-    acronym: CEP
+    abbr: CEP
 - model: core.client
   pk: 59
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Committee for the Habitats Directive, European Commission
-    acronym: DG ENV
+    abbr: DG ENV
 - model: core.client
   pk: 75
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Committee on Science and Technology
-    acronym: CST
+    abbr: CST
 - model: core.client
   pk: 81
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Conference of the Parties to the Cartagena Convention, via the Caribbean
       Regional Co-ordinating Unit (CAR/RCU)
-    acronym: CAR/RCU
+    abbr: CAR/RCU
 - model: core.client
   pk: 42
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Convention on Biological Diversity
-    acronym: CBD
+    abbr: CBD
 - model: core.client
   pk: 38
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Coordinating Unit for the Mediterranean Action Plan
-    acronym: MAP
+    abbr: MAP
 - model: core.client
   pk: 78
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Coordination Center for Effects
-    acronym: CCE
+    abbr: CCE
 - model: core.client
   pk: 62
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Council of Europe
-    acronym: COE
+    abbr: COE
 - model: core.client
   pk: 105
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Council of the European Union
-    acronym: Council
+    abbr: Council
 - model: core.client
   pk: 90
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: EFTA Surveillance Authority
-    acronym: EFTA Surv
+    abbr: EFTA Surv
 - model: core.client
   pk: 65
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: EUROBATS Secretariat
-    acronym: EUROBATS
+    abbr: EUROBATS
 - model: core.client
   pk: 104
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Commission
-    acronym: Commission
+    abbr: Commission
 - model: core.client
   pk: 99
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Commission, Directorate General Climate Action
-    acronym: DG Clima
+    abbr: DG Clima
 - model: core.client
   pk: 2
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Commission, Directorate General Environment
-    acronym: DG ENV (EC)
+    abbr: DG ENV (EC)
 - model: core.client
   pk: 100
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Commission, Directorate General for Agriculture and Rural Development
-    acronym: DG AGRI
+    abbr: DG AGRI
 - model: core.client
   pk: 101
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Commission, Directorate General for Energy
-    acronym: DG Energy
+    abbr: DG Energy
 - model: core.client
   pk: 102
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Commission, Directorate General for Maritime Affairs and Fisheries
-    acronym: DG MARE
+    abbr: DG MARE
 - model: core.client
   pk: 103
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Commission, Directorate General for Regional and Urban Policy
-    acronym: DG REGIO
+    abbr: DG REGIO
 - model: core.client
   pk: 10
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Council
-    acronym: ''
+    abbr: ''
 - model: core.client
   pk: 3
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Environment Agency
-    acronym: EEA
+    abbr: EEA
 - model: core.client
   pk: 89
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Free Trade Agreement Secretariat
-    acronym: EFTA
+    abbr: EFTA
 - model: core.client
   pk: 12
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: European Parliament and Council
-    acronym: EP&C
+    abbr: EP&C
 - model: core.client
   pk: 7
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Eurostat
-    acronym: EUROSTAT
+    abbr: EUROSTAT
 - model: core.client
   pk: 61
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: FAO Forestry Resources Assessment Programme
-    acronym: ''
+    abbr: ''
 - model: core.client
   pk: 60
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Food and Agriculture Organization
-    acronym: FAO
+    abbr: FAO
 - model: core.client
   pk: 83
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Helsinki Commission
-    acronym: HELCOM
+    abbr: HELCOM
 - model: core.client
   pk: 14
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: International Commission for the Protection of the Danube River
-    acronym: ICPDR
+    abbr: ICPDR
 - model: core.client
   pk: 15
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: International Commission for the Protection of the Elbe
-    acronym: ICPE / IKSE / MKOL
+    abbr: ICPE / IKSE / MKOL
 - model: core.client
   pk: 79
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: International Cooperative Programme on Modelling and Mapping of Critical
       Levels and Loads and Air Pollution Effects, Risks and Trends
-    acronym: ICP M&M
+    abbr: ICP M&M
 - model: core.client
   pk: 23
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: International Council for the Exploration of the Sea
-    acronym: ICES
+    abbr: ICES
 - model: core.client
   pk: 25
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: International Maritime Organisation
-    acronym: IMO
+    abbr: IMO
 - model: core.client
   pk: 66
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: International Whaling Commission
-    acronym: IWC
+    abbr: IWC
 - model: core.client
   pk: 98
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Joint Research Centre - European Commission
-    acronym: JRC
+    abbr: JRC
 - model: core.client
   pk: 86
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: National Authorities, International Organisations, Public, Scientific Community
       etc
-    acronym: ''
+    abbr: ''
 - model: core.client
   pk: 16
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Oder Commission
-    acronym: ICPOAP
+    abbr: ICPOAP
 - model: core.client
   pk: 39
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Organization for Economic Cooperation and Development
-    acronym: OECD
+    abbr: OECD
 - model: core.client
   pk: 4
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: OSPAR Convention
-    acronym: OSPAR
+    abbr: OSPAR
 - model: core.client
   pk: 69
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Programme Co-ordinating Centre
-    acronym: PCC
+    abbr: PCC
 - model: core.client
   pk: 49
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Ramsar Bureau and the Scientific and Technical Review Panel
-    acronym: ''
+    abbr: ''
 - model: core.client
   pk: 48
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Ramsar Convention
-    acronym: ''
+    abbr: ''
 - model: core.client
   pk: 37
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Rhine Commission
-    acronym: ICPR (RHINE)
+    abbr: ICPR (RHINE)
 - model: core.client
   pk: 67
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Scientific Committee, via the IWC Secretariat
-    acronym: SC-IWC
+    abbr: SC-IWC
 - model: core.client
   pk: 106
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Secretariat of the Union for the Mediterranean
-    acronym: UfMS
+    abbr: UfMS
 - model: core.client
   pk: 73
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: The International Tropical Timber Organisation
-    acronym: ITTO
+    abbr: ITTO
 - model: core.client
   pk: 93
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: Trilateral Monitoring and Assessment Group
-    acronym: TMAP
+    abbr: TMAP
 - model: core.client
   pk: 35
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: UN Framework Convention on Climate Change
-    acronym: UNFCCC
+    abbr: UNFCCC
 - model: core.client
   pk: 74
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: UNCCD, Permanent Secretariat
-    acronym: UNCCD
+    abbr: UNCCD
 - model: core.client
   pk: 34
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: UNECE Environment and Human Settlements Division
-    acronym: UNECE
+    abbr: UNECE
 - model: core.client
   pk: 1
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: UNEP - Ozone Secretariat
-    acronym: OZONE
+    abbr: OZONE
 - model: core.client
   pk: 44
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: UNEP-CMS Secretariat
-    acronym: CMS
+    abbr: CMS
 - model: core.client
   pk: 45
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: UNEP/AEWA Secretariat
-    acronym: AEWA
+    abbr: AEWA
 - model: core.client
   pk: 46
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: UNEP/ASCOBANS Secretariat
-    acronym: ASCOBANS
+    abbr: ASCOBANS
 - model: core.client
   pk: 54
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: UNESCO World Heritage Centre
-    acronym: UNESCO
+    abbr: UNESCO
 - model: core.client
   pk: 11
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: United Nations
-    acronym: UN
+    abbr: UN
 - model: core.client
   pk: 51
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: United Nations Educational, Scientific and Cultural Organization
-    acronym: UNESCO
+    abbr: UNESCO
 - model: core.client
   pk: 41
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: United Nations Environment Programme
-    acronym: UNEP
+    abbr: UNEP
 - model: core.client
   pk: 97
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: United Nations Statistics Division
-    acronym: UNSD
+    abbr: UNSD
 - model: core.client
   pk: 92
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: World Health Organization
-    acronym: WHO
+    abbr: WHO
 - model: core.client
   pk: 53
   fields:
+    created_at: '2018-01-01T00:00:00+00:00'
     name: World Heritage Committee, UNESCO World Heritage Centre
-    acronym: ''
+    abbr: ''
 
