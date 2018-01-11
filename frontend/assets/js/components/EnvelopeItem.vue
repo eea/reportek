@@ -70,19 +70,19 @@ export default {
           const token = response.data.token;
 
           // Create a new tus upload
-          var upload = new tus.Upload(this.file, {
+          const upload = new tus.Upload(this.file, {
             endpoint: 'http://localhost:1080/files/',
             metadata: {
-              'token': token,
-              'filename': this.file.name,
+              token,
+              filename: this.file.name,
             },
             retryDelays: [0, 1000, 3000, 5000],
             onError: function onError(error) {
-              console.log('Failed because: ' + error);
+              console.log('Failed because: ', error);
             },
             onProgress: function onProgress(bytesUploaded, bytesTotal) {
-              let percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-              console.log(bytesUploaded, bytesTotal, percentage + '%');
+              const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
+              console.log(bytesUploaded, bytesTotal, percentage, '%');
             },
             onSuccess: function onSuccess() {
               console.log('Download %s from %s', upload.file.name, upload.url);

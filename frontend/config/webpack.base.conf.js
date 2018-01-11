@@ -49,7 +49,7 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('assets'), resolve('test')]
+        include: [resolve('assets'), resolve('test'), resolve("bootstrap-vue")]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
@@ -76,13 +76,17 @@ module.exports = {
         }
       },
       {
-        test: /\.less$/,
+        test: /\.scss$/,
         use: [{
             loader: "style-loader" // creates style nodes from JS strings
         }, {
-            loader: "css-loader" // translates CSS into CommonJS
+            loader: "css-loader", options: {
+                sourceMap: true
+            } // translates CSS into CommonJS
         }, {
-            loader: "less-loader" // compiles Less to CSS
+          loader: "sass-loader", options: {
+              sourceMap: true
+          } // compiles Sass to CSS
         }]
       }
     ]
