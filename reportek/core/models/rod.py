@@ -60,6 +60,9 @@ class ReporterSubdivisionCategory(RODModel):
     reporter = models.ForeignKey(Reporter)
     name = models.CharField(max_length=128, null=True)
 
+    def __str__(self):
+        return f'{self.reporter.abbr} - {self.name}'
+
     class Meta:
         verbose_name = 'Reporter Subdivision Category'
         verbose_name_plural = 'Reporter Subdivision Categories'
@@ -75,6 +78,9 @@ class ReporterSubdivision(RODModel):
 
     category = models.ForeignKey(ReporterSubdivisionCategory)
     name = models.CharField(max_length=128, null=True)
+
+    def __str__(self):
+        return f'{self.category} - {self.name}'
 
     class Meta:
         verbose_name = 'Reporter Subdivision'
@@ -210,7 +216,6 @@ class ObligationSpec(RODModel):
         unique_together = ('obligation', 'version')
 
 
-
 class ObligationSpecReporter(models.Model):
     spec = models.ForeignKey(ObligationSpec)
     reporter = models.ForeignKey(Reporter)
@@ -218,6 +223,13 @@ class ObligationSpecReporter(models.Model):
     # must be split across subdivisions
     subdivision_category = models.ForeignKey(ReporterSubdivisionCategory,
                                              blank=True, null=True)
+
+    def save(self, *args, **kwargs):
+        if self.subdivision_category is not None:
+            if self.subdivision_category.reporter != self.reporter:
+                raise RuntimeError('Cannot set a subdivision category of another reporter')
+
+        super().save(*args, **kwargs)
 
     class Meta:
         db_table = 'core_oblig_spec_reporter'

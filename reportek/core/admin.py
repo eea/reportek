@@ -10,6 +10,7 @@ from .models import (
     Instrument,
     Obligation,
     ObligationSpec,
+    ObligationSpecReporter,
     ReportingCycle,
     Envelope,
     DemoAutoQAWorkflow,
@@ -26,8 +27,14 @@ admin.site.register(Instrument)
 admin.site.register(Obligation)
 
 
+class ObligationSpecReporterAdmin(admin.TabularInline):
+    model = ObligationSpec.reporters.through
+
+
 @admin.register(ObligationSpec)
 class ObligationSpecAdmin(admin.ModelAdmin):
+    inlines = [ObligationSpecReporterAdmin, ]
+
     def get_readonly_fields(self, request, obj=None):
         if obj and obj.is_current:
             return self.readonly_fields + ('is_current',)
