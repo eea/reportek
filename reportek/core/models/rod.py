@@ -2,6 +2,7 @@ from datetime import date
 from django.db import models
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
+from model_utils import FieldTracker
 
 from .workflows import WORKFLOW_CLASSES
 
@@ -60,6 +61,8 @@ class ReporterSubdivisionCategory(RODModel):
     name = models.CharField(max_length=128, null=True)
 
     class Meta:
+        verbose_name = 'Reporter Subdivision Category'
+        verbose_name_plural = 'Reporter Subdivision Categories'
         db_table = 'core_reporter_subdiv_cat'
         unique_together = ('reporter', 'name')
 
@@ -74,6 +77,7 @@ class ReporterSubdivision(RODModel):
     name = models.CharField(max_length=128, null=True)
 
     class Meta:
+        verbose_name = 'Reporter Subdivision'
         db_table = 'core_reporter_subdiv'
         unique_together = ('category', 'name')
 
@@ -135,6 +139,9 @@ class Obligation(RODModel):
         """
         return
 
+    def __str__(self):
+        return self.title
+
 
 class ObligationSpec(RODModel):
     """
@@ -165,8 +172,43 @@ class ObligationSpec(RODModel):
         default=settings.QA_DEFAULT_XMLRPC_URI
     )
 
+    tracker = FieldTracker()
+
+    def __str__(self):
+        return f'{self.obligation.title} v{self.version}'
+
+    def save(self, *args, **kwargs):
+        if self.tracker.changed():
+            # When made current, make all other specs non-current
+            # and move out of draft status
+            if not self.tracker.previous('is_current'):
+                if self.draft:
+                    self.draft = False
+                ObligationSpec.objects.filter(obligation=self.obligation).\
+                    exclude(pk=self.pk).update(is_current=False)
+            # Forbid toggling off current status directly
+            else:
+                raise RuntimeError('Cannot make obligation not current - '
+                                   'instead make another one current')
+
+            # Force version to next available number
+            max_version = max(
+                [spec.version for spec in
+                 ObligationSpec.objects.
+                 filter(obligation=self.obligation).
+                 exclude(pk=self.pk).all()
+                 ] + [0]
+            )
+            if self.version <= max_version or self.version > max_version + 1:
+                self.version = max_version + 1
+
+        super().save(*args, **kwargs)
+
     class Meta:
+        verbose_name = 'Obligation Specification'
         db_table = 'core_oblig_spec'
+        unique_together = ('obligation', 'version')
+
 
 
 class ObligationSpecReporter(models.Model):
