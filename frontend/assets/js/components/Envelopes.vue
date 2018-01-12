@@ -2,7 +2,7 @@
   <div class="hello">
     <ul v-if="envelopes && envelopes.length">
       <li v-for="envelope of envelopes" :key="envelope.id">
-        <a v-bind:href="`#/envelopes/${envelope.id}`">
+        <a v-bind:href="`/envelopes/${envelope.id}`">
           <p><strong>{{envelope.name}}</strong></p>
         </a>
         <p>country id - {{envelope.country}}</p>
@@ -28,10 +28,10 @@ export default {
       .then((response) => {
         // JSON responses are automatically parsed.
         this.envelopes = response.data.results;
+      })
+      .catch((e) => {
+        // console.log(e);
       });
-      // .catch((e) => {
-      //   // console.log(e);
-      // });
   },
 };
 </script>

@@ -6,6 +6,8 @@ import EnvelopeItem from './components/EnvelopeItem';
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
+  scrollBehavior: (to, from, savedPosition) => ({ y: 0 }),
   routes: [
     {
       path: '/',

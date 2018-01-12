@@ -25,7 +25,7 @@ export function fetchEnvelopes() {
 }
 
 export function fetchEnvelopeItem(id) {
-  return fetch(`envelopes/${id}`);
+  return fetch(`envelopes/${id}/`);
 }
 
 export function fetchEnvelopeToken(id) {
@@ -33,5 +33,13 @@ export function fetchEnvelopeToken(id) {
 }
 
 export function fetchEnvelopeFiles(id) {
-  return fetch(`envelopes/${id}/files`);
+  return fetch(`envelopes/${id}/files/`);
+}
+
+export function fetchEnvelopeItemHistory(id) {
+  return fetch(`envelopes/${id}/history/`);
+}
+
+export function fetchEnvelopeItemFeedback(id) {
+  return fetch(`envelopes/${id}/feedback/`);
 }
