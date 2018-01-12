@@ -314,11 +314,15 @@ class UploadTokenViewSet(viewsets.ModelViewSet):
             )
 
         token = envelope.upload_tokens.create(user=request.user)
-        return Response(
-            {
-                'token': b64encode(token.token.encode())
+        response = {
+                'token': token.token
             }
-        )
+
+        # Include base64 encoded token in development environments
+        if settings.DEBUG:
+            response['token_base64'] = b64encode(token.token.encode())
+
+        return Response(response)
 
     def list(self, request, envelope_pk):
         """
