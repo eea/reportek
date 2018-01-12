@@ -60,7 +60,7 @@ exports.cssLoaders = function (options) {
     postcss: generateLoaders(),
     less: generateLoaders('less'),
     sass: generateLoaders('sass', { indentedSyntax: true }),
-    scss: generateLoaders('sass'),
+    // scss: generateLoaders('sass'), // commented because the scss is already defined in webpack.base.conf.js and it conflicts
     stylus: generateLoaders('stylus'),
     styl: generateLoaders('stylus')
   }
