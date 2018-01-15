@@ -3,10 +3,15 @@
     <ul v-if="envelopes && envelopes.length">
       <li
         v-for="envelope of envelopes"
-        :key="envelope.id">
-        <a v-bind:href="`/envelopes/${envelope.id}`">
-          <p><strong>{{envelope.name}}</strong></p>
-        </a>
+        :key="envelope.id"
+      >
+
+        <router-link
+          class="nav-link"
+          :to="`/envelopes/${envelope.id}`"
+        >{{envelope.name}}
+        </router-link>
+
         <p>country id - {{envelope.country}}</p>
       </li>
     </ul>

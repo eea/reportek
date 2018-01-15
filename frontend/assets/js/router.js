@@ -22,6 +22,12 @@ export default new Router({
       path: '/envelopes/:envelope_id',
       name: 'EnvelopeItem',
       component: EnvelopeItem,
+      meta: {
+        breadcrumb: {
+          name: 'Envelopes',
+          path: '/envelopes',
+        },
+      },
     },
     {
       path: '*',

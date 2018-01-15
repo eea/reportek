@@ -2,11 +2,17 @@
   <div>
   <b-navbar toggleable="md" type="dark" variant="info">
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-    <b-navbar-brand href="#">Home</b-navbar-brand>
+    <b-navbar-brand href="/">Home</b-navbar-brand>
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav>
-        <b-nav-item href="/envelopes">Envelopes</b-nav-item>
+        <router-link
+          class="nav-link"
+          :to="crumb.path"
+          v-for="crumb in breadcrumbs"
+          :key='crumb.name'
+        >{{crumb.name}}
+        </router-link>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -29,7 +35,35 @@
 
 <script>
 export default {
-
+  name: 'EnvelopeItem',
+  data() {
+    return {
+      breadcrumbs: [],
+    };
+  },
+  watch: {
+    '$route' (to, from) {
+      this.breadcrumbs = this.makeBreadcrumbs();
+    },
+  },
+  created: function () {
+    this.breadcrumbs = this.makeBreadcrumbs();
+  },
+  methods: {
+    makeBreadcrumbs() {
+      var crumbs = []
+      for (var i = 0; i < this.$route.matched.length; i++) {
+        if (this.$route.matched[i].meta && this.$route.matched[i].meta.breadcrumb) {
+          const paramIdName = Object.keys(this.$route.params)[0];
+          const paramIdValue = this.$route.params[paramIdName];
+          const path = this.$route.matched[i].meta.breadcrumb.path.replace(paramIdName, paramIdValue).replace(':', '');
+          const name = this.$route.matched[i].meta.breadcrumb.name;
+          crumbs.push({path: path, name: name});
+        }
+      }
+      return crumbs;
+    }
+  }
 };
 </script>
 
