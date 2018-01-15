@@ -17,6 +17,14 @@ from django.conf import settings
 from django.core.files import File
 
 from ..models import (
+    Instrument,
+    Client,
+    Reporter,
+    ReporterSubdivisionCategory,
+    ReporterSubdivision,
+    Obligation,
+    ObligationSpec,
+    ReportingCycle,
     Envelope,
     EnvelopeFile,
     BaseWorkflow,
@@ -27,6 +35,14 @@ from ..models import (
 )
 
 from ..serializers import (
+    InstrumentSerializer,
+    ClientSerializer,
+    ReporterSerializer,
+    ReporterSubdivisionCategorySerializer,
+    ReporterSubdivisionSerializer,
+    ObligationSerializer,
+    NestedObligationSpecSerializer,
+    ReportingCycleSerializer,
     EnvelopeSerializer,
     EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
     NestedEnvelopeWorkflowSerializer,
@@ -47,6 +63,82 @@ info = log.info
 debug = log.debug
 warn = log.warning
 error = log.error
+
+
+class DefaultPagination(LimitOffsetPagination):
+    default_limit = 20
+    max_limit = 100
+
+
+class ReadOnlyModelViewSet(viewsets.ModelViewSet):
+    def _allowed_methods(self):
+        return ['GET', 'OPTIONS']
+
+
+class InstrumentViewSet(viewsets.ModelViewSet):
+    queryset = Instrument.objects.all()
+    serializer_class = InstrumentSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    pagination_class = DefaultPagination
+
+
+class ClientViewSet(viewsets.ModelViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    pagination_class = DefaultPagination
+
+
+class ReporterViewSet(viewsets.ModelViewSet):
+    queryset = Reporter.objects.all()
+    serializer_class = ReporterSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    pagination_class = DefaultPagination
+
+
+class ReporterSubdivisionCategoryViewSet(viewsets.ModelViewSet):
+    queryset = ReporterSubdivisionCategory.objects.all()
+    serializer_class = ReporterSubdivisionCategorySerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    pagination_class = DefaultPagination
+
+
+class ReporterSubdivisionViewSet(viewsets.ModelViewSet):
+    queryset = ReporterSubdivision.objects.all()
+    serializer_class = ReporterSubdivisionSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    pagination_class = DefaultPagination
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            category_id=self.kwargs['category_pk']
+        )
+
+
+class ObligationViewSet(viewsets.ModelViewSet):
+    queryset = Obligation.objects.all().prefetch_related('specs')
+    serializer_class = ObligationSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    pagination_class = DefaultPagination
+
+
+class ObligationSpecViewSet(viewsets.ModelViewSet):
+    queryset = ObligationSpec.objects.all()
+    serializer_class = NestedObligationSpecSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    pagination_class = DefaultPagination
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            obligation_id=self.kwargs['obligation_pk']
+        )
+
+
+class ReportingCycleViewSet(viewsets.ModelViewSet):
+    queryset = ReportingCycle.objects.all()
+    serializer_class = ReportingCycleSerializer
+    permission_classes = (permissions.IsAuthenticated, )
+    pagination_class = DefaultPagination
 
 
 class EnvelopeResultsSetPagination(LimitOffsetPagination):
