@@ -17,6 +17,7 @@ from .workflows import (
 
 from .rod import (
     Reporter,
+    ReporterSubdivision,
     Obligation,
     ObligationSpec,
     ReportingCycle
@@ -49,10 +50,8 @@ class EnvelopeQuerySet(models.QuerySet):
 
 class EnvelopeManager(models.Manager.from_queryset(EnvelopeQuerySet)):
     def get_queryset(self):
-        # we want to always fetch the reporting cycle along
         return super().get_queryset().select_related(
             'reporter',
-            'obligation',
             'obligation_spec',
             'reporting_cycle',
             'workflow'
@@ -62,10 +61,12 @@ class EnvelopeManager(models.Manager.from_queryset(EnvelopeQuerySet)):
 class Envelope(models.Model):
     name = models.CharField(max_length=256)
 
-    reporter = models.ForeignKey(Reporter)
-    obligation = models.ForeignKey(Obligation)
-    obligation_spec = models.ForeignKey(ObligationSpec)
-    reporting_cycle = models.ForeignKey(ReportingCycle)
+    reporter = models.ForeignKey(Reporter, related_name='envelopes')
+    obligation_spec = models.ForeignKey(ObligationSpec, related_name='envelopes')
+    reporter_subdivision = models.ForeignKey(ReporterSubdivision,
+                                             blank=True, null=True,
+                                             related_name='envelopes')
+    reporting_cycle = models.ForeignKey(ReportingCycle, related_name='envelopes')
 
     workflow = models.OneToOneField(BaseWorkflow,
                                     on_delete=models.CASCADE,
@@ -79,10 +80,19 @@ class Envelope(models.Model):
     objects = EnvelopeManager()
     tracker = FieldTracker()
 
+    @property
+    def obligation(self):
+        if self.obligation_spec is None:
+            return None
+        return self.obligation_spec.obligation
+
     class Meta:
         unique_together = (
             ('reporter', 'obligation_spec', 'reporting_cycle'),
         )
+
+    def __str__(self):
+        return self.name
 
     def save(self, *args, **kwargs):
         # don't allow any operations on a final envelope
@@ -91,11 +101,6 @@ class Envelope(models.Model):
 
         # On first save:
         if not self.pk or kwargs.get('force_insert', False):
-            # - set the current reporting period
-            self.reporting_cycle = ReportingCycle.objects.current().get(
-                obligation_spec=self.obligation_spec
-            )
-
             # - import the workflow class set on the envelope's obligation spec
             wf_path_components = self.obligation_spec.workflow_class.split('.')
             module_name = '.'.join(wf_path_components[:-1])
@@ -106,6 +111,10 @@ class Envelope(models.Model):
             workflow = wf_class(name=f'Envelope "{self.name}"\'s workflow')
             workflow.save()
             self.workflow = workflow
+
+        if self.reporter_subdivision is not None:
+            if self.reporter_subdivision.reporter != self.reporter:
+                raise RuntimeError('Envelope subdivision must match reporter!')
 
         super().save(*args, **kwargs)
 

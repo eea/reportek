@@ -14,7 +14,7 @@ class RODModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     @property
-    def url(self):
+    def rod_url(self):
         return self.URL_PATTERN.format(id=self.id)
 
     class Meta:
@@ -57,7 +57,8 @@ class ReporterSubdivisionCategory(RODModel):
     """
     URL_PATTERN = RODModel.URL_PATTERN + '/reporter-subdivision-categories/{id}'
 
-    reporter = models.ForeignKey(Reporter)
+    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE,
+                                 related_name='subdivision_categories')
     name = models.CharField(max_length=128, null=True)
 
     def __str__(self):
@@ -76,8 +77,13 @@ class ReporterSubdivision(RODModel):
     """
     URL_PATTERN = RODModel.URL_PATTERN + '/reporter-subdivisions/{id}'
 
-    category = models.ForeignKey(ReporterSubdivisionCategory)
+    category = models.ForeignKey(ReporterSubdivisionCategory, on_delete=models.CASCADE,
+                                 related_name='subdivisions')
     name = models.CharField(max_length=128, null=True)
+
+    @property
+    def reporter(self):
+        return self.category.reporter
 
     def __str__(self):
         return f'{self.category} - {self.name}'
@@ -110,10 +116,13 @@ class Obligation(RODModel):
     description = models.TextField(blank=True)
     # Nullable because there is a single obligation in ROD (746) that
     # has '0' as FK_SOURCE_ID
-    instrument = models.ForeignKey(Instrument, blank=True, null=True)
+    instrument = models.ForeignKey(Instrument, on_delete=models.CASCADE,
+                                   blank=True, null=True,
+                                   related_name='obligations')
     terminated = models.BooleanField(default=False)
 
-    client = models.ForeignKey(Client)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE,
+                               related_name='obligations')
 
     # this part specifies the recurrence rule.
     # the start & end dates for the entire lifetime of the obligation:
@@ -154,9 +163,10 @@ class ObligationSpec(RODModel):
     The obligation specification, aka Dataset Definition.
     Varies from one reporting cycle to another.
     """
-    URL_PATTERN = RODModel.URL_PATTERN + '/obligation-specs/{id}'
+    URL_PATTERN = RODModel.URL_PATTERN + '/obligations/{obligation_id}/specs/{id}'
 
-    obligation = models.ForeignKey(Obligation, related_name='specs')
+    obligation = models.ForeignKey(Obligation, on_delete=models.CASCADE,
+                                   related_name='specs')
     # increment version number for each spec change. TODO: do we want semver?
     version = models.PositiveSmallIntegerField(default=1)
     # implementation logic must make sure there's only one spec current per obligation.
@@ -179,6 +189,11 @@ class ObligationSpec(RODModel):
     )
 
     tracker = FieldTracker()
+
+    @property
+    def rod_url(self):
+        return self.URL_PATTERN.format(obligation_id=self.obligation_id,
+                                       id=self.id)
 
     def __str__(self):
         return f'{self.obligation.title} v{self.version}'
@@ -217,11 +232,12 @@ class ObligationSpec(RODModel):
 
 
 class ObligationSpecReporter(models.Model):
-    spec = models.ForeignKey(ObligationSpec)
-    reporter = models.ForeignKey(Reporter)
+    spec = models.ForeignKey(ObligationSpec, on_delete=models.CASCADE)
+    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
     # this is required only when reporting for the current entity
     # must be split across subdivisions
     subdivision_category = models.ForeignKey(ReporterSubdivisionCategory,
+                                             on_delete=models.CASCADE,
                                              blank=True, null=True)
 
     def save(self, *args, **kwargs):
@@ -241,8 +257,10 @@ class ReportingCycle(RODModel):
     """
     URL_PATTERN = RODModel.URL_PATTERN + '/reporting-cycles/{id}'
 
-    obligation = models.ForeignKey(Obligation)
-    obligation_spec = models.ForeignKey(ObligationSpec)
+    obligation = models.ForeignKey(Obligation, on_delete=models.CASCADE,
+                                   related_name='reporting_cycles')
+    obligation_spec = models.ForeignKey(ObligationSpec, on_delete=models.CASCADE,
+                                        related_name='reporting_cycles')
 
     # this is always required, and can be in the future
     reporting_start_date = models.DateField()
@@ -264,6 +282,10 @@ class ReportingCycle(RODModel):
         return (self.is_open and
                 self.reporting_end_date is not None and
                 self.reporting_end_date < date.today())
+
+    def __str__(self):
+        return f'{self.obligation_spec} ' \
+               f'{self.reporting_start_date} - {self.reporting_end_date or ""}'
 
     class Meta:
         db_table = 'core_reporting_cycle'
