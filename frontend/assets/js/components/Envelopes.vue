@@ -1,7 +1,9 @@
 <template>
   <div class="hello">
     <ul v-if="envelopes && envelopes.length">
-      <li v-for="envelope of envelopes" :key="envelope.id">
+      <li
+        v-for="envelope of envelopes"
+        :key="envelope.id">
         <a v-bind:href="`/envelopes/${envelope.id}`">
           <p><strong>{{envelope.name}}</strong></p>
         </a>
@@ -18,11 +20,13 @@ import { fetchEnvelopes } from '../api';
 
 export default {
   name: 'Envelopes',
+
   data() {
     return {
       envelopes: [],
     };
   },
+
   created() {
     fetchEnvelopes()
       .then((response) => {

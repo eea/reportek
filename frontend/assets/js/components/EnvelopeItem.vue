@@ -32,7 +32,10 @@
             <template slot="show_details" scope="row">
               <!-- In some circumstances you may need to use @click.native.stop instead -->
               <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
-              <b-form-checkbox @click.native.stop @change="row.toggleDetails" v-model="row.detailsShowing">
+              <b-form-checkbox
+                @click.native.stop
+                @change="row.toggleDetails"
+                v-model="row.detailsShowing">
               </b-form-checkbox>
             </template>
 
@@ -49,10 +52,15 @@
         </b-tab>
       </b-tabs>
 
-      <form enctype="multipart/form-data" novalidate v-if="isInitial || isSaving">
+      <form
+        enctype="multipart/form-data"
+        novalidate v-if="isInitial || isSaving">
         <h1>Upload images</h1>
         <div class="dropbox">
-          <input type="file" multiple :disabled="isSaving" v-on:change="onFileChange">
+          <input
+            type="file" multiple
+            v-on:disabled="isSaving"
+            v-on:change="onFileChange">
             <p v-if="isInitial">
               Drag your file(s) here to begin<br> or click to browse
             </p>
@@ -99,6 +107,7 @@ export default {
     onFileChange(e) {
       this.file = e.target.files[0];
     },
+
     uploadFile(e) {
       e.preventDefault();
       fetchEnvelopeToken(this.$route.params.envelope_id)
