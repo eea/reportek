@@ -22,8 +22,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 
-#from . import api_urls
-#from . import views
+from ..core.api import urls as api_urls
+# from . import views
 
 
 API_VERSION = "0.1"
@@ -47,7 +47,7 @@ urlpatterns = [
     # url(f'^{ _country }/{ _instrument }/{ _obligation }/$',
     #     views.obligation, name='obligation'),
 
-    # url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
+    url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
     url(r'^api-docs/', include_docs_urls(title='Reportek API Documentation', public=False)),
 ]
 
