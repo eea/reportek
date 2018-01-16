@@ -1,20 +1,22 @@
 <template>
   <div class="hello">
-    <ul v-if="envelopes && envelopes.length">
-      <li
-        v-for="envelope of envelopes"
-        :key="envelope.id"
+
+    <div v-if="envelopes && envelopes.length">
+      <b-table
+        :hover="false"
+        :items="envelopes"
+        :fields="fields"
       >
-
         <router-link
+          slot="name"
+          slot-scope="envelope"
           class="nav-link"
-          :to="`/envelopes/${envelope.id}`"
-        >{{envelope.name}}
+          :to="`/envelopes/${envelope.item.id}`"
+        >
+          {{envelope.value}}
         </router-link>
-
-        <p>country id - {{envelope.country}}</p>
-      </li>
-    </ul>
+      </b-table>
+    </div>
 
     <p v-if="!envelopes || envelopes.length == 0"> No envelopes created yet</p>
   </div>
@@ -28,6 +30,7 @@ export default {
 
   data() {
     return {
+      fields: [ 'name', 'files_count', 'created_at', 'finalized', 'reporting_period_start', 'reporting_period_end' ],
       envelopes: [],
     };
   },
@@ -36,11 +39,22 @@ export default {
     fetchEnvelopes()
       .then((response) => {
         // JSON responses are automatically parsed.
-        this.envelopes = response.data.results;
+        this.envelopes = response.data.results.map(this.formatEnvelope);
       })
       .catch((e) => {
-        // console.log(e);
+        console.log(e);
       });
+  },
+
+  methods: {
+    formatEnvelope(envelope) {
+      console.log(envelope)
+      envelope.files_count = envelope.files.length;
+      envelope.reporting_period_start = envelope.reporting_period.start;
+      envelope.reporting_period_end = envelope.reporting_period.end;
+
+      return envelope;
+    },
   },
 };
 </script>

@@ -25,19 +25,23 @@
             :items="envelope.files"
             :fields="fields">
 
-            <template slot="file" scope="row">
-              <a v-bind:href="row.value">Edit File</a>
-            </template>
+              <a
+                slot="file"
+                slot-scope="row"
+                v-bind:href="row.value"
+              >
+                Edit File
+              </a>
 
-            <template slot="show_details" scope="row">
               <!-- In some circumstances you may need to use @click.native.stop instead -->
               <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
               <b-form-checkbox
+                slot="show_details"
+                slot-scope="row"
                 @click.native.stop
                 @change="row.toggleDetails"
                 v-model="row.detailsShowing">
               </b-form-checkbox>
-            </template>
 
           </b-table>
         </b-tab>
