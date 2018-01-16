@@ -1,4 +1,5 @@
 from rest_framework.permissions import BasePermission, IsAuthenticated
+from reportek.core.utils import basic_auth_login
 
 
 class IsAnonymous(BasePermission):
@@ -14,6 +15,7 @@ class BasePermission(BasePermission):
 
 class IsAuthenticated(BasePermission, IsAuthenticated):
     def has_permission(self, request, view):
+        request = basic_auth_login(request)
         return super().has_permission(request, view) and request.user.is_active
 
 
