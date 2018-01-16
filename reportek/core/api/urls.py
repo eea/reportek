@@ -23,7 +23,6 @@ for router in main_routers:
 urlpatterns = root.urls + \
               [
                   url
-                  # for nested_router in nested_routers
                   for router in nested_routers
                   for url in router.urls
               ]
