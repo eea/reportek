@@ -122,11 +122,7 @@ class Envelope(models.Model):
         # generate a multi-level, stable path:
         # reporting year / reporter / obligation spec / envelope id
 
-        year = str(
-            self.created_at.year
-            if not self.reporting_cycle.reporting_start_date
-            else self.reporting_cycle.reporting_end_date.year
-        )
+        year = str(self.created_at.year)
         reporter = self.reporter.abbr
         spec = str(self.obligation_spec_id)
         envelope = str(self.id)
