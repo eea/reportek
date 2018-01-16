@@ -658,9 +658,11 @@ class UploadHookView(viewsets.ViewSet):
         # Original header name sent by tusd is `Hook-Name`, Django mangles it
         hook_name = self.request.META.get('HTTP_HOOK_NAME')
         try:
-            return getattr(self, f'handle_{hook_name.replace("-", "_")}')(request)
+            hook_handler = getattr(self, f'handle_{hook_name.replace("-", "_")}')
         except AttributeError:
             return Response(
                 {'hook_not_supported': hook_name},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+        return hook_handler(request)
