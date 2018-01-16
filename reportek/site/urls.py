@@ -35,8 +35,7 @@ _obligation = r'(?P<obligation>[\w-]+)'
 
 urlpatterns = [
     # TODO: this is starting to get messy, the namespacing needs some love.
-    # url(r'^', include('reportek.core.frontend.urls', namespace='core')),
-
+    url(r'^', include('reportek.core.frontend.urls', namespace='core')),
     url(r'^admin/', admin.site.urls),
     # url(r'^$',
     #     views.home, name='home'),
