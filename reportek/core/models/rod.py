@@ -163,7 +163,7 @@ class ObligationSpec(RODModel):
     The obligation specification, aka Dataset Definition.
     Varies from one reporting cycle to another.
     """
-    URL_PATTERN = RODModel.URL_PATTERN + '/obligations/{obligation_id}/specs/{id}'
+    URL_PATTERN = RODModel.URL_PATTERN + '/obligation-specs/{id}'
 
     obligation = models.ForeignKey(Obligation, on_delete=models.CASCADE,
                                    related_name='specs')
@@ -189,11 +189,6 @@ class ObligationSpec(RODModel):
     )
 
     tracker = FieldTracker()
-
-    @property
-    def rod_url(self):
-        return self.URL_PATTERN.format(obligation_id=self.obligation_id,
-                                       id=self.id)
 
     def __str__(self):
         return f'{self.obligation.title} v{self.version}'
