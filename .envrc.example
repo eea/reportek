@@ -32,7 +32,7 @@ export ALLOWED_UPLOADS_EXTENSIONS=xml
 
 # export ARCHIVE_PATH_PREFIX=yes
 
-export QA_DEFAULT_XMLRPC_URI=http://localhost:1082/RpcRouter
+export QA_DEFAULT_XMLRPC_URI=http://xmlconv.edw.ro:8080/RpcRouter
 
 export RABBITMQ_HOST=localhost
 export RABBITMQ_DEFAULT_VHOST=/reportek

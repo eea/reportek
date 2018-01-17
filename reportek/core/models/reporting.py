@@ -1,10 +1,7 @@
 import os
 import logging
-from datetime import date
-from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.db import models, transaction
-from django.contrib.postgres import fields as pgfields
 from django.core.exceptions import ValidationError
 from django.urls import reverse
 from django.utils import timezone
@@ -14,12 +11,18 @@ from edw.djutils import protected
 from model_utils import FieldTracker
 
 
-from . import (
-    Country,
+from .workflows import (
     BaseWorkflow,
 )
 
-from reportek.core.models.workflows import WORKFLOW_CLASSES
+from .rod import (
+    Reporter,
+    ReporterSubdivision,
+    Obligation,
+    ObligationSpec,
+    ReportingCycle
+)
+
 from reportek.core.utils import get_xsd_uri
 
 log = logging.getLogger('reportek.workflows')
@@ -29,139 +32,16 @@ warn = log.warning
 error = log.error
 
 
-ENVELOPE_ROOT_DIR = "envelopes"
+ENVELOPE_ROOT_DIR = 'envelopes'
 
 UPLOAD_TOKEN_LENGTH = 64
 UPLOAD_TOKEN_DURATION = 60 * 60  # 60 minutes
 
-
-class _BrowsableModel(models.Model):
-    """
-    Child classes must have a `name` field.
-    """
-    slug = models.SlugField(unique=True)
-
-    class Meta:
-        abstract = True
-
-    def __str__(self):
-        return self.name
-
-
-class ObligationGroupQuerySet(models.QuerySet):
-    def pending(self):
-        return self.filter(
-            workflow_class__isnull=False,
-            next_reporting_start__isnull=False,
-            reporting_duration_months__isnull=False,
-            next_reporting_start__lte=date.today(),
-        )
-
-    def open(self):
-        return self.filter(
-            workflow_class__isnull=False,
-            reporting_period_set__open=True,
-        )
-
-
-class ObligationGroup(_BrowsableModel):
-    name = models.CharField(max_length=256, unique=True)
-
-    # the workflow is nullable to allow creation of the group
-    # while its workflow doesn't exist, or by someone unprivileged
-    workflow_class = models.CharField(
-        max_length=256, null=True, blank=True,
-        choices=WORKFLOW_CLASSES
-    )
-
-    next_reporting_start = models.DateField(blank=True, null=True)
-    reporting_duration_months = models.PositiveSmallIntegerField(blank=True, null=True)
-
-    # TODO After ROD models are final, move this to the appropriate one
-    qa_xmlrpc_uri = models.CharField(max_length=200, default=settings.QA_DEFAULT_XMLRPC_URI)
-
-    objects = ObligationGroupQuerySet.as_manager()
-
-    @property
-    def open(self):
-        return self.reporting_period_set.current().exists()
-
-    def start_reporting_period(self):
-        assert self.open is False
-        assert (self.next_reporting_start is not None
-                and date.today() >= self.next_reporting_start)
-        assert self.reporting_duration_months is not None
-
-        start, end = (
-            self.next_reporting_start,
-            self.next_reporting_start + relativedelta(
-                months=self.reporting_duration_months
-            )
-        )
-
-        with transaction.atomic():
-            self.reporting_period_set.create(
-                period=(start, end)
-            )
-            self.next_reporting_start = end
-            self.save()
-
-    def close_reporting_period(self):
-        # TODO: this should be performed automatically when all parties
-        # have submitted their reports(?)
-        period = self.reporting_period_set.current().get()
-        period.close()
-
-
-class ReportingPeriodQuerySet(models.QuerySet):
-    def current(self):
-        return self.filter(open=True)
-
-
-class ReportingPeriod(models.Model):
-    obligation_group = models.ForeignKey(ObligationGroup,
-                                         related_name="reporting_period_set")
-    period = pgfields.DateRangeField()
-    open = models.BooleanField(default=True)
-
-    objects = ReportingPeriodQuerySet.as_manager()
-
-    class Meta:
-        unique_together = (
-            ('obligation_group', 'period'),
-        )
-
-    def __str__(self):
-        return '%s: %s - %s' % (
-            self.obligation_group, self.period.lower, self.period.upper
-        )
-
-    def save(self, *args, **kwargs):
-        if not self.pk or kwargs.get('force_insert', False):
-            if self.obligation_group.open:
-                # TODO: make this a ValidationError
-                raise RuntimeError("Reporting period already open for %s."
-                                   % self.obligation_group)
-
-        # TODO: one can still re-open a previously closed period
-        # and make a mess of things. fix it.
-        super().save(*args, **kwargs)
-
-    def close(self):
-        assert self.open is True
-        self.open = False
-        self.save()
-
-
-class Collection(_BrowsableModel):
-    """
-    This is just a nice way to arbitrarily group things.
-    It has no other purpose but to improve browsability.
-    """
-    name = models.CharField(max_length=256, unique=True)
-
-    countries = models.ManyToManyField(Country)
-    obligation_groups = models.ManyToManyField(ObligationGroup)
+__all__ = [
+    'Envelope',
+    'EnvelopeFile',
+    'UploadToken'
+]
 
 
 class EnvelopeQuerySet(models.QuerySet):
@@ -170,20 +50,29 @@ class EnvelopeQuerySet(models.QuerySet):
 
 class EnvelopeManager(models.Manager.from_queryset(EnvelopeQuerySet)):
     def get_queryset(self):
-        # we want to always fetch the reporting period along
-        return super().get_queryset().select_related('reporting_period')
+        return super().get_queryset().select_related(
+            'reporter',
+            'obligation_spec',
+            'reporting_cycle',
+            'workflow'
+        )
 
 
-class Envelope(_BrowsableModel):
+class Envelope(models.Model):
     name = models.CharField(max_length=256)
-    obligation_group = models.ForeignKey(ObligationGroup)
-    country = models.ForeignKey(Country)
-    reporting_period = models.ForeignKey(ReportingPeriod)
+
+    reporter = models.ForeignKey(Reporter, related_name='envelopes')
+    obligation_spec = models.ForeignKey(ObligationSpec, related_name='envelopes')
+    reporter_subdivision = models.ForeignKey(ReporterSubdivision,
+                                             blank=True, null=True,
+                                             related_name='envelopes')
+    reporting_cycle = models.ForeignKey(ReportingCycle, related_name='envelopes')
+
     workflow = models.OneToOneField(BaseWorkflow,
                                     on_delete=models.CASCADE,
                                     related_name='envelope',
                                     null=True, blank=True)
-    # TODO: this must never change, it's used below. must guard against it.
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     finalized = models.BooleanField(default=False)
@@ -191,10 +80,19 @@ class Envelope(_BrowsableModel):
     objects = EnvelopeManager()
     tracker = FieldTracker()
 
+    @property
+    def obligation(self):
+        if self.obligation_spec is None:
+            return None
+        return self.obligation_spec.obligation
+
     class Meta:
         unique_together = (
-            ('obligation_group', 'country', 'reporting_period'),
+            ('reporter', 'obligation_spec', 'reporting_cycle'),
         )
+
+    def __str__(self):
+        return self.name
 
     def save(self, *args, **kwargs):
         # don't allow any operations on a final envelope
@@ -203,41 +101,34 @@ class Envelope(_BrowsableModel):
 
         # On first save:
         if not self.pk or kwargs.get('force_insert', False):
-            # - set the current reporting period
-            self.reporting_period = ReportingPeriod.objects.current().get(
-                obligation_group=self.obligation_group
-            )
-
-            # - import the workflow class set on the envelope's obligation group
-            # TODO: move this logic under ObligationGroup
-            wf_path_components = self.obligation_group.workflow_class.split('.')
-            mod_name = '.'.join(wf_path_components[:-1])
+            # - import the workflow class set on the envelope's obligation spec
+            wf_path_components = self.obligation_spec.workflow_class.split('.')
+            module_name = '.'.join(wf_path_components[:-1])
             class_name = wf_path_components[-1]
-            mod = __import__(mod_name, fromlist=[class_name])
+            module = __import__(module_name, fromlist=[class_name])
             # Instantiate a new workflow and set it on the envelope
-            wf_class = getattr(mod, class_name)
+            wf_class = getattr(module, class_name)
             workflow = wf_class(name=f'Envelope "{self.name}"\'s workflow')
             workflow.save()
             self.workflow = workflow
 
+        if self.reporter_subdivision is not None:
+            if self.reporter_subdivision.reporter != self.reporter:
+                raise RuntimeError('Envelope subdivision must match reporter!')
+
         super().save(*args, **kwargs)
 
     def get_storage_directory(self):
-        # generate a multi-level, stable path. say...
-        # reporting year / country / obligation group / envelope id
-        # TODO: switch to slugs? (and handle renames?)
+        # generate a multi-level, stable path:
+        # reporting year / reporter / obligation spec / envelope id
 
-        year = str(
-            self.created_at.year
-            if self.reporting_period.period.upper_inf
-            else self.reporting_period.period.upper.year
-        )
-        country = self.country.slug
-        ogroup = str(self.obligation_group_id)
+        year = str(self.created_at.year)
+        reporter = self.reporter.abbr
+        spec = str(self.obligation_spec_id)
         envelope = str(self.id)
 
         return os.path.join(ENVELOPE_ROOT_DIR,
-                            year, country, ogroup, envelope)
+                            year, reporter, spec, envelope)
 
     def delete_disk_file(self, file_name):
         """
@@ -267,8 +158,11 @@ def validate_filename(value):
 
 
 class EnvelopeFile(models.Model):
-    # TODO: rename this (and reset migrations)
-    #def get_upload_path(self, filename):
+
+    class Meta:
+        db_table = 'core_envelope_file'
+        unique_together = ('envelope', 'name')
+
     def get_envelope_directory(self, filename):
         return os.path.join(
             self.envelope.get_storage_directory(),
@@ -282,9 +176,6 @@ class EnvelopeFile(models.Model):
     name = models.CharField(max_length=256, validators=[validate_filename])
 
     xml_schema = models.CharField(max_length=200, blank=True, null=True)
-
-    class Meta:
-        unique_together = ('envelope', 'name')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -327,7 +218,7 @@ class EnvelopeFile(models.Model):
         else:
             new_path = old_path = self.file.path
 
-        print(f'saving file name: {self.file.name}')
+        debug(f'saving file name: {self.file.name}')
         # save first to catch data integrity errors.
         # TODO: wrap this in a transaction with below, who knows
         # how that might fail...
@@ -335,7 +226,7 @@ class EnvelopeFile(models.Model):
 
         # and rename on disk
         if renamed:
-            print('renamed: {old_path} to {new_path}')
+            debug(f'renaming: {old_path} to {new_path}')
             os.rename(old_path, new_path)
 
     def get_file_url(self):
@@ -420,6 +311,7 @@ class UploadToken(models.Model):
     valid_until = models.DateTimeField(default=token_valid_until)
 
     class Meta:
+        db_table = 'core_upload_token'
         ordering = ('-created_at',)
 
     def __str__(self):

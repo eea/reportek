@@ -1,14 +1,28 @@
-# normally this shouldn't be used, as all routers will be wrapped together
-# in the final set of API urls
-from .routers import (
-    envelopes_router,
-    nested_envelopes_routers,
-    upload_hooks_router,
+from rest_framework import routers
+
+from reportek.core.api.routers import (
+    main_routers,
+    nested_routers
 )
 
 
-urlpatterns = upload_hooks_router.urls + envelopes_router.urls + [
-    url
-    for r in nested_envelopes_routers
-    for url in r.urls
-]
+class DefaultRouter(routers.DefaultRouter):
+    """
+    A `DefaultRouter` that can be extended with other routers' routes.
+    NOTE: the other routers must be `SimpleRouter` instances.
+    """
+    def extend(self, router):
+        self.registry.extend(router.registry)
+
+
+root = DefaultRouter()
+
+for router in main_routers:
+    root.extend(router)
+
+urlpatterns = root.urls + \
+              [
+                  url
+                  for router in nested_routers
+                  for url in router.urls
+              ]
