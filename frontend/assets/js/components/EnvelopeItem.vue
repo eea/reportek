@@ -17,13 +17,22 @@
       </b-card>
 
       <p><strong>Envelope files {{envelope.files.length}}</strong></p>
+
+      <b-button
+        variant="success"
+        v-on:click="uploadAllFiles">
+          Upload Files
+      </b-button>
+
       <b-tabs>
         <b-tab title="all" active>
           <br>All
+
           <b-table
             :hover="false"
             :items="envelope.files"
-            :fields="fields">
+            :fields="fields"
+          >
 
               <a
                 slot="file"
@@ -33,17 +42,30 @@
                 Edit File
               </a>
 
-              <!-- In some circumstances you may need to use @click.native.stop instead -->
-              <!-- As `row.showDetails` is one-way, we call the toggleDetails function on @change -->
               <b-form-checkbox
-                slot="show_details"
+                slot="select"
                 slot-scope="row"
-                @click.native.stop
-                @change="row.toggleDetails"
-                v-model="row.detailsShowing">
+                v-model="row.selected">
               </b-form-checkbox>
-
           </b-table>
+
+          <b-list-group>
+            <b-list-group-item
+              v-for="file in files"
+              :key="file.file.name"
+            >
+              {{file.file.name}}
+
+              <b-progress-bar
+                :value="file.percentage"
+                :max="max"
+                show-progress
+                animated
+              >
+              </b-progress-bar>
+            </b-list-group-item>
+          </b-list-group>
+
         </b-tab>
         <b-tab title="restricted">
           <br>Restricted from public
@@ -52,27 +74,22 @@
           <br>Public
         </b-tab>
         <b-tab title="feedback">
-          <br>Feedback
+          <br>
+          {{envelopeFeedback}}
         </b-tab>
       </b-tabs>
 
       <form
         enctype="multipart/form-data"
         novalidate v-if="isInitial || isSaving">
-        <h1>Upload images</h1>
-        <div class="dropbox">
+          <label for="file_uploads">Add files to envelope</label>
           <input
-            type="file" multiple
+            type="file"
+            id="file_uploads"
             v-on:disabled="isSaving"
-            v-on:change="onFileChange">
-            <p v-if="isInitial">
-              Drag your file(s) here to begin<br> or click to browse
-            </p>
-            <p v-if="isSaving">
-              Uploading {{ fileCount }} files...
-            </p>
-            <button v-on:click="uploadFile">Upload</button>
-        </div>
+            v-on:change="onFileChange"
+            multiple
+          >
       </form>
     </div>
   </div>
@@ -80,66 +97,106 @@
 
 <script>
 import tus from 'tus-js-client';
-import { fetchEnvelopeItem, fetchEnvelopeToken } from '../api';
+import { fetchEnvelope, fetchEnvelopeToken, fetchEnvelopeHistory, fetchEnvelopeFeedback } from '../api';
 
 export default {
   name: 'EnvelopeItem',
   data() {
     return {
-      fields: [ 'show_details', 'name', 'file' ],
+      fields: [ 'select', 'name', 'file' ],
       envelope: null,
       isSaving: false,
       isInitial: true,
-      file: null,
+      files: [],
       envelopeHistory: null,
+      envelopeFeedback: null,
+      max: 100,
     };
   },
 
   // Fetches posts when the component is created.
   created() {
-    fetchEnvelopeItem(this.$route.params.envelope_id)
-      .then((response) => {
-        // JSON responses are automatically parsed.
-        this.envelope = response.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    debugger;
+    this.getEnvelope();
+    this.getEnvelopeFeedback();
+    this.getEnvelopeHistory();
   },
 
   methods: {
     onFileChange(e) {
-      this.file = e.target.files[0];
+      const newfiles = e.target.files;
+      console.log(newfiles);
+
+      for (const file of newfiles) {
+        this.files.push({file: file, percentage: 0});
+      }
+
+      console.log(this.files);
     },
 
-    uploadFile(e) {
+    uploadAllFiles(e) {
       e.preventDefault();
       fetchEnvelopeToken(this.$route.params.envelope_id)
         .then((response) => {
           const token = response.data.token;
+          for (let index = 0; index < this.files.length; index++) {
+            const file = this.files[index];
+            this.uploadFile(file.file, token, index);
+          }
+        });
+    },
 
-          // Create a new tus upload
-          const upload = new tus.Upload(this.file, {
-            endpoint: 'http://localhost:1080/files/',
-            metadata: {
-              token,
-              filename: this.file.name,
-            },
-            retryDelays: [0, 1000, 3000, 5000],
-            onError: function onError(error) {
-              console.log('Failed because: ', error);
-            },
-            onProgress: function onProgress(bytesUploaded, bytesTotal) {
-              const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(2);
-              console.log(bytesUploaded, bytesTotal, percentage, '%');
-            },
-            onSuccess: function onSuccess() {
-              console.log('Download %s from %s', upload.file.name, upload.url);
-            },
-          });
+    uploadFile(file, token, index) {
+      // Create a new tus upload
+      var self = this;
+      const upload = new tus.Upload(file,
+      {
+        endpoint: 'http://localhost:1080/files/',
+        metadata: {
+          token,
+          filename: file.name,
+          index: index,
+        },
+        retryDelays: [0, 1000, 3000, 5000],
+        onError: function onError(error) {
+          console.log('Failed because: ', error);
+        },
+        onProgress: function onProgress(bytesUploaded, bytesTotal) {
+          const index = this.metadata.index;
+          const percentage = self.files[index].percentage = parseInt(((bytesUploaded / bytesTotal) * 100).toFixed(2));
+          console.log(bytesUploaded, bytesTotal, percentage, '%');
+        },
+        onSuccess: function onSuccess() {
+          console.log('Download %s from %s', upload.file.name, upload.url);
+        },
+      });
 
-          // Start the upload
-          upload.start();
+      // Start the upload
+      upload.start();
+    },
+
+    getEnvelope() {
+      fetchEnvelope(this.$route.params.envelope_id)
+        .then((response) => {
+          // JSON responses are automatically parsed.
+          this.envelope = response.data;
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+
+    getEnvelopeFeedback() {
+      fetchEnvelopeFeedback(this.$route.params.envelope_id)
+        .then((response) => {
+          this.envelopeFeedback = response.data;
+        });
+    },
+
+    getEnvelopeHistory() {
+      fetchEnvelopeHistory(this.$route.params.envelope_id)
+        .then((response) => {
+          this.envelopeHistory = response.data;
         });
     },
   },

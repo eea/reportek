@@ -19,7 +19,7 @@ export default new Router({
       component: Envelopes,
     },
     {
-      path: '/envelopes/:envelope_id',
+      path: '/envelopes/:envelope_id(\\d+)',
       name: 'EnvelopeItem',
       component: EnvelopeItem,
       meta: {
