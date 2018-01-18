@@ -8,6 +8,7 @@ from .views import (
     ReporterSubdivisionViewSet,
     ObligationViewSet,
     ObligationSpecViewSet,
+    ObligationSpecReporterViewSet,
     ReportingCycleViewSet,
     EnvelopeViewSet,
     EnvelopeFileViewSet,
@@ -76,6 +77,14 @@ obligation_specs_router.register(
 )
 
 
+obligation_spec_reporters_router = routers.SimpleRouter()
+obligation_spec_reporters_router.register(
+    'obligation-spec-reporters',
+    ObligationSpecReporterViewSet,
+    base_name='obligation-spec-reporter'
+)
+
+
 reporting_cycle_router = routers.SimpleRouter()
 reporting_cycle_router.register(
     'reporting-cycles',
@@ -130,6 +139,7 @@ main_routers = [
     reporters_router,
     subdivision_cats_router,
     obligations_router,
+    obligation_spec_reporters_router,
     reporting_cycle_router,
     envelopes_router,
     upload_hooks_router,

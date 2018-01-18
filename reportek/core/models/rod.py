@@ -226,7 +226,9 @@ class ObligationSpec(RODModel):
         unique_together = ('obligation', 'version')
 
 
-class ObligationSpecReporter(models.Model):
+class ObligationSpecReporter(RODModel):
+    URL_PATTERN = RODModel.URL_PATTERN + '/obligation-spec-reporters/{id}'
+
     spec = models.ForeignKey(ObligationSpec, on_delete=models.CASCADE)
     reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
     # this is required only when reporting for the current entity

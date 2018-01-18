@@ -9,6 +9,7 @@ from .models import (
     ReporterSubdivision,
     Obligation,
     ObligationSpec,
+    ObligationSpecReporter,
     ReportingCycle,
     Envelope, EnvelopeFile,
     BaseWorkflow,
@@ -25,26 +26,26 @@ def get_field_names(model):
 class InstrumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instrument
-        fields = ('id', 'title', 'rod_url')
+        fields = ('id', 'title', 'rod_url', 'created_at', 'updated_at')
 
 
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = ('id', 'name', 'abbr', 'rod_url')
+        fields = ('id', 'name', 'abbr', 'rod_url', 'created_at', 'updated_at')
 
 
 class ReporterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Reporter
         fields = ('id', 'name', 'abbr', 'slug', 'rod_url',
-                  'subdivision_categories')
+                  'subdivision_categories', 'created_at', 'updated_at')
 
 
 class ReporterSubdivisionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReporterSubdivision
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'rod_url', 'created_at', 'updated_at')
 
 
 class NestedReporterSubdivisionSerializer(NestedHyperlinkedModelSerializer,
@@ -68,15 +69,16 @@ class ReporterSubdivisionCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReporterSubdivisionCategory
-        fields = '__all__'  # '('id', 'name', 'reporter', 'subdivisions')
+        fields = ('id', 'name', 'reporter', 'subdivisions', 'rod_url',
+                  'created_at', 'updated_at',)
 
 
 class ObligationSpecSerializer(serializers.ModelSerializer):
     class Meta:
         model = ObligationSpec
-        fields = ('id', 'version', 'is_current', 'draft',
+        fields = ('id', 'obligation_id', 'version', 'is_current', 'draft',
                   'schema', 'workflow_class', 'qa_xmlrpc_uri',
-                  'rod_url')
+                  'rod_url', 'created_at', 'updated_at',)
 
 
 class NestedObligationSpecSerializer(NestedHyperlinkedModelSerializer,
@@ -95,19 +97,31 @@ class NestedObligationSpecSerializer(NestedHyperlinkedModelSerializer,
         }
 
 
+class ObligationSpecReporterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ObligationSpecReporter
+        fields = ('id', 'spec', 'reporter', 'subdivision_category',
+                  'rod_url', 'created_at', 'updated_at',)
+
+
 class ObligationSerializer(serializers.ModelSerializer):
 
     specs = NestedObligationSpecSerializer(many=True, read_only=True)
 
     class Meta:
         model = Obligation
-        fields = '__all__'
+        fields = ('id', 'title', 'description', 'instrument', 'terminated',
+                  'client', 'active_since', 'active_until', 'reporting_duration',
+                  'reporting_frequency', 'specs', 'rod_url', 'created_at',
+                  'updated_at',)
 
 
 class ReportingCycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReportingCycle
-        fields = '__all__'
+        fields = ('id', 'obligation', 'obligation_spec',
+                  'reporting_start_date', 'reporting_end_date',
+                  'is_open', 'rod_url', 'created_at', 'updated_at')
 
 
 class EnvelopeFileSerializer(serializers.ModelSerializer):
