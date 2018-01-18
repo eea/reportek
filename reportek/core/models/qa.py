@@ -12,6 +12,8 @@ debug = log.debug
 warn = log.warning
 error = log.error
 
+__all__ = ['QAJob', 'QAJobResult']
+
 
 class QAJob(models.Model):
     """
@@ -31,6 +33,7 @@ class QAJob(models.Model):
     refreshing = models.BooleanField(default=False)
 
     class Meta:
+        db_table = 'core_qa_job'
         unique_together = ('envelope_file', 'qa_job_id')
 
     def add_or_update_result(self, rpc_result):
@@ -148,6 +151,7 @@ class QAJobResult(models.Model):
         return self.value is None or self.value == ''
 
     class Meta:
+        db_table = 'core_qa_job_result'
         get_latest_by = 'updated_at'
 
     def same_as(self, **kwargs):

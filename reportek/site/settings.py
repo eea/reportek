@@ -52,6 +52,8 @@ ALLOWED_UPLOADS_EXTENSIONS = split_env_var('ALLOWED_UPLOADS_EXTENSIONS')
 # QA
 QA_DEFAULT_XMLRPC_URI = os.getenv('QA_DEFAULT_XMLRPC_URI')
 
+# ROD
+ROD_ROOT_URL = 'http://rod.eionet.europa.eu'
 
 # Toggles preservation of archive paths in names of unpacked files,
 # i.e. 'dir1/dir2/file.xml' becomes 'dir1_dir2_file.xml'.

@@ -1,9 +1,12 @@
 import os
 from pathlib import Path
 from zipfile import ZipFile, BadZipFile
+from datetime import datetime as dt
+import dateutil.parser
 import logging
 from base64 import b64encode
 from django.views import static
+from django.db.models import Q
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -17,16 +20,34 @@ from django.conf import settings
 from django.core.files import File
 
 from ..models import (
+    Instrument,
+    Client,
+    Reporter,
+    ReporterSubdivisionCategory,
+    ReporterSubdivision,
+    Obligation,
+    ObligationSpec,
+    ObligationSpecReporter,
+    ReportingCycle,
     Envelope,
     EnvelopeFile,
     BaseWorkflow,
     Obligation,
-    Country,
+    Reporter,
     UploadToken,
     QAJob,
 )
 
 from ..serializers import (
+    InstrumentSerializer,
+    ClientSerializer,
+    ReporterSerializer,
+    ReporterSubdivisionCategorySerializer,
+    ReporterSubdivisionSerializer,
+    ObligationSerializer,
+    NestedObligationSpecSerializer,
+    ObligationSpecReporterSerializer,
+    ReportingCycleSerializer,
     EnvelopeSerializer,
     EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
     NestedEnvelopeWorkflowSerializer,
@@ -47,6 +68,128 @@ info = log.info
 debug = log.debug
 warn = log.warning
 error = log.error
+
+
+class DefaultPagination(LimitOffsetPagination):
+    default_limit = 20
+    max_limit = 100
+
+
+class TimeSlicedMixin:
+    """
+    Provides a time-sliced query set, based on the URL query parameters
+    `since` and/or `until`. The parameters must be ISO 8601 date-time strings,
+    e.g. '2007-04-05T14:30Z' or '2007-04-05T16:30+02:00'.
+    """
+    def get_queryset(
+        self  # type:  viewsets.ModelViewSet
+    ):
+        """
+        Filters the query set based on the `updated_at`/`created_at` fields.
+        """
+        query_params = self.request.query_params
+        queryset = super().get_queryset()
+        try:
+            since = dateutil.parser.parse(query_params['since'])
+        except KeyError:
+            since = None
+
+        q_since = Q(updated_at__gt=since) | (Q(updated_at=None) & Q(created_at__gt=since))
+
+        try:
+            until = dateutil.parser.parse(query_params['until'])
+        except KeyError:
+            until = None
+
+        q_until = Q(updated_at__lt=until) | (Q(updated_at=None) & Q(created_at__lt=until))
+
+        if since is not None:
+            q = q_since
+            if until is not None:
+                q &= q_until
+        elif until is not None:
+            q = q_until
+        else:
+            return queryset
+
+        return queryset.filter(q)
+
+    def paginate_queryset(
+        self,  # type:  viewsets.ModelViewSet
+        queryset
+    ):
+        """
+        Overrides default paginator to disable it when time slice params are present.
+        """
+        query_params = self.request.query_params
+        if self.paginator is None or 'since' in query_params or 'until' in query_params:
+            return None
+        return self.paginator.paginate_queryset(queryset, self.request, view=self)
+
+
+class ReadOnlyMixin:
+    def _allowed_methods(self):
+        return ['GET', 'OPTIONS']
+
+
+class RODMixin(ReadOnlyMixin, TimeSlicedMixin):
+    permission_classes = (permissions.IsAuthenticated, )
+    pagination_class = DefaultPagination
+
+
+class InstrumentViewSet(RODMixin, viewsets.ModelViewSet):
+    queryset = Instrument.objects.all()
+    serializer_class = InstrumentSerializer
+
+
+class ClientViewSet(RODMixin, viewsets.ModelViewSet):
+    queryset = Client.objects.all()
+    serializer_class = ClientSerializer
+
+
+class ReporterViewSet(RODMixin, viewsets.ModelViewSet):
+    queryset = Reporter.objects.all()
+    serializer_class = ReporterSerializer
+
+
+class ReporterSubdivisionCategoryViewSet(RODMixin, viewsets.ModelViewSet):
+    queryset = ReporterSubdivisionCategory.objects.all()
+    serializer_class = ReporterSubdivisionCategorySerializer
+
+
+class ReporterSubdivisionViewSet(RODMixin, viewsets.ModelViewSet):
+    queryset = ReporterSubdivision.objects.all()
+    serializer_class = ReporterSubdivisionSerializer
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            category_id=self.kwargs['category_pk']
+        )
+
+
+class ObligationViewSet(RODMixin, viewsets.ModelViewSet):
+    queryset = Obligation.objects.all().prefetch_related('specs')
+    serializer_class = ObligationSerializer
+
+
+class ObligationSpecViewSet(RODMixin, viewsets.ModelViewSet):
+    queryset = ObligationSpec.objects.all()
+    serializer_class = NestedObligationSpecSerializer
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            obligation_id=self.kwargs['obligation_pk']
+        )
+
+
+class ObligationSpecReporterViewSet(RODMixin, viewsets.ModelViewSet):
+    queryset = ObligationSpecReporter.objects.all()
+    serializer_class = ObligationSpecReporterSerializer
+
+
+class ReportingCycleViewSet(RODMixin, viewsets.ModelViewSet):
+    queryset = ReportingCycle.objects.all()
+    serializer_class = ReportingCycleSerializer
 
 
 class EnvelopeResultsSetPagination(LimitOffsetPagination):
@@ -126,15 +269,15 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
             - `obligation`: an obligation id (multiple occurences allowed)
             - `finalized`: 0/1 flag indicating envelope finalization status
         """
-        countries = request.query_params.getlist('country')
+        reporters = request.query_params.getlist('reporter')
         obligations = request.query_params.getlist('obligation')
         finalized = request.query_params.get('finalized')
 
         envelopes = Envelope.objects.prefetch_related('files')
 
-        if countries:
-            countries = Country.objects.filter(iso__in=countries).all()
-            envelopes = envelopes.filter(country__in=countries)
+        if reporters:
+            reporters = Reporter.objects.filter(abbr__in=reporters).all()
+            envelopes = envelopes.filter(reporter__in=reporters)
 
         if obligations:
             obligation_ids = []
@@ -145,8 +288,7 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
                     pass
 
             obligations = Obligation.objects.filter(pk__in=obligation_ids).all()
-            obligation_groups = set([o.group for o in obligations])
-            envelopes = envelopes.filter(obligation_group__in=obligation_groups)
+            envelopes = envelopes.filter(obligation__in=obligations)
 
         if finalized is not None:
             try:
@@ -156,8 +298,7 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
                 pass
 
         envelopes = envelopes.order_by(
-            'country',
-            'obligation_group',
+            'reporter',
             '-updated_at'
         )
 
@@ -568,9 +709,11 @@ class UploadHookView(viewsets.ViewSet):
         # Original header name sent by tusd is `Hook-Name`, Django mangles it
         hook_name = self.request.META.get('HTTP_HOOK_NAME')
         try:
-            return getattr(self, f'handle_{hook_name.replace("-", "_")}')(request)
+            hook_handler = getattr(self, f'handle_{hook_name.replace("-", "_")}')
         except AttributeError:
             return Response(
                 {'hook_not_supported': hook_name},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+        return hook_handler(request)

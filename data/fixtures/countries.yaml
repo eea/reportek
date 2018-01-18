@@ -1,341 +1,408 @@
-- model: core.country
+- model: core.reporter
   pk: 2
   fields:
-    iso: AL
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: AL
     name: Albania
-- model: core.country
+- model: core.reporter
   pk: 110
   fields:
-    iso: DZ
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: DZ
     name: Algeria
-- model: core.country
+- model: core.reporter
   pk: 96
   fields:
-    iso: AD
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: AD
     name: Andorra
-- model: core.country
+- model: core.reporter
   pk: 97
   fields:
-    iso: AM
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: AM
     name: Armenia
-- model: core.country
+- model: core.reporter
   pk: 3
   fields:
-    iso: AT
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: AT
     name: Austria
-- model: core.country
+- model: core.reporter
   pk: 98
   fields:
-    iso: AZ
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: AZ
     name: Azerbaijan
-- model: core.country
+- model: core.reporter
   pk: 4
   fields:
-    iso: BY
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: BY
     name: Belarus
-- model: core.country
+- model: core.reporter
   pk: 5
   fields:
-    iso: BE
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: BE
     name: Belgium
-- model: core.country
+- model: core.reporter
   pk: 6
   fields:
-    iso: BA
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: BA
     name: Bosnia and Herzegovina
-- model: core.country
+- model: core.reporter
   pk: 7
   fields:
-    iso: BG
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: BG
     name: Bulgaria
-- model: core.country
+- model: core.reporter
   pk: 8
   fields:
-    iso: HR
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: HR
     name: Croatia
-- model: core.country
+- model: core.reporter
   pk: 9
   fields:
-    iso: CY
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: CY
     name: Cyprus
-- model: core.country
+- model: core.reporter
   pk: 10
   fields:
-    iso: CZ
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: CZ
     name: Czech Republic
-- model: core.country
+- model: core.reporter
   pk: 11
   fields:
-    iso: DK
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: DK
     name: Denmark
-- model: core.country
+- model: core.reporter
   pk: 109
   fields:
-    iso: EG
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: EG
     name: Egypt
-- model: core.country
+- model: core.reporter
   pk: 12
   fields:
-    iso: EE
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: EE
     name: Estonia
-- model: core.country
+- model: core.reporter
   pk: 1
   fields:
-    iso: EU
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: EU
     name: European Union
-- model: core.country
+- model: core.reporter
   pk: 13
   fields:
-    iso: FI
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: FI
     name: Finland
-- model: core.country
+- model: core.reporter
   pk: 14
   fields:
-    iso: FR
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: FR
     name: France
-- model: core.country
+- model: core.reporter
   pk: 99
   fields:
-    iso: GE
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: GE
     name: Georgia
-- model: core.country
+- model: core.reporter
   pk: 15
   fields:
-    iso: DE
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: DE
     name: Germany
-- model: core.country
+- model: core.reporter
   pk: 114
   fields:
-    iso: GI
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: GI
     name: Gibraltar
-- model: core.country
+- model: core.reporter
   pk: 16
   fields:
-    iso: GR
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: GR
     name: Greece
-- model: core.country
+- model: core.reporter
   pk: 120
   fields:
-    iso: GL
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: GL
     name: Greenland
-- model: core.country
+- model: core.reporter
   pk: 17
   fields:
-    iso: HU
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: HU
     name: Hungary
-- model: core.country
+- model: core.reporter
   pk: 18
   fields:
-    iso: IS
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: IS
     name: Iceland
-- model: core.country
+- model: core.reporter
   pk: 20
   fields:
-    iso: IE
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: IE
     name: Ireland
-- model: core.country
+- model: core.reporter
   pk: 116
   fields:
-    iso: IL
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: IL
     name: Israel
-- model: core.country
+- model: core.reporter
   pk: 19
   fields:
-    iso: IT
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: IT
     name: Italy
-- model: core.country
+- model: core.reporter
   pk: 108
   fields:
-    iso: JO
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: JO
     name: Jordan
-- model: core.country
+- model: core.reporter
   pk: 100
   fields:
-    iso: KZ
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: KZ
     name: Kazakhstan
-- model: core.country
+- model: core.reporter
   pk: 42
   fields:
-    iso: XK
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: XK
     name: Kosovo under the UNSCR 1244/99
-- model: core.country
+- model: core.reporter
   pk: 101
   fields:
-    iso: KG
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: KG
     name: Kyrgyzstan
-- model: core.country
+- model: core.reporter
   pk: 21
   fields:
-    iso: LV
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: LV
     name: Latvia
-- model: core.country
+- model: core.reporter
   pk: 117
   fields:
-    iso: LB
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: LB
     name: Lebanon
-- model: core.country
+- model: core.reporter
   pk: 111
   fields:
-    iso: LY
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: LY
     name: Libya
-- model: core.country
+- model: core.reporter
   pk: 102
   fields:
-    iso: LI
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: LI
     name: Liechtenstein
-- model: core.country
+- model: core.reporter
   pk: 22
   fields:
-    iso: LT
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: LT
     name: Lithuania
-- model: core.country
+- model: core.reporter
   pk: 23
   fields:
-    iso: LU
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: LU
     name: Luxembourg
-- model: core.country
+- model: core.reporter
   pk: 25
   fields:
-    iso: MT
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: MT
     name: Malta
-- model: core.country
+- model: core.reporter
   pk: 26
   fields:
-    iso: MD
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: MD
     name: Moldova
-- model: core.country
+- model: core.reporter
   pk: 103
   fields:
-    iso: MC
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: MC
     name: Monaco
-- model: core.country
+- model: core.reporter
   pk: 115
   fields:
-    iso: ME
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: ME
     name: Montenegro
-- model: core.country
+- model: core.reporter
   pk: 112
   fields:
-    iso: MA
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: MA
     name: Morocco
-- model: core.country
+- model: core.reporter
   pk: 27
   fields:
-    iso: NL
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: NL
     name: Netherlands
-- model: core.country
+- model: core.reporter
   pk: 28
   fields:
-    iso: 'NO'
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: 'NO'
     name: Norway
-- model: core.country
+- model: core.reporter
   pk: 118
   fields:
-    iso: PS
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: PS
     name: Palestine
-- model: core.country
+- model: core.reporter
   pk: 29
   fields:
-    iso: PL
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: PL
     name: Poland
-- model: core.country
+- model: core.reporter
   pk: 30
   fields:
-    iso: PT
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: PT
     name: Portugal
-- model: core.country
+- model: core.reporter
   pk: 31
   fields:
-    iso: RO
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: RO
     name: Romania
-- model: core.country
+- model: core.reporter
   pk: 32
   fields:
-    iso: RU
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: RU
     name: Russian Federation
-- model: core.country
+- model: core.reporter
   pk: 104
   fields:
-    iso: SM
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: SM
     name: San Marino
-- model: core.country
+- model: core.reporter
   pk: 41
   fields:
-    iso: RS
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: RS
     name: Serbia
-- model: core.country
+- model: core.reporter
   pk: 33
   fields:
-    iso: SK
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: SK
     name: Slovakia
-- model: core.country
+- model: core.reporter
   pk: 34
   fields:
-    iso: SI
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: SI
     name: Slovenia
-- model: core.country
+- model: core.reporter
   pk: 35
   fields:
-    iso: ES
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: ES
     name: Spain
-- model: core.country
+- model: core.reporter
   pk: 36
   fields:
-    iso: SE
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: SE
     name: Sweden
-- model: core.country
+- model: core.reporter
   pk: 37
   fields:
-    iso: CH
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: CH
     name: Switzerland
-- model: core.country
+- model: core.reporter
   pk: 119
   fields:
-    iso: SY
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: SY
     name: Syria
-- model: core.country
+- model: core.reporter
   pk: 105
   fields:
-    iso: TJ
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: TJ
     name: Tajikistan
-- model: core.country
+- model: core.reporter
   pk: 24
   fields:
-    iso: MK
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: MK
     name: The former Yugoslav Republic of Macedonia
-- model: core.country
+- model: core.reporter
   pk: 113
   fields:
-    iso: TN
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: TN
     name: Tunisia
-- model: core.country
+- model: core.reporter
   pk: 38
   fields:
-    iso: TR
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: TR
     name: Turkey
-- model: core.country
+- model: core.reporter
   pk: 106
   fields:
-    iso: TM
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: TM
     name: Turkmenistan
-- model: core.country
+- model: core.reporter
   pk: 39
   fields:
-    iso: UA
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: UA
     name: Ukraine
-- model: core.country
+- model: core.reporter
   pk: 40
   fields:
-    iso: GB
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: GB
     name: United Kingdom
-- model: core.country
+- model: core.reporter
   pk: 107
   fields:
-    iso: UZ
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: UZ
     name: Uzbekistan
-- model: core.country
+- model: core.reporter
   pk: 121
   fields:
-    iso: VA
+    created_at: '2018-01-01T00:00:00+00:00'
+    abbr: VA
     name: Vatican City
-
