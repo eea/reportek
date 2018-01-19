@@ -5,7 +5,7 @@
       <b-card title="Details">
         <p><strong>name: {{envelope.name}}</strong></p>
         <p>country: {{envelope.country}}</p>
-        <p>reporting_period: {{envelope.reporting_period.start}}</p>
+        <p>reporting_period: {{envelope.reporting_cycle}}</p>
         <p>reporting_period: {{envelope.created_at.end}}</p>
         <p>current_state {{envelope.current_state}}</p>
         <p>created_at {{envelope.created_at}}</p>
@@ -116,7 +116,6 @@ export default {
 
   // Fetches posts when the component is created.
   created() {
-    debugger;
     this.getEnvelope();
     this.getEnvelopeFeedback();
     this.getEnvelopeHistory();
@@ -125,7 +124,6 @@ export default {
   methods: {
     onFileChange(e) {
       const newfiles = e.target.files;
-      console.log(newfiles);
 
       for (const file of newfiles) {
         this.files.push({file: file, percentage: 0});

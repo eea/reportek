@@ -39,22 +39,11 @@ export default {
     fetchEnvelopes()
       .then((response) => {
         // JSON responses are automatically parsed.
-        this.envelopes = response.data.results.map(this.formatEnvelope);
+        this.envelopes = response.data.results;
       })
       .catch((e) => {
         console.log(e);
       });
-  },
-
-  methods: {
-    formatEnvelope(envelope) {
-      console.log(envelope)
-      envelope.files_count = envelope.files.length;
-      envelope.reporting_period_start = envelope.reporting_period.start;
-      envelope.reporting_period_end = envelope.reporting_period.end;
-
-      return envelope;
-    },
   },
 };
 </script>
