@@ -166,7 +166,9 @@ class NestedEnvelopeWorkflowSerializer(
     }
 
     class Meta(EnvelopeWorkflowSerializer.Meta):
-        fields = ['current_state', 'previous_state']
+        fields = ('current_state', 'previous_state',
+                  'available_transitions', 'upload_allowed',
+                  )
         extra_kwargs = {
             'url': {
                 'view_name': 'api:envelope-workflow-detail',
@@ -188,7 +190,7 @@ class NestedUploadTokenSerializer(
     }
 
     class Meta(UploadTokenSerializer.Meta):
-        fields = ['id', 'created_at', 'token', 'filename', 'tus_id']
+        fields = ('id', 'created_at', 'token', 'filename', 'tus_id')
         extra_kwargs = {
             'url': {
                 'view_name': 'api:envelope-token-detail',
@@ -197,16 +199,14 @@ class NestedUploadTokenSerializer(
 
 
 class EnvelopeSerializer(serializers.ModelSerializer):
-    # obligation_spec = serializers.PrimaryKeyRelatedField(
-    #     queryset=ObligationSpec.objects.open()
-    # )
     files = NestedEnvelopeFileSerializer(many=True, read_only=True)
     workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
 
     class Meta:
         model = Envelope
         fields = '__all__'
-        read_only_fields = ('obligation_spec', 'reporting_cycle', 'finalized')
+        read_only_fields = ('obligation_spec', 'reporting_cycle',
+                            'workflow', 'finalized')
 
 
 class QAJobResultSerializer(serializers.ModelSerializer):
