@@ -14,10 +14,11 @@ function fetch(child) {
   return api.get(child);
 }
 
-function post(child) {
-  logRequests && console.log(`posting ${child}...`);
+function post(child, data) {
+  debugger;
+  logRequests && console.log(`posting ${child} with data ${data}...`);
 
-  return api.post(child);
+  return api.post(child, data);
 }
 
 export function fetchEnvelopes() {
@@ -34,6 +35,14 @@ export function fetchEnvelopeToken(id) {
 
 export function fetchEnvelopeFiles(id) {
   return fetch(`envelopes/${id}/files/`);
+}
+
+export function fetchEnvelopeFilesQAScripts(id, fileId) {
+  return fetch(`envelopes/${id}/files/${fileId}/qa_scripts`);
+}
+
+export function runEnvelopeFilesQAScript(id, fileId, script_id) {
+  return post(`envelopes/${id}/files/${fileId}/run_qa_script/`, {script_id: script_id});
 }
 
 export function fetchEnvelopeHistory(id) {
