@@ -373,7 +373,7 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
     @detail_route(methods=['get'])
     def qa_scripts(self, request, envelope_pk, pk):
         """
-        Returns the list of available QA rules for one particular schema,
+        Returns the list of available QA rules for a file's schema(s),
         as list of dicts with the keys:
             `id`
             `title`
@@ -385,10 +385,12 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
             envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
         )
 
+        scripts = []
         if envelope_file.xml_schema is None:
-            scripts = []
+            return scripts
         else:
-            scripts = remote_qa.get_scripts(envelope_file.xml_schema)
+            for schema in envelope_file.xml_schema.split(' '):
+                scripts += remote_qa.get_scripts(schema)
 
         return Response(scripts)
 
