@@ -42,6 +42,16 @@
                 Edit File
               </a>
 
+              <b-link
+                href="#"
+                class="card-link"
+                slot="tests"
+                slot-scope="row"
+                v-on:click="getFileScripts(row.item.id)"
+              >
+                Run Tests
+              </b-link>
+
               <b-form-checkbox
                 slot="select"
                 slot-scope="row"
@@ -97,13 +107,13 @@
 
 <script>
 import tus from 'tus-js-client';
-import { fetchEnvelope, fetchEnvelopeToken, fetchEnvelopeHistory, fetchEnvelopeFeedback } from '../api';
+import { fetchEnvelope, fetchEnvelopeToken, fetchEnvelopeHistory, fetchEnvelopeFeedback, fetchEnvelopeFilesQAScripts, runEnvelopeFilesQAScript } from '../api';
 
 export default {
   name: 'EnvelopeItem',
   data() {
     return {
-      fields: [ 'select', 'name', 'file' ],
+      fields: [ 'select', 'name', 'file', 'tests' ],
       envelope: null,
       isSaving: false,
       isInitial: true,
@@ -154,6 +164,7 @@ export default {
           token,
           filename: file.name,
           index: index,
+          fileId: file.id
         },
         retryDelays: [0, 1000, 3000, 5000],
         onError: function onError(error) {
@@ -196,6 +207,27 @@ export default {
         .then((response) => {
           this.envelopeHistory = response.data;
         });
+    },
+
+    getFileScripts(fileId) {
+      console.log('file scrips!!');
+      const self = this;
+      fetchEnvelopeFilesQAScripts(this.$route.params.envelope_id, fileId)
+        .then(function (response) {
+          console.log(response);
+          const script_id = response.data[0].id;
+          runEnvelopeFilesQAScript(self.$route.params.envelope_id, fileId, script_id)
+            .then(function (response) {
+              console.log('runEnvelopeFilesQAScript ', response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
     },
   },
 };
