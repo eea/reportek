@@ -453,6 +453,11 @@ class UploadTokenViewSet(viewsets.ModelViewSet):
                 {'error': 'envelope is finalized'},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        elif not envelope.workflow.upload_allowed:
+            return Response(
+                {'error': 'envelope state does not allow uploads'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
 
         token = envelope.upload_tokens.create(user=request.user)
         response = {
