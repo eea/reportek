@@ -382,7 +382,7 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         """
         envelope_file = self.get_object()
         remote_qa = RemoteQA(
-            envelope_file.envelope.obligation_group.qa_xmlrpc_uri
+            envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
         )
 
         if envelope_file.xml_schema is None:
@@ -405,7 +405,7 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         script_id = request.data.get('script_id')
         envelope_file = self.get_object()
         remote_qa = RemoteQA(
-            envelope_file.envelope.obligation_group.qa_xmlrpc_uri
+            envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
         )
         file_url = fully_qualify_url(envelope_file.get_api_download_url())
 
