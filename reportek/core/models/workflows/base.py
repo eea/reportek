@@ -53,10 +53,24 @@ class BaseWorkflow(TypedModel):
     transitions = ()
     initial_state = None
     final_state = None
+    upload_states = []
 
     @property
     def finished(self):
         return self.current_state == self.final_state
+
+    @property
+    def upload_allowed(self):
+        return self.current_state in self.upload_states
+
+    @property
+    def available_transitions(self):
+        state = self.xwf.state.workflow.states[self.current_state]
+        return [
+            t.name
+            for t in self.xwf.state.workflow.transitions
+            if state.name in [s.name for s in t.source]
+        ]
 
     # NOTE: The QA connection is only a mock currently
     qa_conn = QAConnection()
@@ -129,10 +143,10 @@ class BaseWorkflow(TypedModel):
             fname: getattr(cls, fname)
             for fname in dir(cls)
             if callable(getattr(cls, fname)) and
-            (
-               isinstance(getattr(cls, fname), xwf.base.TransitionWrapper) or
-               hasattr(getattr(cls, fname), 'xworkflows_hook')
-            )
+               (
+                   isinstance(getattr(cls, fname), xwf.base.TransitionWrapper) or
+                   hasattr(getattr(cls, fname), 'xworkflows_hook')
+               )
         }
 
     @cached_property
