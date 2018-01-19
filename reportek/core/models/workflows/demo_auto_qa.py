@@ -23,17 +23,18 @@ class DemoAutoQAWorkflow(BaseWorkflow):
         ('draft', 'Draft'),
         ('auto_qa', 'Auto QA'),
         ('review', 'Review'),
-        ('end', 'End')
+        ('released', 'Released')
     )
     transitions = (
         ('send_to_qa', 'draft', 'auto_qa'),
         ('fail_qa', 'auto_qa', 'draft'),
         ('pass_qa', 'auto_qa', 'review'),
         ('reject', 'review', 'draft'),
-        ('accept', 'review', 'end')
+        ('release', 'review', 'released')
     )
     initial_state = 'draft'
-    final_state = 'end'
+    final_state = 'released'
+    upload_states = ['draft']
 
     qa_conn = QAConnection(min_delay=1)
 
@@ -75,8 +76,8 @@ class DemoAutoQAWorkflow(BaseWorkflow):
         info('"reject" running')
 
     @xwf.transition()
-    def accept(self):
-        info('"accept" running')
+    def release(self):
+        info('"release" running')
 
 
 class DemoFailQAWorkflow(DemoAutoQAWorkflow):
