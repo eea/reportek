@@ -15,7 +15,6 @@ function fetch(child) {
 }
 
 function post(child, data) {
-  debugger;
   logRequests && console.log(`posting ${child} with data ${data}...`);
 
   return api.post(child, data);
