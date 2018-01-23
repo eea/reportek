@@ -1,0 +1,17 @@
+<envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" released="true" xsi:noNamespaceSchemaLocation="http://cdr.eionet.europa.eu/schemas/envelope-metadata.xsd">
+<title>{{ envelope.name }}</title>
+<description/>
+<date>{{ envelope.created_at }}</date>
+<coverage>http://rod.eionet.europa.eu/spatial/{{ envelope.reporter.id }}</coverage>
+<countrycode>{{ envelope.reporter.abbr }}</countrycode>
+<obligation>{{ envelope.obligation.rod_url }}</obligation>
+<link>
+{{ envelope.url }}
+</link>
+<year/>
+<endyear/>
+<partofyear>{{ envelope.created_at.year }}</partofyear>
+{% for file in envelope.files.all() %}
+  <file name="{{ file.name }}" type="file_type" schema="{{ file.xml_schema }}" title="{{ file.name }}" restricted="no" link="{{ file.get_api_download_url() }}"/>
+{% endfor %}
+</envelope>
