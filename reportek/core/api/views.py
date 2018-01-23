@@ -10,7 +10,7 @@ from django.db.models import Q
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
-from rest_framework.renderers import StaticHTMLRenderer
+from rest_framework.renderers import StaticHTMLRenderer, TemplateHTMLRenderer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.authentication import (
     TokenAuthentication
@@ -370,6 +370,18 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
             )
         return response
 
+    @detail_route(methods=['get'], renderer_classes=(TemplateHTMLRenderer,))
+    def xml(self, request, envelope_pk, pk):
+        """
+        Returns an evelope's metadata in XML format.
+        """
+        envelope = self.get_object()
+        return Response(
+            {'envelope': envelope},
+            template_name='envelope_xml.html',
+            content_type='text/xml'
+        )
+
     @detail_route(methods=['get'])
     def qa_scripts(self, request, envelope_pk, pk):
         """
@@ -409,8 +421,8 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         remote_qa = RemoteQA(
             envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
         )
-        file_url = fully_qualify_url(envelope_file.get_api_download_url())
-
+        # file_url = fully_qualify_url(envelope_file.get_api_download_url())
+        file_url = fully_qualify_url(envelope_file.get_file_url())
         return Response(remote_qa.run_script(file_url, str(script_id)))
 
     @detail_route(methods=['get'])
