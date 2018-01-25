@@ -51,3 +51,7 @@ export function fetchEnvelopeHistory(id) {
 export function fetchEnvelopeFeedback(id) {
   return fetch(`envelopes/${id}/feedback/`);
 }
+
+export function runEnvelopeAutomaticQA(id, transition_name) {
+  return post(`envelopes/${id}/transition/`, {transition_name: transition_name});
+}
