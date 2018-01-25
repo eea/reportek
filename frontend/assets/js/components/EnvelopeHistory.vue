@@ -18,7 +18,7 @@
           </div>
           <div v-if="hiddenItems == true" 
                id="show-more" 
-               class="btn btn-link" 
+               class="btn btn-link pb-3 pt-3" 
                @click="hiddenItems = false">
            +{{ Object.keys(envelopeHistory).length -2 }} versions
          </div>
@@ -78,26 +78,46 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-.history-item 
-  .state 
+<style lang="scss" scoped>
+.history-item { 
+  position: relative; 
+  .state {
     font-weight: bold;
+  }
+}
 
-.hidden 
+.history-item {
+  &:before {
+    content:'sds';
+  } 
+}
+
+.hidden {
   display: none;
+}
 
-.hidden:first-of-type 
+.hidden:first-of-type {
   opacity: 0;
   display: block;
+} 
 
-.history 
+.history {
   position: relative;
+}
 
-#show-more
+#show-more {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    border-top: 1px solid rgba(0,0,0,.15);
+    border-bottom: 1px solid rgba(0,0,0,.15);
+    border-left: 2px solid rgba(0,0,0,.15);
+    border-left-style: dashed;
+    width: 100%;
+    text-align: left;
+}
 
-.btn-link 
+.btn-link {
   cursor: pointer;
+}
 </style>
