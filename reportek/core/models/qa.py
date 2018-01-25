@@ -48,7 +48,8 @@ class QAJob(models.Model):
         Returns:
             The updated or newly created ``QAJobResult`` instance.
         """
-        if rpc_result is None:
+        job_not_found_err = '*** No such job or the job result has been already downloaded. ***'
+        if rpc_result is None or rpc_result.get('VALUE') == job_not_found_err:
             return
 
         prev_result = self.latest_result
@@ -66,7 +67,7 @@ class QAJob(models.Model):
                 feedback_status=rpc_result['FEEDBACK_STATUS'],
                 feedback_message=rpc_result['FEEDBACK_MESSAGE']
             )
-            if not result.processing():
+            if not result.processing:
                 self.completed = True
                 self.save()
         return result
@@ -74,23 +75,23 @@ class QAJob(models.Model):
     def refresh(self, cleanup=True):
         """
         Fetches the job result from the remote QA system.
+        Returns: id of created/updated QAJobResult, or `None` RPC .
         """
         if not self.refreshing and not self.completed:
             self.refreshing = True
             self.save()
 
             remote_qa = RemoteQA(
-                self.envelope_file.envelope.obligation_group.qa_xmlrpc_uri
+                self.envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
             )
             rpc_result = remote_qa.get_job_result(self.qa_job_id)
-            if rpc_result is not None:
-                self.add_or_update_result(rpc_result)
-
-                if cleanup:
-                    self.cleanup_results()
+            result = self.add_or_update_result(rpc_result)
+            if cleanup and result is not None:
+                self.cleanup_results()
 
             self.refreshing = False
             self.save()
+            return result.id if result is not None else None
 
     @property
     def latest_result(self):
@@ -133,6 +134,11 @@ class QAJobResult(models.Model):
         INFO = 'INFO'
         UNKNOWN = 'UNKNOWN'
 
+    OK_STATUSES = (
+        FEEDBACK_STATUSES.INFO,
+        FEEDBACK_STATUSES.WARNING,
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     job = models.ForeignKey(QAJob, on_delete=models.CASCADE, related_name='results')
@@ -143,12 +149,17 @@ class QAJobResult(models.Model):
     feedback_status = models.CharField(max_length=40, choices=((s.value, s.name) for s in FEEDBACK_STATUSES))
     feedback_message = models.CharField(max_length=200, blank=True, null=True)
 
+    @property
     def processing(self):
         """
         The QA query service specification only gives this criterion
         as indicating that the job is still processing.
         """
         return self.value is None or self.value == ''
+
+    @property
+    def ok(self):
+        return self.feedback_status in self.OK_STATUSES
 
     class Meta:
         db_table = 'core_qa_job_result'

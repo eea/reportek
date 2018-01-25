@@ -23,6 +23,8 @@ from .rod import (
     ReportingCycle
 )
 
+from .qa import QAJob, QAJobResult
+
 from reportek.core.utils import get_xsd_uri
 
 log = logging.getLogger('reportek.workflows')
@@ -86,6 +88,40 @@ class Envelope(models.Model):
             return None
         return self.obligation_spec.obligation
 
+    @property
+    def auto_qa_jobs(self):
+        """
+        The envelope's most recent QA job for each file.
+        """
+        return [
+            file.latest_qa_job
+            for file in self.files.all()
+            if file.latest_qa_job is not None
+        ]
+
+    @property
+    def auto_qa_complete(self):
+        """
+        Is `True` when every QA job on the envelope's files is complete.
+        The most recent QA job per file is considered.
+        """
+        return all([job.completed for job in self.auto_qa_jobs])
+
+    @property
+    def auto_qa_results(self):
+        """
+        Latest QA job results for the envelope's files.
+        """
+        return [
+            file.latest_qa_result
+            for file in self.files.all()
+            if file.latest_qa_result is not None
+        ]
+
+    @property
+    def auto_qa_ok(self):
+        return self.auto_qa_complete and all([r.ok for r in self.auto_qa_results])
+
     class Meta:
         unique_together = (
             ('reporter', 'obligation_spec', 'reporting_cycle'),
@@ -93,6 +129,9 @@ class Envelope(models.Model):
 
     def __str__(self):
         return self.name
+
+    def handle_auto_qa_results(self):
+        return self.workflow.handle_auto_qa_results()
 
     def save(self, *args, **kwargs):
         # don't allow any operations on a final envelope
@@ -187,6 +226,14 @@ class EnvelopeFile(models.Model):
         return '<%s: %s/%s>' % (self.__class__.__name__,
                                 self.envelope.pk,
                                 self.name)
+
+    @property
+    def latest_qa_job(self):
+        return QAJob.objects.filter(envelope_file=self).latest('created_at')
+
+    @property
+    def latest_qa_result(self):
+        return QAJobResult.objects.filter(job=self.latest_qa_job).get()
 
     def save(self, *args, **kwargs):
         # don't allow any operations on a final envelope
