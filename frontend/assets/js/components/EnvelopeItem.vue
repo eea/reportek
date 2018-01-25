@@ -8,6 +8,8 @@
         <p>reporting_period: {{envelope.reporting_cycle}}</p>
         <p>reporting_period: {{envelope.created_at.end}}</p>
         <p>current_state: {{envelope.workflow.current_state}}</p>
+        <p>previous_state: {{envelope.workflow.previous_state}}</p>
+        <p>upload_allowed: {{envelope.workflow.upload_allowed}}</p>
         <p>created_at: {{envelope.created_at}}</p>
         <b-link href="#" class="card-link">Edit Envelope</b-link>
       </b-card>
@@ -19,7 +21,7 @@
       <b-button
         variant="success"
         v-on:click="runAutomaticQA">
-          Run Auto QA
+          {{envelopeState}}
       </b-button>
 
       <b-button
@@ -56,18 +58,16 @@
                 v-on:click="getFileScripts(row.item)"
               >
 
-                 {{row.item.availableScripts}}
-
                 <b-button
-                  v-for="script in row.item.availableScripts.scripts"
-                  :key="script.id"
-                  variant="success"
-                  v-on:click.stop="runQAScript(row.item, script.id)"
+                  v-for="script in row.item.availableScripts"
+                  :key="script.data.id"
+                  :variant="script.variant"
+                  v-on:click.stop="runQAScript(row.item, script.data.id)"
                 >
-                    {{script.title}}
+                    {{script.data.title}}
                 </b-button>
 
-                Run Tests
+                <p v-show="row.item.availableScripts.length === 0">Run a test</p>
               </b-link>
 
               <b-form-checkbox
@@ -135,15 +135,31 @@ import { fetchEnvelope,
           runEnvelopeAutomaticQA,
           } from '../api';
 
+const envelopeCodeDictionary = (status) => {
+  const codeDictionary = {
+    'info': 'success',
+    'ok': 'success',
+    'error': 'danger',
+    'fail': 'danger',
+    'draft': 'Draft',
+    'auto_qa': 'Automatic QA',
+    'send_to_qa': 'Send to QA',
+  }
+
+  return codeDictionary[status.trim().toLowerCase()];
+}
+
 export default {
   name: 'EnvelopeItem',
   components: {
     'history': History,
   },
+
   data() {
     return {
       fields: [ 'select', 'name', 'file', 'tests' ],
       envelope: null,
+      envelopeState: '',
       isSaving: false,
       isInitial: true,
       files: [],
@@ -159,6 +175,30 @@ export default {
   },
 
   methods: {
+    getEnvelope() {
+      fetchEnvelope(this.$route.params.envelope_id)
+        .then((response) => {
+          // JSON responses are automatically parsed.
+          this.envelope = response.data;
+          this.envelopeState = envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
+          console.log(response.data)
+
+          for (let index = 0; index < this.envelope.files.length; index++) {
+            this.envelope.files[index] = Object.assign({}, this.envelope.files[index], {availableScripts: []});
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+
+    getEnvelopeFeedback() {
+      fetchEnvelopeFeedback(this.$route.params.envelope_id)
+        .then((response) => {
+          this.envelopeFeedback = response.data;
+        });
+    },
+
     onFileChange(e) {
       const newfiles = e.target.files;
 
@@ -232,32 +272,14 @@ export default {
       });
     },
 
-    getEnvelope() {
-      fetchEnvelope(this.$route.params.envelope_id)
-        .then((response) => {
-          // JSON responses are automatically parsed.
-          this.envelope = response.data;
-          this.envelope.files.map((file) => {file.availableScripts = {scripts:[]}});
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-
-    getEnvelopeFeedback() {
-      fetchEnvelopeFeedback(this.$route.params.envelope_id)
-        .then((response) => {
-          this.envelopeFeedback = response.data;
-        });
-    },
-
     getFileScripts(file) {
       console.log('file scrips!!');
       const self = this;
       fetchEnvelopeFilesQAScripts(this.$route.params.envelope_id, file.id)
         .then(function (response) {
-          console.log(response);
-          file.availableScripts.scripts.push(response.data[0]);
+          response.data.map(script => {
+            file.availableScripts.push({data: script, variant: 'primary'});
+          });
           console.log(self.envelope.files);
         })
         .catch(function (error) {
@@ -266,9 +288,16 @@ export default {
     },
 
     runQAScript(file, script_id) {
+      console.log('runEnvelopeFilesQAScript file, script_id ', file, script_id);
+
       runEnvelopeFilesQAScript(this.$route.params.envelope_id, file.id, script_id)
         .then(function (response) {
           console.log('runEnvelopeFilesQAScript ', response);
+          for (let script of file.availableScripts) {
+            if(script.data.id === script_id) {
+              script.variant = envelopeCodeDictionary(response.data.feedback_status);
+            }
+          }
         })
         .catch(function (error) {
           console.log(error);
