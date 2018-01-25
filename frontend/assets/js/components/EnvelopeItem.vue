@@ -7,20 +7,26 @@
         <p>country: {{envelope.country}}</p>
         <p>reporting_period: {{envelope.reporting_cycle}}</p>
         <p>reporting_period: {{envelope.created_at.end}}</p>
-        <p>current_state {{envelope.current_state}}</p>
-        <p>created_at {{envelope.created_at}}</p>
+        <p>current_state: {{envelope.workflow.current_state}}</p>
+        <p>created_at: {{envelope.created_at}}</p>
         <b-link href="#" class="card-link">Edit Envelope</b-link>
       </b-card>
 
-      <b-card title="History">
-        <p>{{envelopeHistory}}</p>
-      </b-card>
+      <history></history>
 
       <p><strong>Envelope files {{envelope.files.length}}</strong></p>
 
       <b-button
         variant="success"
-        v-on:click="uploadAllFiles">
+        v-on:click="runAutomaticQA">
+          Run Auto QA
+      </b-button>
+
+      <b-button
+        variant="success"
+        v-on:click="uploadAllFiles"
+        :disabled="!envelope.workflow.upload_allowed"
+      >
           Upload Files
       </b-button>
 
@@ -47,8 +53,20 @@
                 class="card-link"
                 slot="tests"
                 slot-scope="row"
-                v-on:click="getFileScripts(row.item.id)"
+                v-on:click="getFileScripts(row.item)"
               >
+
+                 {{row.item.availableScripts}}
+
+                <b-button
+                  v-for="script in row.item.availableScripts.scripts"
+                  :key="script.id"
+                  variant="success"
+                  v-on:click.stop="runQAScript(row.item, script.id)"
+                >
+                    {{script.title}}
+                </b-button>
+
                 Run Tests
               </b-link>
 
@@ -107,17 +125,21 @@
 
 <script>
 import tus from 'tus-js-client';
+import History from './EnvelopeHistory';
 import { fetchEnvelope,
           fetchEnvelopeToken,
-          fetchEnvelopeHistory,
           fetchEnvelopeFeedback,
           fetchEnvelopeFilesQAScripts,
           runEnvelopeFilesQAScript,
-          fetchEnvelopeFiles
+          fetchEnvelopeFiles,
+          runEnvelopeAutomaticQA,
           } from '../api';
 
 export default {
   name: 'EnvelopeItem',
+  components: {
+    'history': History,
+  },
   data() {
     return {
       fields: [ 'select', 'name', 'file', 'tests' ],
@@ -125,7 +147,6 @@ export default {
       isSaving: false,
       isInitial: true,
       files: [],
-      envelopeHistory: null,
       envelopeFeedback: null,
       max: 100,
     };
@@ -135,7 +156,6 @@ export default {
   created() {
     this.getEnvelope();
     this.getEnvelopeFeedback();
-    this.getEnvelopeHistory();
   },
 
   methods: {
@@ -217,6 +237,7 @@ export default {
         .then((response) => {
           // JSON responses are automatically parsed.
           this.envelope = response.data;
+          this.envelope.files.map((file) => {file.availableScripts = {scripts:[]}});
         })
         .catch((e) => {
           console.log(e);
@@ -230,32 +251,28 @@ export default {
         });
     },
 
-    getEnvelopeHistory() {
-      fetchEnvelopeHistory(this.$route.params.envelope_id)
-        .then((response) => {
-          this.envelopeHistory = response.data;
-        });
-    },
-
-    getFileScripts(fileId) {
+    getFileScripts(file) {
       console.log('file scrips!!');
       const self = this;
-      fetchEnvelopeFilesQAScripts(this.$route.params.envelope_id, fileId)
+      fetchEnvelopeFilesQAScripts(this.$route.params.envelope_id, file.id)
         .then(function (response) {
           console.log(response);
-          const script_id = response.data[0].id;
-          runEnvelopeFilesQAScript(self.$route.params.envelope_id, fileId, script_id)
-            .then(function (response) {
-              console.log('runEnvelopeFilesQAScript ', response);
-            })
-            .catch(function (error) {
-              console.log(error);
-            });
+          file.availableScripts.scripts.push(response.data[0]);
+          console.log(self.envelope.files);
         })
         .catch(function (error) {
           console.log(error);
         });
+    },
 
+    runQAScript(file, script_id) {
+      runEnvelopeFilesQAScript(this.$route.params.envelope_id, file.id, script_id)
+        .then(function (response) {
+          console.log('runEnvelopeFilesQAScript ', response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
 
     updateFilesList() {
@@ -287,7 +304,13 @@ export default {
             console.log(error);
           });
       }, delay);
-    }
+    },
+
+    runAutomaticQA(e) {
+      e.preventDefault();
+
+      runEnvelopeAutomaticQA(this.$route.params.envelope_id, 'send_to_qa');
+    },
   },
 };
 </script>
