@@ -2,7 +2,6 @@ import logging
 import xworkflows as xwf
 
 from .base import BaseWorkflow
-from reportek.core.qa import QAConnection
 
 __all__ = [
     'DemoAutoQAWorkflow',
@@ -36,7 +35,10 @@ class DemoAutoQAWorkflow(BaseWorkflow):
     final_state = 'released'
     upload_states = ['draft']
 
-    qa_conn = QAConnection(min_delay=1)
+    OK_QA_STATUSES = (
+        'INFO',
+        'WARNING',
+    )
 
     class Meta:
         verbose_name = 'Workflow - Auto QA'
@@ -44,24 +46,26 @@ class DemoAutoQAWorkflow(BaseWorkflow):
 
     @xwf.transition()
     def send_to_qa(self):
-        info('Sending to QA ...')
-        request_id = self.bearer.submit_to_qa()
-        info(f'QA submission successful (request id {request_id})')
+        info(f'Sending envelope "{self.bearer.envelope.name}" to QA ...')
+        qa_jobs_count = len(self.bearer.submit_xml_to_qa())
+        info(f'QA started {qa_jobs_count} job(s) for envelope "{self.bearer.envelope.name}"')
 
-    def handle_qa_result(self, result):
+    def handle_auto_qa_results(self):
         """
         Example of QA callback with automatic transition logic.
         """
-        trans_name = 'pass_qa' if result['valid'] else 'fail_qa'
+        if self.current_state != 'auto_qa':
+            warn('Cannot handle Auto QA results - envelope is not in "Auto QA" state!')
+            return
+
+        if not self.envelope.auto_qa_complete:
+            info('Skipping Auto QA results handling - not all jobs have completed.')
+            return
+
+        trans_name = 'pass_qa' if self.envelope.auto_qa_ok else 'fail_qa'
         trans_meth = getattr(self.xwf, trans_name)
-        info(f'Automatic transition "{trans_name}" '
-             f'triggered by QA response [id={result["id"]}]: '
-             f'{"VALID" if result["valid"] else "INVALID"}')
-        import time
-        while self.current_state != 'auto_qa':
-            info('Waiting for state to become auto_qa ...')
-            time.sleep(1)
-        trans_meth()
+        info(f'Automatic transition "{trans_name}" triggered by Auto QA response(s)')
+        return trans_meth()
 
     @xwf.transition()
     def fail_qa(self):
@@ -89,7 +93,7 @@ class DemoFailQAWorkflow(DemoAutoQAWorkflow):
 
     @xwf.on_enter_state('auto_qa')
     def hook_on_enter(self, *args, **kwargs):
-        info('Automatic transition "fail_qa" triggered by QA response: "INVALID"')
+        info('Automatic transition "fail_qa" triggered by Auto QA response(s)')
         self.fail_qa()
 
 
@@ -102,5 +106,5 @@ class DemoPassQAWorkflow(DemoAutoQAWorkflow):
 
     @xwf.on_enter_state('auto_qa')
     def hook_on_enter(self, *args, **kwargs):
-        info('Automatic transition "pass_qa" triggered by QA response: "VALID"')
+        info('Automatic transition "pass_qa" triggered by Auto QA response(s)')
         self.pass_qa()

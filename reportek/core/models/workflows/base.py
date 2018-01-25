@@ -7,7 +7,7 @@ from django.contrib.contenttypes.fields import GenericRelation
 from typedmodels.models import TypedModel
 import xworkflows as xwf
 
-from reportek.core.qa import QAConnection
+from reportek.core.tasks import submit_xml_to_qa
 from .log import TransitionEvent
 
 
@@ -72,19 +72,13 @@ class BaseWorkflow(TypedModel):
             if state.name in [s.name for s in t.source]
         ]
 
-    # NOTE: The QA connection is only a mock currently
-    qa_conn = QAConnection()
-
-    def submit_to_qa(self):
+    def submit_xml_to_qa(self):
         """
         Sends the envelope to QA, providing the result callback.
         """
-        return self.qa_conn.send(
-            self.envelope,
-            self.handle_qa_result
-        )
+        return submit_xml_to_qa(self.envelope.pk)
 
-    def handle_qa_result(self, result):
+    def handle_auto_qa_results(self, *args, **kwargs):
         """
         Concrete types must implement this with the post-QA logic
         (i.e. to trigger an automatic transition).
@@ -119,6 +113,7 @@ class BaseWorkflow(TypedModel):
         bases = (xwf.Workflow,)
         attrs = {
             'bearer': self,
+            'envelope': self.envelope,
             'states': self.states,
             'transitions': self.transitions,
             'initial_state': self.initial_state,

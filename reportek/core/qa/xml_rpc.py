@@ -74,7 +74,7 @@ class RemoteQA:
             return proxy.ValidationService.validateSchema(file_url, xml_schema)
 
     @log_xmlrpc_errors
-    def analyze_files(self, files):
+    def analyze_xml_files(self, files):
         """
         Analyzes several XML files with QA methods.
 
@@ -83,7 +83,7 @@ class RemoteQA:
         """
         with xmlrpc.client.ServerProxy(self.uri) as proxy:
             response = proxy.XQueryService.analyzeXMLFiles(files)
-            info(f'QA analyzeXMLFiles response: {response}')
+            debug(f'QA analyzeXMLFiles response: {response}')
             return response or []
 
     @log_xmlrpc_errors
@@ -101,7 +101,7 @@ class RemoteQA:
         """
         with xmlrpc.client.ServerProxy(self.uri) as proxy:
             response = proxy.XQueryService.getResult(str(job_id))
-            info(f'QA getResult({job_id}) response: {response}')
+            debug(f'QA getResult({job_id}) response: {response}')
             return response
 
     @log_xmlrpc_errors
