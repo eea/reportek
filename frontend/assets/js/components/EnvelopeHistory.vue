@@ -22,6 +22,11 @@
                @click="hiddenItems = false">
            +{{ Object.keys(envelopeHistory).length -2 }} versions
          </div>
+        <div v-if="hiddenItems == false" 
+               class="btn-link" 
+               @click="hiddenItems = true">
+           show less versions
+         </div>
         </div>
       </div>
 </template>
