@@ -1,17 +1,17 @@
 <template>
-      <div class="sidebar-item">
+      <div v-if="isItEmpty(envelopeHistory)" class="sidebar-item">
         <h5>History</h5>
-        <div class="history">          
-          <div class="history-item mt-3 mb-3" v-for="(history, key, index) in envelopeHistory">
-            <span v-if="index == Object.keys(envelopeHistory).length -1">
+        <div class="history ">          
+          <div class="history-item" v-for="(history, key, index) in envelopeHistory">
+            <span  class="mb-3 mt-3" v-if="index == Object.keys(envelopeHistory).length -1">
               <div class="state">{{history.from_state | capitalize}}</div>
               <div class="date btn-link">{{dateFormat(key)}}</div>
             </span>
-            <span v-else-if="index != 0" :class="{ hidden: hiddenItems }">
+            <span class="mt-3 mb-3" v-else-if="index != 0" :class="{ hidden: hiddenItems }">
                 <div class="state">{{history.to_state | capitalize}}</div>
                 <div class="date btn-link">{{dateFormat(key)}}</div>
             </span>
-             <span v-else>
+             <span :class="[{ mb5 : hiddenItems }, 'mb-3 mt-3']" v-else>
               <div class="state">{{history.to_state | capitalize}}</div>
               <div class="date btn-link">{{dateFormat(key)}}</div>
             </span>
@@ -57,8 +57,22 @@ export default {
       fetchEnvelopeHistory(this.$route.params.envelope_id)
         .then((response) => {
           this.envelopeHistory = response.data;
-          console.log(this.envelopeHistory)
         });
+    },
+
+    isItEmpty(item) {
+      let history;
+      try {
+         history = Object.keys(item)
+          if(history.length == 0)
+            return false
+          else 
+            return true
+      }
+      catch(e){
+        console.log(e)
+      }
+     
     },
 
     dateFormat(date) {
@@ -79,27 +93,75 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.history-item { 
-  position: relative; 
-  .state {
-    font-weight: bold;
+.history {
+  .history-item {
+     &:nth-last-of-type(2) {
+          span:before {
+            content:'';
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            top: 40%;
+            // transform: translateY(-50%);
+            left: -6px;
+            border: 2px solid rgba(0,0,0,.15);
+            border-radius: 5rem;
+          } 
+          span:after {
+            content: '';
+            height: calc(50% + 6px);
+            position: absolute;
+            top: -10px;
+            left: 0px;
+            border: 1px solid rgba(0, 0, 0, 0.15);
+          }
+        }
+      &:first-of-type{  
+         span:before {
+            content:'';
+            width: 15px;
+            height: 15px;
+            position: absolute;
+            top: 40%;
+            // transform: translateY(-50%);
+            left: -6px;
+            border: 2px solid rgba(0,0,0,.15);
+            border-radius: 5rem;
+          } 
+          span:after {
+            content:'';
+            height: 50%;
+            position: absolute;
+            top: calc(40% + 15px);
+            left: 0px;
+            border: 1px solid rgba(0,0,0,.15);
+          }
+        }
+      span {
+        display: block;
+        position: relative;
+        padding-left: 1.5rem;
+        .state {
+          font-weight: bold;
+        }
+        &:after {
+         content: '';
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0px;
+          border: 1px solid rgba(0, 0, 0, 0.15);
+        }
+       
+   
+    }
   }
 }
 
-.history-item {
-  &:before {
-    content:'sds';
-  } 
-}
-
 .hidden {
-  display: none;
+  display: none!important;
 }
 
-.hidden:first-of-type {
-  opacity: 0;
-  display: block;
-} 
 
 .history {
   position: relative;
@@ -120,4 +182,9 @@ export default {
 .btn-link {
   cursor: pointer;
 }
+.mb5 {
+  margin-bottom: 5rem!important;
+}
+
+
 </style>
