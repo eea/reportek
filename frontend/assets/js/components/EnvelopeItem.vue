@@ -7,8 +7,8 @@
         <p>country: {{envelope.country}}</p>
         <p>reporting_period: {{envelope.reporting_cycle}}</p>
         <p>reporting_period: {{envelope.created_at.end}}</p>
-        <p>current_state: {{envelope.workflow.current_state}}</p>
-        <p>previous_state: {{envelope.workflow.previous_state}}</p>
+        <p>current_state: {{translateCode(envelope.workflow.current_state)}}</p>
+        <p>previous_state: {{translateCode(envelope.workflow.previous_state)}}</p>
         <p>upload_allowed: {{envelope.workflow.upload_allowed}}</p>
         <p>created_at: {{envelope.created_at}}</p>
         <b-link href="#" class="card-link">Edit Envelope</b-link>
@@ -19,9 +19,11 @@
       <p><strong>Envelope files {{envelope.files.length}}</strong></p>
 
       <b-button
+        v-for="transition in envelope.workflow.available_transitions"
+        :key="transition"
         variant="success"
-        v-on:click="runAutomaticQA">
-          {{envelopeState}}
+        v-on:click="goToTransition($event, transition)">
+          {{translateCode(transition)}}
       </b-button>
 
       <b-button
@@ -132,7 +134,7 @@ import { fetchEnvelope,
           fetchEnvelopeFilesQAScripts,
           runEnvelopeFilesQAScript,
           fetchEnvelopeFiles,
-          runEnvelopeAutomaticQA,
+          runEnvelopeTransition,
           } from '../api';
 
 const envelopeCodeDictionary = (status) => {
@@ -144,9 +146,11 @@ const envelopeCodeDictionary = (status) => {
     'draft': 'Draft',
     'auto_qa': 'Automatic QA',
     'send_to_qa': 'Send to QA',
+    'reject': 'Reject',
+    'release': 'Release',
   }
-
-  return codeDictionary[status.trim().toLowerCase()];
+  if(!status) return '';
+  return codeDictionary[status.trim().toLowerCase()] || status;
 }
 
 export default {
@@ -272,6 +276,37 @@ export default {
       });
     },
 
+    updateFilesList() {
+      return this.pollFiles(() => fetchEnvelopeFiles(this.$route.params.envelope_id), 500);
+    },
+
+    pollFiles(fn, delay) {
+      const self = this;
+      let pollFiles = setTimeout(() => {
+        fn()
+          .then(function (response) {
+            if(self.envelope.files.length === response.data.length) {
+              self.pollFiles(fn, delay);
+            } else {
+              for (let index = 0; index <= response.data.length; index++) {
+                const responseFile = response.data[index];
+                const found = self.envelope.files.find(function(file) {
+                  return file.id === responseFile.id;
+                });
+
+                if(found === undefined) {
+                  self.envelope.files.push(response.data[index]);
+                  self.files.shift();
+                }
+              }
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      }, delay);
+    },
+
     getFileScripts(file) {
       console.log('file scrips!!');
       const self = this;
@@ -304,41 +339,20 @@ export default {
         });
     },
 
-    updateFilesList() {
-      return this.pollFiles(() => fetchEnvelopeFiles(this.$route.params.envelope_id), 500);
-    },
-
-    pollFiles(fn, delay) {
-      const self = this;
-      let pollFiles = setTimeout(() => {
-        fn()
-          .then(function (response) {
-            if(self.envelope.files.length === response.data.length) {
-              self.pollFiles(fn, delay);
-            } else {
-              for (let index = 0; index <= response.data.length; index++) {
-                const responseFile = response.data[index];
-                const found = self.envelope.files.find(function(file) {
-                  return file.id === responseFile.id;
-                });
-
-                if(found === undefined) {
-                  self.envelope.files.push(response.data[index]);
-                  self.files.shift();
-                }
-              }
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      }, delay);
-    },
-
-    runAutomaticQA(e) {
+    goToTransition(e, transition) {
       e.preventDefault();
 
-      runEnvelopeAutomaticQA(this.$route.params.envelope_id, 'send_to_qa');
+      runEnvelopeTransition(this.$route.params.envelope_id, transition)
+        .then(response => {
+          this.getEnvelope(this.$route.params.envelope_id);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    translateCode(code) {
+      return envelopeCodeDictionary(code);
     },
   },
 };
