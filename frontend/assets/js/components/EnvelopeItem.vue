@@ -1,127 +1,129 @@
 <template>
   <div class="hello">
-    <div v-if="envelope">
+    <div class="row" v-if="envelope">
+      <div class="col">
+        <p><strong>Envelope files {{envelope.files.length}}</strong></p>
 
-      <b-card title="Details">
-        <p><strong>name: {{envelope.name}}</strong></p>
-        <p>country: {{envelope.country}}</p>
-        <p>reporting_period: {{envelope.reporting_cycle}}</p>
-        <p>reporting_period: {{envelope.created_at.end}}</p>
-        <p>current_state: {{translateCode(envelope.workflow.current_state)}}</p>
-        <p>previous_state: {{translateCode(envelope.workflow.previous_state)}}</p>
-        <p>upload_allowed: {{envelope.workflow.upload_allowed}}</p>
-        <p>created_at: {{envelope.created_at}}</p>
-        <b-link href="#" class="card-link">Edit Envelope</b-link>
-      </b-card>
+        <b-button
+          v-for="transition in envelope.workflow.available_transitions"
+          :key="transition"
+          variant="success"
+          v-on:click="goToTransition($event, transition)">
+            {{translateCode(transition)}}
+        </b-button>
 
-      <history></history>
+        <b-button
+          variant="success"
+          v-on:click="uploadAllFiles"
+          :disabled="!envelope.workflow.upload_allowed"
+        >
+            Upload Files
+        </b-button>
 
-      <p><strong>Envelope files {{envelope.files.length}}</strong></p>
+        <b-tabs>
+          <b-tab title="all" active>
+            <br>All
 
-      <b-button
-        v-for="transition in envelope.workflow.available_transitions"
-        :key="transition"
-        variant="success"
-        v-on:click="goToTransition($event, transition)">
-          {{translateCode(transition)}}
-      </b-button>
-
-      <b-button
-        variant="success"
-        v-on:click="uploadAllFiles"
-        :disabled="!envelope.workflow.upload_allowed"
-      >
-          Upload Files
-      </b-button>
-
-      <b-tabs>
-        <b-tab title="all" active>
-          <br>All
-
-          <b-table
-            :hover="false"
-            :items="envelope.files"
-            :fields="fields"
-          >
-
-              <a
-                slot="file"
-                slot-scope="row"
-                v-bind:href="row.value"
-              >
-                Edit File
-              </a>
-
-              <b-link
-                href="#"
-                class="card-link"
-                slot="tests"
-                slot-scope="row"
-                v-on:click="getFileScripts(row.item)"
-              >
-
-                <b-button
-                  v-for="script in row.item.availableScripts"
-                  :key="script.data.id"
-                  :variant="script.variant"
-                  v-on:click.stop="runQAScript(row.item, script.data.id)"
-                >
-                    {{script.data.title}}
-                </b-button>
-
-                <p v-show="row.item.availableScripts.length === 0">Run a test</p>
-              </b-link>
-
-              <b-form-checkbox
-                slot="select"
-                slot-scope="row"
-                v-model="row.selected">
-              </b-form-checkbox>
-          </b-table>
-
-          <b-list-group>
-            <b-list-group-item
-              v-for="file in files"
-              :key="file.file.name"
+            <b-table
+              :hover="false"
+              :items="envelope.files"
+              :fields="fields"
             >
-              {{file.file.name}}
 
-              <b-progress-bar
-                :value="file.percentage"
-                :max="max"
-                show-progress
-                animated
+                <a
+                  slot="file"
+                  slot-scope="row"
+                  v-bind:href="row.value"
+                >
+                  Edit File
+                </a>
+
+                <b-link
+                  href="#"
+                  class="card-link"
+                  slot="tests"
+                  slot-scope="row"
+                  v-on:click="getFileScripts(row.item)"
+                >
+
+                  <b-button
+                    v-for="script in row.item.availableScripts"
+                    :key="script.data.id"
+                    :variant="script.variant"
+                    v-on:click.stop="runQAScript(row.item, script.data.id)"
+                  >
+                      {{script.data.title}}
+                  </b-button>
+
+                  <p v-show="row.item.availableScripts.length === 0">Run a test</p>
+                </b-link>
+
+                <b-form-checkbox
+                  slot="select"
+                  slot-scope="row"
+                  v-model="row.selected">
+                </b-form-checkbox>
+            </b-table>
+
+            <b-list-group>
+              <b-list-group-item
+                v-for="file in files"
+                :key="file.file.name"
               >
-              </b-progress-bar>
-            </b-list-group-item>
-          </b-list-group>
+                {{file.file.name}}
 
-        </b-tab>
-        <b-tab title="restricted">
-          <br>Restricted from public
-        </b-tab>
-        <b-tab title="public">
-          <br>Public
-        </b-tab>
-        <b-tab title="feedback">
-          <br>
-          {{envelopeFeedback}}
-        </b-tab>
-      </b-tabs>
+                <b-progress-bar
+                  :value="file.percentage"
+                  :max="max"
+                  show-progress
+                  animated
+                >
+                </b-progress-bar>
+              </b-list-group-item>
+            </b-list-group>
 
-      <form
-        enctype="multipart/form-data"
-        novalidate v-if="isInitial || isSaving">
-          <label for="file_uploads">Add files to envelope</label>
-          <input
-            type="file"
-            id="file_uploads"
-            v-on:disabled="isSaving"
-            v-on:change="onFileChange"
-            multiple
-          >
-      </form>
+          </b-tab>
+          <b-tab title="restricted">
+            <br>Restricted from public
+          </b-tab>
+          <b-tab title="public">
+            <br>Public
+          </b-tab>
+          <b-tab title="feedback">
+            <br>
+            {{envelopeFeedback}}
+          </b-tab>
+        </b-tabs>
+
+        <form
+          enctype="multipart/form-data"
+          novalidate v-if="isInitial || isSaving">
+            <label for="file_uploads">Add files to envelope</label>
+            <input
+              type="file"
+              id="file_uploads"
+              v-on:disabled="isSaving"
+              v-on:change="onFileChange"
+              multiple
+            >
+        </form>
     </div>
+    <div class="col-4">
+        <div class="sidebar-item">
+        <h5>Details</h5>
+          <p><strong>name: {{envelope.name}}</strong></p>
+          <p>country: {{envelope.country}}</p>
+          <p>reporting_period: {{envelope.reporting_cycle}}</p>
+          <p>reporting_period: {{envelope.created_at.end}}</p>
+          <p>current_state: {{translateCode(envelope.workflow.current_state)}}</p>
+          <p>previous_state: {{translateCode(envelope.workflow.previous_state)}}</p>
+          <p>upload_allowed: {{envelope.workflow.upload_allowed}}</p>
+          <p>created_at: {{envelope.created_at}}</p>
+          <b-link href="#" class="card-link">Edit Envelope</b-link>
+        </div>
+        <history></history>
+      </div>
+  </div>
   </div>
 </template>
 
@@ -360,4 +362,9 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.sidebar-item {
+  border-top: 1px solid rgba(0,0,0,.15);
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
 </style>
