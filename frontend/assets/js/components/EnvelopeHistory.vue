@@ -1,43 +1,63 @@
 <template>
-      <div v-if="isItEmpty(envelopeHistory)" class="sidebar-item">
-        <h5>History</h5>
-        <div class="history ">          
-          <div class="history-item" v-for="(history, key, index) in envelopeHistory">
-            <span  class="mb-3 mt-3" v-if="index == Object.keys(envelopeHistory).length -1">
-              <div class="state">{{history.from_state | capitalize}}</div>
-              <div class="date btn-link">{{dateFormat(key)}}</div>
-            </span>
-            <span class="mt-3 mb-3" v-else-if="index != 0" :class="{ hidden: hiddenItems }">
-                <div class="state">{{history.to_state | capitalize}}</div>
-                <div class="date btn-link">{{dateFormat(key)}}</div>
-            </span>
-             <span :class="[{ mb5 : hiddenItems }, 'mb-3 mt-3']" v-else>
-              <div class="state">{{history.to_state | capitalize}}</div>
-              <div class="date btn-link">{{dateFormat(key)}}</div>
-            </span>
-          </div>
-          <div v-if="hiddenItems == true" 
-               id="show-more" 
-               class="btn btn-link pb-3 pt-3" 
-               @click="hiddenItems = false">
-           +{{ Object.keys(envelopeHistory).length -2 }} versions
-         </div>
-        <div v-if="hiddenItems == false" 
-               class="btn-link" 
-               @click="hiddenItems = true">
-           show less versions
-         </div>
-        </div>
+  <div
+    v-if="isItEmpty(envelopeHistory)"
+    class="sidebar-item"
+  >
+    <h5>History</h5>
+    <div class="history ">
+      <div
+        class="history-item"
+        v-for="(history, key, index) in envelopeHistory"
+        :key="key"
+      >
+        <span
+          class="mb-3 mt-3"
+          v-if="isLastIndex(index, envelopeHistory)"
+        >
+          <div class="state">{{history.from_state | capitalize}}</div>
+          <div class="date btn-link">{{dateFormat(key)}}</div>
+        </span>
+        <span
+          class="mt-3 mb-3"
+          v-else-if="index != 0" :class="{ hidden: hiddenItems }">
+            <div class="state">{{history.to_state | capitalize}}</div>
+            <div class="date btn-link">{{dateFormat(key)}}</div>
+        </span>
+          <span
+          :class="[{ mb5 : hiddenItems }, 'mb-3 mt-3']"
+          v-else
+          >
+          <div class="state">{{history.to_state | capitalize}}</div>
+          <div class="date btn-link">{{dateFormat(key)}}</div>
+        </span>
       </div>
+      <div
+        v-if="hiddenItems == true"
+        id="show-more"
+        class="btn btn-link pb-3 pt-3"
+        @click="hiddenItems = false"
+      >
+        +{{ countContainedKeys(envelopeHistory) }} versions
+      </div>
+    <div
+      v-if="hiddenItems == false"
+      class="btn-link"
+      @click="hiddenItems = true"
+    >
+        show less versions
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { fetchEnvelopeHistory } from '../api';
+
 export default {
   name: 'EnvelopeItem',
-  
+
   components: {
-    'history': History,
+    history: History,
   },
 
   data() {
@@ -61,35 +81,44 @@ export default {
     },
 
     isItEmpty(item) {
-      let history;
-      try {
-         history = Object.keys(item)
-          if(history.length == 0)
-            return false
-          else 
-            return true
-      }
-      catch(e){
-        console.log(e)
-      }
-     
+      return (
+        item !== null
+        && typeof item === 'object'
+        && Object.keys(item).length !== 0
+      );
     },
 
     dateFormat(date) {
-      const options = { year: 'numeric', month: 'long', day: 'numeric', };
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      };
       const preFormatDate = new Date(date);
-      return preFormatDate.toLocaleDateString('en-GB',options);
+
+      return preFormatDate.toLocaleDateString('en-GB', options);
+    },
+
+    isLastIndex(index, obj) {
+      return index === Object.keys(obj).length - 1;
+    },
+
+    countContainedKeys(obj) {
+      return Object.keys(obj).length - 2;
     },
   },
 
   filters: {
-    capitalize: function (value) {
-      if (!value) return ''
-      value = value.toString()
-      return value.charAt(0).toUpperCase() + value.slice(1)
+    capitalize(value) {
+      if (!value) {
+        return '';
+      }
+      const result = value.toString();
+
+      return result.charAt(0).toUpperCase() + result.slice(1);
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -106,7 +135,7 @@ export default {
             left: -6px;
             border: 2px solid rgba(0,0,0,.15);
             border-radius: 5rem;
-          } 
+          }
           span:after {
             content: '';
             height: calc(50% + 6px);
@@ -116,7 +145,7 @@ export default {
             border: 1px solid rgba(0, 0, 0, 0.15);
           }
         }
-      &:first-of-type{  
+      &:first-of-type{
          span:before {
             content:'';
             width: 15px;
@@ -127,7 +156,7 @@ export default {
             left: -6px;
             border: 2px solid rgba(0,0,0,.15);
             border-radius: 5rem;
-          } 
+          }
           span:after {
             content:'';
             height: 50%;
@@ -152,8 +181,8 @@ export default {
           left: 0px;
           border: 1px solid rgba(0, 0, 0, 0.15);
         }
-       
-   
+
+
     }
   }
 }
