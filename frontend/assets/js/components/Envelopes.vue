@@ -30,7 +30,7 @@ export default {
 
   data() {
     return {
-      fields: [ 'name', 'files_count', 'created_at', 'finalized', 'reporting_period_start', 'reporting_period_end' ],
+      fields: ['name', 'files_count', 'created_at', 'finalized', 'reporting_period_start', 'reporting_period_end'],
       envelopes: [],
     };
   },

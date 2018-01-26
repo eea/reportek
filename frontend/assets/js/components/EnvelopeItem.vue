@@ -141,29 +141,29 @@ import { fetchEnvelope,
 
 const envelopeCodeDictionary = (status) => {
   const codeDictionary = {
-    'info': 'success',
-    'ok': 'success',
-    'error': 'danger',
-    'fail': 'danger',
-    'draft': 'Draft',
-    'auto_qa': 'Automatic QA',
-    'send_to_qa': 'Send to QA',
-    'reject': 'Reject',
-    'release': 'Release',
-  }
-  if(!status) return '';
+    info: 'success',
+    ok: 'success',
+    error: 'danger',
+    fail: 'danger',
+    draft: 'Draft',
+    auto_qa: 'Automatic QA',
+    send_to_qa: 'Send to QA',
+    reject: 'Reject',
+    release: 'Release',
+  };
+  if (!status) return '';
   return codeDictionary[status.trim().toLowerCase()] || status;
-}
+};
 
 export default {
   name: 'EnvelopeItem',
   components: {
-    'history': History,
+    history: History,
   },
 
   data() {
     return {
-      fields: [ 'select', 'name', 'file', 'tests' ],
+      fields: ['select', 'name', 'file', 'tests'],
       envelope: null,
       envelopeState: '',
       isSaving: false,
@@ -187,10 +187,9 @@ export default {
           // JSON responses are automatically parsed.
           this.envelope = response.data;
           this.envelopeState = envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
-          console.log(response.data)
 
-          for (let index = 0; index < this.envelope.files.length; index++) {
-            this.envelope.files[index] = Object.assign({}, this.envelope.files[index], {availableScripts: []});
+          for (let index = 0; index < this.envelope.files.length; index += 1) {
+            this.envelope.files[index] = Object.assign({}, this.envelope.files[index], { availableScripts: [] });
           }
         })
         .catch((e) => {
@@ -209,7 +208,7 @@ export default {
       const newfiles = e.target.files;
 
       for (const file of newfiles) {
-        this.files.push({file: file, percentage: 0});
+        this.files.push({ data: file, percentage: 0 });
       }
     },
 
@@ -217,40 +216,36 @@ export default {
       e.preventDefault();
 
       // for each file create a function that returns a promise
-      const funcs = this.files.map((file, index) => () => this.uploadFile(file, index))
+      const funcs = this.files.map((file, index) => () => this.uploadFile(file, index));
 
       // reduce the array or functions that return promises, in a chain
-      const promiseSerial = funcs =>
-        funcs.reduce((promise, func) =>
-          promise.then(result =>
-            func().then(result => {this.updateFilesList();})
+      const promiseSerial = functions =>
+        functions.reduce((promise, func) =>
+          promise.then(resultPromise =>
+            func().then((resultFunc) => { this.updateFilesList(); }),
           ),
-          Promise.resolve([])
+          Promise.resolve([]),
         );
 
       // execute Promises in serial, clear files at the end of all promisees
       promiseSerial(funcs)
-        .then(() => {this.files = [];})
+        .then(() => { this.files = []; })
         .catch(console.error.bind(console));
     },
 
-    uploadFile(file, index) {
+    uploadFile(file) {
       // Create a new tus upload
-      var self = this;
       return new Promise((resolve, reject) => {
-
         fetchEnvelopeToken(this.$route.params.envelope_id)
           .then((response) => {
             const token = response.data.token;
-
-            const upload = new tus.Upload(file.file,
+            const upload = new tus.Upload(file.data,
               {
                 endpoint: 'http://localhost:1080/files/',
                 metadata: {
                   token,
-                  filename: file.file.name,
-                  index: index,
-                  fileId: file.file.id
+                  filename: file.data.name,
+                  fileId: file.data.id,
                 },
                 retryDelays: [0, 1000, 3000, 5000],
                 onError: function onError(error) {
@@ -258,23 +253,22 @@ export default {
                   reject(error);
                 },
                 onProgress: function onProgress(bytesUploaded, bytesTotal) {
-                  const index = this.metadata.index;
-                  const percentage = file.percentage = parseInt(((bytesUploaded / bytesTotal) * 100).toFixed(2));
-                  console.log(bytesUploaded, bytesTotal, percentage, '%');
+                  file.percentage = parseInt(((bytesUploaded / bytesTotal) * 100).toFixed(2), 10);
+                  console.log(bytesUploaded, bytesTotal, file.percentage, '%');
                 },
                 onSuccess: function onSuccess() {
-                  console.log('Download %s from %s', upload.file.name, upload.url);
+                  console.log('Download %s from %s', upload.data.name, upload.url);
                   resolve(
                     {
-                      fileName: upload.file.name,
-                      uploadUrl: upload.url
-                    }
+                      fileName: upload.data.name,
+                      uploadUrl: upload.url,
+                    },
                   );
                 },
               });
-              // Start the upload
-              upload.start();
-            });
+            // Start the upload
+            upload.start();
+          });
       });
     },
 
@@ -284,59 +278,53 @@ export default {
 
     pollFiles(fn, delay) {
       const self = this;
-      let pollFiles = setTimeout(() => {
+      setTimeout(() => {
         fn()
-          .then(function (response) {
-            if(self.envelope.files.length === response.data.length) {
+          .then((response) => {
+            if (self.envelope.files.length === response.data.length) {
               self.pollFiles(fn, delay);
             } else {
-              for (let index = 0; index <= response.data.length; index++) {
+              for (let index = 0; index <= response.data.length; index += 1) {
                 const responseFile = response.data[index];
-                const found = self.envelope.files.find(function(file) {
-                  return file.id === responseFile.id;
-                });
+                const found = self.envelope.files.find(file => file.id === responseFile.id);
 
-                if(found === undefined) {
+                if (found === undefined) {
                   self.envelope.files.push(response.data[index]);
                   self.files.shift();
                 }
               }
             }
           })
-          .catch(function (error) {
+          .catch((error) => {
             console.log(error);
           });
       }, delay);
     },
 
     getFileScripts(file) {
-      console.log('file scrips!!');
-      const self = this;
       fetchEnvelopeFilesQAScripts(this.$route.params.envelope_id, file.id)
-        .then(function (response) {
-          response.data.map(script => {
-            file.availableScripts.push({data: script, variant: 'primary'});
+        .then((response) => {
+          response.data.map((script) => {
+            file.availableScripts.push({ data: script, variant: 'primary' });
+            return script;
           });
-          console.log(self.envelope.files);
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
         });
     },
 
-    runQAScript(file, script_id) {
-      console.log('runEnvelopeFilesQAScript file, script_id ', file, script_id);
-
-      runEnvelopeFilesQAScript(this.$route.params.envelope_id, file.id, script_id)
-        .then(function (response) {
-          console.log('runEnvelopeFilesQAScript ', response);
-          for (let script of file.availableScripts) {
-            if(script.data.id === script_id) {
+    runQAScript(file, scriptId) {
+      runEnvelopeFilesQAScript(this.$route.params.envelope_id, file.id, scriptId)
+        .then((response) => {
+          file.availableScripts.map((script) => {
+            if (script.data.id === scriptId) {
               script.variant = envelopeCodeDictionary(response.data.feedback_status);
             }
-          }
+            return script;
+          });
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
         });
     },
@@ -345,10 +333,10 @@ export default {
       e.preventDefault();
 
       runEnvelopeTransition(this.$route.params.envelope_id, transition)
-        .then(response => {
+        .then((response) => {
           this.getEnvelope(this.$route.params.envelope_id);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
         });
     },
