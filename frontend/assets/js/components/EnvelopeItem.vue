@@ -2,7 +2,7 @@
   <div class="hello">
     <div class="row" v-if="envelope">
       <div class="col">
-        <p><strong>Envelope files {{envelope.files.length}}</strong></p>
+        <!-- <p><strong>Envelope files {{envelope.files.length}}</strong></p> -->
 
         <b-button
           v-for="transition in envelope.workflow.available_transitions"
@@ -30,47 +30,47 @@
               :fields="fields"
             >
 
-                <a
-                  slot="file"
-                  slot-scope="row"
-                  v-bind:href="row.value"
+              <a
+                slot="file"
+                slot-scope="row"
+                v-bind:href="row.value"
+              >
+                Edit File
+              </a>
+
+              <b-link
+                href="#"
+                class="card-link"
+                slot="tests"
+                slot-scope="row"
+                v-on:click="getFileScripts(row.item)"
+              >
+
+                <b-button
+                  v-for="script in row.item.availableScripts"
+                  :key="script.data.id"
+                  :variant="script.variant"
+                  v-on:click.stop="runQAScript(row.item, script.data.id)"
                 >
-                  Edit File
-                </a>
+                    {{script.data.title}}
+                </b-button>
 
-                <b-link
-                  href="#"
-                  class="card-link"
-                  slot="tests"
-                  slot-scope="row"
-                  v-on:click="getFileScripts(row.item)"
-                >
+                <p v-show="row.item.availableScripts.length === 0">Run a test</p>
+              </b-link>
 
-                  <b-button
-                    v-for="script in row.item.availableScripts"
-                    :key="script.data.id"
-                    :variant="script.variant"
-                    v-on:click.stop="runQAScript(row.item, script.data.id)"
-                  >
-                      {{script.data.title}}
-                  </b-button>
-
-                  <p v-show="row.item.availableScripts.length === 0">Run a test</p>
-                </b-link>
-
-                <b-form-checkbox
-                  slot="select"
-                  slot-scope="row"
-                  v-model="row.selected">
-                </b-form-checkbox>
+              <b-form-checkbox
+                slot="select"
+                slot-scope="row"
+                v-model="row.selected">
+              </b-form-checkbox>
             </b-table>
 
             <b-list-group>
               <b-list-group-item
                 v-for="file in files"
-                :key="file.file.name"
+                :key="file.data.name"
               >
-                {{file.file.name}}
+                {{file.data.name}}
 
                 <b-progress-bar
                   :value="file.percentage"
@@ -257,10 +257,10 @@ export default {
                   console.log(bytesUploaded, bytesTotal, file.percentage, '%');
                 },
                 onSuccess: function onSuccess() {
-                  console.log('Download %s from %s', upload.data.name, upload.url);
+                  console.log('Download %s from %s', upload.file.name, upload.url);
                   resolve(
                     {
-                      fileName: upload.data.name,
+                      fileName: upload.file.name,
                       uploadUrl: upload.url,
                     },
                   );
@@ -276,6 +276,7 @@ export default {
       return this.pollFiles(() => fetchEnvelopeFiles(this.$route.params.envelope_id), 500);
     },
 
+    // TODO if file already exists and will not be added to the server, the poll will request forever
     pollFiles(fn, delay) {
       const self = this;
       setTimeout(() => {
@@ -289,7 +290,8 @@ export default {
                 const found = self.envelope.files.find(file => file.id === responseFile.id);
 
                 if (found === undefined) {
-                  self.envelope.files.push(response.data[index]);
+                  responseFile.availableScripts = [];
+                  self.envelope.files.push(responseFile);
                   self.files.shift();
                 }
               }
