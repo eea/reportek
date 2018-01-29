@@ -121,7 +121,7 @@
           <p>created_at: {{envelope.created_at}}</p>
           <b-link href="#" class="card-link">Edit Envelope</b-link>
         </div>
-        <history></history>
+        <history :created_at="envelope.created_at"></history>
       </div>
   </div>
   </div>
