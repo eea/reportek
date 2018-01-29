@@ -11,15 +11,16 @@
           v-on:click="goToTransition($event, transition)">
             {{translateCode(transition)}}
         </b-button>
+        <p><strong>Envelope files {{envelope.files.length}}</strong></p>
 
         <b-button
           variant="success"
           v-on:click="uploadAllFiles"
           :disabled="!envelope.workflow.upload_allowed"
+          class="absolute-right"
         >
             Upload Files
         </b-button>
-        <p><strong>Envelope files {{envelope.files.length}}</strong></p>
 
         <b-tabs>
           <b-tab title="all" active>
@@ -68,7 +69,7 @@
                 v-model="row.selected">
               </b-form-checkbox>
             </b-table>
-            
+
             <b-pagination 
               :total-rows="envelope.files.length" 
               :per-page="perPage" 
@@ -388,5 +389,9 @@ export default {
     margin: 1rem;
     min-width: 60px;
   }
+}
+.absolute-right {
+    position: absolute;
+    right: 15px;
 }
 </style>
