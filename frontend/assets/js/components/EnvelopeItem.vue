@@ -124,7 +124,7 @@
     <div class="col-4">
         <div class="sidebar-item">
         <h5>Details</h5>
-          <p>Reporting for {{envelope.country}} on {{envelope.obligation}} in cycle {{envelope.reporting_cycle}} between {{dateFormat(envelope.created_at,2)}} - {{envelope.created_at.end}}</p>
+          <p>Reporting on obligation {{envelope.obligation_spec}} in cycle {{envelope.reporting_cycle}}</p>
           <b-link href="#" class="card-link">Edit Envelope</b-link>
         </div>
         <history :created_at="envelope.created_at"></history>
@@ -144,7 +144,7 @@ import { fetchEnvelope,
           fetchEnvelopeFiles,
           runEnvelopeTransition,
           } from '../api';
-import Utility from './mixins/UtilityFunctions';
+import { dateFormat } from '../utils/UtilityFunctions';
 
 
 const envelopeCodeDictionary = (status) => {
@@ -169,9 +169,6 @@ export default {
     history: History,
   },
 
-  mixins: [
-    Utility
-  ],
 
   data() {
     return {
@@ -367,6 +364,11 @@ export default {
     translateCode(code) {
       return envelopeCodeDictionary(code);
     },
+
+    formatDate(date,count){
+      return dateFormat(date,count)
+    },
+
   },
 };
 </script>
