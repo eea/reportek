@@ -124,14 +124,7 @@
     <div class="col-4">
         <div class="sidebar-item">
         <h5>Details</h5>
-          <p><strong>name: {{envelope.name}}</strong></p>
-          <p>country: {{envelope.country}}</p>
-          <p>reporting period: {{envelope.reporting_cycle}}</p>
-          <p>reporting period: {{envelope.created_at.end}}</p>
-          <p>Current State: {{translateCode(envelope.workflow.current_state)}}</p>
-          <p>previous state: {{translateCode(envelope.workflow.previous_state)}}</p>
-          <p>upload allowed: {{envelope.workflow.upload_allowed}}</p>
-          <p>created at: {{envelope.created_at}}</p>
+          <p>Reporting for {{envelope.country}} on {{envelope.obligation}} in cycle {{envelope.reporting_cycle}} between {{envelope.created_at}} - {{envelope.created_at.end}}</p>
           <b-link href="#" class="card-link">Edit Envelope</b-link>
         </div>
         <history :created_at="envelope.created_at"></history>
