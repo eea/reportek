@@ -2,7 +2,6 @@
   <div class="hello">
     <div class="row" v-if="envelope">
       <div class="col">
-        <!-- <p><strong>Envelope files {{envelope.files.length}}</strong></p> -->
 
         <b-button
           v-for="transition in envelope.workflow.available_transitions"
@@ -19,6 +18,7 @@
         >
             Upload Files
         </b-button>
+        <p><strong>Envelope files {{envelope.files.length}}</strong></p>
 
         <b-tabs>
           <b-tab title="all" active>
@@ -91,7 +91,14 @@
           </b-tab>
           <b-tab title="feedback">
             <br>
-            {{envelopeFeedback}}
+            <div v-if="envelopeFeedback">
+              <span
+                v-for="feedback in envelopeFeedback.results"
+                :key="feedback.id"
+                v-html="feedback.latest_result.value"
+              >
+              </span>
+            </div>
           </b-tab>
         </b-tabs>
 
@@ -113,12 +120,12 @@
         <h5>Details</h5>
           <p><strong>name: {{envelope.name}}</strong></p>
           <p>country: {{envelope.country}}</p>
-          <p>reporting_period: {{envelope.reporting_cycle}}</p>
-          <p>reporting_period: {{envelope.created_at.end}}</p>
-          <p>current_state: {{translateCode(envelope.workflow.current_state)}}</p>
-          <p>previous_state: {{translateCode(envelope.workflow.previous_state)}}</p>
-          <p>upload_allowed: {{envelope.workflow.upload_allowed}}</p>
-          <p>created_at: {{envelope.created_at}}</p>
+          <p>reporting period: {{envelope.reporting_cycle}}</p>
+          <p>reporting period: {{envelope.created_at.end}}</p>
+          <p>Current State: {{translateCode(envelope.workflow.current_state)}}</p>
+          <p>previous state: {{translateCode(envelope.workflow.previous_state)}}</p>
+          <p>upload allowed: {{envelope.workflow.upload_allowed}}</p>
+          <p>created at: {{envelope.created_at}}</p>
           <b-link href="#" class="card-link">Edit Envelope</b-link>
         </div>
         <history></history>
@@ -201,6 +208,13 @@ export default {
       fetchEnvelopeFeedback(this.$route.params.envelope_id)
         .then((response) => {
           this.envelopeFeedback = response.data;
+          // as it is now, feedback has html and scripts that are not loaded
+          let script = response.data.results[0].latest_result.value.split('<script type="text/javascript">')[1].split('<\/script>')[0];
+          let p = document.createElement("script");
+          p.setAttribute("type", "text/javascript");
+          p.innerHTML = script;
+
+          document.body.appendChild(p);
         });
     },
 
