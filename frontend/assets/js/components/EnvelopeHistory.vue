@@ -11,24 +11,24 @@
         :key="key"
       >
         <span
-          class="mb-3 mt-3"
-          v-if="isLastIndex(index, envelopeHistory)"
+          :class="[{ mb5 : hiddenItems }, 'mb-3 mt-3']"
+          v-if="index == 0"
         >
           <div class="state">{{history.from_state | capitalize}}</div>
           <div class="date btn-link">{{dateFormat(key)}}</div>
         </span>
         <span
           class="mt-3 mb-3"
-          v-else-if="index != 0" :class="{ hidden: hiddenItems }">
+          v-else 
+          :class="{ hidden: hiddenItems }">
             <div class="state">{{history.to_state | capitalize}}</div>
             <div class="date btn-link">{{dateFormat(key)}}</div>
         </span>
-          <span
-          :class="[{ mb5 : hiddenItems }, 'mb-3 mt-3']"
-          v-else
-          >
-          <div class="state">{{history.to_state | capitalize}}</div>
-          <div class="date btn-link">{{dateFormat(key)}}</div>
+      </div>
+      <div class="history-item">
+        <span class="mb-3 mt-3"> 
+          <div class="state">Draaaaft</div>
+          <div class="date btn-link">{{dateFormat(created_at)}}</div>
         </span>
       </div>
       <div
@@ -67,6 +67,8 @@ export default {
     };
   },
 
+  props: ['created_at'],
+
   // Fetches posts when the component is created.
   created() {
     this.getEnvelopeHistory();
@@ -93,14 +95,13 @@ export default {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
       };
       const preFormatDate = new Date(date);
 
       return preFormatDate.toLocaleDateString('en-GB', options);
-    },
-
-    isLastIndex(index, obj) {
-      return index === Object.keys(obj).length - 1;
     },
 
     countContainedKeys(obj) {
