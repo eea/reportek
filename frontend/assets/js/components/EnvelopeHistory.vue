@@ -52,6 +52,7 @@
 
 <script>
 import { fetchEnvelopeHistory } from '../api';
+import Utility from './mixins/UtilityFunctions';
 
 export default {
   name: 'EnvelopeItem',
@@ -59,6 +60,10 @@ export default {
   components: {
     history: History,
   },
+
+  mixins: [ 
+    Utility
+   ],
 
   data() {
     return {
@@ -90,33 +95,8 @@ export default {
       );
     },
 
-    dateFormat(date) {
-      const options = {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        hour: 'numeric',
-        minute: 'numeric',
-        second: 'numeric',
-      };
-      const preFormatDate = new Date(date);
-
-      return preFormatDate.toLocaleDateString('en-GB', options);
-    },
-
     countContainedKeys(obj) {
       return Object.keys(obj).length - 2;
-    },
-  },
-
-  filters: {
-    capitalize(value) {
-      if (!value) {
-        return '';
-      }
-      const result = value.toString();
-
-      return result.charAt(0).toUpperCase() + result.slice(1);
     },
   },
 };
