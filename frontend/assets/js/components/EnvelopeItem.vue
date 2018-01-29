@@ -2,6 +2,7 @@
   <div class="hello">
     <div class="row" v-if="envelope">
       <div class="col">
+        <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="primary">{{translateCode(envelope.workflow.current_state)}}</b-badge></h1> 
 
         <b-button
           v-for="transition in envelope.workflow.available_transitions"
@@ -25,9 +26,12 @@
             <br>All
 
             <b-table
+              stacked="md"
               :hover="false"
               :items="envelope.files"
               :fields="fields"
+              :current-page="currentPage"
+              :per-page="perPage"
             >
 
               <a
@@ -64,6 +68,13 @@
                 v-model="row.selected">
               </b-form-checkbox>
             </b-table>
+            
+            <b-pagination 
+              :total-rows="envelope.files.length" 
+              :per-page="perPage" 
+              v-model="currentPage" 
+              class="my-0" 
+            />
 
             <b-list-group>
               <b-list-group-item
@@ -82,12 +93,6 @@
               </b-list-group-item>
             </b-list-group>
 
-          </b-tab>
-          <b-tab title="restricted">
-            <br>Restricted from public
-          </b-tab>
-          <b-tab title="public">
-            <br>Public
           </b-tab>
           <b-tab title="feedback">
             <br>
@@ -178,6 +183,8 @@ export default {
       files: [],
       envelopeFeedback: null,
       max: 100,
+      currentPage: 1,
+      perPage: 5,
     };
   },
 
@@ -365,10 +372,21 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="scss" scoped>
 .sidebar-item {
   border-top: 1px solid rgba(0,0,0,.15);
   margin-top: 1rem;
   padding-top: 1rem;
+}
+.envelope-title {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  .badge {
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 1rem;
+    min-width: 60px;
+  }
 }
 </style>
