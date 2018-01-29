@@ -17,8 +17,8 @@ app.config_from_object('django.conf:settings', namespace='CELERY')
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'fetch-qa-job-results': {
-        'task': 'reportek.core.tasks.fetch_qa_results',
+    'get-qa-job-results': {
+        'task': 'reportek.core.tasks.get_qa_results',
         'schedule': crontab(),
     },
 }
