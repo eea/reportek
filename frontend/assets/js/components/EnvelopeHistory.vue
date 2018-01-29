@@ -15,20 +15,20 @@
           v-if="index == 0"
         >
           <div class="state">{{history.from_state | capitalize}}</div>
-          <div class="date btn-link">{{dateFormat(key)}}</div>
+          <div class="date btn-link">{{formatDate(key)}}</div>
         </span>
         <span
           class="mt-3 mb-3"
           v-else 
           :class="{ hidden: hiddenItems }">
             <div class="state">{{history.to_state | capitalize}}</div>
-            <div class="date btn-link">{{dateFormat(key)}}</div>
+            <div class="date btn-link">{{formatDate(key)}}</div>
         </span>
       </div>
       <div class="history-item">
         <span class="mb-3 mt-3"> 
           <div class="state">Draaaaft</div>
-          <div class="date btn-link">{{dateFormat(created_at)}}</div>
+          <div class="date btn-link">{{formatDate(created_at)}}</div>
         </span>
       </div>
       <div
@@ -52,7 +52,8 @@
 
 <script>
 import { fetchEnvelopeHistory } from '../api';
-import Utility from './mixins/UtilityFunctions';
+import { dateFormat, capitalize } from '../utils/UtilityFunctions';
+
 
 export default {
   name: 'EnvelopeItem',
@@ -61,9 +62,9 @@ export default {
     history: History,
   },
 
-  mixins: [ 
-    Utility
-   ],
+  filters: {
+    capitalize
+  },
 
   data() {
     return {
@@ -93,6 +94,10 @@ export default {
         && typeof item === 'object'
         && Object.keys(item).length !== 0
       );
+    },
+
+    formatDate(date,count){
+      return dateFormat(date,count)
     },
 
     countContainedKeys(obj) {
