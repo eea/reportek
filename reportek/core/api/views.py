@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from zipfile import ZipFile, BadZipFile
 from datetime import datetime as dt
+from collections import OrderedDict
 import dateutil.parser
 import logging
 from base64 import b64encode
@@ -321,10 +322,24 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
         page = self.paginate_queryset(qa_jobs)
         if page is not None:
             serializer = QAJobSerializer(page, many=True, context={'request': request})
-            return self.get_paginated_response(serializer.data)
+            pager = self.paginator
+            # Inject QA completion information in pager metadata
+            response = Response(OrderedDict([
+                ('auto_qa_completed', envelope.auto_qa_complete),
+                ('count', pager.count),
+                ('next', pager.get_next_link()),
+                ('previous', pager.get_previous_link()),
+                ('results', serializer.data)
+            ]))
+            return response
 
         serializer = QAJobSerializer(qa_jobs, many=True, context={'request': request})
-        return Response(serializer.data)
+        return Response(
+            {
+                'qa_completed': envelope.auto_qa_complete,
+                'results': serializer.data
+            }
+        )
 
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
