@@ -2,7 +2,7 @@
   <div class="hello">
     <div class="row" v-if="envelope">
       <div class="col">
-        <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="primary">{{translateCode(envelope.workflow.current_state)}}</b-badge></h1> 
+        <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="primary">{{translateCode(envelope.workflow.current_state)}}</b-badge></h1>
 
         <b-button
           v-for="transition in envelope.workflow.available_transitions"
@@ -70,11 +70,11 @@
               </b-form-checkbox>
             </b-table>
 
-            <b-pagination 
-              :total-rows="envelope.files.length" 
-              :per-page="perPage" 
-              v-model="currentPage" 
-              class="my-0" 
+            <b-pagination
+              :total-rows="envelope.files.length"
+              :per-page="perPage"
+              v-model="currentPage"
+              class="my-0"
             />
 
             <b-list-group>
@@ -164,7 +164,7 @@ const envelopeCodeDictionary = (status) => {
 };
 
 export default {
-  name: 'EnvelopeItem',
+  name: 'EnvelopeDetail',
   components: {
     history: History,
   },
