@@ -157,7 +157,7 @@ class QAJobResult(models.Model):
         """
         # XMLCONV docs incorrectly state that the value is empty when still processing.
         # Instead, value is '*** Not ready ***' for jobs in process.
-        return self.value == 1
+        return self.code == QAJobResult.CODES.NOT_READY
 
     @property
     def ok(self):
