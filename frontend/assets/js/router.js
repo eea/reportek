@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Envelopes from './components/Envelopes';
-import EnvelopeItem from './components/EnvelopeItem';
+import EnvelopeDetail from './components/EnvelopeDetail';
 import EnvelopeCreate from './components/EnvelopeCreate';
 
 Vue.use(Router);
@@ -21,8 +21,8 @@ export default new Router({
     },
     {
       path: '/envelopes/:envelope_id(\\d+)',
-      name: 'EnvelopeItem',
-      component: EnvelopeItem,
+      name: 'EnvelopeDetail',
+      component: EnvelopeDetail,
       meta: {
         breadcrumb: {
           name: 'Envelopes',

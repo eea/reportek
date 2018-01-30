@@ -19,14 +19,14 @@
         </span>
         <span
           class="mt-3 mb-3"
-          v-else 
+          v-else
           :class="{ hidden: hiddenItems }">
             <div class="state">{{history.to_state | capitalize}}</div>
             <div class="date btn-link">{{formatDate(key)}}</div>
         </span>
       </div>
       <div class="history-item">
-        <span class="mb-3 mt-3"> 
+        <span class="mb-3 mt-3">
           <div class="state">Draaaaft</div>
           <div class="date btn-link">{{formatDate(created_at)}}</div>
         </span>
@@ -56,7 +56,7 @@ import { dateFormat, capitalize } from '../utils/UtilityFunctions';
 
 
 export default {
-  name: 'EnvelopeItem',
+  name: 'EnvelopeHistory',
 
   components: {
     history: History,
