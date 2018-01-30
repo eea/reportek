@@ -216,16 +216,32 @@ export default {
     },
 
     handleEnvelopeFeedback(feedback) {
-      this.envelopeFeedback = feedback;
-      // as it is now, feedback has html and scripts that are not loaded
-      if(feedback.results.length > 0 && feedback.results[0].latest_result.value) {
-        let script = feedback.results[0].latest_result.value.split('<script type="text/javascript">')[1].split('<\/script>')[0];
-        let p = document.createElement("script");
-        p.setAttribute("type", "text/javascript");
-        p.innerHTML = script;
+      let matchScript;
+      let matchLink;
 
-        document.body.appendChild(p);
+      let p = document.createElement("script");
+      const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
+      const link_re = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
+
+      p.setAttribute("type", "text/javascript");
+
+      for (let result of feedback.results){
+        while (matchScript = re.exec(result.latest_result.value)) {
+          // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
+          p.innerHTML += matchScript[1];
+        }
+        let links = []
+        while (matchLink = link_re.exec(result.latest_result.value)) {
+          links.push(matchLink[2])
+        }
+        for (let link of links) {
+          result.latest_result.value = result.latest_result.value.replace(link, " ")
+        }
       }
+
+      document.body.appendChild(p);
+      this.envelopeFeedback = feedback;
+
     },
 
     onFileChange(e) {
