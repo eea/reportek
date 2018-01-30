@@ -379,6 +379,8 @@ export default {
           .then((response) => {
             if (!response.data.auto_qa_completed) {
               self.pollFeedback(fn, delay);
+            } else {
+              self.handleEnvelopeFeedback(response.data);
             }
           })
           .catch((error) => {
