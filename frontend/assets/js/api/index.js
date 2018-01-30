@@ -14,10 +14,10 @@ function fetch(child) {
   return api.get(child);
 }
 
-function post(child) {
-  logRequests && console.log(`posting ${child}...`);
+function post(child, data) {
+  logRequests && console.log(`posting ${child} with data ${data}...`);
 
-  return api.post(child);
+  return api.post(child, data);
 }
 
 export function fetchEnvelopes() {
@@ -36,10 +36,22 @@ export function fetchEnvelopeFiles(id) {
   return fetch(`envelopes/${id}/files/`);
 }
 
+export function fetchEnvelopeFilesQAScripts(id, fileId) {
+  return fetch(`envelopes/${id}/files/${fileId}/qa_scripts`);
+}
+
+export function runEnvelopeFilesQAScript(id, fileId, script_id) {
+  return post(`envelopes/${id}/files/${fileId}/run_qa_script/`, {script_id: script_id});
+}
+
 export function fetchEnvelopeHistory(id) {
   return fetch(`envelopes/${id}/history/`);
 }
 
 export function fetchEnvelopeFeedback(id) {
   return fetch(`envelopes/${id}/feedback/`);
+}
+
+export function runEnvelopeTransition(id, transition_name) {
+  return post(`envelopes/${id}/transition/`, {transition_name: transition_name});
 }

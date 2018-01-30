@@ -1,6 +1,10 @@
 <template>
   <div>
-  <b-navbar toggleable="md" type="dark" variant="info">
+  <b-navbar
+    toggleable="md"
+    type="dark"
+    variant="info"
+  >
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-navbar-brand href="/">Home</b-navbar-brand>
     <b-collapse is-nav id="nav_collapse">
@@ -42,31 +46,30 @@ export default {
     };
   },
   watch: {
-    '$route' (to, from) {
+    $route(to, from) {
       this.breadcrumbs = this.makeBreadcrumbs();
     },
   },
-  created: function () {
+  created() {
     this.breadcrumbs = this.makeBreadcrumbs();
   },
   methods: {
     makeBreadcrumbs() {
-      var crumbs = []
-      for (var i = 0; i < this.$route.matched.length; i++) {
+      const crumbs = [];
+      for (let i = 0; i < this.$route.matched.length; i += 1) {
         if (this.$route.matched[i].meta && this.$route.matched[i].meta.breadcrumb) {
           const paramIdName = Object.keys(this.$route.params)[0];
           const paramIdValue = this.$route.params[paramIdName];
           const path = this.$route.matched[i].meta.breadcrumb.path.replace(paramIdName, paramIdValue).replace(':', '');
           const name = this.$route.matched[i].meta.breadcrumb.name;
-          crumbs.push({path: path, name: name});
+          crumbs.push({ path, name });
         }
       }
       return crumbs;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style>
-
 </style>
