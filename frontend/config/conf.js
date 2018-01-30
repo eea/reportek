@@ -4,17 +4,25 @@
 
 const path = require('path')
 
+// these are used for the dev server.
+// can be overriden using process.env.HOST and process.env.PORT
+const HOST = 'localhost'
+const PORT = 8080
+
+const _host = process.env.HOST || HOST
+const _port = process.env.PORT && Number(process.env.PORT) || PORT
+
 module.exports = {
   dev: {
 
     // Paths
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    assetsSubDirectory: '',
+    assetsPublicPath: `http://${_host}:${_port}/`,
     proxyTable: {},
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    host: _host,
+    port: _port,
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
@@ -49,13 +57,13 @@ module.exports = {
   },
 
   build: {
-    // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
-
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist'),
-    assetsSubDirectory: 'static',
-    assetsPublicPath: '/',
+    // TODO: this part must be synchronized with Django
+    // (see /reportek/site/settings.py)
+    // (and also with )
+    assetsRoot: path.resolve(__dirname, '../dist/build'),
+    assetsSubDirectory: '',
+    assetsPublicPath: '/static/',
 
     /**
      * Source Maps

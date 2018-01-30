@@ -1,2 +1,3 @@
+dist/
 tests/unit/coverage/
 tests/e2e/reports/

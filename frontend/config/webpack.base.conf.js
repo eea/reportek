@@ -4,6 +4,8 @@ const utils = require('./utils')
 const config = require('./conf.js')
 const vueLoaderConfig = require('./vue-loader.conf')
 
+const BundleTracker = require('webpack-bundle-tracker')
+
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
@@ -91,6 +93,14 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new BundleTracker({
+      // force this to do a full path match
+      path: path.parse(config.build.assetsRoot).root,
+      filename: path.resolve(config.build.assetsRoot, '../stats.json'),
+      indent: 2,
+    }),
+  ],
   node: {
     // prevent webpack from injecting useless setImmediate polyfill because Vue
     // source contains it (although only uses it if it's native).
