@@ -39,7 +39,7 @@
 
 <script>
 export default {
-  name: 'EnvelopeItem',
+  name: 'TheHeader',
   data() {
     return {
       breadcrumbs: [],
