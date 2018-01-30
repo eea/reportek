@@ -155,7 +155,9 @@ class QAJobResult(models.Model):
         The QA query service specification only gives this criterion
         as indicating that the job is still processing.
         """
-        return self.value is None or self.value == ''
+        # XMLCONV docs incorrectly state that the value is empty when still processing.
+        # Instead, value is '*** Not ready ***' for jobs in process.
+        return self.value == 1
 
     @property
     def ok(self):
