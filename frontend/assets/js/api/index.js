@@ -28,6 +28,10 @@ export function fetchEnvelope(id) {
   return fetch(`envelopes/${id}/`);
 }
 
+export function createEnvelope(envelope) {
+  return post(`envelopes/`, {envelope: envelope});
+}
+
 export function fetchEnvelopeToken(id) {
   return post(`envelopes/${id}/token/`);
 }
@@ -54,4 +58,20 @@ export function fetchEnvelopeFeedback(id) {
 
 export function runEnvelopeTransition(id, transition_name) {
   return post(`envelopes/${id}/transition/`, {transition_name: transition_name});
+}
+
+export function fetchObligations() {
+  return fetch(`obligations/`);
+}
+
+export function fetchReporters() {
+  return fetch(`reporters/`);
+}
+
+export function fetchObligationSpecs() {
+  return fetch(`obligation-spec-reporters/`);
+}
+
+export function fetchReportingCycles() {
+  return fetch(`reporting-cycles/`);
 }

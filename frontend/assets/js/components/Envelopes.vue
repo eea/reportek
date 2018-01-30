@@ -1,6 +1,11 @@
 <template>
   <div class="hello">
-
+    <router-link
+      class="nav-link"
+      :to="`/envelopes/create`"
+    >
+    Create New Envelope
+    </router-link>
     <div v-if="envelopes && envelopes.length">
       <b-table
         :hover="false"
