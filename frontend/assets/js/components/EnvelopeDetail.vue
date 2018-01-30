@@ -211,15 +211,21 @@ export default {
     getEnvelopeFeedback() {
       fetchEnvelopeFeedback(this.$route.params.envelope_id)
         .then((response) => {
-          this.envelopeFeedback = response.data;
-          // as it is now, feedback has html and scripts that are not loaded
-          let script = response.data.results[0].latest_result.value.split('<script type="text/javascript">')[1].split('<\/script>')[0];
-          let p = document.createElement("script");
-          p.setAttribute("type", "text/javascript");
-          p.innerHTML = script;
-
-          document.body.appendChild(p);
+          this.handleEnvelopeFeedback(response.data);
         });
+    },
+
+    handleEnvelopeFeedback(feedback) {
+      this.envelopeFeedback = feedback;
+      // as it is now, feedback has html and scripts that are not loaded
+      if(feedback.results.length > 0 && feedback.results[0].latest_result.value) {
+        let script = feedback.results[0].latest_result.value.split('<script type="text/javascript">')[1].split('<\/script>')[0];
+        let p = document.createElement("script");
+        p.setAttribute("type", "text/javascript");
+        p.innerHTML = script;
+
+        document.body.appendChild(p);
+      }
     },
 
     onFileChange(e) {
@@ -355,10 +361,30 @@ export default {
       runEnvelopeTransition(this.$route.params.envelope_id, transition)
         .then((response) => {
           this.getEnvelope(this.$route.params.envelope_id);
+          this.updateFeedback();
         })
         .catch((error) => {
           console.log(error);
         });
+    },
+
+    updateFeedback() {
+      return this.pollFeedback(() => fetchEnvelopeFeedback(this.$route.params.envelope_id), 10000);
+    },
+
+    pollFeedback(fn, delay) {
+      const self = this;
+      setTimeout(() => {
+        fn()
+          .then((response) => {
+            if (!response.data.auto_qa_completed) {
+              self.pollFeedback(fn, delay);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, delay);
     },
 
     translateCode(code) {
@@ -368,7 +394,6 @@ export default {
     formatDate(date,count){
       return dateFormat(date,count)
     },
-
   },
 };
 </script>
