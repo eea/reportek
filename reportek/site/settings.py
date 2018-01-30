@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from django_jinja.builtins import DEFAULT_EXTENSIONS as JINJA_DEFAULT_EXTENSIONS
 
 
 def split_env_var(name, sep=','):
@@ -30,6 +31,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # repo root dir
 ROOT_DIR = os.path.dirname(BASE_DIR)
 PARENT_DIR = os.path.dirname(ROOT_DIR)
+
 
 if os.getenv('TRAVIS'):
     POSTGRES_HOST = 'localhost'
@@ -93,6 +95,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'webpack_loader',
 ]
 
 MIDDLEWARE = [
@@ -120,6 +123,9 @@ TEMPLATES = [
         'OPTIONS': {
             # everything under our template dir is a jinja template
             "match_extension": None,
+            "extensions": JINJA_DEFAULT_EXTENSIONS + [
+                "webpack_loader.contrib.jinja2ext.WebpackExtension",
+            ],
             # TODO: enable bytecode cache in production
         },
     },
@@ -207,7 +213,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = os.path.join(PARENT_DIR, 'static')
 STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(PARENT_DIR, 'uploads')
@@ -215,6 +221,21 @@ MEDIA_URL = '/files/'
 
 PROTECTED_ROOT = os.path.join(PARENT_DIR, 'protected_uploads')
 PROTECTED_URL = '/protected-files/'
+
+# TODO: this part should be synchronized with Webpack
+# (see /frontend/config/conf.js)
+_WEBPACK_DIST_DIR = os.path.join(ROOT_DIR, 'frontend', 'dist')
+
+STATICFILES_DIRS = (
+    (os.path.join(_WEBPACK_DIST_DIR, 'build')),
+)
+
+WEBPACK_LOADER = {
+    'DEFAULT': {
+        'BUNDLE_DIR_NAME': '',
+        'STATS_FILE': os.path.join(_WEBPACK_DIST_DIR, 'stats.json'),
+    },
+}
 
 
 FIXTURE_DIRS = [
