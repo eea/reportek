@@ -326,6 +326,7 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
             # Inject QA completion information in pager metadata
             response = Response(OrderedDict([
                 ('auto_qa_completed', envelope.auto_qa_complete),
+                ('auto_qa_ok', envelope.auto_qa_ok),
                 ('count', pager.count),
                 ('next', pager.get_next_link()),
                 ('previous', pager.get_previous_link()),

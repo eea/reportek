@@ -94,9 +94,9 @@ class Envelope(models.Model):
         The envelope's most recent QA job for each file.
         """
         return [
-            file.latest_qa_job
+            job
             for file in self.files.all()
-            if file.latest_qa_job is not None
+            for job in file.qa_jobs.all()
         ]
 
     @property
@@ -113,9 +113,9 @@ class Envelope(models.Model):
         Latest QA job results for the envelope's files.
         """
         return [
-            file.latest_qa_result
+            result
             for file in self.files.all()
-            if file.latest_qa_result is not None
+            for result in file.qa_results
         ]
 
     @property
@@ -228,12 +228,11 @@ class EnvelopeFile(models.Model):
                                 self.name)
 
     @property
-    def latest_qa_job(self):
-        return QAJob.objects.filter(envelope_file=self).latest('created_at')
-
-    @property
-    def latest_qa_result(self):
-        return QAJobResult.objects.filter(job=self.latest_qa_job).get()
+    def qa_results(self):
+        try:
+            return QAJobResult.objects.filter(job__in=self.qa_jobs.all()).all()
+        except QAJobResult.DoesNotExist:
+            return None
 
     def save(self, *args, **kwargs):
         # don't allow any operations on a final envelope
