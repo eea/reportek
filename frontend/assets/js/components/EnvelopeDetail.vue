@@ -221,6 +221,7 @@ export default {
     },
 
     getEnvelopeFeedback(files) {
+      this.envelopeFeedback = null;
       fetchEnvelopeFeedback(this.$route.params.envelope_id)
         .then((response) => {
           this.handleEnvelopeFeedback(response.data, files);
@@ -429,7 +430,13 @@ export default {
             if (!response.data.auto_qa_completed) {
               self.pollFeedback(fn, delay);
             } else {
-              self.handleEnvelopeFeedback(response.data, this.envelope.files);
+                self.getEnvelope()
+                .then((resultFiles) => {
+                  self.getEnvelopeFeedback(resultFiles);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
             }
           })
           .catch((error) => {
