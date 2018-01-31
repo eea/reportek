@@ -80,6 +80,12 @@ export default {
     this.getEnvelopeHistory();
   },
 
+  updated(){
+    if(Object.keys(this.envelopeHistory).length <= 2) {
+      this.hiddenItems = false;
+    }
+  },
+
   methods: {
     getEnvelopeHistory() {
       fetchEnvelopeHistory(this.$route.params.envelope_id)
@@ -200,6 +206,5 @@ export default {
 .mb5 {
   margin-bottom: 5rem!important;
 }
-
 
 </style>
