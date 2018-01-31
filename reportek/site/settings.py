@@ -226,9 +226,13 @@ PROTECTED_URL = '/protected-files/'
 # (see /frontend/config/conf.js)
 _WEBPACK_DIST_DIR = os.path.join(ROOT_DIR, 'frontend', 'dist')
 
-STATICFILES_DIRS = (
-    (os.path.join(_WEBPACK_DIST_DIR, 'build')),
-)
+# TODO: enable this only in production. (this is just a hack
+# because the staticfiles app breaks if the directory doesn't exist.)
+_WEBPACK_BUILD_DIR = os.path.join(_WEBPACK_DIST_DIR, 'build')
+if os.path.isdir(_WEBPACK_BUILD_DIR):
+    STATICFILES_DIRS = (
+        (_WEBPACK_BUILD_DIR),
+    )
 
 WEBPACK_LOADER = {
     'DEFAULT': {
