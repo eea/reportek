@@ -6,7 +6,11 @@ class Command(BaseCommand):
 
     help = "Load ROD initial data"
 
-    FIXTURES = ('countries', 'instruments', 'issues', 'clients', 'obligations')
+    FIXTURES = ('countries',
+                'instruments',
+                'clients',
+                'obligations',
+                )
 
     def handle(self, *args, **options):
         for fixture in Command.FIXTURES:
