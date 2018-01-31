@@ -98,12 +98,17 @@
           <b-tab title="feedback">
             <br>
             <div v-if="envelopeFeedback">
-              <span
-                v-for="feedback in envelopeFeedback.results"
-                :key="feedback.id"
-                v-html="feedback.latest_result.value"
+              <b-jumbotron
+                :header="key"
+                bg-variant="white"
+                border-variant="dark"
+                class="feedback-container"
+                v-for="(file, key) in envelopeFeedback.files"
               >
-              </span>
+                <span v-for="feedback in file"
+                      v-html="feedback.latest_result.value">
+                </span>
+              </b-jumbotron>
             </div>
           </b-tab>
         </b-tabs>
@@ -187,43 +192,63 @@ export default {
 
   // Fetches posts when the component is created.
   created() {
-    this.getEnvelope();
-    this.getEnvelopeFeedback();
+    this.getEnvelope()
+      .then((resultFiles) => {
+        this.getEnvelopeFeedback(resultFiles);
+      });
+
   },
 
   methods: {
     getEnvelope() {
-      fetchEnvelope(this.$route.params.envelope_id)
-        .then((response) => {
-          // JSON responses are automatically parsed.
-          this.envelope = response.data;
-          this.envelopeState = envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
+      return new Promise((resolve, reject) => {
+        fetchEnvelope(this.$route.params.envelope_id)
+          .then((response) => {
+            // JSON responses are automatically parsed.
+            this.envelope = response.data;
+            this.envelopeState = envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
 
-          for (let index = 0; index < this.envelope.files.length; index += 1) {
-            this.envelope.files[index] = Object.assign({}, this.envelope.files[index], { availableScripts: [] });
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+            for (let index = 0; index < this.envelope.files.length; index += 1) {
+              this.envelope.files[index] = Object.assign({}, this.envelope.files[index], { availableScripts: [], feedback: [] });
+            }
+            resolve(this.envelope.files);
+          })
+          .catch((e) => {
+            reject(e);
+            console.log(e);
+          });
+      });
     },
 
-    getEnvelopeFeedback() {
+    getEnvelopeFeedback(files) {
       fetchEnvelopeFeedback(this.$route.params.envelope_id)
         .then((response) => {
-          this.handleEnvelopeFeedback(response.data);
+          this.handleEnvelopeFeedback(response.data, files);
         });
     },
 
-    handleEnvelopeFeedback(feedback) {
+    handleEnvelopeFeedback(feedback, files) {
       let matchScript;
       let matchLink;
+
+      let modifiedFeedback = {
+        auto_qa_completed: feedback.auto_qa_completed,
+        auto_qa_ok: feedback.auto_qa_ok,
+        count: feedback.count,
+        next: feedback.next,
+        previous: feedback.previous,
+        files: {},
+      }
 
       let p = document.createElement("script");
       const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
       const link_re = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
 
       p.setAttribute("type", "text/javascript");
+
+      for (let file of files) {
+        modifiedFeedback.files[file.name] = []
+      }
 
       for (let result of feedback.results){
         while (matchScript = re.exec(result.latest_result.value)) {
@@ -237,10 +262,17 @@ export default {
         for (let link of links) {
           result.latest_result.value = result.latest_result.value.replace(link, " ")
         }
+        for (let file of files){
+          // file.feedback.push(result)
+          if(file.id === result.envelope_file){
+            modifiedFeedback.files[file.name].push(result)
+          }
+        }
       }
+      console.log(modifiedFeedback)
 
       document.body.appendChild(p);
-      this.envelopeFeedback = feedback;
+      this.envelopeFeedback = modifiedFeedback;
 
     },
 
@@ -376,16 +408,17 @@ export default {
 
       runEnvelopeTransition(this.$route.params.envelope_id, transition)
         .then((response) => {
-          this.getEnvelope(this.$route.params.envelope_id);
-          this.updateFeedback();
+          this.getEnvelope(this.$route.params.envelope_id).then((resultFiles) => {
+            this.updateFeedback(resultFiles);
+          });
         })
         .catch((error) => {
           console.log(error);
         });
     },
 
-    updateFeedback() {
-      return this.pollFeedback(() => fetchEnvelopeFeedback(this.$route.params.envelope_id), 10000);
+    updateFeedback(resultFiles) {
+      return this.pollFeedback(() => fetchEnvelopeFeedback(this.$route.params.envelope_id,resultFiles), 10000);
     },
 
     pollFeedback(fn, delay) {
@@ -396,7 +429,7 @@ export default {
             if (!response.data.auto_qa_completed) {
               self.pollFeedback(fn, delay);
             } else {
-              self.handleEnvelopeFeedback(response.data);
+              self.handleEnvelopeFeedback(response.data, this.envelope.files);
             }
           })
           .catch((error) => {
@@ -409,7 +442,7 @@ export default {
       return envelopeCodeDictionary(code);
     },
 
-    formatDate(date,count){
+    formatDate(date, count){
       return dateFormat(date,count)
     },
   },
@@ -437,5 +470,12 @@ export default {
 .absolute-right {
     position: absolute;
     right: 15px;
+}
+
+.feedback-container {
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 2rem;
+  }
 }
 </style>
