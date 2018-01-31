@@ -3,6 +3,8 @@ import Router from 'vue-router';
 import Envelopes from './components/Envelopes';
 import EnvelopeDetail from './components/EnvelopeDetail';
 import EnvelopeCreate from './components/EnvelopeCreate';
+import Dashboard from './components/Dashboard';
+import EnvelopesArchive from './components/EnvelopesArchive';
 
 Vue.use(Router);
 
@@ -12,7 +14,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: Envelopes,
+      name: 'Dashboard',
+      component: Dashboard,
+    },
+    {
+      path: '/archive',
+      name: 'EnvelopesArchive',
+      component: EnvelopesArchive,
     },
     {
       path: '/envelopes',

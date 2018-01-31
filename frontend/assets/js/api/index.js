@@ -75,3 +75,16 @@ export function fetchObligationSpecs() {
 export function fetchReportingCycles() {
   return fetch(`reporting-cycles/`);
 }
+
+export function fetchWipEnvelopes() {
+  return ;
+}
+
+
+export function fetchArchiveEnvelopes() {
+  return ;
+}
+
+export function fetchObligationsPending() {
+  return ;
+}
