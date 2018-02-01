@@ -7,29 +7,14 @@
         <b-button
           v-for="transition in envelope.workflow.available_transitions"
           :key="transition"
-          variant="success"
+          variant="primary"
           v-on:click="goToTransition($event, transition)">
             {{translateCode(transition)}}
         </b-button>
         <p><strong>Envelope files {{envelope.files.length}}</strong></p>
 
-        <form
-          enctype="multipart/form-data"
-          novalidate v-if="isInitial || isSaving">
-            <div class="form-group">
-              <label for="file_uploads">Add files to envelope</label>
-              <input
-                type="file"
-                id="file_uploads"
-                v-on:disabled="isSaving"
-                class="form-control btn btn-success"
-                v-on:change="onFileChange"
-                multiple
-              >
-            </div>
-        </form>
         <b-button
-          variant="success"
+          variant="primary"
           v-on:click="uploadAllFiles"
           :disabled="!envelope.workflow.upload_allowed"
           class="absolute-right"
@@ -91,6 +76,21 @@
               v-model="currentPage"
               class="my-0"
             />
+
+            <form
+              enctype="multipart/form-data"
+              novalidate v-if="isInitial || isSaving"
+              class="upload-form">
+                  <label for="file_uploads">Add files to envelope</label>
+                  <input
+                    type="file"
+                    id="file_uploads"
+                    class="hidden-input"
+                    v-on:disabled="isSaving"
+                    v-on:change="onFileChange"
+                    multiple
+                  >
+            </form>
 
             <b-list-group>
               <b-list-group-item
@@ -487,6 +487,31 @@ export default {
   h1 {
     font-size: 2rem;
     margin-bottom: 2rem;
+  }
+}
+.upload-form {
+  margin-top: 2rem;
+  position: relative;
+  .hidden-input {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    z-index: -1;
+  }
+  label {
+    cursor: pointer;
+    color: #767676;
+    &:before {
+      content: "➕";
+      border: 1px solid #767676;
+      color: inherit;
+      border-radius: 10rem;
+      padding: .3rem .5rem;
+      margin-right: .5rem;
+    }
+    &:hover {
+      color: #444;
+    }
   }
 }
 </style>
