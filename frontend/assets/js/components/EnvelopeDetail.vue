@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div class="row" v-if="envelope">
-      <div class="col-lg-8 col-md-8 col-xs-10">
+      <div class="col-lg-8 col-md-8 col-sm-10">
         <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="primary">{{translateCode(envelope.workflow.current_state)}}</b-badge></h1>
 
 
@@ -18,7 +18,7 @@
             Envelope is in transition
           </p>
 
-          <div class="col-2 order-2 d-flex align-items-start justify-content-center">
+          <div class="col-lg-3 col-sm-5 col-md-3 order-2 d-flex align-items-start justify-content-center">
             <b-button
                 v-for="transition in envelope.workflow.available_transitions"
                 :key="transition"
@@ -98,6 +98,7 @@
               :total-rows="envelope.files.length"
               :per-page="perPage"
               v-model="currentPage"
+              v-if="envelope.files.length > 5"
               class="my-0"
             />
 
@@ -153,7 +154,7 @@
         </b-tabs>
 
     </div>
-    <div class="col-lg-4 col-md-4 col-xs-10">
+    <div class="col-lg-4 col-md-4 col-sm-10">
         <div class="sidebar-item">
         <h5>Details</h5>
           <p>Reporting on obligation {{envelope.obligation_spec}} in cycle {{envelope.reporting_cycle}}</p>
