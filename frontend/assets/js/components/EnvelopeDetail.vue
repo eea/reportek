@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div class="row" v-if="envelope">
-      <div class="col">
+      <div class="col-lg-8 col-md-8 col-xs-10">
         <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="primary">{{translateCode(envelope.workflow.current_state)}}</b-badge></h1>
 
         <b-button
@@ -126,7 +126,7 @@
             >
         </form>
     </div>
-    <div class="col-4">
+    <div class="col-lg-4 col-md-4 col-xs-10">
         <div class="sidebar-item">
         <h5>Details</h5>
           <p>Reporting on obligation {{envelope.obligation_spec}} in cycle {{envelope.reporting_cycle}}</p>
@@ -480,8 +480,9 @@ export default {
 }
 
 .feedback-container {
+  overflow-x: auto;
   h1 {
-    font-size: 3rem;
+    font-size: 2rem;
     margin-bottom: 2rem;
   }
 }
