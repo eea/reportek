@@ -13,6 +13,21 @@
         </b-button>
         <p><strong>Envelope files {{envelope.files.length}}</strong></p>
 
+        <form
+          enctype="multipart/form-data"
+          novalidate v-if="isInitial || isSaving">
+            <div class="form-group">
+              <label for="file_uploads">Add files to envelope</label>
+              <input
+                type="file"
+                id="file_uploads"
+                v-on:disabled="isSaving"
+                class="form-control btn btn-success"
+                v-on:change="onFileChange"
+                multiple
+              >
+            </div>
+        </form>
         <b-button
           variant="success"
           v-on:click="uploadAllFiles"
@@ -113,18 +128,6 @@
           </b-tab>
         </b-tabs>
 
-        <form
-          enctype="multipart/form-data"
-          novalidate v-if="isInitial || isSaving">
-            <label for="file_uploads">Add files to envelope</label>
-            <input
-              type="file"
-              id="file_uploads"
-              v-on:disabled="isSaving"
-              v-on:change="onFileChange"
-              multiple
-            >
-        </form>
     </div>
     <div class="col-lg-4 col-md-4 col-xs-10">
         <div class="sidebar-item">
