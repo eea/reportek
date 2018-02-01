@@ -2,7 +2,7 @@
   <div class="hello">
     <router-link
       class="nav-link"
-      :to="`/envelopes/create`"
+      :to="'/dashboard'"
     >
     Create New Envelope
     </router-link>

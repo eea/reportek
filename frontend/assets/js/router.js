@@ -5,6 +5,7 @@ import EnvelopeDetail from './components/EnvelopeDetail';
 import EnvelopeCreate from './components/EnvelopeCreate';
 import Dashboard from './components/Dashboard';
 import EnvelopesArchive from './components/EnvelopesArchive';
+import EnvelopesWip from './components/EnvelopesWip';
 
 Vue.use(Router);
 
@@ -19,14 +20,14 @@ export default new Router({
       component: Dashboard,
     },
     {
-      path: '/archive',
+      path: '/envelopes/archive',
       name: 'EnvelopesArchive',
       component: EnvelopesArchive,
     },
     {
-      path: '/envelopes',
-      name: 'Envelopes',
-      component: Envelopes,
+      path: '/envelopes/wip',
+      name: 'EnvelopesWip',
+      component: EnvelopesWip,
     },
     {
       path: '/envelopes/:envelope_id(\\d+)',
@@ -35,7 +36,7 @@ export default new Router({
       meta: {
         breadcrumb: {
           name: 'Envelopes',
-          path: '/envelopes',
+          path: '/envelopes/wip',
         },
       },
     },
@@ -43,12 +44,6 @@ export default new Router({
       path: '/envelopes/create',
       name: 'EnvelopeCreate',
       component: EnvelopeCreate,
-      meta: {
-        breadcrumb: {
-          name: 'Envelopes',
-          path: '/envelopes',
-        },
-      },
     },
     {
       path: '*',

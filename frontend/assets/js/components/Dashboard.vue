@@ -1,24 +1,20 @@
 <template>
   <div>
-    Dashboard
 
-    <wip></wip>
+    <router-link
+      class="nav-link"
+      :to="`/envelopes/wip`"
+    >
+      WIP
+    </router-link>
+    <router-link
+      class="nav-link"
+      :to="`/envelopes/archive/`"
+    >
+      Archive
+    </router-link>
+
     <obligations-pending></obligations-pending>
-
-    <router-link
-      class="nav-link"
-      :to="`/archive/`"
-    >
-      archive
-    </router-link>
-
-    <router-link
-      class="nav-link"
-      :to="`/envelopes/`"
-    >
-      envelopes
-    </router-link>
-
   </div>
 </template>
 

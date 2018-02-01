@@ -1,42 +1,50 @@
 <template>
   <div class="hello">
-    WIP
-    <b-container class="bv-example-row">
-        <b-row>
-            <b-col cols="2">Ramsar</b-col>
-            <b-col cols="10">
-              <b-row>7.1 Trees</b-row>
-              <b-row>7.2 Animals</b-row>
-            </b-col>
-        </b-row>
-        <b-row>
-          <b-col cols="2">Ramsar</b-col>
-          <b-col cols="10">
-            <b-row>7.1 Trees</b-row>
-            <b-row>7.2 Animals</b-row>
-          </b-col>
-        </b-row>
-    </b-container>
+    <router-link
+      class="nav-link"
+      :to="'/dashboard'"
+    >
+    Create New Envelope
+    </router-link>
+    <div v-if="envelopes && envelopes.length">
+      <b-table
+        :hover="false"
+        :items="envelopes"
+        :fields="fields"
+      >
+        <router-link
+          slot="name"
+          slot-scope="envelope"
+          class="nav-link"
+          :to="`/envelopes/${envelope.item.id}`"
+        >
+          {{envelope.value}}
+        </router-link>
+      </b-table>
+    </div>
+
+    <p v-if="!envelopes || envelopes.length == 0"> No envelopes created yet</p>
   </div>
 </template>
 
 <script>
-import { fetchWipEnvelopes } from '../api';
+import { fetchEnvelopes } from '../api';
 
 export default {
-  name: 'EnvelopesWIP',
+  name: 'Envelopes',
 
   data() {
     return {
-      envelopesWIP: [],
+      fields: ['name', 'files_count', 'created_at', 'finalized', 'reporting_period_start', 'reporting_period_end'],
+      envelopes: [],
     };
   },
 
   created() {
-    fetchWipEnvelopes()
+    fetchEnvelopes()
       .then((response) => {
         // JSON responses are automatically parsed.
-        this.envelopesWIP = response.data.results;
+        this.envelopes = response.data.results;
       })
       .catch((e) => {
         console.log(e);
@@ -47,5 +55,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+h1, h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+a {
+  color: #42b983;
+}
 </style>

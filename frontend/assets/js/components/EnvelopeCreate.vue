@@ -18,20 +18,6 @@
       </b-form-group>
 
       <b-form-group
-        id="reportersGroup"
-        label="Reporter:"
-        label-for="reporterInput"
-      >
-        <b-form-select
-          id="reporterInput"
-          :options="reporters"
-          required
-          v-model="form.reporter"
-        >
-        </b-form-select>
-      </b-form-group>
-
-      <b-form-group
         id="obligationSpecsGroup"
         label="Obligation Spec:"
         label-for="obligationSpecsInput"
@@ -42,6 +28,7 @@
           required
           v-model="form.obligationSpec"
         >
+
         </b-form-select>
       </b-form-group>
 
@@ -59,8 +46,15 @@
         </b-form-select>
       </b-form-group>
 
-      <b-button type="submit" variant="primary">Submit</b-button>
-      <b-button type="reset" variant="danger">Cancel</b-button>
+      <b-button
+        type="submit"
+        variant="primary"
+      >Submit
+      </b-button>
+      <b-button
+        type="reset"
+        variant="danger"
+      >Cancel</b-button>
     </b-form>
   </div>
 </template>
@@ -77,26 +71,37 @@ export default {
     return {
       form: {
         name: '',
-        reporter: null,
+        reporter: 10,
         obligationSpec: null,
         reportingCycle: null,
       },
-      reporters: [],
       obligationSpecs: [],
       reportingCycles: [],
     };
   },
 
-
   // Fetches posts when the component is created.
   created() {
+    if(!this.$route.params.reportingCycle && !this.$route.params.spec) {
+      this.$router.push({ name: 'Dashboard' });
+    }
     this.getApiData();
   },
 
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      createEnvelope(this.form)
+        .then((response) => { this.$router.push({
+            name: 'EnvelopeDetail',
+            params: {
+              id: 1,
+            },
+          });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
 
     onReset(evt) {
@@ -106,13 +111,24 @@ export default {
       this.form.name = null;
       this.form.obligationSpec = null;
       this.form.reportingCycle = null;
-      this.$router.push({ name: 'Envelopes' });
+      this.$router.push({ name: 'Dashboard' });
     },
 
     getApiData() {
-      fetchReporters();
-      fetchObligationSpecs();
-      fetchReportingCycles();
+      this.obligationSpecs = [
+        {
+          value: this.$route.params.spec.id,
+          text: this.$route.params.spec.id,
+        }];
+      this.reportingCycles = [
+        {
+          value: this.$route.params.reportingCycle.id,
+          text: this.$route.params.reportingCycle.reporting_start_date,
+        }];
+      this.form.obligationSpec = this.$route.params.spec.id;
+      this.form.reportingCycle =this.$route.params.reportingCycle.id;
+      // fetchObligationSpecs();
+      // fetchReportingCycles();
     },
   },
 };

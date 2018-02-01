@@ -29,7 +29,13 @@ export function fetchEnvelope(id) {
 }
 
 export function createEnvelope(envelope) {
-  return post(`envelopes/`, {envelope: envelope});
+  return post(`envelopes/`,
+  {
+    name: envelope.name,
+    reporter: envelope.reporter,
+    obligation_spec: obligationSpec,
+    reporting_cycle: reportingCycle,
+  });
 }
 
 export function fetchEnvelopeToken(id) {
@@ -77,14 +83,14 @@ export function fetchReportingCycles() {
 }
 
 export function fetchWipEnvelopes() {
-  return ;
+  return fetchEnvelopes();
 }
 
 
 export function fetchArchiveEnvelopes() {
-  return ;
+  return fetchEnvelopes();
 }
 
 export function fetchObligationsPending() {
-  return ;
+  return fetch(`obligations/14/`);
 }

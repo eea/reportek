@@ -11,15 +11,6 @@
 
       <b-navbar-nav>
         <router-link
-            class="nav-link"
-            :to="'/'"
-        >
-          Home
-        </router-link>
-      </b-navbar-nav>
-
-      <b-navbar-nav>
-        <router-link
           class="nav-link"
           :to="crumb.path"
           v-for="crumb in breadcrumbs"
