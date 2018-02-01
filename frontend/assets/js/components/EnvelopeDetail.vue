@@ -144,9 +144,13 @@
                 border-variant="default"
                 class="feedback-container"
                 v-for="(file, key) in envelopeFeedback.files"
+                :key="file.id"
               >
-                <span v-for="feedback in file"
-                      v-html="feedback.latest_result.value">
+                <span
+                  v-for="feedback in file"
+                  v-html="feedback.latest_result.value"
+                  :key="feedback.id"
+                >
                 </span>
               </b-jumbotron>
             </div>
