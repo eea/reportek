@@ -22,6 +22,7 @@
             <b-button
                 v-for="transition in envelope.workflow.available_transitions"
                 :key="transition"
+                v-if="showTransitionButton(transition)"
                 variant="primary"
                 v-on:click="goToTransition($event, transition)">
                   {{translateCode(transition)}}
@@ -473,6 +474,10 @@ export default {
 
     translateCode(code) {
       return envelopeCodeDictionary(code);
+    },
+
+    showTransitionButton(code) {
+        return code !== 'fail_qa' && code !== 'pass_qa'
     },
 
     formatDate(date, count){

@@ -37,14 +37,14 @@
         class="btn btn-link pb-3 pt-3"
         @click="hiddenItems = false"
       >
-        +{{ countContainedKeys(envelopeHistory) }} versions
+        +{{ countContainedKeys(envelopeHistory) }} states
       </div>
     <div
       v-if="hiddenItems == false"
       class="btn-link"
       @click="hiddenItems = true"
     >
-        show less versions
+        show less states
       </div>
     </div>
   </div>
