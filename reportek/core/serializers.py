@@ -23,6 +23,28 @@ def get_field_names(model):
     return tuple([f.name for f in model._meta.fields])
 
 
+class DynamicFieldsModelSerializer(serializers.ModelSerializer):
+    """
+    http://www.django-rest-framework.org/api-guide/serializers/#dynamically-modifying-fields
+    A ModelSerializer that takes an additional `fields` argument that
+    controls which fields should be displayed.
+    """
+
+    def __init__(self, *args, **kwargs):
+        # Don't pass the 'fields' arg up to the superclass
+        fields = kwargs.pop('fields', None)
+
+        # Instantiate the superclass normally
+        super().__init__(*args, **kwargs)
+
+        if fields is not None:
+            # Drop any fields that are not specified in the `fields` argument.
+            allowed = set(fields)
+            existing = set(self.fields)
+            for field_name in existing - allowed:
+                self.fields.pop(field_name)
+
+
 class InstrumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Instrument
@@ -73,11 +95,23 @@ class ReporterSubdivisionCategorySerializer(serializers.ModelSerializer):
                   'created_at', 'updated_at',)
 
 
+class ReportingCycleSerializer(DynamicFieldsModelSerializer):
+    class Meta:
+        model = ReportingCycle
+        fields = ('id', 'obligation', 'obligation_spec',
+                  'reporting_start_date', 'reporting_end_date',
+                  'is_open', 'rod_url', 'created_at', 'updated_at')
+
+
 class ObligationSpecSerializer(serializers.ModelSerializer):
+    reporting_cycles = ReportingCycleSerializer(
+        many=True, read_only=True,
+        fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open'))
+
     class Meta:
         model = ObligationSpec
         fields = ('id', 'obligation_id', 'version', 'is_current', 'draft',
-                  'schema', 'workflow_class', 'qa_xmlrpc_uri',
+                  'schema', 'workflow_class', 'qa_xmlrpc_uri', 'reporting_cycles',
                   'rod_url', 'created_at', 'updated_at',)
 
 
@@ -114,14 +148,6 @@ class ObligationSerializer(serializers.ModelSerializer):
                   'client', 'active_since', 'active_until', 'reporting_duration',
                   'reporting_frequency', 'specs', 'rod_url', 'created_at',
                   'updated_at',)
-
-
-class ReportingCycleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ReportingCycle
-        fields = ('id', 'obligation', 'obligation_spec',
-                  'reporting_start_date', 'reporting_end_date',
-                  'is_open', 'rod_url', 'created_at', 'updated_at')
 
 
 class EnvelopeFileSerializer(serializers.ModelSerializer):
@@ -201,6 +227,9 @@ class NestedUploadTokenSerializer(
 class EnvelopeSerializer(serializers.ModelSerializer):
     files = NestedEnvelopeFileSerializer(many=True, read_only=True)
     workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
+    reporting_cycle = ReportingCycleSerializer(
+        many=False, read_only=True,
+        fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open'))
 
     class Meta:
         model = Envelope
