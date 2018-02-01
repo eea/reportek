@@ -96,7 +96,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webpack_loader',
+    'reportek.roles',
 ]
+
+AUTH_USER_MODEL = 'roles.User'
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
