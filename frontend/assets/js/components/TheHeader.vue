@@ -1,9 +1,9 @@
 <template>
-  <div>
   <b-navbar
     toggleable="md"
     type="dark"
-    variant="info"
+    sticky
+    variant="primary"
   >
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-navbar-brand to="/">Home</b-navbar-brand>
@@ -34,7 +34,6 @@
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
-  </div>
 </template>
 
 <script>

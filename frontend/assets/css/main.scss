@@ -1,2 +1,17 @@
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/dist/bootstrap-vue';
+
+
+.floating-demo {
+  position: fixed;
+  top: 7rem;
+  transform: rotate(-90deg);
+  font-size: 1.5rem;
+  background: #d90000;
+  padding: .5rem;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  color: white;
+  left: -22px;
+  font-weight: bold;
+}
