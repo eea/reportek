@@ -4,13 +4,35 @@
       <div class="col-lg-8 col-md-8 col-xs-10">
         <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="primary">{{translateCode(envelope.workflow.current_state)}}</b-badge></h1>
 
-        <b-button
-          v-for="transition in envelope.workflow.available_transitions"
-          :key="transition"
-          variant="primary"
-          v-on:click="goToTransition($event, transition)">
-            {{translateCode(transition)}}
-        </b-button>
+
+        <b-jumbotron
+            bg-variant="white"
+            border-variant="default"
+            class="status-control"
+            :header="translateCode(envelope.workflow.current_state)"
+          >
+         <div class="row">
+
+          <p  v-if="translateCode(envelope.workflow.current_state) === 'Draft'" class="col order-1">Add files and run QA tests on them. Fix any error you encounter and keep adding files. When the envelope is ready run all tests and get feedback</p>
+          <p v-else class="col order-1">
+            Envelope is in transition
+          </p>
+
+          <div class="col-2 order-2 d-flex align-items-start justify-content-center">
+            <b-button
+                v-for="transition in envelope.workflow.available_transitions"
+                :key="transition"
+                variant="primary"
+                v-on:click="goToTransition($event, transition)">
+                  {{translateCode(transition)}}
+              </b-button>
+          </div>
+         </div>
+
+        </b-jumbotron>
+
+
+
         <p><strong>Envelope files {{envelope.files.length}}</strong></p>
 
         <b-button
@@ -28,6 +50,7 @@
 
             <b-table
               stacked="md"
+              border-variant="default"
               :hover="false"
               :items="envelope.files"
               :fields="fields"
@@ -116,7 +139,7 @@
               <b-jumbotron
                 :header="key"
                 bg-variant="white"
-                border-variant="dark"
+                border-variant="default"
                 class="feedback-container"
                 v-for="(file, key) in envelopeFeedback.files"
               >
@@ -512,6 +535,12 @@ export default {
     &:hover {
       color: #444;
     }
+  }
+}
+.status-control {
+  padding: 1rem;
+  h1 {
+    font-size: 1.2rem;
   }
 }
 </style>
