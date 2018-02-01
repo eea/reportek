@@ -158,6 +158,17 @@ class Obligation(RODModel):
         return self.title
 
 
+class ObligationSpecQuerySet(models.QuerySet):
+    def current(self):
+        return self.filter(is_current=True)
+
+
+class ObligationSpecManager(models.Manager.from_queryset(ObligationSpecQuerySet)):
+    def get_queryset(self):
+        # we (probably) always want to select the obligation along
+        return super().get_queryset().select_related('obligation')
+
+
 class ObligationSpec(RODModel):
     """
     The obligation specification, aka Dataset Definition.
@@ -171,7 +182,7 @@ class ObligationSpec(RODModel):
     version = models.PositiveSmallIntegerField(default=1)
     # implementation logic must make sure there's only one spec current per obligation.
     # each new reporting cycle will default to the obligation's current spec.
-    is_current = models.BooleanField(default=False)
+    is_current = models.BooleanField(default=False, db_index=True)
     # allow working on the new spec before making it official.
     draft = models.BooleanField(default=True)
 
@@ -188,6 +199,7 @@ class ObligationSpec(RODModel):
         default=settings.QA_DEFAULT_XMLRPC_URI
     )
 
+    objects = ObligationSpecManager()
     tracker = FieldTracker()
 
     def __str__(self):
@@ -272,7 +284,7 @@ class ReportingCycle(RODModel):
     #   or sometimes a period has to be reopen.
     # - for continuous-reporting, closing will happen when there is a need to start
     #   a new period (e.g. because of a schema change), or when the obligation terminates.
-    is_open = models.BooleanField(default=True)
+    is_open = models.BooleanField(default=True, db_index=True)
 
     @property
     def is_soft_closed(self):

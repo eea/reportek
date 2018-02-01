@@ -47,7 +47,7 @@ class ReporterUser(User):
     """
     A Reportek reporter.
     """
-    reporter = models.ForeignKey(Reporter)
+    reporter = models.ForeignKey(Reporter, related_name="users")
 
 
 class ManagerUser(User):
