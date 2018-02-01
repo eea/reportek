@@ -72,7 +72,7 @@ def get_qa_result(job_id):
     return qa_job.envelope_file.envelope_id, qa_job.refresh()
 
 
-@app.task(ignore_result=False)
+@app.task(ignore_result=True)
 def get_qa_results():
     """
     Scheduled task to fetch results for all QAJobs not yet completed

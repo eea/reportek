@@ -11,6 +11,7 @@ Vue.use(Router);
 export default new Router({
   mode: 'history',
   scrollBehavior: (to, from, savedPosition) => ({ y: 0 }),
+  base: '/workspace',
   routes: [
     {
       path: '/',

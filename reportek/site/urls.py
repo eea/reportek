@@ -23,7 +23,7 @@ from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 
 from ..core.api import urls as api_urls
-# from . import views
+from . import views
 
 
 API_VERSION = "0.1"
@@ -39,6 +39,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     # url(r'^$',
     #     views.home, name='home'),
+    url(r'^workspace/(?P<path>.*)$',
+        views.workspace, name='workspace'),
     # url(f'^{ _country }/$',
     #     views.country, name='country'),
     # url(f'^{ _country }/{ _instrument }/$',
