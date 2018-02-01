@@ -647,14 +647,25 @@ class UploadHookView(viewsets.ViewSet):
                     {'error': 'user not authenticated'},
                     status=status.HTTP_403_FORBIDDEN
                 )
+
+            upload_id = request.data.get('ID')
+
             file_path = os.path.join(
                 settings.TUSD_UPLOADS_DIR,
-                f'{request.data.get("ID")}.bin'
+                f'{upload_id}.bin'
+            )
+
+            file_info_path = os.path.join(
+                settings.TUSD_UPLOADS_DIR,
+                f'{upload_id}.info'
             )
 
             file_path = Path(file_path).resolve()
-            if not file_path.is_file():
-                raise FileNotFoundError
+            file_info_path = Path(file_info_path).resolve()
+
+            for f in (file_path, file_info_path):
+                if not f.is_file():
+                    raise FileNotFoundError(f'UPLOAD tusd file not found: {f}')
 
             # Regular files
             if file_ext not in settings.ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS:
@@ -703,8 +714,10 @@ class UploadHookView(viewsets.ViewSet):
                         status=status.HTTP_400_BAD_REQUEST
                     )
 
-            # Finally, remove the token
+            # Finally, remove the token and the tusd files pair
             token.delete()
+            file_path.unlink()
+            file_info_path.unlink()
 
         except UploadToken.DoesNotExist:
             error(f'UPLOAD denied on envelope "{token.envelope}" '
@@ -713,8 +726,8 @@ class UploadHookView(viewsets.ViewSet):
                 {'error': 'invalid token'},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        except FileNotFoundError:
-            error(f'UPLOAD file does not exist: "{file_path}"')
+        except FileNotFoundError as err:
+            error(f'{err}')
             return Response(
                 {'error': 'file not found'},
                 status=status.HTTP_400_BAD_REQUEST
