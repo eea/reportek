@@ -31,6 +31,11 @@ class Client(RODModel):
         return self.name + (f' ({self.abbr})' if self.abbr else '')
 
 
+class ReporterManager(models.Manager):
+    def get_by_natural_key(self, abbr):
+        return self.get(abbr=abbr)
+
+
 class Reporter(RODModel):
     """
     The reporting entity (usually countries in CDR and companies in BDR,
@@ -41,9 +46,14 @@ class Reporter(RODModel):
     name = models.CharField(max_length=256, unique=True, null=True)
     abbr = models.CharField(max_length=32, unique=True, null=True)
 
+    objects = ReporterManager()
+
     @property
     def slug(self):
         return self.abbr.lower()
+
+    def natural_key(self):
+        return (self.abbr,)
 
     def __str__(self):
         return f'{self.name} [{self.abbr}]'
