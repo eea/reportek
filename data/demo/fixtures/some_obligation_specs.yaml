@@ -1,0 +1,372 @@
+- model: core.obligationspec
+  pk: 1
+  fields:
+    obligation: 14
+    version: 1
+    is_current: true
+    draft: false
+    schema: '["http://example.com/schema"]'
+    workflow_class: null
+    qa_xmlrpc_uri: 'http://example.com/lol'
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.reportingcycle
+  pk: 1
+  fields:
+    obligation: 14
+    obligation_spec: 1
+    reporting_start_date: 2018-02-01
+    reporting_end_date: 2019-01-31
+    is_open: true
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 1
+  fields:
+    spec: 1
+    reporter:
+      - AL
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 2
+  fields:
+    spec: 1
+    reporter:
+      - AT
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 3
+  fields:
+    spec: 1
+    reporter:
+      - BE
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 4
+  fields:
+    spec: 1
+    reporter:
+      - BA
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 5
+  fields:
+    spec: 1
+    reporter:
+      - BG
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 6
+  fields:
+    spec: 1
+    reporter:
+      - HR
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 7
+  fields:
+    spec: 1
+    reporter:
+      - CY
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 8
+  fields:
+    spec: 1
+    reporter:
+      - CZ
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 9
+  fields:
+    spec: 1
+    reporter:
+      - DK
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 10
+  fields:
+    spec: 1
+    reporter:
+      - EE
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 11
+  fields:
+    spec: 1
+    reporter:
+      - FI
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 12
+  fields:
+    spec: 1
+    reporter:
+      - FR
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 13
+  fields:
+    spec: 1
+    reporter:
+      - DE
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 14
+  fields:
+    spec: 1
+    reporter:
+      - GR
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 15
+  fields:
+    spec: 1
+    reporter:
+      - HU
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 16
+  fields:
+    spec: 1
+    reporter:
+      - IS
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 17
+  fields:
+    spec: 1
+    reporter:
+      - IE
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 18
+  fields:
+    spec: 1
+    reporter:
+      - IT
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 19
+  fields:
+    spec: 1
+    reporter:
+      - XK
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 20
+  fields:
+    spec: 1
+    reporter:
+      - LV
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 21
+  fields:
+    spec: 1
+    reporter:
+      - LI
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 22
+  fields:
+    spec: 1
+    reporter:
+      - LT
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 23
+  fields:
+    spec: 1
+    reporter:
+      - LU
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 24
+  fields:
+    spec: 1
+    reporter:
+      - MT
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 25
+  fields:
+    spec: 1
+    reporter:
+      - ME
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 26
+  fields:
+    spec: 1
+    reporter:
+      - NL
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 27
+  fields:
+    spec: 1
+    reporter:
+      - "NO"
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 28
+  fields:
+    spec: 1
+    reporter:
+      - PL
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 29
+  fields:
+    spec: 1
+    reporter:
+      - PT
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 30
+  fields:
+    spec: 1
+    reporter:
+      - RO
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 31
+  fields:
+    spec: 1
+    reporter:
+      - RS
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 32
+  fields:
+    spec: 1
+    reporter:
+      - SK
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 33
+  fields:
+    spec: 1
+    reporter:
+      - SI
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 34
+  fields:
+    spec: 1
+    reporter:
+      - ES
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 35
+  fields:
+    spec: 1
+    reporter:
+      - SE
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 36
+  fields:
+    spec: 1
+    reporter:
+      - CH
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 37
+  fields:
+    spec: 1
+    reporter:
+      - MK
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 38
+  fields:
+    spec: 1
+    reporter:
+      - TR
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
+
+- model: core.obligationspecreporter
+  pk: 39
+  fields:
+    spec: 1
+    reporter:
+      - GB
+    subdivision_category: null
+    created_at: ! '2018-02-01 18:00:00+00:00'
