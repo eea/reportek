@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             name='User',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type', models.CharField(choices=[('roles.reporteruser', 'reporter user'), ('roles.manageruser', 'manager user')], db_index=True, max_length=255)),
+                ('type', models.CharField(choices=[('roles.platformuser', 'platform user'), ('roles.reporteruser', 'reporter user'), ('roles.manageruser', 'manager user')], db_index=True, max_length=255)),
                 ('password', models.CharField(max_length=128, verbose_name='password')),
                 ('last_login', models.DateTimeField(blank=True, null=True, verbose_name='last login')),
                 ('is_superuser', models.BooleanField(default=False, help_text='Designates that this user has all permissions without explicitly assigning them.', verbose_name='superuser status')),
@@ -46,6 +46,19 @@ class Migration(migrations.Migration):
         ),
         migrations.CreateModel(
             name='ManagerUser',
+            fields=[
+            ],
+            options={
+                'proxy': True,
+                'indexes': [],
+            },
+            bases=('roles.user',),
+            managers=[
+                ('objects', reportek.roles.models.UserManager()),
+            ],
+        ),
+        migrations.CreateModel(
+            name='PlatformUser',
             fields=[
             ],
             options={
