@@ -33,8 +33,8 @@ export function createEnvelope(envelope) {
   {
     name: envelope.name,
     reporter: envelope.reporter,
-    obligation_spec: obligationSpec,
-    reporting_cycle: reportingCycle,
+    obligation_spec: envelope.obligationSpec,
+    reporting_cycle: envelope.reportingCycle,
   });
 }
 

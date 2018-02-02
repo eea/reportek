@@ -5,7 +5,7 @@ import EnvelopeDetail from './components/EnvelopeDetail';
 import EnvelopeCreate from './components/EnvelopeCreate';
 import Dashboard from './components/Dashboard';
 import EnvelopesArchive from './components/EnvelopesArchive';
-import EnvelopesWip from './components/EnvelopesWip';
+import EnvelopesWIP from './components/EnvelopesWIP';
 
 Vue.use(Router);
 
@@ -26,8 +26,8 @@ export default new Router({
     },
     {
       path: '/envelopes/wip',
-      name: 'EnvelopesWip',
-      component: EnvelopesWip,
+      name: 'EnvelopesWIP',
+      component: EnvelopesWIP,
     },
     {
       path: '/envelopes/:envelope_id(\\d+)',
