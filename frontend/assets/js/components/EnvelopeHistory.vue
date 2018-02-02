@@ -37,14 +37,14 @@
         class="btn btn-link pb-3 pt-3"
         @click="hiddenItems = false"
       >
-        +{{ countContainedKeys(envelopeHistory) }} versions
+        +{{ countContainedKeys(envelopeHistory) }} states
       </div>
     <div
       v-if="hiddenItems == false"
       class="btn-link"
       @click="hiddenItems = true"
     >
-        show less versions
+        show less states
       </div>
     </div>
   </div>
@@ -78,6 +78,12 @@ export default {
   // Fetches posts when the component is created.
   created() {
     this.getEnvelopeHistory();
+  },
+
+  updated(){
+    if(Object.keys(this.envelopeHistory).length <= 2) {
+      this.hiddenItems = false;
+    }
   },
 
   methods: {
@@ -200,6 +206,5 @@ export default {
 .mb5 {
   margin-bottom: 5rem!important;
 }
-
 
 </style>

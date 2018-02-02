@@ -1,20 +1,43 @@
 <template>
   <div class="hello">
     <div class="row" v-if="envelope">
-      <div class="col">
+      <div class="col-lg-8 col-md-8 col-sm-10">
         <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="primary">{{translateCode(envelope.workflow.current_state)}}</b-badge></h1>
 
-        <b-button
-          v-for="transition in envelope.workflow.available_transitions"
-          :key="transition"
-          variant="success"
-          v-on:click="goToTransition($event, transition)">
-            {{translateCode(transition)}}
-        </b-button>
+
+        <b-jumbotron
+            bg-variant="white"
+            border-variant="default"
+            class="status-control"
+            :header="translateCode(envelope.workflow.current_state)"
+          >
+         <div class="row">
+
+          <p  v-if="translateCode(envelope.workflow.current_state) === 'Draft'" class="col order-1">Add files and run QA tests on them. Fix any error you encounter and keep adding files. When the envelope is ready run all tests and get feedback</p>
+          <p v-else class="col order-1">
+            Envelope is in transition
+          </p>
+
+          <div class="col-lg-3 col-sm-5 col-md-3 order-2 d-flex align-items-start justify-content-center">
+            <b-button
+                v-for="transition in envelope.workflow.available_transitions"
+                :key="transition"
+                v-if="showTransitionButton(transition)"
+                variant="primary"
+                v-on:click="goToTransition($event, transition)">
+                  {{translateCode(transition)}}
+              </b-button>
+          </div>
+         </div>
+
+        </b-jumbotron>
+
+
+
         <p><strong>Envelope files {{envelope.files.length}}</strong></p>
 
         <b-button
-          variant="success"
+          variant="primary"
           v-on:click="uploadAllFiles"
           :disabled="!envelope.workflow.upload_allowed"
           class="absolute-right"
@@ -28,6 +51,7 @@
 
             <b-table
               stacked="md"
+              border-variant="default"
               :hover="false"
               :items="envelope.files"
               :fields="fields"
@@ -74,8 +98,24 @@
               :total-rows="envelope.files.length"
               :per-page="perPage"
               v-model="currentPage"
+              v-if="envelope.files.length > 5"
               class="my-0"
             />
+
+            <form
+              enctype="multipart/form-data"
+              novalidate v-if="isInitial || isSaving"
+              class="upload-form">
+                  <label for="file_uploads">Add files to envelope</label>
+                  <input
+                    type="file"
+                    id="file_uploads"
+                    class="hidden-input"
+                    v-on:disabled="isSaving"
+                    v-on:change="onFileChange"
+                    multiple
+                  >
+            </form>
 
             <b-list-group>
               <b-list-group-item
@@ -98,30 +138,27 @@
           <b-tab title="feedback">
             <br>
             <div v-if="envelopeFeedback">
-              <span
-                v-for="feedback in envelopeFeedback.results"
-                :key="feedback.id"
-                v-html="feedback.latest_result.value"
+              <b-jumbotron
+                :header="key"
+                bg-variant="white"
+                border-variant="default"
+                class="feedback-container"
+                v-for="(file, key) in envelopeFeedback.files"
+                :key="file.id"
               >
-              </span>
+                <span
+                  v-for="feedback in file"
+                  v-html="feedback.latest_result.value"
+                  :key="feedback.id"
+                >
+                </span>
+              </b-jumbotron>
             </div>
           </b-tab>
         </b-tabs>
 
-        <form
-          enctype="multipart/form-data"
-          novalidate v-if="isInitial || isSaving">
-            <label for="file_uploads">Add files to envelope</label>
-            <input
-              type="file"
-              id="file_uploads"
-              v-on:disabled="isSaving"
-              v-on:change="onFileChange"
-              multiple
-            >
-        </form>
     </div>
-    <div class="col-4">
+    <div class="col-lg-4 col-md-4 col-sm-10">
         <div class="sidebar-item">
         <h5>Details</h5>
           <p>Reporting on obligation {{envelope.obligation_spec}} in cycle {{envelope.reporting_cycle}}</p>
@@ -187,39 +224,89 @@ export default {
 
   // Fetches posts when the component is created.
   created() {
-    this.getEnvelope();
-    this.getEnvelopeFeedback();
+    this.getEnvelope()
+      .then((resultFiles) => {
+        this.getEnvelopeFeedback(resultFiles);
+      });
+
   },
 
   methods: {
     getEnvelope() {
-      fetchEnvelope(this.$route.params.envelope_id)
-        .then((response) => {
-          // JSON responses are automatically parsed.
-          this.envelope = response.data;
-          this.envelopeState = envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
+      return new Promise((resolve, reject) => {
+        fetchEnvelope(this.$route.params.envelope_id)
+          .then((response) => {
+            // JSON responses are automatically parsed.
+            this.envelope = response.data;
+            this.envelopeState = envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
 
-          for (let index = 0; index < this.envelope.files.length; index += 1) {
-            this.envelope.files[index] = Object.assign({}, this.envelope.files[index], { availableScripts: [] });
-          }
-        })
-        .catch((e) => {
-          console.log(e);
+            for (let index = 0; index < this.envelope.files.length; index += 1) {
+              this.envelope.files[index] = Object.assign({}, this.envelope.files[index], { availableScripts: [], feedback: [] });
+            }
+            resolve(this.envelope.files);
+          })
+          .catch((e) => {
+            reject(e);
+            console.log(e);
+          });
+      });
+    },
+
+    getEnvelopeFeedback(files) {
+      this.envelopeFeedback = null;
+      fetchEnvelopeFeedback(this.$route.params.envelope_id)
+        .then((response) => {
+          this.handleEnvelopeFeedback(response.data, files);
         });
     },
 
-    getEnvelopeFeedback() {
-      fetchEnvelopeFeedback(this.$route.params.envelope_id)
-        .then((response) => {
-          this.envelopeFeedback = response.data;
-          // as it is now, feedback has html and scripts that are not loaded
-          let script = response.data.results[0].latest_result.value.split('<script type="text/javascript">')[1].split('<\/script>')[0];
-          let p = document.createElement("script");
-          p.setAttribute("type", "text/javascript");
-          p.innerHTML = script;
+    handleEnvelopeFeedback(feedback, files) {
+      let matchScript;
+      let matchLink;
 
-          document.body.appendChild(p);
-        });
+      let modifiedFeedback = {
+        auto_qa_completed: feedback.auto_qa_completed,
+        auto_qa_ok: feedback.auto_qa_ok,
+        count: feedback.count,
+        next: feedback.next,
+        previous: feedback.previous,
+        files: {},
+      }
+
+      let p = document.createElement("script");
+      const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
+      const link_re = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
+
+      p.setAttribute("type", "text/javascript");
+
+      for (let file of files) {
+        modifiedFeedback.files[file.name] = []
+      }
+
+      for (let result of feedback.results){
+        while (matchScript = re.exec(result.latest_result.value)) {
+          // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
+          p.innerHTML += matchScript[1];
+        }
+        let links = []
+        while (matchLink = link_re.exec(result.latest_result.value)) {
+          links.push(matchLink[2])
+        }
+        for (let link of links) {
+          result.latest_result.value = result.latest_result.value.replace(link, " ")
+        }
+        for (let file of files){
+          // file.feedback.push(result)
+          if(file.id === result.envelope_file){
+            modifiedFeedback.files[file.name].push(result)
+          }
+        }
+      }
+      console.log(modifiedFeedback)
+
+      document.body.appendChild(p);
+      this.envelopeFeedback = modifiedFeedback;
+
     },
 
     onFileChange(e) {
@@ -354,21 +441,53 @@ export default {
 
       runEnvelopeTransition(this.$route.params.envelope_id, transition)
         .then((response) => {
-          this.getEnvelope(this.$route.params.envelope_id);
+          this.getEnvelope(this.$route.params.envelope_id).then((resultFiles) => {
+            this.updateFeedback(resultFiles);
+          });
         })
         .catch((error) => {
           console.log(error);
         });
     },
 
+    updateFeedback(resultFiles) {
+      return this.pollFeedback(() => fetchEnvelopeFeedback(this.$route.params.envelope_id,resultFiles), 10000);
+    },
+
+    pollFeedback(fn, delay) {
+      const self = this;
+      setTimeout(() => {
+        fn()
+          .then((response) => {
+            if (!response.data.auto_qa_completed) {
+              self.pollFeedback(fn, delay);
+            } else {
+                self.getEnvelope()
+                .then((resultFiles) => {
+                  self.getEnvelopeFeedback(resultFiles);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }, delay);
+    },
+
     translateCode(code) {
       return envelopeCodeDictionary(code);
     },
 
-    formatDate(date,count){
-      return dateFormat(date,count)
+    showTransitionButton(code) {
+        return code !== 'fail_qa' && code !== 'pass_qa'
     },
 
+    formatDate(date, count){
+      return dateFormat(date,count)
+    },
   },
 };
 </script>
@@ -394,5 +513,44 @@ export default {
 .absolute-right {
     position: absolute;
     right: 15px;
+}
+
+.feedback-container {
+  overflow-x: auto;
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+}
+.upload-form {
+  margin-top: 2rem;
+  position: relative;
+  .hidden-input {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    z-index: -1;
+  }
+  label {
+    cursor: pointer;
+    color: #767676;
+    &:before {
+      content: "➕";
+      border: 1px solid #767676;
+      color: inherit;
+      border-radius: 10rem;
+      padding: .3rem .5rem;
+      margin-right: .5rem;
+    }
+    &:hover {
+      color: #444;
+    }
+  }
+}
+.status-control {
+  padding: 1rem;
+  h1 {
+    font-size: 1.2rem;
+  }
 }
 </style>
