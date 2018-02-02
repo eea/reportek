@@ -95,7 +95,13 @@ class ReporterSubdivisionCategorySerializer(serializers.ModelSerializer):
                   'created_at', 'updated_at',)
 
 
-class ReportingCycleSerializer(DynamicFieldsModelSerializer):
+class ReportingCycleDetailsSerializer(DynamicFieldsModelSerializer):
+    class Meta:
+        model = ReportingCycle
+        fields = '__all__'
+
+
+class ReportingCycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReportingCycle
         fields = ('id', 'obligation', 'obligation_spec',
@@ -104,15 +110,22 @@ class ReportingCycleSerializer(DynamicFieldsModelSerializer):
 
 
 class ObligationSpecSerializer(serializers.ModelSerializer):
-    reporting_cycles = ReportingCycleSerializer(
-        many=True, read_only=True,
-        fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open'))
+    reporting_cycles = ReportingCycleSerializer(many=True, read_only=True)
 
     class Meta:
         model = ObligationSpec
         fields = ('id', 'obligation_id', 'version', 'is_current', 'draft',
                   'schema', 'workflow_class', 'qa_xmlrpc_uri', 'reporting_cycles',
                   'rod_url', 'created_at', 'updated_at',)
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['reporting_cycles'] = ReportingCycleDetailsSerializer(
+            instance.reporting_cycles.all(),
+            many=True,
+            fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open')
+        ).data
+        return data
 
 
 class NestedObligationSpecSerializer(NestedHyperlinkedModelSerializer,
@@ -227,15 +240,23 @@ class NestedUploadTokenSerializer(
 class EnvelopeSerializer(serializers.ModelSerializer):
     files = NestedEnvelopeFileSerializer(many=True, read_only=True)
     workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
-    reporting_cycle = ReportingCycleSerializer(
-        many=False, read_only=True,
-        fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open'))
 
     class Meta:
         model = Envelope
         fields = '__all__'
-        read_only_fields = ('obligation_spec', 'reporting_cycle',
-                            'workflow', 'finalized')
+        read_only_fields = (
+            'workflow',
+            'finalized',
+        )
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['reporting_cycle'] = ReportingCycleDetailsSerializer(
+            instance.reporting_cycle,
+            many=False,
+            fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open')
+        ).data
+        return data
 
 
 class QAJobResultSerializer(serializers.ModelSerializer):
