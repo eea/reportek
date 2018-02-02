@@ -1,6 +1,9 @@
 /* eslint-disable */
 import axios from 'axios';
 
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
 const logRequests = process.env.NODE_ENV === 'development';
 
 const api = axios.create({
