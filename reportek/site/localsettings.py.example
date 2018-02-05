@@ -32,4 +32,4 @@ CORS_ORIGIN_WHITELIST = (
 
 TUSD_UPLOADS_DIR='/home/user/apps/tusd-bin/data'
 
-QA_DEFAULT_XMLRPC_URI=http://xmlconv.edw.ro:8080/RpcRouter
+QA_DEFAULT_XMLRPC_URI='http://xmlconv.edw.ro:8080/RpcRouter'
