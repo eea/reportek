@@ -92,10 +92,11 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       createEnvelope(this.form)
-        .then((response) => { this.$router.push({
+        .then((response) => {
+          this.$router.push({
             name: 'EnvelopeDetail',
             params: {
-              id: 1,
+              envelope_id: response.data.id,
             },
           });
         })
