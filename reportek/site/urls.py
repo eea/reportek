@@ -22,6 +22,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 
+# TODO: merge all api-related urls, and handle them on the site side
+from .api.routers import my_router
 from ..core.api import urls as api_urls
 from . import views
 
@@ -48,6 +50,7 @@ urlpatterns = [
     # url(f'^{ _country }/{ _instrument }/{ _obligation }/$',
     #     views.obligation, name='obligation'),
 
+    url(r'^api/%s/my/' % API_VERSION, include(my_router.urls)),
     url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
     url(r'^api-docs/', include_docs_urls(title='Reportek API Documentation', public=False)),
 ]
