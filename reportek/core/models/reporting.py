@@ -275,6 +275,10 @@ class EnvelopeFile(models.Model):
             debug(f'renaming: {old_path} to {new_path}')
             os.rename(old_path, new_path)
 
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        os.remove(self.file.path)
+
     def get_file_url(self):
         return reverse('core:envelope-file', kwargs={
             'pk': self.envelope_id,
