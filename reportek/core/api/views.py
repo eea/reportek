@@ -414,9 +414,7 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         )
 
         scripts = []
-        if envelope_file.xml_schema is None:
-            return scripts
-        else:
+        if envelope_file.xml_schema is not None:
             for schema in envelope_file.xml_schema.split(' '):
                 scripts += remote_qa.get_scripts(schema)
 
