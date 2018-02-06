@@ -31,6 +31,11 @@ class Client(RODModel):
         return self.name + (f' ({self.abbr})' if self.abbr else '')
 
 
+class ReporterManager(models.Manager):
+    def get_by_natural_key(self, abbr):
+        return self.get(abbr=abbr)
+
+
 class Reporter(RODModel):
     """
     The reporting entity (usually countries in CDR and companies in BDR,
@@ -41,9 +46,14 @@ class Reporter(RODModel):
     name = models.CharField(max_length=256, unique=True, null=True)
     abbr = models.CharField(max_length=32, unique=True, null=True)
 
+    objects = ReporterManager()
+
     @property
     def slug(self):
         return self.abbr.lower()
+
+    def natural_key(self):
+        return (self.abbr,)
 
     def __str__(self):
         return f'{self.name} [{self.abbr}]'
@@ -73,7 +83,7 @@ class ReporterSubdivisionCategory(RODModel):
 
 class ReporterSubdivision(RODModel):
     """
-    Reporting subdivions.
+    Reporting subdivisions.
     """
     URL_PATTERN = RODModel.URL_PATTERN + '/reporter-subdivisions/{id}'
 
@@ -104,6 +114,15 @@ class Instrument(RODModel):
 
     def __str__(self):
         return self.title
+
+
+class ObligationQuerySet(models.QuerySet):
+    def open(self):
+        return self.filter(reporting_cycles__is_open=True)
+
+
+class ObligationManager(models.Manager.from_queryset(ObligationQuerySet)):
+    pass
 
 
 class Obligation(RODModel):
@@ -158,6 +177,17 @@ class Obligation(RODModel):
         return self.title
 
 
+class ObligationSpecQuerySet(models.QuerySet):
+    def current(self):
+        return self.filter(is_current=True)
+
+
+class ObligationSpecManager(models.Manager.from_queryset(ObligationSpecQuerySet)):
+    def get_queryset(self):
+        # we (probably) always want to select the obligation along
+        return super().get_queryset().select_related('obligation')
+
+
 class ObligationSpec(RODModel):
     """
     The obligation specification, aka Dataset Definition.
@@ -171,7 +201,7 @@ class ObligationSpec(RODModel):
     version = models.PositiveSmallIntegerField(default=1)
     # implementation logic must make sure there's only one spec current per obligation.
     # each new reporting cycle will default to the obligation's current spec.
-    is_current = models.BooleanField(default=False)
+    is_current = models.BooleanField(default=False, db_index=True)
     # allow working on the new spec before making it official.
     draft = models.BooleanField(default=True)
 
@@ -188,6 +218,7 @@ class ObligationSpec(RODModel):
         default=settings.QA_DEFAULT_XMLRPC_URI
     )
 
+    objects = ObligationSpecManager()
     tracker = FieldTracker()
 
     def __str__(self):
@@ -229,8 +260,11 @@ class ObligationSpec(RODModel):
 class ObligationSpecReporter(RODModel):
     URL_PATTERN = RODModel.URL_PATTERN + '/obligation-spec-reporters/{id}'
 
-    spec = models.ForeignKey(ObligationSpec, on_delete=models.CASCADE)
-    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE)
+    spec = models.ForeignKey(ObligationSpec, on_delete=models.CASCADE,
+                             related_name='reporter_mapping')
+
+    reporter = models.ForeignKey(Reporter, on_delete=models.CASCADE,
+                                 related_name='spec_mapping')
     # this is required only when reporting for the current entity
     # must be split across subdivisions
     subdivision_category = models.ForeignKey(ReporterSubdivisionCategory,
@@ -248,6 +282,19 @@ class ObligationSpecReporter(RODModel):
         db_table = 'core_oblig_spec_reporter'
 
 
+class ReportingCycleQuerySet(models.QuerySet):
+    def open(self):
+        return self.filter(is_open=True)
+
+
+class ReportingCycleManager(models.Manager.from_queryset(ReportingCycleQuerySet)):
+    def get_queryset(self):
+        # we (probably) always want to select the related obligation and spec
+        return super().get_queryset().select_related(
+            'obligation_spec', 'obligation_spec__obligation'
+        )
+
+
 class ReportingCycle(RODModel):
     """
     Reporting cycles, per obligation. Each report is tied to a specific cycle.
@@ -260,19 +307,21 @@ class ReportingCycle(RODModel):
                                         related_name='reporting_cycles')
 
     # this is always required, and can be in the future
-    reporting_start_date = models.DateField()
+    reporting_start_date = models.DateField(db_index=True)
 
     # - for standard (recurring) obligations, this is equivalent to the deadline date.
     # - for continuous-reporting obligations, this is null. in this case the period is
     #   initially open-ended, but this field gets a value when the period is closed.
-    reporting_end_date = models.DateField(blank=True, null=True)
+    reporting_end_date = models.DateField(blank=True, null=True, db_index=True)
 
     # - for standard obligations, the reporting period should normally close
     #   when the deadline is hit, but in practice some reporters are lagging behind,
     #   or sometimes a period has to be reopen.
     # - for continuous-reporting, closing will happen when there is a need to start
     #   a new period (e.g. because of a schema change), or when the obligation terminates.
-    is_open = models.BooleanField(default=True)
+    is_open = models.BooleanField(default=True, db_index=True)
+
+    objects = ReportingCycleManager()
 
     @property
     def is_soft_closed(self):
