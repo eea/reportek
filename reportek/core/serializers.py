@@ -163,6 +163,29 @@ class ObligationSerializer(serializers.ModelSerializer):
                   'updated_at',)
 
 
+class PendingReportingCycleSerializer(serializers.ModelSerializer):
+
+    subdivisions = ReporterSubdivisionSerializer(many=True)
+
+    class Meta:
+        model = ReportingCycle
+        fields = ('id', 'reporting_start_date', 'reporting_end_date',
+                  'is_open', 'rod_url', 'created_at', 'updated_at',
+                  'subdivisions')
+
+
+class PendingObligationSerializer(serializers.ModelSerializer):
+
+    reporting_cycles = PendingReportingCycleSerializer(many=True)
+
+    class Meta:
+        model = Obligation
+        fields = ('id', 'title', 'description', 'instrument', 'terminated',
+                  'client', 'active_since', 'active_until', 'reporting_duration',
+                  'reporting_frequency', 'rod_url', 'created_at',
+                  'updated_at', 'reporting_cycles')
+
+
 class EnvelopeFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnvelopeFile
