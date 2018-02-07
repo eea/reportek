@@ -2,12 +2,12 @@ import os
 from pathlib import Path
 from zipfile import ZipFile, BadZipFile
 from datetime import datetime as dt
-from collections import OrderedDict
+from collections import OrderedDict, defaultdict
 import dateutil.parser
 import logging
 from base64 import b64encode
 from django.views import static
-from django.db.models import Q
+from django.db.models import Q, F, Exists, OuterRef
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -46,6 +46,7 @@ from ..serializers import (
     ReporterSubdivisionCategorySerializer,
     ReporterSubdivisionSerializer,
     ObligationSerializer,
+    PendingObligationSerializer,
     NestedObligationSpecSerializer,
     ObligationSpecReporterSerializer,
     ReportingCycleSerializer,
@@ -151,6 +152,63 @@ class ClientViewSet(RODMixin, viewsets.ModelViewSet):
 class ReporterViewSet(RODMixin, viewsets.ModelViewSet):
     queryset = Reporter.objects.all()
     serializer_class = ReporterSerializer
+
+    @detail_route(methods=['get'])
+    def pending_obligations(self, request, pk):
+        """
+        Returns obligations with open reporting cycles for obligation specs
+        that have no envelopes from the reporter.
+
+        Relevant data on reporting cycles and applicable reporter subdivisions
+        is custom serialized within each obligation.
+        """
+
+        reporter = self.get_object()
+
+        envelopes = Envelope.objects.filter(
+            reporter=reporter,
+            reporting_cycle=OuterRef('pk')
+        )
+        reporting_cycles = ReportingCycle.objects.for_reporter(reporter, open_only=True).\
+            annotate(has_envelopes=Exists(envelopes)).filter(has_envelopes=False)
+
+        obligation_specs = reporter.obligation_specs.filter(
+            reporting_cycles__in=reporting_cycles)
+
+        obligations = {
+            spec.obligation_id: spec.obligation
+            for spec in obligation_specs
+            if spec
+        }
+
+        subdivision_category_ids = set(
+            rep_cycle.subdivision_category for rep_cycle in reporting_cycles
+        )
+
+        subdivision_categories = {
+            cat.id: cat
+            for cat in
+            ReporterSubdivisionCategory.objects.filter(
+                id__in=subdivision_category_ids
+            ).prefetch_related('subdivisions')
+        }
+
+        for rep_cycle in reporting_cycles:
+            oblig = obligations[rep_cycle.obligation_spec.obligation_id]
+
+            try:
+                rep_cycle.subdivisions = subdivision_categories[rep_cycle.subdivision_category].subdivisions.all()
+            except KeyError:
+                rep_cycle.subdivisions = []
+
+            try:
+                oblig.reporting_cycles.append(rep_cycle)
+            except AttributeError:
+                oblig.reporting_cycles = [rep_cycle]
+
+        serializer = PendingObligationSerializer(
+            obligations.values(), many=True, context={'request': request})
+        return Response(serializer.data)
 
 
 class ReporterSubdivisionCategoryViewSet(RODMixin, viewsets.ModelViewSet):

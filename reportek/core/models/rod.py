@@ -41,6 +41,9 @@ class Reporter(RODModel):
     name = models.CharField(max_length=256, unique=True, null=True)
     abbr = models.CharField(max_length=32, unique=True, null=True)
 
+    obligation_specs = models.ManyToManyField('core.ObligationSpec',
+                                              through='core.ObligationSpecReporter')
+
     @property
     def slug(self):
         return self.abbr.lower()
@@ -248,14 +251,33 @@ class ObligationSpecReporter(RODModel):
         db_table = 'core_oblig_spec_reporter'
 
 
+class ReportingCycleManager(models.Manager):
+    def for_reporter(self, reporter, open_only=True):
+        qs = super().get_queryset().filter(
+            obligation_spec__obligationspecreporter__reporter=reporter,
+        ).select_related(
+            'obligation_spec',
+            'obligation_spec__obligation',
+        ).annotate(
+            subdivision_category=models.F(
+                'obligation_spec__obligationspecreporter__subdivision_category'
+            )
+        )
+
+        if open_only:
+            qs = qs.filter(is_open=True)
+
+        return qs
+
+
 class ReportingCycle(RODModel):
     """
     Reporting cycles, per obligation. Each report is tied to a specific cycle.
     """
     URL_PATTERN = RODModel.URL_PATTERN + '/reporting-cycles/{id}'
 
-    obligation = models.ForeignKey(Obligation, on_delete=models.CASCADE,
-                                   related_name='reporting_cycles')
+    # TODO : Remove obligation FK to normalize model
+    obligation = models.ForeignKey(Obligation, on_delete=models.CASCADE)
     obligation_spec = models.ForeignKey(ObligationSpec, on_delete=models.CASCADE,
                                         related_name='reporting_cycles')
 
@@ -273,6 +295,8 @@ class ReportingCycle(RODModel):
     # - for continuous-reporting, closing will happen when there is a need to start
     #   a new period (e.g. because of a schema change), or when the obligation terminates.
     is_open = models.BooleanField(default=True)
+
+    objects = ReportingCycleManager()
 
     @property
     def is_soft_closed(self):
