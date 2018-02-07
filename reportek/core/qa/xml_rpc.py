@@ -1,28 +1,13 @@
 import xmlrpc.client
-from functools import wraps
 import logging
+
+from reportek.core.utils import bin_to_str, get_content_encoding, log_xmlrpc_errors
 
 log = logging.getLogger('reportek.qa')
 info = log.info
 debug = log.debug
 warn = log.warning
 error = log.error
-
-
-def log_xmlrpc_errors(f):
-    """
-    Method wrapper, ensures logging of XMLRPC faults and protocol errors.
-    """
-    @wraps(f)
-    def wrapper(self, *args, **kwargs):
-        try:
-            return f(self, *args, **kwargs)
-        except xmlrpc.client.Fault as err:
-            error(f'XMLRPC fault: code={err.faultCode}, error={err.faultString}')
-        except xmlrpc.client.ProtocolError as err:
-            error(f'XMLRPC protocol error: url={err.url}, headers={err.headers}, '
-                  f'code={err.errcode}, msg={err.errmsg}')
-    return wrapper
 
 
 class RemoteQA:
@@ -32,32 +17,7 @@ class RemoteQA:
     def __init__(self, uri):
         self.uri = uri
 
-    @staticmethod
-    def bin_to_str(bin_obj, encoding='utf-8'):
-        """
-        Converts a xmlrpc.Binary object to string.
-        """
-        try:
-            return str(bin_obj.data, encoding)
-        except Exception:
-            return 'ERROR: could not decode'
-
-    @staticmethod
-    def get_content_encoding(result):
-        """
-        Extracts the encoding from a content_type string
-        (e.g. 'text/html;charset=UTF-8').
-        """
-        _result = result.split(';')
-        if len(_result) < 2 or not 'charset=' in _result[1]:
-            return None
-        else:
-            enc = _result[1].split('=')
-            if len(enc) < 2:
-                return None
-            return enc[1]
-
-    @log_xmlrpc_errors
+    @log_xmlrpc_errors(log)
     def validate(self, file_url):
         """
         Validates the source XML file against the XML Schema or DOCTYPE defined within the XML file.
@@ -65,7 +25,7 @@ class RemoteQA:
         with xmlrpc.client.ServerProxy(self.uri) as proxy:
             return proxy.ValidationService.validate(file_url)
 
-    @log_xmlrpc_errors
+    @log_xmlrpc_errors(log)
     def validate_schema(self, file_url, xml_schema):
         """
         Validates the source XML file against the specified XML Schema.
@@ -73,7 +33,7 @@ class RemoteQA:
         with xmlrpc.client.ServerProxy(self.uri) as proxy:
             return proxy.ValidationService.validateSchema(file_url, xml_schema)
 
-    @log_xmlrpc_errors
+    @log_xmlrpc_errors(log)
     def analyze_xml_files(self, files):
         """
         Analyzes several XML files with QA methods.
@@ -86,7 +46,7 @@ class RemoteQA:
             debug(f'QA analyzeXMLFiles response: {response}')
             return response or []
 
-    @log_xmlrpc_errors
+    @log_xmlrpc_errors(log)
     def analyze(self, file_url, xquery_script):
         """
         Analyses an XML file using the given XQuery script.
@@ -94,7 +54,7 @@ class RemoteQA:
         with xmlrpc.client.ServerProxy(self.uri) as proxy:
             return proxy.XQueryService.analyze(file_url, xquery_script)
 
-    @log_xmlrpc_errors
+    @log_xmlrpc_errors(log)
     def get_job_result(self, job_id):
         """
         Returns the result of QA for given job ID.
@@ -104,7 +64,7 @@ class RemoteQA:
             debug(f'QA getResult({job_id}) response: {response}')
             return response
 
-    @log_xmlrpc_errors
+    @log_xmlrpc_errors(log)
     def get_scripts(self, xml_schema):
         """
         Returns the list of available QA rules for one particular schema,
@@ -122,7 +82,7 @@ class RemoteQA:
                 for s in scripts
             ]
 
-    @log_xmlrpc_errors
+    @log_xmlrpc_errors(log)
     def get_queries(self, xml_schema):
         """
         Returns the list of available QA rules for one particular schema.
@@ -130,7 +90,7 @@ class RemoteQA:
         with xmlrpc.client.ServerProxy(self.uri) as proxy:
             return proxy.XQueryService.listQueries(xml_schema)
 
-    @log_xmlrpc_errors
+    @log_xmlrpc_errors(log)
     def run_script(self, file_url, script_id):
         """
         Runs the QA script with specified id against the XML file at the URL,
@@ -143,11 +103,11 @@ class RemoteQA:
         with xmlrpc.client.ServerProxy(self.uri) as proxy:
             result = proxy.XQueryService.runQAScript(file_url, script_id)
             if result:
-                encoding = self.get_content_encoding(result[0]) or 'utf-8'
+                encoding = get_content_encoding(result[0]) or 'utf-8'
                 result = {
                     'content-type': result[0],
-                    'result': self.bin_to_str(result[1], encoding=encoding),
-                    'feedback_status': self.bin_to_str(result[2], encoding=encoding),
-                    'feedback_message': self.bin_to_str(result[3], encoding=encoding)
+                    'result': bin_to_str(result[1], encoding=encoding),
+                    'feedback_status': bin_to_str(result[2], encoding=encoding),
+                    'feedback_message': bin_to_str(result[3], encoding=encoding)
                 }
             return result

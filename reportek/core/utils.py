@@ -5,6 +5,8 @@ from collections import defaultdict
 import pkgutil
 import pyclbr
 import base64
+import xmlrpc.client
+from functools import wraps
 from importlib import import_module
 from inspect import getmro
 from traceback import print_tb
@@ -225,3 +227,46 @@ def has_perm_or_basicauth(perm, realm=''):
                                      realm, *args, **kwargs)
         return wrapper
     return view_decorator
+
+
+def log_xmlrpc_errors(logger):
+    def log_decorator(f):
+        """
+        Method wrapper, ensures logging of XMLRPC faults and protocol errors.
+        """
+        @wraps(f)
+        def wrapper(self, *args, **kwargs):
+            try:
+                return f(self, *args, **kwargs)
+            except xmlrpc.client.Fault as err:
+                logger.error(f'XMLRPC fault: code={err.faultCode}, error={err.faultString}')
+            except xmlrpc.client.ProtocolError as err:
+                logger.error(f'XMLRPC protocol error: url={err.url}, headers={err.headers}, '
+                             f'code={err.errcode}, msg={err.errmsg}')
+        return wrapper
+    return log_decorator
+
+
+def bin_to_str(bin_obj, encoding='utf-8'):
+    """
+    Converts a xmlrpc.client.Binary object to string.
+    """
+    try:
+        return str(bin_obj.data, encoding)
+    except Exception:
+        return 'ERROR: could not decode'
+
+
+def get_content_encoding(result):
+    """
+    Extracts the encoding from a content_type string
+    (e.g. 'text/html;charset=UTF-8').
+    """
+    _result = result.split(';')
+    if len(_result) < 2 or not 'charset=' in _result[1]:
+        return None
+    else:
+        enc = _result[1].split('=')
+        if len(enc) < 2:
+            return None
+        return enc[1]

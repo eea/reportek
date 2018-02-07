@@ -62,6 +62,7 @@ from .. import permissions
 from reportek.core.utils import path_parts
 
 from reportek.core.qa import RemoteQA
+from reportek.core.conversion import RemoteConversion
 from reportek.core.utils import fully_qualify_url
 
 
@@ -506,6 +507,55 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         qa_jobs = QAJob.objects.filter(completed=True, envelope_file=envelope_file)
         serializer = QAJobSerializer(qa_jobs, many=True, context={'request': request})
         return Response(serializer.data)
+
+    @detail_route(methods=['get'])
+    def conversion_scripts(self, request, envelope_pk, pk):
+        """
+        Returns the list of available conversion scripts for a file's schema(s),
+        as list of dicts with the keys:
+            `description`
+            `content_type_out`
+            `xml_schema`
+            `result_type`
+            `xsl'
+            `convert_id`
+        """
+        envelope_file = self.get_object()
+        remote_conversion = RemoteConversion(
+            envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
+        )
+
+        scripts = []
+        if envelope_file.xml_schema is not None:
+            for schema in envelope_file.xml_schema.split(' '):
+                scripts += remote_conversion.get_conversions(schema)
+
+        return Response(scripts)
+
+    @detail_route(methods=['post'])
+    def run_conversion_script(self, request, envelope_pk, pk):
+        """
+        Runs the conversion script with id POST-ed as ``convert_id`` against the
+        XML file, and returns the result as dict with the keys:
+            `content`
+            `content-type`
+            `filename`
+        """
+        script_id = request.data.get('convert_id')
+        envelope_file = self.get_object()
+        remote_conversion = RemoteConversion(
+            envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
+        )
+        # file_url = fully_qualify_url(envelope_file.get_api_download_url())
+        file_url = fully_qualify_url(envelope_file.get_file_url())
+        conversion_result = remote_conversion.convert_xml(file_url, str(script_id))
+
+        response = Response()
+        # force browser to download file
+        response['Content-Disposition'] = f'attachment; filename={conversion_result["filename"]}'
+        response.write(conversion_result["content"].data)
+
+        return response
 
 
 class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):
