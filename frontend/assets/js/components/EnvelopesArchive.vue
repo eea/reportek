@@ -1,11 +1,6 @@
 <template>
   <div class="hello">
-    <router-link
-      class="nav-link"
-      :to="'/dashboard'"
-    >
-    Create New Envelope
-    </router-link>
+    Envelope Archive
     <div v-if="envelopes && envelopes.length">
       <b-table
         :hover="false"
@@ -23,15 +18,15 @@
       </b-table>
     </div>
 
-    <p v-if="!envelopes || envelopes.length == 0"> No envelopes created yet</p>
+    <p v-if="!envelopes || envelopes.length == 0"> No envelopes finalized yet</p>
   </div>
 </template>
 
 <script>
-import { fetchEnvelopes } from '../api';
+import { fetchArchiveEnvelopes } from '../api';
 
 export default {
-  name: 'Envelopes',
+  name: 'EnvelopesArchive',
 
   data() {
     return {
@@ -41,7 +36,7 @@ export default {
   },
 
   created() {
-    fetchEnvelopes()
+    fetchArchiveEnvelopes()
       .then((response) => {
         // JSON responses are automatically parsed.
         this.envelopes = response.data.results;

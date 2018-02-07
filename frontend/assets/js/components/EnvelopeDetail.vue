@@ -13,7 +13,10 @@
           >
          <div class="row">
 
-          <p  v-if="translateCode(envelope.workflow.current_state) === 'Draft'" class="col order-1">Add files and run QA tests on them. Fix any error you encounter and keep adding files. When the envelope is ready run all tests and get feedback</p>
+          <p  v-if="translateCode(envelope.workflow.current_state) === 'Draft'" class="col order-1">
+            Add files and run QA tests on them. Fix any error you encounter and keep adding files.
+            When the envelope is ready run all tests and get feedback
+          </p>
           <p v-else class="col order-1">
             Envelope is in transition
           </p>
@@ -59,13 +62,53 @@
               :per-page="perPage"
             >
 
-              <a
+              <div
+                slot="name"
+                slot-scope="row"
+              >
+                <b-form-input
+                  type="text"
+                  v-model="row.item.name"
+                  v-if="row.item.isEditing"
+                ></b-form-input>
+                <p v-if="!row.item.isEditing">
+                  {{row.item.name}}
+                </p>
+
+              </div>
+
+              <div
                 slot="file"
                 slot-scope="row"
-                v-bind:href="row.value"
               >
-                Edit File
-              </a>
+
+                <b-link
+                  href="#"
+                  class="card-link"
+                  v-on:click="renameFile(row.item)"
+                  v-if="!row.item.isEditing"
+                >
+                  <p>Rename File</p>
+                </b-link>
+
+                <b-link
+                  href="#"
+                  class="card-link"
+                  v-on:click="updateFile(row.item)"
+                  v-if="row.item.isEditing"
+                >
+                  <p>Save File</p>
+                </b-link>
+
+                <b-link
+                  href="#"
+                  class="card-link"
+                  v-on:click="deleteFile(row.item)"
+                >
+                  <p>Delete File</p>
+                </b-link>
+              </div>
+
 
               <b-link
                 href="#"
@@ -180,6 +223,8 @@ import { fetchEnvelope,
           runEnvelopeFilesQAScript,
           fetchEnvelopeFiles,
           runEnvelopeTransition,
+          updateFile,
+          removeFile,
           } from '../api';
 import { dateFormat } from '../utils/UtilityFunctions';
 
@@ -241,7 +286,7 @@ export default {
             this.envelopeState = envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
 
             for (let index = 0; index < this.envelope.files.length; index += 1) {
-              this.envelope.files[index] = Object.assign({}, this.envelope.files[index], { availableScripts: [], feedback: [] });
+              this.envelope.files[index] = Object.assign({}, this.envelope.files[index], { availableScripts: [], feedback: [], isEditing: false });
             }
             resolve(this.envelope.files);
           })
@@ -296,17 +341,14 @@ export default {
           result.latest_result.value = result.latest_result.value.replace(link, " ")
         }
         for (let file of files){
-          // file.feedback.push(result)
           if(file.id === result.envelope_file){
             modifiedFeedback.files[file.name].push(result)
           }
         }
       }
-      console.log(modifiedFeedback)
 
       document.body.appendChild(p);
       this.envelopeFeedback = modifiedFeedback;
-
     },
 
     onFileChange(e) {
@@ -321,7 +363,7 @@ export default {
       e.preventDefault();
 
       // for each file create a function that returns a promise
-      const funcs = this.files.map((file, index) => () => this.uploadFile(file, index));
+      const funcs = this.files.map((file) => () => this.uploadFile(file));
 
       // reduce the array or functions that return promises, in a chain
       const promiseSerial = functions =>
@@ -396,6 +438,7 @@ export default {
 
                 if (found === undefined) {
                   responseFile.availableScripts = [];
+                  responseFile.isEditing = false;
                   self.envelope.files.push(responseFile);
                   self.files.shift();
                 }
@@ -430,6 +473,37 @@ export default {
             }
             return script;
           });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    renameFile(file) {
+      file.isEditing = true;
+    },
+
+
+    updateFile(file) {
+      updateFile(this.$route.params.envelope_id, file.id, file.name)
+        .then((response) => {
+          this.getEnvelope()
+            .then((resultFiles) => {
+              this.getEnvelopeFeedback(resultFiles);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    deleteFile(file) {
+      removeFile(this.$route.params.envelope_id, file.id)
+        .then((response) => {
+          this.getEnvelope()
+            .then((resultFiles) => {
+              this.getEnvelopeFeedback(resultFiles);
+            });
         })
         .catch((error) => {
           console.log(error);

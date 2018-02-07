@@ -2,6 +2,10 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Envelopes from './components/Envelopes';
 import EnvelopeDetail from './components/EnvelopeDetail';
+import EnvelopeCreate from './components/EnvelopeCreate';
+import Dashboard from './components/Dashboard';
+import EnvelopesArchive from './components/EnvelopesArchive';
+import EnvelopesWIP from './components/EnvelopesWIP';
 
 Vue.use(Router);
 
@@ -12,12 +16,18 @@ export default new Router({
   routes: [
     {
       path: '/',
-      component: Envelopes,
+      name: 'Dashboard',
+      component: Dashboard,
     },
     {
-      path: '/envelopes',
-      name: 'Envelopes',
-      component: Envelopes,
+      path: '/envelopes/archive',
+      name: 'EnvelopesArchive',
+      component: EnvelopesArchive,
+    },
+    {
+      path: '/envelopes/wip',
+      name: 'EnvelopesWIP',
+      component: EnvelopesWIP,
     },
     {
       path: '/envelopes/:envelope_id(\\d+)',
@@ -26,9 +36,14 @@ export default new Router({
       meta: {
         breadcrumb: {
           name: 'Envelopes',
-          path: '/envelopes',
+          path: '/envelopes/wip',
         },
       },
+    },
+    {
+      path: '/envelopes/create',
+      name: 'EnvelopeCreate',
+      component: EnvelopeCreate,
     },
     {
       path: '*',
