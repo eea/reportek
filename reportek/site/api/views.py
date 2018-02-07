@@ -1,18 +1,37 @@
 from collections import OrderedDict
 from django.db.models import F
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import GenericViewSet
 from rest_framework.mixins import ListModelMixin
+from rest_framework.response import Response
 
 from reportek.core.models import (
     ReportingCycle, ReporterSubdivisionCategory,
 )
-from .permissions import IsReporter
-from .serializers import ObligationSerializer
+from .permissions import (
+    IsSiteUser, IsReporter,
+)
+from .serializers import (
+    UserSerializer, ReporterUserSerializer,
+    ObligationSerializer,
+)
+
+
+# this one's too simple to warrant a view
+@api_view()
+@permission_classes((IsSiteUser,))
+def user_profile(request):
+    serializer = (
+        ReporterUserSerializer if request.user.is_reporter()
+        else UserSerializer
+    )
+    return Response(
+        serializer(request.user).data
+    )
 
 
 # setting things up as viewsets so we can have pretty routes and index view
-
 class _ListViewSet(ListModelMixin, GenericViewSet):
     pass
 
@@ -34,7 +53,6 @@ class ReporterPendingObligations(_ListViewSet):
     # (this is entirely custom, make sure it doesn't get filtered / paginated)
     filter_backends = []
     pagination_class = None
-
 
     def get_queryset(self):
         reporter = self.request.user.reporter

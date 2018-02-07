@@ -35,6 +35,15 @@ class User(AbstractUser, TypedModel):
     def is_manager(self):
         return self.type == ManagerUser._typedmodels_type
 
+    @property
+    def role(self):
+        return {
+            None: None,
+            PlatformUser._typedmodels_type: "internal",
+            ReporterUser._typedmodels_type: "reporter",
+            ManagerUser._typedmodels_type: "manager",
+        }[self.type]
+
 
 class PlatformUser(User):
     """

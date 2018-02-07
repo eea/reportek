@@ -1,10 +1,30 @@
 from rest_framework import serializers
 
+from reportek.roles.models import User
 from reportek.core.models import (
-    Instrument, Client,
+    Instrument, Client, Reporter,
     Obligation, ObligationSpec,
     ReportingCycle, ReporterSubdivision,
 )
+
+
+class ReporterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reporter
+        fields = ('abbr', 'name')
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'role')
+
+
+class ReporterUserSerializer(serializers.ModelSerializer):
+    reporter = ReporterSerializer()
+
+    class Meta(UserSerializer.Meta):
+        fields = UserSerializer.Meta.fields + ('reporter',)
 
 
 class InstrumentSerializer(serializers.ModelSerializer):
