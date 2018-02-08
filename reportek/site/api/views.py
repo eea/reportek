@@ -1,5 +1,5 @@
 from collections import OrderedDict
-from django.db.models import F
+from django.db.models import F, Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import GenericViewSet
@@ -49,9 +49,9 @@ class ReporterPendingObligations(_ListViewSet):
     # that means:
     # - obligations whose current spec includes the current user as reporter,
     # - that have a currently open reporting cycle,
-    # TODO: !!
     # - excluding those that already have an envelope created,
     #   unless they're continuous-reporting
+    # TODO: (?!) or the envelope is open?
 
     permission_classes = (IsReporter,)
     serializer_class = PendingObligationSerializer
@@ -66,6 +66,9 @@ class ReporterPendingObligations(_ListViewSet):
         # but we're gonna make this look like an obligations query
         cycles = ReportingCycle.objects.open().for_reporter(
             reporter
+        ).exclude(
+            Q(reporting_end_date__isnull=False) &
+            Q(pk__in=reporter.envelopes.all().values('reporting_cycle'))
         ).select_related(
             'obligation_spec',
             'obligation_spec__obligation',
