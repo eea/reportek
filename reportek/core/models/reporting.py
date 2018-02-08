@@ -47,7 +47,11 @@ __all__ = [
 
 
 class EnvelopeQuerySet(models.QuerySet):
-    pass
+    def open(self):
+        return self.filter(finalized=False)
+
+    def closed(self):
+        return self.filter(finalized=True)
 
 
 class EnvelopeManager(models.Manager.from_queryset(EnvelopeQuerySet)):
@@ -123,6 +127,14 @@ class Envelope(models.Model):
         return self.auto_qa_complete and all([r.ok for r in self.auto_qa_results])
 
     class Meta:
+        # TODO:
+        # this should be ('reporter', 'reporting_cycle', 'reporter_subdivision')
+        # ... but only for non-continuous reporting obligations.
+        # so no unique_together, but should be verified at save() time.
+        # also TODO: should make sure everything is clean, *and* that
+        # DRF outputs proper errors. consider implementing things this way:
+        # https://github.com/encode/django-rest-framework/issues/2145#issuecomment-260080084
+
         unique_together = (
             ('reporter', 'obligation_spec', 'reporting_cycle'),
         )
@@ -140,6 +152,12 @@ class Envelope(models.Model):
 
         # On first save:
         if not self.pk or kwargs.get('force_insert', False):
+            # creation expects only the reporting cycle (normally)
+            if (self.obligation_spec_id is None
+                and self.reporting_cycle_id is not None
+            ):
+                self.obligation_spec = self.reporting_cycle.obligation_spec
+
             # - import the workflow class set on the envelope's obligation spec
             wf_path_components = self.obligation_spec.workflow_class.split('.')
             module_name = '.'.join(wf_path_components[:-1])

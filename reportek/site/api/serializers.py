@@ -5,6 +5,7 @@ from reportek.core.models import (
     Instrument, Client, Reporter,
     Obligation, ObligationSpec,
     ReportingCycle, ReporterSubdivision,
+    Envelope,
 )
 
 
@@ -54,20 +55,25 @@ class ReporterSubdivisionSerializer(serializers.ModelSerializer):
         )
 
 
-class ReportingCycleSerializer(serializers.ModelSerializer):
-    subdivisions = ReporterSubdivisionSerializer(many=True)
-
+class BaseReportingCycleSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReportingCycle
         fields = (
             'id', 'rod_url',
             'reporting_start_date', 'reporting_end_date',
-            'subdivisions',
+        )
+
+class ObligationReportingCycleSerializer(BaseReportingCycleSerializer):
+    reporter_subdivisions = ReporterSubdivisionSerializer(many=True,
+                                                          source='subdivisions')
+
+    class Meta(BaseReportingCycleSerializer.Meta):
+        fields = BaseReportingCycleSerializer.Meta.fields + (
+            'reporter_subdivisions',
         )
 
 
-class ObligationSerializer(serializers.ModelSerializer):
-    cycles = ReportingCycleSerializer(many=True)
+class BaseObligationSerializer(serializers.ModelSerializer):
     instrument = InstrumentSerializer()
     client = ClientSerializer()
 
@@ -76,5 +82,50 @@ class ObligationSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'rod_url',
             'title', 'description',
-            'instrument', 'client', 'cycles',
+            'instrument', 'client',
         )
+
+
+class PendingObligationSerializer(serializers.ModelSerializer):
+    reporting_cycles = ObligationReportingCycleSerializer(many=True,
+                                                          source='cycles')
+
+    class Meta(BaseObligationSerializer.Meta):
+        fields = BaseObligationSerializer.Meta.fields + (
+            'reporting_cycles',
+        )
+
+
+class EnvelopeSerializer(serializers.ModelSerializer):
+    obligation = BaseObligationSerializer(read_only=True)
+    reporting_cycle = BaseReportingCycleSerializer()
+    reporter_subdivision = ReporterSubdivisionSerializer()
+
+    class Meta:
+        model = Envelope
+        fields = (
+            'id', 'name', 'obligation',
+            'reporting_cycle', 'reporter_subdivision',
+        )
+
+
+class EnvelopeReportingCycle(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        return ReportingCycle.objects.open().for_reporter(
+            self.context['request'].user.reporter
+        )
+
+
+class EnvelopeReporterSubdivision(serializers.PrimaryKeyRelatedField):
+    def get_queryset(self):
+        # TODO: this queryset is not enough. it must be trimmed down
+        # based on the ReportingCycle.
+        subdivisions = ReporterSubdivision.objects.for_reporter(
+            self.context['request'].user.reporter
+        )
+        return subdivisions
+
+
+class CreateEnvelopeSerializer(EnvelopeSerializer):
+    reporting_cycle = EnvelopeReportingCycle()
+    reporter_subdivision = EnvelopeReporterSubdivision(required=False, allow_null=True)

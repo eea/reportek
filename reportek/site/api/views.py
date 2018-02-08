@@ -3,18 +3,23 @@ from django.db.models import F
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import GenericViewSet
-from rest_framework.mixins import ListModelMixin
+from rest_framework.mixins import (
+    ListModelMixin,
+    CreateModelMixin,
+)
 from rest_framework.response import Response
 
 from reportek.core.models import (
     ReportingCycle, ReporterSubdivisionCategory,
+    Envelope,
 )
 from .permissions import (
     IsSiteUser, IsReporter,
 )
 from .serializers import (
     UserSerializer, ReporterUserSerializer,
-    ObligationSerializer,
+    PendingObligationSerializer,
+    EnvelopeSerializer, CreateEnvelopeSerializer,
 )
 
 
@@ -49,7 +54,7 @@ class ReporterPendingObligations(_ListViewSet):
     #   unless they're continuous-reporting
 
     permission_classes = (IsReporter,)
-    serializer_class = ObligationSerializer
+    serializer_class = PendingObligationSerializer
     # (this is entirely custom, make sure it doesn't get filtered / paginated)
     filter_backends = []
     pagination_class = None
@@ -59,8 +64,8 @@ class ReporterPendingObligations(_ListViewSet):
 
         # it's the cycles and subdivisions we're really after,
         # but we're gonna make this look like an obligations query
-        cycles = ReportingCycle.objects.open().filter(
-            obligation_spec__reporter_mapping__reporter=reporter,
+        cycles = ReportingCycle.objects.open().for_reporter(
+            reporter
         ).select_related(
             'obligation_spec',
             'obligation_spec__obligation',
@@ -105,9 +110,43 @@ class ReporterPendingObligations(_ListViewSet):
         return obligations.values()
 
 
-class ReporterOpenEnvelopes(_ListViewSet):
-    pass
+class _BaseReporterEnvelopes(_ListViewSet):
+    permission_classes = (IsReporter,)
+    serializer_class = EnvelopeSerializer
+
+    def get_queryset(self):
+        reporter = self.request.user.reporter
+
+        envelopes = Envelope.objects.filter(
+            reporter=reporter
+        ).select_related(
+            'reporter_subdivision',
+            'reporting_cycle',
+            'reporting_cycle__obligation_spec',
+            'reporting_cycle__obligation_spec__obligation',
+            'reporting_cycle__obligation_spec__obligation__instrument',
+            'reporting_cycle__obligation_spec__obligation__client',
+        )
+
+        return envelopes
 
 
-class ReporterClosedEnvelopes(_ListViewSet):
-    pass
+class ReporterOpenEnvelopes(CreateModelMixin, _BaseReporterEnvelopes):
+    def get_queryset(self):
+        envelopes = super().get_queryset()
+        return envelopes.open()
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return CreateEnvelopeSerializer
+
+        return super().get_serializer_class()
+
+    def perform_create(self, serializer):
+        serializer.save(reporter=self.request.user.reporter)
+
+
+class ReporterClosedEnvelopes(_BaseReporterEnvelopes):
+    def get_queryset(self):
+        envelopes = super().get_queryset()
+        return envelopes.closed()

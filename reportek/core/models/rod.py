@@ -81,6 +81,15 @@ class ReporterSubdivisionCategory(RODModel):
         unique_together = ('reporter', 'name')
 
 
+class ReporterSubdivisionQuerySet(models.QuerySet):
+    def for_reporter(self, reporter):
+        return self.filter(category__reporter=reporter)
+
+
+class ReporterSubdivisionManager(models.Manager.from_queryset(ReporterSubdivisionQuerySet)):
+    pass
+
+
 class ReporterSubdivision(RODModel):
     """
     Reporting subdivisions.
@@ -90,6 +99,8 @@ class ReporterSubdivision(RODModel):
     category = models.ForeignKey(ReporterSubdivisionCategory, on_delete=models.CASCADE,
                                  related_name='subdivisions')
     name = models.CharField(max_length=128, null=True)
+
+    objects = ReporterSubdivisionManager()
 
     @property
     def reporter(self):
@@ -285,6 +296,11 @@ class ObligationSpecReporter(RODModel):
 class ReportingCycleQuerySet(models.QuerySet):
     def open(self):
         return self.filter(is_open=True)
+
+    def for_reporter(self, reporter):
+        return self.filter(
+            obligation_spec__reporter_mapping__reporter=reporter
+        )
 
 
 class ReportingCycleManager(models.Manager.from_queryset(ReportingCycleQuerySet)):
