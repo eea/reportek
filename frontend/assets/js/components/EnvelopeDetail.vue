@@ -109,7 +109,6 @@
                 </b-link>
               </div>
 
-
               <b-link
                 href="#"
                 class="card-link"
@@ -129,6 +128,39 @@
 
                 <p v-show="row.item.availableScripts.length === 0">Run a test</p>
               </b-link>
+
+              <div
+                slot="convert"
+                slot-scope="row"
+              >
+
+                <b-link
+                  href="#"
+                  class="card-link"
+                  v-on:click.stop="getFileConversions(row.item)"
+                  v-show="row.item.availableConversions.length === 0"
+                >
+                  <p>Choose Conversion</p>
+                </b-link>
+
+                <b-link
+                  href="#"
+                  class="card-link"
+                  v-on:click="convertScript(row.item)"
+                  v-show="row.item.availableConversions.length > 1"
+                >
+                  <p>Convert</p>
+                </b-link>
+
+                <b-form-select
+                  :options="row.item.availableConversions"
+                  v-model="row.item.selectedConversion"
+                  v-show="row.item.availableConversions.length > 1"
+                >
+                </b-form-select>
+                <p v-show="row.item.availableConversions.length === 1">No conversions available</p>
+
+              </div>
 
               <b-form-checkbox
                 slot="select"
@@ -223,6 +255,8 @@ import { fetchEnvelope,
           runEnvelopeFilesQAScript,
           fetchEnvelopeFiles,
           runEnvelopeTransition,
+          fetchEnvelopeFilesConvertScripts,
+          runEnvelopeFilesConvertScript,
           updateFile,
           removeFile,
           } from '../api';
@@ -254,7 +288,7 @@ export default {
 
   data() {
     return {
-      fields: ['select', 'name', 'file', 'tests'],
+      fields: ['select', 'name', 'file', 'tests', 'convert'],
       envelope: null,
       envelopeState: '',
       isSaving: false,
@@ -286,7 +320,16 @@ export default {
             this.envelopeState = envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
 
             for (let index = 0; index < this.envelope.files.length; index += 1) {
-              this.envelope.files[index] = Object.assign({}, this.envelope.files[index], { availableScripts: [], feedback: [], isEditing: false });
+              this.envelope.files[index] = Object.assign(
+                {},
+                this.envelope.files[index],
+                {
+                  availableScripts: [],
+                  availableConversions: [],
+                  selectedConversion: null,
+                  feedback: [],
+                  isEditing: false,
+                });
             }
             resolve(this.envelope.files);
           })
@@ -438,6 +481,7 @@ export default {
 
                 if (found === undefined) {
                   responseFile.availableScripts = [];
+                  responseFile.availableConversions = [];
                   responseFile.isEditing = false;
                   self.envelope.files.push(responseFile);
                   self.files.shift();
@@ -479,10 +523,35 @@ export default {
         });
     },
 
+    getFileConversions(file) {
+      fetchEnvelopeFilesConvertScripts(this.$route.params.envelope_id, file.id)
+        .then((response) => {
+          file.availableConversions.push({value: null, text: 'Please select conversion'});
+          response.data.map((script) => {
+            file.availableConversions.push({value: script.convert_id, text: script.result_type});
+            return script;
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    convertScript(file) {
+      if(file.selectedConversion) {
+        runEnvelopeFilesConvertScript(this.$route.params.envelope_id, file.id, file.selectedConversion)
+          .then((response) => {
+            console.log('Converted file: ', response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
+    },
+
     renameFile(file) {
       file.isEditing = true;
     },
-
 
     updateFile(file) {
       updateFile(this.$route.params.envelope_id, file.id, file.name)

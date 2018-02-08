@@ -69,6 +69,15 @@ export function runEnvelopeFilesQAScript(id, fileId, scriptId) {
   return post(`envelopes/${id}/files/${fileId}/run_qa_script/`, {script_id: scriptId});
 }
 
+export function fetchEnvelopeFilesConvertScripts(id, fileId) {
+  return fetch(`envelopes/${id}/files/${fileId}/conversion_scripts/`);
+}
+
+export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
+  return post(`envelopes/${id}/files/${fileId}/run_conversion_script/`, {convert_id: scriptId});
+}
+
+
 export function updateFile(id, fileId, name) {
   return update(`envelopes/${id}/files/${fileId}/`, {name: name});
 }
