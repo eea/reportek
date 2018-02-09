@@ -22,12 +22,16 @@ case "$1" in
         exec python manage.py "$1"
         ;;
     run)
-        exec gunicorn reportek.site.wsgi:application \
-            --name reportek \
-            --bind 0.0.0.0:${REPORTEK_GUNICORN_PORT:-8000} \
-            --workers 3 \
-            --access-logfile - \
-            --error-logfile -
+        if [ "x$DEBUG" = 'xyes' ]; then
+            exec python manage.py runserver 0.0.0.0:${REPORTEK_GUNICORN_PORT:-8000}
+        else
+            exec gunicorn reportek.site.wsgi:application \
+                --name reportek \
+                --bind 0.0.0.0:${REPORTEK_GUNICORN_PORT:-8000} \
+                --workers 3 \
+                --access-logfile - \
+                --error-logfile -
+        fi
         ;;
     *)
 esac

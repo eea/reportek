@@ -7,18 +7,24 @@ services:
       - "xmlconv.edw.ro:10.0.30.58"
     ports:
       - "8000:8000"
+      - "8080:8080"  
     environment:
-      - ALLOWED_HOSTS=localhost
+      - ALLOWED_HOSTS=*
       - DEBUG=yes
       - QA_DEFAULT_XMLRPC_URI=http://xmlconv.edw.ro:8080/RpcRouter
+      - HOST=0.0.0.0
 
   celery-worker:
     extra_hosts:
       - "xmlconv.edw.ro:10.0.30.58"
 
+  tusd:
+    ports:
+      - "1080:1080"
+
   rabbitmq:
     ports:
-      - "15672:15672"
+      - "5672:5672"
 
   nginx:
     ports:

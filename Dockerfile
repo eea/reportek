@@ -9,12 +9,16 @@ RUN apk add --no-cache --virtual .build-deps \
         gcc musl-dev postgresql-dev libressl-dev libxml2-dev libxslt-dev \
     && mkdir -p $PROJ_DIR
 
+RUN apk add --no-cache yarn nodejs-npm
+
 # Add requirements.txt before rest of repo for caching
-COPY requirements.txt $PROJ_DIR
+COPY requirements.txt dev-requirements.txt $PROJ_DIR
 WORKDIR $PROJ_DIR
 
 RUN pip install --no-cache-dir -r requirements.txt \
     && apk del .build-deps
+
+RUN pip install --no-cache-dir -r dev-requirements.txt
 
 COPY . $PROJ_DIR
 
