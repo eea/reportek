@@ -9,7 +9,7 @@ from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 from edw.djutils import protected
 from model_utils import FieldTracker
-
+from reportek.lib.db.models import ValidatingModel
 
 from .workflows import (
     BaseWorkflow,
@@ -64,7 +64,7 @@ class EnvelopeManager(models.Manager.from_queryset(EnvelopeQuerySet)):
         )
 
 
-class Envelope(models.Model):
+class Envelope(ValidatingModel):
     name = models.CharField(max_length=256)
 
     reporter = models.ForeignKey(Reporter, related_name='envelopes')
@@ -127,16 +127,10 @@ class Envelope(models.Model):
         return self.auto_qa_complete and all([r.ok for r in self.auto_qa_results])
 
     class Meta:
-        # TODO:
-        # this should be ('reporter', 'reporting_cycle', 'reporter_subdivision')
-        # ... but only for non-continuous reporting obligations.
-        # so no unique_together, but should be verified at save() time.
-        # also TODO: should make sure everything is clean, *and* that
-        # DRF outputs proper errors. consider implementing things this way:
-        # https://github.com/encode/django-rest-framework/issues/2145#issuecomment-260080084
-
         unique_together = (
-            ('reporter', 'obligation_spec', 'reporting_cycle'),
+            # this unique constraint is only true for non-continuous reporting,
+            # so it's handled during validation
+            # ('reporter', 'reporting_cycle', 'reporter_subdivision')
         )
 
     def __str__(self):
@@ -144,6 +138,52 @@ class Envelope(models.Model):
 
     def handle_auto_qa_results(self):
         return self.workflow.handle_auto_qa_results()
+
+    def _check_envelope_uniqueness(self):
+        unique_check = ('reporter', 'reporting_cycle', 'reporter_subdivision')
+
+        if self.reporting_cycle.is_continuous:
+            # TODO: there should be some sort of uniqueness here as well,
+            # based on some envelope metadata (e.g. the reporting period...)
+            return
+
+        # this part adapted from Model._perform_unique_checks
+        lookup_kwargs = {}
+        for field_name in unique_check:
+            f = self._meta.get_field(field_name)
+            lookup_value = getattr(self, f.attname)
+            lookup_kwargs[str(field_name)] = lookup_value
+
+        model_class = self.__class__
+        qs = model_class._default_manager.filter(**lookup_kwargs)
+
+        # Exclude the current object from the query if we are updating
+        model_class_pk = self._get_pk_val(model_class._meta)
+        if not self._state.adding and model_class_pk is not None:
+            qs = qs.exclude(pk=model_class_pk)
+
+        if qs.exists():
+            raise ValidationError(
+                self.unique_error_message(model_class, unique_check)
+            )
+
+    def clean(self):
+        errors = {}
+
+        # try to keep things modular a bit.
+        # any method called here should raise ValidationError when needed
+        for method in (
+                # don't forget about super...
+                super().clean,
+                self._check_envelope_uniqueness,
+        ):
+            try:
+                method()
+            except ValidationError as e:
+                errors = e.update_error_dict(errors)
+
+        if errors:
+            raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
         # don't allow any operations on a final envelope

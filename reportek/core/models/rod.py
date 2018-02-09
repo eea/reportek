@@ -340,6 +340,10 @@ class ReportingCycle(RODModel):
     objects = ReportingCycleManager()
 
     @property
+    def is_continuous(self):
+        return self.reporting_end_date is None
+
+    @property
     def is_soft_closed(self):
         return (self.is_open and
                 self.reporting_end_date is not None and

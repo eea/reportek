@@ -3,11 +3,11 @@ from django.db.models import F, Q
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.generics import ListAPIView
 from rest_framework.viewsets import GenericViewSet
+from rest_framework.response import Response
 from rest_framework.mixins import (
     ListModelMixin,
-    CreateModelMixin,
 )
-from rest_framework.response import Response
+from reportek.lib.api.views import ValidatingCreateModelMixin
 
 from reportek.core.models import (
     ReportingCycle, ReporterSubdivisionCategory,
@@ -134,7 +134,8 @@ class _BaseReporterEnvelopes(_ListViewSet):
         return envelopes
 
 
-class ReporterOpenEnvelopes(CreateModelMixin, _BaseReporterEnvelopes):
+class ReporterOpenEnvelopes(ValidatingCreateModelMixin,
+                            _BaseReporterEnvelopes):
     def get_queryset(self):
         envelopes = super().get_queryset()
         return envelopes.open()
@@ -146,7 +147,10 @@ class ReporterOpenEnvelopes(CreateModelMixin, _BaseReporterEnvelopes):
         return super().get_serializer_class()
 
     def perform_create(self, serializer):
-        serializer.save(reporter=self.request.user.reporter)
+        # glue in the reporter forcefully
+        # (we can't just serializer.save() here because we need the super call)
+        serializer.validated_data['reporter'] = self.request.user.reporter
+        super().perform_create(serializer)
 
 
 class ReporterClosedEnvelopes(_BaseReporterEnvelopes):
