@@ -13,16 +13,19 @@ __pycache__/
 # Distribution / packaging
 .Python
 env/
+bin
 build/
 develop-eggs/
 dist/
 downloads/
 eggs/
 .eggs/
+include/
 lib/
 lib64/
 parts/
 sdist/
+share/
 var/
 wheels/
 *.egg-info/
@@ -93,6 +96,7 @@ celerybeat-schedule
 .venv
 venv/
 ENV/
+pyvenv.cfg
 
 # Spyder project settings
 .spyderproject
@@ -112,3 +116,12 @@ docker-compose.override.yml
 *.env
 
 celerybeat*
+
+# IDE
+.idea/
+
+# yarn
+yarn.lock
+
+# direnv
+.envrc
