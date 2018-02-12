@@ -20,6 +20,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     clientLogLevel: 'warning',
     historyApiFallback: true,
     hot: true,
+    headers: { "Access-Control-Allow-Origin": "*" },
     compress: true,
     host: config.dev.host,
     port: config.dev.port,
