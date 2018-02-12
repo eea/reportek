@@ -20,7 +20,8 @@ from .rod import (
     ReporterSubdivision,
     Obligation,
     ObligationSpec,
-    ReportingCycle
+    ObligationSpecReporter,
+    ReportingCycle,
 )
 
 from .qa import QAJob, QAJobResult
@@ -167,15 +168,55 @@ class Envelope(ValidatingModel):
                 self.unique_error_message(model_class, unique_check)
             )
 
+    def _check_reporter_subdivision(self):
+        # override the exception locally, because lazy
+        class _ValidationError(ValidationError):
+            def __init__(self, msg, *args, **kwargs):
+                super().__init__({'reporter_subdivision': msg})
+
+        if self.reporter_subdivision is not None \
+           and self.reporter != self.reporter_subdivision.reporter:
+            raise _ValidationError(
+                "Envelope's reporter subdivision does not match reporter."
+            )
+
+        # does the obligation require a subdivision?
+        mapping = ObligationSpecReporter.objects.get(
+            reporter=self.reporter,
+            spec=self.obligation_spec,
+        )
+
+        category_id = mapping.subdivision_category_id
+        subdivision = self.reporter_subdivision
+
+        if category_id is None:
+            if subdivision is not None:
+                raise _ValidationError(
+                    'This obligation does not accept a reporter subdivision.'
+                )
+        else:
+            subdivision = self.reporter_subdivision
+            if subdivision is None:
+                raise _ValidationError(
+                    'This obligation requires a reporter subdivision.'
+                )
+            if category_id != subdivision.category_id:
+                raise _ValidationError(
+                    'Invalid reporter subdivision for obligation.'
+                )
+            # that's all. duplicate subdivisions are checked under
+            # _check_envelope_uniqueness()
+
     def clean(self):
         errors = {}
 
         # try to keep things modular a bit.
         # any method called here should raise ValidationError when needed
         for method in (
-                # don't forget about super...
+                # (don't forget about super)
                 super().clean,
                 self._check_envelope_uniqueness,
+                self._check_reporter_subdivision,
         ):
             try:
                 method()
@@ -209,9 +250,12 @@ class Envelope(ValidatingModel):
             workflow.save()
             self.workflow = workflow
 
-        if self.reporter_subdivision is not None:
-            if self.reporter_subdivision.reporter != self.reporter:
-                raise RuntimeError('Envelope subdivision must match reporter!')
+        # handled here as a RuntimeError (instead of ValidationError),
+        # because the spec should never be set directly.
+        if self.reporting_cycle is not None and \
+           self.obligation_spec != self.reporting_cycle.obligation_spec:
+            raise RuntimeError("Envelope's obligation_spec doesn't match "
+                               "its reporting_cycle.")
 
         super().save(*args, **kwargs)
 

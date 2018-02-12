@@ -118,8 +118,8 @@ class EnvelopeReportingCycle(serializers.PrimaryKeyRelatedField):
 
 class EnvelopeReporterSubdivision(serializers.PrimaryKeyRelatedField):
     def get_queryset(self):
-        # TODO: this queryset is not enough. it must be trimmed down
-        # based on the ReportingCycle.
+        # NOTE: this queryset is only a browsable-api helper and isn't enough.
+        # the validation happens in model code
         subdivisions = ReporterSubdivision.objects.for_reporter(
             self.context['request'].user.reporter
         )
