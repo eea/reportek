@@ -400,6 +400,17 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
             }
         )
 
+    @detail_route(methods=['get'])
+    def workflow_graph(self, request, pk):
+        """
+        Returns an evelope's workflow graph representation in DOT format
+        (https://graphviz.gitlab.io/_pages/doc/info/lang.html).
+        """
+        envelope = self.get_object()
+        return Response({
+            'dot': envelope.dot_workflow
+        })
+
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
     queryset = EnvelopeFile.objects.all()

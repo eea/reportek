@@ -1,11 +1,14 @@
 import re
 import logging
+from functools import partial
 from django.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.contrib.contenttypes.fields import GenericRelation
 from typedmodels.models import TypedModel
 import xworkflows as xwf
+import pygraphviz as gv
+
 
 from reportek.core.tasks import submit_xml_to_qa
 from .log import TransitionEvent
@@ -202,3 +205,48 @@ class BaseWorkflow(TypedModel):
             raise self.TransitionNotAvailable('Transition not allowed from current state')
 
         getattr(wf, name)()
+
+    def _add_nodes(self, graph):
+        """
+        Adds workflow states as graph nodes.
+
+        Args:
+            graph : A `pygraphviz.AGraph` instance.
+        Returns:
+            The graph with the nodes added.
+        """
+        for state in self.states:
+            graph.add_node(state[0], label=state[1])
+        return graph
+
+    def _add_edges(self, graph):
+        """
+        Adds workflow transitions as graph edges.
+
+        Args:
+            graph : A `pygraphviz.AGraph` instance.
+        Returns:
+            The graph with the edges added.
+        """
+        for transition in self.transitions:
+            name, src, tgt = transition
+            # XWorkflows transitions can have multiple source states
+            if isinstance(src, tuple):
+                for s in src:
+                    graph.add_edge(s, tgt, label=name)
+            else:
+                graph.add_edge(src, tgt, label=name)
+        return graph
+
+    def to_digraph(self):
+        """
+        Represents the workflow as a directed graph.
+
+        Returns:
+            A `pygraphviz.AGraph` instance.
+        """
+        return self._add_edges(
+            self._add_nodes(
+                gv.AGraph({}, directed=True)
+            )
+        )
