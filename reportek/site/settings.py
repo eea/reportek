@@ -117,6 +117,8 @@ CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'reportek.site.urls'
 
+LOGIN_REDIRECT_URL = 'workspace'
+
 TEMPLATES = [
     {
         'BACKEND': 'django_jinja.backend.Jinja2',

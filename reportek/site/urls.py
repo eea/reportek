@@ -40,9 +40,10 @@ urlpatterns = [
     # TODO: this is starting to get messy, the namespacing needs some love.
     url(r'^', include('reportek.core.frontend.urls', namespace='core')),
     url(r'^admin/', admin.site.urls),
-    # url(r'^$',
-    #     views.home, name='home'),
-    url(r'^workspace/(?P<path>.*)$',
+    url(r'^accounts/', include('django.contrib.auth.urls', namespace='auth')),
+    url(r'^$',
+        views.home, name='home'),
+    url(r'^workspace/(?P<path>.*)?$',
         views.workspace, name='workspace'),
     # url(f'^{ _country }/$',
     #     views.country, name='country'),

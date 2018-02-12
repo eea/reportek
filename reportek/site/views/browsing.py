@@ -2,14 +2,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from django.shortcuts import render
 
-from reportek.core.models import (
-    Country, Obligation, Instrument,
-)
+# from reportek.core.models import (
+#     Country, Obligation, Instrument,
+# )
 
 
 def home(request):
     return render(request, "homepage.html", {
-        "countries": Country.objects.all(),
+        #"countries": Country.objects.all(),
     })
 
 def country(request, country):
