@@ -8,6 +8,7 @@ import logging
 from base64 import b64encode
 from django.views import static
 from django.db.models import Q, F, Exists, OuterRef
+from django.http import HttpResponse
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -550,7 +551,7 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         file_url = fully_qualify_url(envelope_file.get_file_url())
         conversion_result = remote_conversion.convert_xml(file_url, str(script_id))
 
-        response = Response()
+        response = HttpResponse()
         # force browser to download file
         response['Content-Disposition'] = f'attachment; filename={conversion_result["filename"]}'
         response.write(conversion_result["content"].data)
