@@ -198,17 +198,18 @@ class ObligationSpec(RODModel):
 
     def save(self, *args, **kwargs):
         if self.tracker.changed():
-            # When made current, make all other specs non-current
-            # and move out of draft status
-            if not self.tracker.previous('is_current'):
-                if self.draft:
-                    self.draft = False
-                ObligationSpec.objects.filter(obligation=self.obligation).\
-                    exclude(pk=self.pk).update(is_current=False)
-            # Forbid toggling off current status directly
-            else:
-                raise RuntimeError('Cannot make obligation not current - '
-                                   'instead make another one current')
+            if self.tracker.has_changed('is_current'):
+                # When made current, make all other specs non-current
+                # and move out of draft status
+                if not self.tracker.previous('is_current'):
+                    if self.draft:
+                        self.draft = False
+                    ObligationSpec.objects.filter(obligation=self.obligation).\
+                        exclude(pk=self.pk).update(is_current=False)
+                # Forbid toggling off current status directly
+                else:
+                    raise RuntimeError('Cannot make obligation not current - '
+                                       'instead make another one current')
 
             # Force version to next available number
             max_version = max(
