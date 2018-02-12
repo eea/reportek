@@ -120,8 +120,5 @@ celerybeat*
 # IDE
 .idea/
 
-# yarn
-yarn.lock
-
 # direnv
 .envrc
