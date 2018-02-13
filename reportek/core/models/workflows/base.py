@@ -209,6 +209,7 @@ class BaseWorkflow(TypedModel):
     def _add_nodes(self, graph):
         """
         Adds workflow states as graph nodes.
+        The current state's node will have the `is_current` attribute set.
 
         Args:
             graph : A `pygraphviz.AGraph` instance.
@@ -216,7 +217,10 @@ class BaseWorkflow(TypedModel):
             The graph with the nodes added.
         """
         for state in self.states:
-            graph.add_node(state[0], label=state[1])
+            if state[0] == self.current_state:
+                graph.add_node(state[0], label=state[1], is_current=True)
+            else:
+                graph.add_node(state[0], label=state[1])
         return graph
 
     def _add_edges(self, graph):
@@ -238,15 +242,19 @@ class BaseWorkflow(TypedModel):
                 graph.add_edge(src, tgt, label=name)
         return graph
 
-    def to_digraph(self):
+    def to_digraph(self, horizontal=True):
         """
         Represents the workflow as a directed graph.
 
         Returns:
             A `pygraphviz.AGraph` instance.
         """
-        return self._add_edges(
+        graph = self._add_edges(
             self._add_nodes(
                 gv.AGraph({}, directed=True)
             )
         )
+        if horizontal:
+            graph.graph_attr['rankdir'] = 'LR'
+
+        return graph
