@@ -1,6 +1,6 @@
 <template>
   <div>
-    <pre>{{graphJson}}</pre>
+    <!-- <pre>{{graphJson}}</pre> -->
     <div class="graph-container" v-html="graph"></div>
   </div>
 </template>
@@ -22,12 +22,14 @@ export default {
     };
   },
 
+  props :{
+    state: null,
+  },
+
   created() {
     fetchEnvelopeWorkflow(this.$route.params.envelope_id)
     .then((response) => {
-      // JSON responses are automatically parsed.
-      this.graphJson = response.data;
-      console.log(response.data)
+      this.graphJson = response.data
       this.data()
     })
     .catch((e) => {
@@ -37,10 +39,22 @@ export default {
 
   methods: {
     data(){
-      let dataset = this.graphJson
+      // let dataset = Object.assign({}, lejson)
+      let dataset = JSON.parse(JSON.stringify(this.graphJson));
 
-      console.log(dataset)
-
+      for (let node of dataset.graph.nodes){
+        if(node.metadata.initial === true){
+          node.penwidth="2"
+        }
+         if(node.metadata.final === true){
+          node.penwidth="2"
+        }
+        if(this.state === node.id){
+          node.style="filled"
+          node.fontcolor="white"
+          node.fillcolor="#007bff"
+        }
+      }
       this.convertToDot(dataset)
     },
 
@@ -53,6 +67,14 @@ export default {
     }
   },
 
+  watch: {
+      state: {
+          handler: function(val, oldVal) {
+              this.data()
+          },
+          deep: true
+      }
+  },
 
 };
 

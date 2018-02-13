@@ -5,7 +5,7 @@
         <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="primary">{{translateCode(envelope.workflow.current_state)}}</b-badge></h1>
 
 
-        <workflow></workflow>
+        <workflow :state="envelope.workflow.current_state"></workflow>
 
         <b-jumbotron
             bg-variant="white"
