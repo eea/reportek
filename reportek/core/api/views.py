@@ -554,6 +554,7 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         response = HttpResponse()
         # force browser to download file
         response['Content-Disposition'] = f'attachment; filename={conversion_result["filename"]}'
+        response['Content-Type'] = conversion_result["content-type"]
         response.write(conversion_result["content"].data)
 
         return response
