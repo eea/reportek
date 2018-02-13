@@ -9,6 +9,7 @@
 
 import { fetchEnvelopeWorkflow } from '../api';
 const Viz = require('viz.js');
+const toDot = require("jgf-dot");
 
 export default {
 
@@ -21,10 +22,11 @@ export default {
   },
 
   created() {
+
     fetchEnvelopeWorkflow(this.$route.params.envelope_id)
     .then((response) => {
       // JSON responses are automatically parsed.
-      this.renderGraph(response.data.dot);
+      this.convertToDot(response.data);
     })
     .catch((e) => {
       console.log(e);
@@ -32,11 +34,11 @@ export default {
   },
 
   methods: {
-    renderGraph(envelopeworkflow) {
-      const workflowArray = envelopeworkflow.split('\n');
-      workflowArray[2] = workflowArray[2] + 'rankdir=LR;';
-      const finalgraph = workflowArray.join('\n');
-      this.graph = Viz(finalgraph, { format: 'svg' });
+    convertToDot(graphJson) {
+      return this.renderGraph(toDot(graphJson))
+    },
+    renderGraph(dot) {
+      this.graph = Viz(dot, { format: 'svg' });
     }
   },
 
