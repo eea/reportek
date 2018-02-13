@@ -407,9 +407,10 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
         (https://graphviz.gitlab.io/_pages/doc/info/lang.html).
         """
         envelope = self.get_object()
-        return Response({
-            'dot': envelope.dot_workflow
-        })
+        # return Response({
+        #     'dot': envelope.dot_workflow
+        # })
+        return Response(envelope.workflow.to_json_graph())
 
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):

@@ -258,3 +258,50 @@ class BaseWorkflow(TypedModel):
             graph.graph_attr['rankdir'] = 'LR'
 
         return graph
+
+    def to_json_graph(self):
+        """
+        Represents the workflow as a dictionary conformant to JSON graph.
+        (https://github.com/jsongraph/json-graph-specification)
+        """
+        nodes = []
+        for _state in self.states:
+            state, title = _state
+            node = {
+                'id': state,
+                'label': title,
+                'metadata': {
+                    'initial': state == self.initial_state,
+                    'final': state == self.final_state,
+                    'current': state == self.current_state
+                }
+            }
+            nodes.append(node)
+
+        edges = []
+        for transition in self.transitions:
+            name, src, tgt = transition
+            # XWorkflows transitions can have multiple source states
+            if isinstance(src, tuple):
+                for _src in src:
+                    edges.append({
+                        'id': name,
+                        'label': name,
+                        'source': _src,
+                        'target': tgt
+                    })
+            else:
+                edges.append({
+                    'id': name,
+                    'label': name,
+                    'source': src,
+                    'target': tgt
+                })
+
+        return {
+            'graph': {
+                'directed': True,
+                'nodes': nodes,
+                'edges': edges
+            }
+        }
