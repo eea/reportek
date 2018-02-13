@@ -5,6 +5,8 @@
         <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="primary">{{translateCode(envelope.workflow.current_state)}}</b-badge></h1>
 
 
+        <workflow></workflow>
+
         <b-jumbotron
             bg-variant="white"
             border-variant="default"
@@ -216,6 +218,7 @@
 <script>
 import tus from 'tus-js-client';
 import History from './EnvelopeHistory';
+import Workflow from './EnvelopeWorkflow';
 import { fetchEnvelope,
           fetchEnvelopeToken,
           fetchEnvelopeFeedback,
@@ -249,6 +252,7 @@ export default {
   name: 'EnvelopeDetail',
   components: {
     history: History,
+    workflow: Workflow
   },
 
 
