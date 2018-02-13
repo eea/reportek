@@ -43,6 +43,7 @@ export default {
       let dataset = JSON.parse(JSON.stringify(this.graphJson));
 
       for (let node of dataset.graph.nodes){
+        node.color="grey"
         if(node.metadata.initial === true){
           node.penwidth="2"
         }
@@ -55,6 +56,12 @@ export default {
           node.fillcolor="#007bff"
         }
       }
+
+      for (let edge of dataset.graph.edges){
+        edge.fillcolor = "grey"
+        edge.color = "grey"
+      }
+
       this.convertToDot(dataset)
     },
 
