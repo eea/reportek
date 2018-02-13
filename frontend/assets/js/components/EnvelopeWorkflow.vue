@@ -45,10 +45,10 @@ export default {
       for (let node of dataset.graph.nodes){
         node.color="grey"
         if(node.metadata.initial === true){
-          node.penwidth="2"
+          node.shape="doublecircle"
         }
          if(node.metadata.final === true){
-          node.penwidth="2"
+          node.shape="doublecircle"
         }
         if(this.state === node.id){
           node.style="filled"
