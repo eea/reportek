@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <pre>{{graphJson}}</pre>
     <div class="graph-container" v-html="graph"></div>
   </div>
 </template>
@@ -18,15 +18,17 @@ export default {
   data() {
     return {
       graph: '',
+      graphJson: null
     };
   },
 
   created() {
-
     fetchEnvelopeWorkflow(this.$route.params.envelope_id)
     .then((response) => {
       // JSON responses are automatically parsed.
-      this.convertToDot(response.data);
+      this.graphJson = response.data;
+      console.log(response.data)
+      this.data()
     })
     .catch((e) => {
       console.log(e);
@@ -34,13 +36,23 @@ export default {
   },
 
   methods: {
-    convertToDot(graphJson) {
-      return this.renderGraph(toDot(graphJson))
+    data(){
+      let dataset = this.graphJson
+
+      console.log(dataset)
+
+      this.convertToDot(dataset)
     },
+
+    convertToDot(data) {
+      this.renderGraph(toDot(data))
+    },
+
     renderGraph(dot) {
       this.graph = Viz(dot, { format: 'svg' });
     }
   },
+
 
 };
 
