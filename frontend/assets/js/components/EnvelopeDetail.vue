@@ -541,13 +541,30 @@ export default {
       if(file.selectedConversion) {
         runEnvelopeFilesConvertScript(this.$route.params.envelope_id, file.id, file.selectedConversion)
           .then((response) => {
-            console.log('Converted file: ', response.data);
+            // console.log('Converted file: ', response.data);
+            const fileName = response.headers["content-disposition"].split('filename=')[1];
+            const fileType = response.headers["content-type"];
+            console.log(response.data)
+            this.download(response.data, fileName, fileType);
           })
           .catch((error) => {
             console.log(error);
           });
       }
     },
+
+    download(blob, filename, filetype) {
+        var a = window.document.createElement('a');
+        a.href = window.URL.createObjectURL(new Blob([blob], {type: filetype}));
+        a.download = filename;
+
+        // Append anchor to body.
+        document.body.appendChild(a);
+        a.click();
+
+        // Remove anchor from body
+        document.body.removeChild(a);
+      },
 
     renameFile(file) {
       file.isEditing = true;
