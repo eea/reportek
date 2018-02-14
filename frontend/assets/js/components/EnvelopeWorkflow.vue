@@ -70,7 +70,10 @@ export default {
     },
 
     renderGraph(dot) {
-      this.graph = Viz(dot, { format: 'svg' });
+      let new_dot = dot.split('\n')
+      new_dot[0] = new_dot[0] + 'rankdir=LR;'
+      let final_dot = new_dot.join('\n')
+      this.graph = Viz(final_dot, { format: 'svg' });
     }
   },
 
