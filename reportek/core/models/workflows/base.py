@@ -1,11 +1,13 @@
 import re
 import logging
+from collections import OrderedDict
 from django.db import models
 from django.utils import timezone
 from django.utils.functional import cached_property
 from django.contrib.contenttypes.fields import GenericRelation
 from typedmodels.models import TypedModel
 import xworkflows as xwf
+
 
 from reportek.core.tasks import submit_xml_to_qa
 from .log import TransitionEvent
@@ -202,3 +204,51 @@ class BaseWorkflow(TypedModel):
             raise self.TransitionNotAvailable('Transition not allowed from current state')
 
         getattr(wf, name)()
+
+    def to_json_graph(self):
+        """
+        Represents the workflow as a dictionary conformant to JSON graph.
+        (https://github.com/jsongraph/json-graph-specification)
+        """
+        nodes = []
+        for _state in self.states:
+            state, title = _state
+            node = {
+                'id': state,
+                'label': title,
+                'metadata': {
+                    'initial': state == self.initial_state,
+                    'final': state == self.final_state,
+                    'current': state == self.current_state
+                }
+            }
+            nodes.append(node)
+
+        edges = []
+        for transition in self.transitions:
+            name, src, tgt = transition
+            # XWorkflows transitions can have multiple source states
+            if isinstance(src, tuple):
+                for _src in src:
+                    edges.append({
+                        'id': name,
+                        'label': name,
+                        'source': _src,
+                        'target': tgt
+                    })
+            else:
+                edges.append({
+                    'id': name,
+                    'label': name,
+                    'source': src,
+                    'target': tgt
+                })
+
+        return {
+            'graph': {
+                'directed': True,
+                'rankdir': 'LR',
+                'nodes': nodes,
+                'edges': edges
+            }
+        }

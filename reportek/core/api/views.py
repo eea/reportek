@@ -400,6 +400,14 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
             }
         )
 
+    @detail_route(methods=['get'])
+    def workflow_graph(self, request, pk):
+        """
+        Returns an evelope's workflow represented as a JSON graph.
+        """
+        envelope = self.get_object()
+        return Response(envelope.workflow.to_json_graph())
+
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
     queryset = EnvelopeFile.objects.all()
