@@ -122,11 +122,6 @@ class Envelope(models.Model):
     def auto_qa_ok(self):
         return self.auto_qa_complete and all([r.ok for r in self.auto_qa_results])
 
-    @property
-    def dot_workflow(self):
-        """"""
-        return self.workflow.to_digraph().to_string()
-
     class Meta:
         unique_together = (
             ('reporter', 'obligation_spec', 'reporting_cycle'),
