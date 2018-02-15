@@ -17,6 +17,7 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.authentication import (
     TokenAuthentication
 )
+from rest_framework.permissions import DjangoModelPermissions
 
 from django.conf import settings
 from django.core.files import File
@@ -413,7 +414,7 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
     queryset = EnvelopeFile.objects.all()
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticated, DjangoModelPermissions)
 
     def get_serializer_class(self):
         if self.request.method == "POST":
