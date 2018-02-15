@@ -13,7 +13,7 @@ from .models import (
     ObligationSpec,
     ObligationSpecReporter,
     ReportingCycle,
-    Envelope, EnvelopeFile,
+    Envelope, EnvelopeFile, EnvelopeOriginalFile,
     BaseWorkflow,
     UploadToken,
     QAJob,
@@ -198,6 +198,34 @@ class PendingObligationSerializer(serializers.ModelSerializer):
                   'updated_at', 'reporting_cycles')
 
 
+class EnvelopeOriginalFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnvelopeOriginalFile
+        fields = ('id', 'name', 'file')
+        read_only_fields = ('file',)
+
+
+class NestedEnvelopeOriginalFileSerializer(NestedHyperlinkedModelSerializer,
+                                           EnvelopeOriginalFileSerializer):
+    parent_lookup_kwargs = {
+        'envelope_pk': 'envelope__pk'
+    }
+
+    class Meta(EnvelopeOriginalFileSerializer.Meta):
+        fields = ('url', ) + EnvelopeOriginalFileSerializer.Meta.fields
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:envelope-original-file-detail',
+            }
+        }
+
+
+class CreateEnvelopeOriginalFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnvelopeOriginalFile
+        fields = ('file', )
+
+
 class EnvelopeFileSerializer(serializers.ModelSerializer):
     uploader = serializers.PrimaryKeyRelatedField(read_only=True)
 
@@ -277,6 +305,7 @@ class NestedUploadTokenSerializer(
 
 class EnvelopeSerializer(serializers.ModelSerializer):
     files = NestedEnvelopeFileSerializer(many=True, read_only=True)
+    original_files = NestedEnvelopeOriginalFileSerializer(many=True, read_only=True)
     workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
 
     class Meta:

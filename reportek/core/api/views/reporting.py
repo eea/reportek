@@ -9,6 +9,7 @@ from django.db.models import Q, F, Exists, OuterRef
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.text import slugify
+from django.core.files.base import ContentFile
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -25,6 +26,7 @@ from django.core.files import File
 from ...models import (
     Envelope,
     EnvelopeFile,
+    EnvelopeOriginalFile,
     BaseWorkflow,
     Obligation,
     Reporter,
@@ -35,6 +37,7 @@ from ...models import (
 from ...serializers import (
     EnvelopeSerializer,
     EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
+    EnvelopeOriginalFileSerializer, CreateEnvelopeOriginalFileSerializer,
     NestedEnvelopeWorkflowSerializer,
     NestedUploadTokenSerializer,
     QAJobSerializer,
@@ -226,6 +229,50 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
         """
         envelope = self.get_object()
         return Response(envelope.workflow.to_json_graph())
+
+
+class EnvelopeOriginalFileViewSet(viewsets.ModelViewSet):
+    queryset = EnvelopeOriginalFile.objects.all()
+    permission_classes = (permissions.IsAuthenticated, )
+
+    def get_serializer_class(self):
+        if self.request.method == "POST":
+            return CreateEnvelopeOriginalFileSerializer
+        return EnvelopeOriginalFileSerializer
+
+    def get_queryset(self):
+        return super().get_queryset().filter(
+            envelope_id=self.kwargs['envelope_pk']
+        )
+
+    def perform_create(self, serializer):
+        serializer.save(
+            envelope_id=self.kwargs['envelope_pk']
+        )
+
+    @detail_route(methods=['get', 'head'], renderer_classes=(StaticHTMLRenderer,))
+    def download(self, request, envelope_pk, pk):
+        envelope_original_file = self.get_object()
+        _file = envelope_original_file.file
+        relpath = _file.name
+
+        if relpath is None or relpath == '':
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        if settings.DEBUG:
+            response = static.serve(
+                request,
+                path=relpath,
+                document_root=_file.storage.location)
+        else:
+            # this does "X-Sendfile" on nginx, see
+            # https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/
+            response = Response(
+                headers={
+                    'X-Accel-Redirect': _file.storage.url(relpath)
+                }
+            )
+        return response
 
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
@@ -575,7 +622,8 @@ class UploadHookView(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            if not EnvelopeFile.has_valid_extension(filename, include_archives=True):
+            if not EnvelopeFile.has_valid_extension(filename,
+                                                    include_archives=True, include_spreadsheets=True):
                 error(f'UPLOAD denied on envelope "{token.envelope}" '
                       f'for "{token.user}": bad file extension')
                 return Response(
@@ -678,7 +726,9 @@ class UploadHookView(viewsets.ViewSet):
                     raise FileNotFoundError(f'UPLOAD tusd file not found: {f}')
 
             # Regular files
-            if file_ext not in settings.ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS:
+            info(f'file extension: {file_ext}')
+            info(f'allowed extensions: {settings.ALLOWED_UPLOADS_EXTENSIONS}')
+            if file_ext in settings.ALLOWED_UPLOADS_EXTENSIONS:
                 envelope_file, is_new = EnvelopeFile.get_or_create(
                     token.envelope,
                     file_name
@@ -692,6 +742,44 @@ class UploadHookView(viewsets.ViewSet):
 
                 envelope_file.uploader = token.user
                 envelope_file.save()
+
+            # Spreadsheet files that will generate XML on the envelopes
+            elif file_ext in settings.ALLOWED_UPLOADS_ORIGINAL_EXTENSIONS:
+                envelope_original_file, is_new = EnvelopeOriginalFile.get_or_create(
+                    token.envelope,
+                    file_name
+                )
+
+                # Try to motherlikingly convert the suckler FIRSZT OF ALL
+                file_url = fully_qualify_url(envelope_original_file.get_file_url())
+                remote_conversion = RemoteConversion(
+                    token.envelope.obligation_spec.qa_xmlrpc_uri
+                )
+                result = remote_conversion.convert_spreadsheet_to_xml(file_url)
+                if result['resultCode'] != '0':
+                    # natt gott
+                    # TODO: this should also delete the disk file!!! override the delete method!
+                    envelope_original_file.delete()
+                    # TODO: also inform the user
+
+                for converted_file in result['convertedFiles']:
+                    # TODO: factor this out in a func/method
+                    envelope_file, is_new = EnvelopeFile.get_or_create(
+                        token.envelope,
+                        converted_file['fileName']
+                    )
+                    if not is_new:
+                        token.envelope.delete_disk_file(converted_file['fileName'])
+
+                    # TODO: do I need to base64-decode?
+                    envelope_file.file.save(file_name, ContentFile(converted_file['content'].data))
+
+                    if file_ext == 'xml':
+                        envelope_file.xml_schema = envelope_file.extract_xml_schema()
+
+                    envelope_file.uploader = token.user
+                    envelope_file.save()
+
             # Archives, currently zip only
             elif file_ext == 'zip':
                 try:

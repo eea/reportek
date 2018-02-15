@@ -12,6 +12,7 @@ from .views import (
     ReportingCycleViewSet,
     EnvelopeViewSet,
     EnvelopeFileViewSet,
+    EnvelopeOriginalFileViewSet,
     EnvelopeWorkflowViewSet,
     UploadHookView,
     UploadTokenViewSet,
@@ -111,6 +112,16 @@ envelopes_router.register(
     base_name='envelope'
 )
 
+
+original_files_router = routers.NestedSimpleRouter(
+    envelopes_router, 'envelopes', lookup='envelope')
+original_files_router.register(
+    'original-files',
+    EnvelopeOriginalFileViewSet,
+    base_name='envelope-original-file'
+)
+
+
 files_router = BulkDeleteNestedSimpleRouter(
     envelopes_router, 'envelopes', lookup='envelope')
 files_router.register(
@@ -175,6 +186,7 @@ main_routers = [
 
 
 nested_routers = [
+    original_files_router,
     files_router,
     workflow_router,
     upload_token_router,
