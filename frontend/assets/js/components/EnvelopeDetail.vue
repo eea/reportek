@@ -548,7 +548,7 @@ export default {
             // console.log('Converted file: ', response.data);
             const fileName = response.headers["content-disposition"].split('filename=')[1];
             const fileType = response.headers["content-type"];
-            console.log(response.data)
+            console.log(response)
             this.download(response.data, fileName, fileType);
           })
           .catch((error) => {
@@ -558,8 +558,9 @@ export default {
     },
 
     download(blob, filename, filetype) {
-        var a = window.document.createElement('a');
+        let a = window.document.createElement('a');
         a.href = window.URL.createObjectURL(new Blob([blob], {type: filetype}));
+        console.log(a.href)
         a.download = filename;
 
         // Append anchor to body.

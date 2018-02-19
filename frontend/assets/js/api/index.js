@@ -78,7 +78,17 @@ export function fetchEnvelopeFilesConvertScripts(id, fileId) {
 }
 
 export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
-  return post(`envelopes/${id}/files/${fileId}/run_conversion_script/`, {convert_id: scriptId});
+// Using the post method doesn't work. We have to use a new axios instance
+  return  axios({
+            baseURL: 'http://localhost:8000/api/0.1/',
+            withCredentials: true,
+            method:'post',
+            xsrfCookieName: "csrftoken",
+            xsrfHeaderName: "X-CSRFTOKEN",
+            url:`envelopes/${id}/files/${fileId}/run_conversion_script/`,
+            responseType:'arraybuffer',
+            data: {convert_id: scriptId}
+          })
 }
 
 
