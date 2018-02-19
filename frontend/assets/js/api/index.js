@@ -78,7 +78,15 @@ export function fetchEnvelopeFilesConvertScripts(id, fileId) {
 }
 
 export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
-  return post(`envelopes/${id}/files/${fileId}/run_conversion_script/`, {convert_id: scriptId});
+  return api.post(`envelopes/${id}/files/${fileId}/run_conversion_script/`,
+    {
+      data: {
+        'convert_id': scriptId
+      },
+     responseType: 'arrayBuffer'
+    },
+
+    );
 }
 
 
