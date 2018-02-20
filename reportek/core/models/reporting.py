@@ -75,6 +75,12 @@ class Envelope(models.Model):
                                     related_name='envelope',
                                     null=True, blank=True)
 
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     finalized = models.BooleanField(default=False)
@@ -215,6 +221,14 @@ class EnvelopeFile(models.Model):
     name = models.CharField(max_length=256, validators=[validate_filename])
 
     xml_schema = models.CharField(max_length=200, blank=True, null=True)
+
+    restricted = models.BooleanField(default=False)
+
+    uploader = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

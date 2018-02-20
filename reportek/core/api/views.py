@@ -1,8 +1,7 @@
 import os
 from pathlib import Path
 from zipfile import ZipFile, BadZipFile
-from datetime import datetime as dt
-from collections import OrderedDict, defaultdict
+from collections import OrderedDict
 import dateutil.parser
 import logging
 from base64 import b64encode
@@ -17,7 +16,6 @@ from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.authentication import (
     TokenAuthentication
 )
-from rest_framework.permissions import DjangoModelPermissions
 
 from django.conf import settings
 from django.core.files import File
@@ -263,8 +261,14 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
     queryset = Envelope.objects.all().prefetch_related('files')
     serializer_class = EnvelopeSerializer
     authentication_classes = viewsets.ModelViewSet.authentication_classes + [TokenAuthentication]
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (
+        permissions.EnvelopePermissions,
+    )
     pagination_class = EnvelopeResultsSetPagination
+
+    def perform_create(self, serializer):
+        serializer.validated_data['author'] = self.request.user
+        return super().perform_create(serializer)
 
     @detail_route(methods=['post'])
     def transition(self, request, pk):
@@ -414,10 +418,12 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
 
 class EnvelopeFileViewSet(viewsets.ModelViewSet):
     queryset = EnvelopeFile.objects.all()
-    permission_classes = (permissions.IsAuthenticated, DjangoModelPermissions)
+    permission_classes = (
+        permissions.EnvelopeFilePermissions,
+    )
 
     def get_serializer_class(self):
-        if self.request.method == "POST":
+        if self.request.method == 'POST':
             return CreateEnvelopeFileSerializer
         return EnvelopeFileSerializer
 
@@ -428,7 +434,8 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(
-            envelope_id=self.kwargs['envelope_pk']
+            envelope_id=self.kwargs['envelope_pk'],
+            uploader_id=self.request.user.pk,
         )
 
     @detail_route(methods=['get', 'head'], renderer_classes=(StaticHTMLRenderer,))
@@ -796,7 +803,9 @@ class UploadHookView(viewsets.ViewSet):
                 envelope_file.file.save(file_name, File(file_path.open()))
                 if file_ext == 'xml':
                     envelope_file.xml_schema = envelope_file.extract_xml_schema()
-                    envelope_file.save()
+
+                envelope_file.uploader = token.user
+                envelope_file.save()
             # Archives, currently zip only
             elif file_ext == 'zip':
                 try:
@@ -822,7 +831,9 @@ class UploadHookView(viewsets.ViewSet):
                                 envelope_file.file.save(member_name, member_file)
                                 if member_ext == 'xml':
                                     envelope_file.xml_schema = envelope_file.extract_xml_schema()
-                                    envelope_file.save()
+
+                                envelope_file.uploader = token.user
+                                envelope_file.save()
 
                 except BadZipFile:
                     error(f'UPLOAD Bad ZIP file: "{file_path}"')
