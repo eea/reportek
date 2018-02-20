@@ -73,7 +73,7 @@
                   v-model="row.item.name"
                   v-if="row.item.isEditing"
                 ></b-form-input>
-                <p v-if="!row.item.isEditing">
+                <p class="blue" v-if="!row.item.isEditing">
                   {{row.item.name}}
                 </p>
 
@@ -241,7 +241,7 @@
           <p>Reporting on obligation {{envelope.obligation_spec}} in cycle {{envelope.reporting_cycle}}</p>
           <b-link href="#" class="card-link">Edit Envelope</b-link>
         </div>
-        <history :created_at="envelope.created_at"></history>
+        <!-- <history :created_at="envelope.created_at"></history> -->
       </div>
   </div>
   </div>
@@ -251,6 +251,8 @@
 import tus from 'tus-js-client';
 import History from './EnvelopeHistory';
 import Workflow from './EnvelopeWorkflow';
+import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
+
 import { fetchEnvelope,
           fetchEnvelopeToken,
           fetchEnvelopeFeedback,
@@ -286,7 +288,8 @@ export default {
   name: 'EnvelopeDetail',
   components: {
     history: History,
-    workflow: Workflow
+    workflow: Workflow,
+    FontAwesomeIcon: FontAwesomeIcon
   },
 
 
@@ -659,6 +662,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
+
 .sidebar-item {
   border-top: 1px solid rgba(0,0,0,.15);
   margin-top: 1rem;

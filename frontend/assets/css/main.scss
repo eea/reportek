@@ -1,6 +1,6 @@
+@import './custom.scss';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/dist/bootstrap-vue';
-
 
 .floating-demo {
   position: fixed;
@@ -14,4 +14,8 @@
   color: white;
   left: -22px;
   font-weight: bold;
+}
+
+.blue {
+  color: $blue;
 }
