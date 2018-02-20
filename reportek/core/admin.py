@@ -1,5 +1,6 @@
 
 from django.contrib import admin
+from guardian.admin import GuardedModelAdmin
 from django_object_actions import DjangoObjectActions
 
 from .models import (
@@ -19,12 +20,32 @@ from .models import (
 
 
 # ROD
-admin.site.register(Reporter)
+
+
+@admin.register(Reporter)
+class ReporterAdmin(GuardedModelAdmin):
+    search_fields = ('name', 'abbr')
+    ordering = ('name',)
+
+
 admin.site.register(ReporterSubdivision)
 admin.site.register(ReporterSubdivisionCategory)
-admin.site.register(Client)
+
+
+@admin.register(Client)
+class ClientAdmin(GuardedModelAdmin):
+    search_fields = ('name', 'abbr')
+    ordering = ('name',)
+
+
 admin.site.register(Instrument)
-admin.site.register(Obligation)
+
+
+@admin.register(Obligation)
+class ObligationAdmin(GuardedModelAdmin):
+    list_display = ('title', 'instrument')
+    search_fields = ('title', 'instrument__title')
+    ordering = ('title',)
 
 
 class ObligationSpecReporterAdmin(admin.TabularInline):

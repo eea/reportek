@@ -105,6 +105,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webpack_loader',
+    'guardian',
 ]
 
 MIDDLEWARE = [
@@ -221,7 +222,10 @@ AUTH_LDAP_USER_ATTR_MAP = {
 AUTHENTICATION_BACKENDS = [
     'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
 ]
+
+ANONYMOUS_USER_NAME = 'anonymous'
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -345,6 +349,10 @@ LOGGING = {
         'reportek.workflows': {
             'handlers': ['console'],
             'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'reportek.perms': {
+            'handlers': ['console'],
+            'level': get_env_var('PERMS_LOG_LEVEL', 'INFO'),
         },
         'reportek.qa': {
             'handlers': ['console'],
