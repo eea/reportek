@@ -558,18 +558,17 @@ export default {
     },
 
     download(blob, filename, filetype) {
-        let a = window.document.createElement('a');
-        a.href = window.URL.createObjectURL(new Blob([blob], {type: filetype}));
-        console.log(a.href)
-        a.download = filename;
+      let a = window.document.createElement('a');
+      a.href = window.URL.createObjectURL(new Blob([blob], {type: filetype}));
+      a.download = filename;
 
-        // Append anchor to body.
-        document.body.appendChild(a);
-        a.click();
+      // Append anchor to body.
+      document.body.appendChild(a);
+      a.click();
 
-        // Remove anchor from body
-        document.body.removeChild(a);
-      },
+      // Remove anchor from body
+      document.body.removeChild(a);
+    },
 
     renameFile(file) {
       file.isEditing = true;
