@@ -1,5 +1,7 @@
 
 from django.contrib import admin
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
 from guardian.admin import GuardedModelAdmin
 from django_object_actions import DjangoObjectActions
 
@@ -17,6 +19,17 @@ from .models import (
     DemoAutoQAWorkflow,
     TransitionEvent
 )
+
+
+class ReportekUserAdmin(UserAdmin):
+    fieldsets = UserAdmin.fieldsets + (
+                    ('Effective permissions', {'fields': ('ldap_group_names', 'effective_group_names')}),
+                )
+    readonly_fields = UserAdmin.readonly_fields + ('ldap_group_names', 'effective_group_names')
+
+
+user_model = get_user_model()
+admin.site.register(user_model, ReportekUserAdmin)
 
 
 # ROD

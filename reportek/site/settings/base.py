@@ -85,6 +85,10 @@ DEBUG = get_bool_env_var('DEBUG', 'no')
 ALLOWED_HOSTS = split_env_var('ALLOWED_HOSTS')
 
 
+# https://django-guardian.readthedocs.io/en/stable/userguide/custom-user-model.html#custom-user-model
+GUARDIAN_MONKEY_PATCH = False
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -187,6 +191,8 @@ SILENCED_SYSTEM_CHECKS = [
     'fields.W342',  # Disable OneToOneField recommendation
 ]
 
+
+AUTH_USER_MODEL = 'core.ReportekUser'
 
 AUTH_LDAP_SERVER_URI = get_env_var('LDAP_URI')
 

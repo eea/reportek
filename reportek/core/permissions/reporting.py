@@ -11,10 +11,7 @@ from ..models import (
     Envelope,
 )
 
-from .utils import (
-    get_effective_groups,
-    get_effective_obj_perms,
-)
+from .utils import get_effective_obj_perms
 
 
 log = logging.getLogger('reportek.perms')
@@ -55,7 +52,7 @@ class EnvelopePermissions(DjangoObjectPermissions):
 
             # Creating an envelope requires permission to report on
             # the obligation on behalf of the reporter.
-            groups = get_effective_groups(request.user)
+            groups = request.user.effective_groups
             return (
                 'report_for_reporter' in get_effective_obj_perms(groups, reporter) and
                 'report_on_obligation' in get_effective_obj_perms(groups, obligation_spec.obligation)
@@ -106,7 +103,7 @@ class EnvelopeFilePermissions(DjangoObjectPermissions):
             if not envelope.workflow.upload_allowed:
                 return False
 
-            groups = get_effective_groups(request.user)
+            groups = request.user.effective_groups
             return (
                 (
                     'report_for_reporter' in get_effective_obj_perms(groups, envelope.reporter) and
