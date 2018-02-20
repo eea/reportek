@@ -1,6 +1,5 @@
 import logging
 import itertools
-from django.contrib.auth.models import Group
 from guardian.shortcuts import get_perms
 
 
@@ -9,25 +8,6 @@ info = log.info
 debug = log.debug
 warn = log.warning
 error = log.error
-
-
-def get_effective_groups(user):
-    """
-    Returns a set of `Group` instances corresponding to
-    the user's LDAP group and Django group memberships.
-
-    Params:
-        user: A `User` instance.
-    """
-    ldap_groups = Group.objects.filter(name__in=user.ldap_user.group_names).all()
-    django_groups = user.groups.all()
-    eff_groups = set(
-        list(
-            itertools.chain(ldap_groups, django_groups)
-        )
-    )
-    debug(f'Effective groups of user "{user}": {[g.name for g in eff_groups]}')
-    return eff_groups
 
 
 def get_effective_obj_perms(groups, obj):
