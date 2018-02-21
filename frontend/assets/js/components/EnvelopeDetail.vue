@@ -1,45 +1,17 @@
 <template>
   <div class="hello">
     <div class="row" v-if="envelope">
-      <div class="col-lg-8 col-md-8 col-sm-10">
-        <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="warning"><strong>{{translateCode(envelope.workflow.current_state)}}</strong></b-badge></h1>
+      <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="warning"><strong>{{translateCode(envelope.workflow.current_state)}}</strong></b-badge></h1>
+      <div class="col-lg-9 col-md-9 col-sm-10">
 
 
         <workflow :state="envelope.workflow.current_state"></workflow>
 
-        <b-jumbotron
-            bg-variant="white"
-            border-variant="default"
-            class="status-control"
-            :header="translateCode(envelope.workflow.current_state)"
-          >
-         <div class="row">
-
-          <p  v-if="translateCode(envelope.workflow.current_state) === 'Draft'" class="col order-1">
-            Add files and run QA tests on them. Fix any error you encounter and keep adding files.
-            When the envelope is ready run all tests and get feedback
-          </p>
-          <p v-else class="col order-1">
-            Envelope is in transition
-          </p>
-
-          <div class="col-lg-3 col-sm-5 col-md-3 order-2 d-flex align-items-start justify-content-center">
-            <b-button
-                v-for="transition in envelope.workflow.available_transitions"
-                :key="transition"
-                v-if="showTransitionButton(transition)"
-                variant="primary"
-                v-on:click="goToTransition($event, transition)">
-                  {{translateCode(transition)}}
-              </b-button>
-          </div>
-         </div>
-
-        </b-jumbotron>
 
 
 
-        <p><strong>Envelope files {{envelope.files.length}}</strong></p>
+
+        <h4 class="inline"><strong>Envelope files</strong></h4> <small>{{envelope.files.length}} files</small>
 
         <b-button
           variant="primary"
@@ -52,17 +24,30 @@
 
         <b-tabs>
           <b-tab title="all" active>
-            <br>All
 
             <b-table
               stacked="md"
+              class="files-table"
               border-variant="default"
               :hover="false"
+              v-if="envelope.files.length"
               :items="envelope.files"
+              @head-clicked="selectAll()"
               :fields="fields"
               :current-page="currentPage"
               :per-page="perPage"
             >
+            <div
+            slot="HEAD_select"
+            slot-scope="row"
+            >
+              <b-form-checkbox
+               v-model="row.selected"
+
+              >
+              </b-form-checkbox>
+              Select All
+            </div>
 
               <div
                 slot="name"
@@ -73,7 +58,7 @@
                   v-model="row.item.name"
                   v-if="row.item.isEditing"
                 ></b-form-input>
-                <p class="blue" v-if="!row.item.isEditing">
+                <p class="blue-color" v-if="!row.item.isEditing">
                   {{row.item.name}}
                 </p>
 
@@ -118,6 +103,7 @@
                 slot-scope="row"
                 v-on:click="getFileScripts(row.item)"
               >
+              <div class="file-tests">
 
                 <b-button
                   v-for="script in row.item.availableScripts"
@@ -127,8 +113,12 @@
                 >
                     {{script.data.title}}
                 </b-button>
+              </div>
 
-                <p v-show="row.item.availableScripts.length === 0">Run a test</p>
+                <div class="test-trigger">
+                  <p v-show="row.item.availableScripts.length === 0">View Tests</p>
+                  <p v-show="row.item.availableScripts.length != 0">Hide Tests</p>
+                </div>
               </b-link>
 
               <div
@@ -167,9 +157,30 @@
               <b-form-checkbox
                 slot="select"
                 slot-scope="row"
-                v-model="row.selected">
+                @change="selectFile(row.item, $event)"
+                v-model="row.item.selected">
               </b-form-checkbox>
             </b-table>
+
+            <b-card title="Wrok area empty"
+                    class="empty-workarea"
+                    v-else>
+              <p>Start uploading files so you can test them and prepare for delivery</p>
+              <form
+                enctype="multipart/form-data"
+                novalidate v-if="isInitial || isSaving"
+                class="upload-form">
+                    <label class="btn btn-primary" for="file_uploads">Upload files</label>
+                    <input
+                      type="file"
+                      id="file_uploads"
+                      class="hidden-input"
+                      v-on:disabled="isSaving"
+                      v-on:change="onFileChange"
+                      multiple
+                    >
+              </form>
+            </b-card>
 
             <b-pagination
               :total-rows="envelope.files.length"
@@ -235,14 +246,56 @@
         </b-tabs>
 
     </div>
-    <div class="col-lg-4 col-md-4 col-sm-10">
-        <div class="sidebar-item">
+    <div class="col-lg-3 col-md-3 col-sm-10">
+      <!--   <div class="sidebar-item">
         <h5>Details</h5>
           <p>Reporting on obligation {{envelope.obligation_spec}} in cycle {{envelope.reporting_cycle}}</p>
           <b-link href="#" class="card-link">Edit Envelope</b-link>
+        </div> -->
+        <div class="sidebar-item">
+          <div class="file-control">
+            <div class="file-control-header"><span class="blue-color"><i class="fas fa-file"></i></span> 2 files selected</div>
+            <div class="file-control-body">
+              <b-button variant="white"> <i class="far fa-hdd"></i> Delete</b-button>
+              <b-button variant="white"> <i class="far fa-folder-open"></i> Download</b-button>
+              <b-button variant="white"> <i class="fas fa-play"></i> Run tests</b-button>
+              <b-button variant="white"> <i class="far fa-edit"></i> Replace</b-button>
+              <b-button variant="white"> <i class="far fa-trash-alt"></i> Delete</b-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="sidebar-item">
+          <div class="status-control">
+            <div class="status-control-header yellow-bg">
+              Envelope status: {{translateCode(envelope.workflow.current_state)}}
+            </div>
+           <div class="status-control-body">
+            <div>{{envelope.files.length}} files uploaded</div>
+            <p  v-if="translateCode(envelope.workflow.current_state) === 'Draft'" class="">
+              Add files and run QA tests on them. Fix any error you encounter and keep adding files.
+              When the envelope is ready run all tests and get feedback
+            </p>
+            <p v-else class="">
+              Envelope is in transition
+            </p>
+
+            <div style="text-align: center;">
+              <b-button
+                  v-for="transition in envelope.workflow.available_transitions"
+                  :key="transition"
+                  v-if="showTransitionButton(transition)"
+                  variant="primary"
+                  v-on:click="goToTransition($event, transition)">
+                    {{translateCode(transition)}}
+                </b-button>
+            </div>
+           </div>
+
+          </div>
         </div>
         <!-- <history :created_at="envelope.created_at"></history> -->
-      </div>
+    </div>
   </div>
   </div>
 </template>
@@ -251,7 +304,6 @@
 import tus from 'tus-js-client';
 import History from './EnvelopeHistory';
 import Workflow from './EnvelopeWorkflow';
-import FontAwesomeIcon from '@fortawesome/vue-fontawesome'
 
 import { fetchEnvelope,
           fetchEnvelopeToken,
@@ -288,8 +340,7 @@ export default {
   name: 'EnvelopeDetail',
   components: {
     history: History,
-    workflow: Workflow,
-    FontAwesomeIcon: FontAwesomeIcon
+    workflow: Workflow
   },
 
 
@@ -297,6 +348,7 @@ export default {
     return {
       fields: ['select', 'name', 'file', 'tests', 'convert'],
       envelope: null,
+      allFilesSelected: false,
       envelopeState: '',
       isSaving: false,
       isInitial: true,
@@ -332,6 +384,7 @@ export default {
                 this.envelope.files[index],
                 {
                   availableScripts: [],
+                  selected:false,
                   availableConversions: [],
                   selectedConversion: null,
                   feedback: [],
@@ -560,6 +613,18 @@ export default {
       }
     },
 
+    selectFile(file, event) {
+      file.selected = event;
+      if(event === false) this.allFilesSelected = false;
+    },
+
+    selectAll(e){
+      for(const file of this.envelope.files) {
+        file.selected = true
+      }
+      this.allFilesSelected = true;
+    },
+
     download(blob, filename, filetype) {
         let a = window.document.createElement('a');
         a.href = window.URL.createObjectURL(new Blob([blob], {type: filetype}));
@@ -661,10 +726,11 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss" scoped>
+<style lang="scss">
+
 
 .sidebar-item {
-  border-top: 1px solid rgba(0,0,0,.15);
+
   margin-top: 1rem;
   padding-top: 1rem;
 }
@@ -672,6 +738,11 @@ export default {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  padding-top: 1rem;
   .badge {
     font-size: 1rem;
     font-weight: normal;
@@ -701,24 +772,77 @@ export default {
   }
   label {
     cursor: pointer;
-    color: #767676;
-    &:before {
-      content: "➕";
-      border: 1px solid #767676;
-      color: inherit;
-      border-radius: 10rem;
-      padding: .3rem .5rem;
-      margin-right: .5rem;
-    }
-    &:hover {
-      color: #444;
-    }
   }
 }
+
 .status-control {
-  padding: 1rem;
-  h1 {
-    font-size: 1.2rem;
+  border-radius: 4px;
+  border: 1px solid #eee;
+  p {
+    font-size: .8rem;
+    font-style: italic;
+    color: rgba(0,0,0,0.54);
+  }
+  .status-control-header {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    text-align: center;
+    padding: .3rem;
+    font-weight: 600;
+  }
+  .status-control-body {
+    padding: 1rem;
   }
 }
+
+.files-table {
+  thead {
+    th:not(:first-of-type){
+      display:none;
+    }
+    th:first-of-type {
+      white-space: nowrap;
+    }
+    th {
+      border: none;
+    }
+  }
+  td[data-label="Select"] {
+    width: 1px;
+  }
+
+  .file-tests {
+    position: absolute;
+    left: 6rem;
+    margin-top: 3rem;
+    button {
+      display: block;
+    }
+  }
+}
+.file-control {
+  .file-control-body {
+    button {
+      margin-bottom: 5px;
+      height: 36px;
+    }
+  }
+  .file-control-header {
+    border-bottom: 1px solid #eee;
+    margin-bottom: 1rem;
+    padding-bottom: .3rem;
+    padding-left: 1rem;
+  }
+}
+
+.empty-workarea {
+  margin-top: 2rem;
+  text-align: center;
+  .card-title {
+    font-weight: bold;
+  }
+}
+
+
+
 </style>
