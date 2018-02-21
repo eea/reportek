@@ -2,7 +2,7 @@
   <div class="hello">
     <div class="row" v-if="envelope">
       <div class="col-lg-8 col-md-8 col-sm-10">
-        <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="primary">{{translateCode(envelope.workflow.current_state)}}</b-badge></h1>
+        <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="warning"><strong>{{translateCode(envelope.workflow.current_state)}}</strong></b-badge></h1>
 
 
         <workflow :state="envelope.workflow.current_state"></workflow>
@@ -687,7 +687,6 @@ export default {
 .feedback-container {
   overflow-x: auto;
   h1 {
-    font-size: 2rem;
     margin-bottom: 2rem;
   }
 }
