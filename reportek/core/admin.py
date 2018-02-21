@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
@@ -21,14 +20,27 @@ from .models import (
 )
 
 
+user_model = get_user_model()
+
+
 class ReportekUserAdmin(UserAdmin):
+
     fieldsets = UserAdmin.fieldsets + (
                     ('Effective permissions', {'fields': ('ldap_group_names', 'effective_group_names')}),
                 )
     readonly_fields = UserAdmin.readonly_fields + ('ldap_group_names', 'effective_group_names')
 
+    def ldap_group_names(self, instance):
+        return ', '.join(sorted([g.name for g in instance.ldap_groups]))
 
-user_model = get_user_model()
+    ldap_group_names.short_description = 'LDAP groups'
+
+    def effective_group_names(self, instance):
+        return ', '.join(sorted([g.name for g in instance.effective_groups]))
+
+    effective_group_names.short_description = 'Effective groups'
+
+
 admin.site.register(user_model, ReportekUserAdmin)
 
 
@@ -90,27 +102,3 @@ admin.site.register(DemoAutoQAWorkflow)
 # Reporting
 
 admin.site.register(Envelope)
-
-# @admin.register(ObligationGroup)
-# class ObligationGroupAdmin(DjangoObjectActions, admin.ModelAdmin):
-#     def start_reporting_period(self, request, obj):
-#         obj.start_reporting_period()
-#     start_reporting_period.label = "Start Reporting Period"
-#
-#     def close_reporting_period(self, request, obj):
-#         obj.close_reporting_period()
-#     close_reporting_period.label = "Close Reporting Period"
-#
-#     change_actions = ('start_reporting_period', 'close_reporting_period')
-#
-#
-# @admin.register(ReportingPeriod)
-# class ReportingPeriodAdmin(admin.ModelAdmin):
-#     def xperiod(self, obj):
-#         return '%s - %s' % (obj.period.lower, obj.period.upper)
-#     xperiod.short_description = "Period"
-#
-#     list_display = ('obligation_group', 'xperiod', 'open')
-#
-#
-
