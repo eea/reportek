@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 from zipfile import ZipFile, BadZipFile
 from collections import OrderedDict
-import dateutil.parser
 import logging
 from base64 import b64encode
 from django.views import static
@@ -20,16 +19,7 @@ from rest_framework.authentication import (
 from django.conf import settings
 from django.core.files import File
 
-from ..models import (
-    Instrument,
-    Client,
-    Reporter,
-    ReporterSubdivisionCategory,
-    ReporterSubdivision,
-    Obligation,
-    ObligationSpec,
-    ObligationSpecReporter,
-    ReportingCycle,
+from ...models import (
     Envelope,
     EnvelopeFile,
     BaseWorkflow,
@@ -39,17 +29,7 @@ from ..models import (
     QAJob,
 )
 
-from ..serializers import (
-    InstrumentSerializer,
-    ClientSerializer,
-    ReporterSerializer,
-    ReporterSubdivisionCategorySerializer,
-    ReporterSubdivisionSerializer,
-    ObligationSerializer,
-    PendingObligationSerializer,
-    NestedObligationSpecSerializer,
-    ObligationSpecReporterSerializer,
-    ReportingCycleSerializer,
+from ...serializers import (
     EnvelopeSerializer,
     EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
     NestedEnvelopeWorkflowSerializer,
@@ -57,7 +37,7 @@ from ..serializers import (
     QAJobSerializer,
 )
 
-from .. import permissions
+from ... import permissions
 
 from reportek.core.utils import path_parts
 
@@ -66,190 +46,19 @@ from reportek.core.conversion import RemoteConversion
 from reportek.core.utils import fully_qualify_url
 
 
-log = logging.getLogger('reportek.workflows')
+log = logging.getLogger('reportek')
 info = log.info
 debug = log.debug
 warn = log.warning
 error = log.error
 
-
-class DefaultPagination(LimitOffsetPagination):
-    default_limit = 20
-    max_limit = 100
-
-
-class TimeSlicedMixin:
-    """
-    Provides a time-sliced query set, based on the URL query parameters
-    `since` and/or `until`. The parameters must be ISO 8601 date-time strings,
-    e.g. '2007-04-05T14:30Z' or '2007-04-05T16:30+02:00'.
-    """
-    def get_queryset(
-        self  # type:  viewsets.ModelViewSet
-    ):
-        """
-        Filters the query set based on the `updated_at`/`created_at` fields.
-        """
-        query_params = self.request.query_params
-        queryset = super().get_queryset()
-        try:
-            since = dateutil.parser.parse(query_params['since'])
-        except KeyError:
-            since = None
-
-        q_since = Q(updated_at__gt=since) | (Q(updated_at=None) & Q(created_at__gt=since))
-
-        try:
-            until = dateutil.parser.parse(query_params['until'])
-        except KeyError:
-            until = None
-
-        q_until = Q(updated_at__lt=until) | (Q(updated_at=None) & Q(created_at__lt=until))
-
-        if since is not None:
-            q = q_since
-            if until is not None:
-                q &= q_until
-        elif until is not None:
-            q = q_until
-        else:
-            return queryset
-
-        return queryset.filter(q)
-
-    def paginate_queryset(
-        self,  # type:  viewsets.ModelViewSet
-        queryset
-    ):
-        """
-        Overrides default paginator to disable it when time slice params are present.
-        """
-        query_params = self.request.query_params
-        if self.paginator is None or 'since' in query_params or 'until' in query_params:
-            return None
-        return self.paginator.paginate_queryset(queryset, self.request, view=self)
-
-
-class ReadOnlyMixin:
-    def _allowed_methods(self):
-        return ['GET', 'OPTIONS']
-
-
-class RODMixin(ReadOnlyMixin, TimeSlicedMixin):
-    permission_classes = (permissions.IsAuthenticated, )
-    pagination_class = DefaultPagination
-
-
-class InstrumentViewSet(RODMixin, viewsets.ModelViewSet):
-    queryset = Instrument.objects.all()
-    serializer_class = InstrumentSerializer
-
-
-class ClientViewSet(RODMixin, viewsets.ModelViewSet):
-    queryset = Client.objects.all()
-    serializer_class = ClientSerializer
-
-
-class ReporterViewSet(RODMixin, viewsets.ModelViewSet):
-    queryset = Reporter.objects.all()
-    serializer_class = ReporterSerializer
-
-    @detail_route(methods=['get'])
-    def pending_obligations(self, request, pk):
-        """
-        Returns obligations with open reporting cycles for obligation specs
-        that have no envelopes from the reporter.
-
-        Relevant data on reporting cycles and applicable reporter subdivisions
-        is custom serialized within each obligation.
-        """
-
-        reporter = self.get_object()
-
-        envelopes = Envelope.objects.filter(
-            reporter=reporter,
-            reporting_cycle=OuterRef('pk')
-        )
-        reporting_cycles = ReportingCycle.objects.for_reporter(reporter, open_only=True).\
-            annotate(has_envelopes=Exists(envelopes)).filter(has_envelopes=False)
-
-        obligation_specs = reporter.obligation_specs.filter(
-            reporting_cycles__in=reporting_cycles)
-
-        obligations = {
-            spec.obligation_id: spec.obligation
-            for spec in obligation_specs
-            if spec
-        }
-
-        subdivision_category_ids = set(
-            rep_cycle.subdivision_category for rep_cycle in reporting_cycles
-        )
-
-        subdivision_categories = {
-            cat.id: cat
-            for cat in
-            ReporterSubdivisionCategory.objects.filter(
-                id__in=subdivision_category_ids
-            ).prefetch_related('subdivisions')
-        }
-
-        for rep_cycle in reporting_cycles:
-            oblig = obligations[rep_cycle.obligation_spec.obligation_id]
-
-            try:
-                rep_cycle.subdivisions = subdivision_categories[rep_cycle.subdivision_category].subdivisions.all()
-            except KeyError:
-                rep_cycle.subdivisions = []
-
-            try:
-                oblig.reporting_cycles.append(rep_cycle)
-            except AttributeError:
-                oblig.reporting_cycles = [rep_cycle]
-
-        serializer = PendingObligationSerializer(
-            obligations.values(), many=True, context={'request': request})
-        return Response(serializer.data)
-
-
-class ReporterSubdivisionCategoryViewSet(RODMixin, viewsets.ModelViewSet):
-    queryset = ReporterSubdivisionCategory.objects.all()
-    serializer_class = ReporterSubdivisionCategorySerializer
-
-
-class ReporterSubdivisionViewSet(RODMixin, viewsets.ModelViewSet):
-    queryset = ReporterSubdivision.objects.all()
-    serializer_class = ReporterSubdivisionSerializer
-
-    def get_queryset(self):
-        return super().get_queryset().filter(
-            category_id=self.kwargs['category_pk']
-        )
-
-
-class ObligationViewSet(RODMixin, viewsets.ModelViewSet):
-    queryset = Obligation.objects.all().prefetch_related('specs')
-    serializer_class = ObligationSerializer
-
-
-class ObligationSpecViewSet(RODMixin, viewsets.ModelViewSet):
-    queryset = ObligationSpec.objects.all()
-    serializer_class = NestedObligationSpecSerializer
-
-    def get_queryset(self):
-        return super().get_queryset().filter(
-            obligation_id=self.kwargs['obligation_pk']
-        )
-
-
-class ObligationSpecReporterViewSet(RODMixin, viewsets.ModelViewSet):
-    queryset = ObligationSpecReporter.objects.all()
-    serializer_class = ObligationSpecReporterSerializer
-
-
-class ReportingCycleViewSet(RODMixin, viewsets.ModelViewSet):
-    queryset = ReportingCycle.objects.all()
-    serializer_class = ReportingCycleSerializer
+__all__ = [
+    'EnvelopeViewSet',
+    'EnvelopeFileViewSet',
+    'EnvelopeWorkflowViewSet',
+    'UploadTokenViewSet',
+    'UploadHookView',
+]
 
 
 class EnvelopeResultsSetPagination(LimitOffsetPagination):

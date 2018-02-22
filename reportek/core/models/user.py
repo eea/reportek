@@ -38,7 +38,7 @@ class ReportekUser(GuardianUserMixin, AbstractUser):
         Returns `QuerySet` of `Group`s in which the user is a member either
         directly or through LDAP.
         """
-        return self.groups.union(self.ldap_groups)
+        return self.groups.all() | self.ldap_groups
 
     def get_effective_objects(self, perms, klass=None):
         """
@@ -55,14 +55,16 @@ class ReportekUser(GuardianUserMixin, AbstractUser):
         Returns:
             QuerySet: The objects covered by permissions.
         """
-        user_objs = get_objects_for_user(self, perms, klass)
+        user_objs = get_objects_for_user(self, perms, klass)  # This includes local group perms
         ldap_obj_qs = [get_objects_for_group(grp, perms, klass) for grp in self.ldap_groups]
-        return user_objs.union(*ldap_obj_qs)
+        for qs in ldap_obj_qs:
+            user_objs |= qs
+        return user_objs
 
     def get_reporters(self):
-        """Returns `Reporter`s for which the user has permission to report."""
-        return self.get_effective_objects('core.report_for_reporter').all()
+        """Returns `QuerySet` of `Reporter`s for which the user has permission to report."""
+        return self.get_effective_objects('core.report_for_reporter')
 
     def get_obligations(self):
-        """Returns `Obligation`s on which the user has permission to report."""
-        return self.get_effective_objects('core.report_on_obligation').all()
+        """Returns `QuerySet` of `Obligation`s on which the user has permission to report."""
+        return self.get_effective_objects('core.report_on_obligation')

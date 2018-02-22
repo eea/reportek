@@ -15,6 +15,8 @@ from .views import (
     EnvelopeWorkflowViewSet,
     UploadHookView,
     UploadTokenViewSet,
+    WorkspaceProfileViewSet,
+    WorkspaceReporterViewSet,
 )
 
 
@@ -133,6 +135,21 @@ upload_hooks_router.register(
 )
 
 
+workspace_profile_router = routers.SimpleRouter()
+workspace_profile_router.register(
+    'workspace-profile',
+    WorkspaceProfileViewSet,
+    base_name='workspace'
+)
+
+workspace_reporter_router = routers.SimpleRouter()
+workspace_reporter_router.register(
+    'workspace-reporter',
+    WorkspaceReporterViewSet,
+    base_name='workspace-reporter'
+)
+
+
 main_routers = [
     instruments_router,
     clients_router,
@@ -143,7 +160,10 @@ main_routers = [
     reporting_cycle_router,
     envelopes_router,
     upload_hooks_router,
+    workspace_profile_router,
+    workspace_reporter_router,
 ]
+
 
 nested_routers = [
     files_router,
