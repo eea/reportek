@@ -22,7 +22,8 @@
             Upload Files
         </b-button>
 
-        <b-tabs>
+        <b-tabs v-model="tabIndex">
+
           <b-tab title="all" active>
 
             <b-table
@@ -62,65 +63,67 @@
                   {{row.item.name}}
                 </p>
 
+                  <div class="file-tests">
+
+                  <b-button
+                    v-for="script in row.item.availableScripts"
+                    :key="script.data.id"
+                    :variant="script.variant"
+                    v-on:click.stop="runQAScript(row.item, script.data.id)"
+                    v-show="row.item.visibleScripts"
+                  >
+                      {{script.data.title}}
+                  </b-button>
+
+                </div>
+
               </div>
 
               <div
-                slot="file"
-                slot-scope="row"
-              >
-
-                <b-link
-                  href="#"
-                  class="card-link"
-                  v-on:click="renameFile(row.item)"
-                  v-if="!row.item.isEditing"
-                >
-                  <p>Rename File</p>
-                </b-link>
-
-                <b-link
-                  href="#"
-                  class="card-link"
-                  v-on:click="updateFile(row.item)"
-                  v-if="row.item.isEditing"
-                >
-                  <p>Save File</p>
-                </b-link>
-
-                <b-link
-                  href="#"
-                  class="card-link"
-                  v-on:click="deleteFile(row.item)"
-                >
-                  <p>Delete File</p>
-                </b-link>
-              </div>
-
-              <b-link
-                href="#"
-                class="card-link"
                 slot="tests"
                 slot-scope="row"
-                v-on:click="getFileScripts(row.item)"
+                class="card-link"
               >
-              <div class="file-tests">
 
-                <b-button
-                  v-for="script in row.item.availableScripts"
-                  :key="script.data.id"
-                  :variant="script.variant"
-                  v-on:click.stop="runQAScript(row.item, script.data.id)"
-                >
-                    {{script.data.title}}
-                </b-button>
-              </div>
+                  <div class="test-trigger">
+                    <p
+                      class="btn btn-link"
+                      v-on:click="getFileScripts(row.item)"
+                      v-show="row.item.availableScripts.length === 0 || row.item.visibleScripts === false"
+                     >
+                      View Tests
+                    </p>
+                    <p
+                      class="btn btn-link"
+                      v-show="row.item.availableScripts.length != 0 && row.item.visibleScripts === true"
+                      v-on:click="row.item.visibleScripts = false"
+                      >
+                      Hide Tests
+                    </p>
+                  </div>
 
-                <div class="test-trigger">
-                  <p v-show="row.item.availableScripts.length === 0">View Tests</p>
-                  <p v-show="row.item.availableScripts.length != 0">Hide Tests</p>
+                <div>
+                  <b-link
+                    href="#"
+                    class="card-link"
+                    v-on:click="renameFile(row.item)"
+                    v-if="!row.item.isEditing"
+                  >
+                    <p>Rename File</p>
+                  </b-link>
+
+                  <b-link
+                    href="#"
+                    class="card-link"
+                    v-on:click="updateFile(row.item)"
+                    v-if="row.item.isEditing"
+                  >
+                    <p>Save File</p>
+                  </b-link>
                 </div>
-              </b-link>
 
+              </div>
+<!--
               <div
                 slot="convert"
                 slot-scope="row"
@@ -152,7 +155,7 @@
                 </b-form-select>
                 <p v-show="row.item.availableConversions.length === 1">No conversions available</p>
 
-              </div>
+              </div> -->
 
               <b-form-checkbox
                 slot="select"
@@ -205,23 +208,6 @@
                   >
             </form>
 
-            <b-list-group>
-              <b-list-group-item
-                v-for="file in files"
-                :key="file.data.name"
-              >
-                {{file.data.name}}
-
-                <b-progress-bar
-                  :value="file.percentage"
-                  :max="max"
-                  show-progress
-                  animated
-                >
-                </b-progress-bar>
-              </b-list-group-item>
-            </b-list-group>
-
           </b-tab>
           <b-tab title="feedback">
             <br>
@@ -243,6 +229,27 @@
               </b-jumbotron>
             </div>
           </b-tab>
+
+          <b-tab v-for="tab in extraTabs" :key="tab" :title="tab">
+            <b-list-group>
+              <b-list-group-item
+                v-for="file in files"
+                :key="file.data.name"
+              >
+                {{file.data.name}}
+
+                <b-progress-bar
+                  :value="file.percentage"
+                  :max="max"
+                  show-progress
+                  animated
+                >
+                </b-progress-bar>
+              </b-list-group-item>
+            </b-list-group>
+          </b-tab>
+
+
         </b-tabs>
 
     </div>
@@ -256,11 +263,10 @@
           <div class="file-control">
             <div class="file-control-header"><span class="blue-color"><i class="fas fa-file"></i></span> 2 files selected</div>
             <div class="file-control-body">
-              <b-button variant="white"> <i class="far fa-hdd"></i> Delete</b-button>
               <b-button variant="white"> <i class="far fa-folder-open"></i> Download</b-button>
-              <b-button variant="white"> <i class="fas fa-play"></i> Run tests</b-button>
-              <b-button variant="white"> <i class="far fa-edit"></i> Replace</b-button>
-              <b-button variant="white"> <i class="far fa-trash-alt"></i> Delete</b-button>
+              <b-button variant="white" v-on:click="runScriptsForFiles"> <i class="fas fa-play"></i> Run tests</b-button>
+              <!-- <b-button variant="white"> <i class="far fa-edit"></i> Replace</b-button> -->
+              <b-button v-on:click="deleteFiles" variant="white"> <i class="far fa-trash-alt"></i> Delete</b-button>
             </div>
           </div>
         </div>
@@ -346,7 +352,7 @@ export default {
 
   data() {
     return {
-      fields: ['select', 'name', 'file', 'tests', 'convert'],
+      fields: ['select', 'name', 'tests'],
       envelope: null,
       allFilesSelected: false,
       envelopeState: '',
@@ -357,6 +363,8 @@ export default {
       max: 100,
       currentPage: 1,
       perPage: 5,
+      extraTabs: [],
+      tabIndex: 0
     };
   },
 
@@ -368,6 +376,7 @@ export default {
       });
 
   },
+
 
   methods: {
     getEnvelope() {
@@ -385,6 +394,7 @@ export default {
                 {
                   availableScripts: [],
                   selected:false,
+                  visibleScripts: false,
                   availableConversions: [],
                   selectedConversion: null,
                   feedback: [],
@@ -460,6 +470,10 @@ export default {
       for (const file of newfiles) {
         this.files.push({ data: file, percentage: 0 });
       }
+      this.extraTabs.push('New Files');
+      setTimeout( () =>{
+        this.tabIndex = 2 ;
+      })
     },
 
     uploadAllFiles(e) {
@@ -479,7 +493,7 @@ export default {
 
       // execute Promises in serial, clear files at the end of all promisees
       promiseSerial(funcs)
-        .then(() => { this.files = []; })
+        .then(() => { this.files = []; this.extraTabs=[]; this.tabIndex = 0;})
         .catch(console.error.bind(console));
     },
 
@@ -555,17 +569,45 @@ export default {
       }, delay);
     },
 
+    runScriptsForFiles() {
+      this.envelope.files.map((file) => {
+        if (file.selected) {
+          this.getFileScripts(file)
+            .then((response) => {
+              console.log(response)
+              response.availableScripts.map((script) => {
+
+                this.runQAScript(response, script.data.id)
+              })
+            })
+            .catch((error)=> {
+              console.log(error)
+            })
+        }
+      })
+    },
+
     getFileScripts(file) {
-      fetchEnvelopeFilesQAScripts(this.$route.params.envelope_id, file.id)
-        .then((response) => {
-          response.data.map((script) => {
-            file.availableScripts.push({ data: script, variant: 'primary' });
-            return script;
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      return new Promise((resolve, reject) => {
+        if(file.availableScripts.length === 0) {
+          fetchEnvelopeFilesQAScripts(this.$route.params.envelope_id, file.id)
+            .then((response) => {
+              response.data.map((script) => {
+                file.availableScripts.push({ data: script, variant: 'primary' });
+                file.visibleScripts = true;
+                return script;
+              });
+              resolve(file);
+            })
+            .catch((error) => {
+              console.log(error);
+              reject(e);
+            });
+          } else {
+            resolve(file);
+            file.visibleScripts = true;
+          }
+      })
     },
 
     runQAScript(file, scriptId) {
@@ -654,6 +696,14 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+
+    deleteFiles(){
+      this.envelope.files.map((file) => {
+        if (file.selected) {
+          this.deleteFile(file);
+        }
+      })
     },
 
     deleteFile(file) {
@@ -809,15 +859,6 @@ export default {
   }
   td[data-label="Select"] {
     width: 1px;
-  }
-
-  .file-tests {
-    position: absolute;
-    left: 6rem;
-    margin-top: 3rem;
-    button {
-      display: block;
-    }
   }
 }
 .file-control {
