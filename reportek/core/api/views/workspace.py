@@ -12,7 +12,7 @@ from ...models import (
 from ...serializers import (
     ReporterSerializer,
     PendingObligationSerializer,
-    EnvelopeSerializer,
+    WorkspaceEnvelopeSerializer,
     WorkspaceUserSerializer,
 )
 
@@ -74,7 +74,7 @@ class WorkspaceReporterViewSet(PendingObligationsMixin,
             finalized=finalized
         )
         if serialize:
-            envelopes = EnvelopeSerializer(envelopes, many=True).data
+            envelopes = WorkspaceEnvelopeSerializer(envelopes, many=True).data
         return envelopes
 
     @detail_route()
