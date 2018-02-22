@@ -344,3 +344,6 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
                   'groups', 'ldap_groups', 'effective_groups',
                   'reporters')
 
+
+class WorkspaceEnvelopeSerializer(EnvelopeSerializer):
+    files = EnvelopeFileSerializer(many=True, read_only=True)
