@@ -78,11 +78,6 @@ class TimeSlicedMixin:
         return self.paginator.paginate_queryset(queryset, self.request, view=self)
 
 
-class ReadOnlyMixin:
-    def _allowed_methods(self):
-        return ['GET', 'OPTIONS']
-
-
 class RODMixin(ReadOnlyMixin, TimeSlicedMixin):
     permission_classes = (permissions.IsAuthenticated, )
     pagination_class = DefaultPagination
@@ -94,7 +89,7 @@ class PendingObligationsMixin:
     def pending_obligations(request, reporter, user_only=False):
         """
         Returns obligations with open reporting cycles for obligation specs
-        that have no envelopes from the reporter.
+        that have no envelopes from the reporter, or have continuous reporting.
 
         Relevant data on reporting cycles and applicable reporter subdivisions
         is custom serialized within each obligation.
@@ -105,7 +100,9 @@ class PendingObligationsMixin:
             reporting_cycle=OuterRef('pk')
         )
         reporting_cycles = ReportingCycle.objects.for_reporter(reporter, open_only=True).\
-            annotate(has_envelopes=Exists(envelopes)).filter(has_envelopes=False)
+            annotate(has_envelopes=Exists(envelopes)).filter(
+            Q(has_envelopes=False) | Q(reporting_end_date__isnull=True)
+        )
 
         obligation_specs = reporter.obligation_specs.filter(
             reporting_cycles__in=reporting_cycles)
