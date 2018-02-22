@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from rest_framework_nested.serializers import NestedHyperlinkedModelSerializer
 
+from django.contrib.auth.models import Group
+
 from .models import (
     Instrument,
     Client,
@@ -16,6 +18,7 @@ from .models import (
     UploadToken,
     QAJob,
     QAJobResult,
+    ReportekUser,
 )
 
 
@@ -299,3 +302,45 @@ class QAJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = QAJob
         fields = ['latest_result'] + [f.name for f in QAJob._meta.fields]
+
+
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = ('name',)
+
+
+class WorkspaceReporterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reporter
+        fields = ('id', 'name', 'abbr')
+
+
+class WorkspaceUserSerializer(serializers.ModelSerializer):
+    groups = serializers.SerializerMethodField()
+    ldap_groups = serializers.SerializerMethodField()
+    effective_groups = serializers.SerializerMethodField()
+    reporters = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_reporters(obj):
+        return [WorkspaceReporterSerializer(r).data for r in obj.get_reporters()]
+
+    @staticmethod
+    def get_groups(obj):
+        return sorted([g.name for g in obj.groups.all()])
+
+    @staticmethod
+    def get_ldap_groups(obj):
+        return sorted([g.name for g in obj.ldap_groups])
+
+    @staticmethod
+    def get_effective_groups(obj):
+        return sorted([g.name for g in obj.effective_groups])
+
+    class Meta:
+        model = ReportekUser
+        fields = ('username', 'first_name', 'last_name', 'email',
+                  'groups', 'ldap_groups', 'effective_groups',
+                  'reporters')
+
