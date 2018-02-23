@@ -208,7 +208,7 @@
           <div class="file-control">
             <div class="file-control-header"><span class="blue-color"><i class="fas fa-file"></i></span> 2 files selected</div>
             <div class="file-control-body">
-              <b-button variant="white sidebar-button"> <i class="far fa-folder-open"></i> Download</b-button>
+              <b-button @click="showModal" variant="white sidebar-button"> <i class="far fa-folder-open"></i> Download</b-button>
               <b-button variant="white sidebar-button" v-on:click="runScriptsForFiles"> <i class="fas fa-play"></i> Run tests</b-button>
               <!-- <b-button variant="white"> <i class="far fa-edit"></i> Replace</b-button> -->
               <b-button v-on:click="deleteFiles" variant="white sidebar-button"> <i class="far fa-trash-alt"></i> Delete</b-button>
@@ -271,6 +271,10 @@
 
           </div>
         </div>
+        <!-- Modal Component -->
+        <b-modal id="downloadModal" ref="downloadModal" size="lg" title="Download">
+          <filesdownload :files="modalFiles()"></filesdownload>
+        </b-modal>
         <!-- <history :created_at="envelope.created_at"></history> -->
     </div>
   </div>
@@ -281,6 +285,7 @@
 import tus from 'tus-js-client';
 import History from './EnvelopeHistory';
 import Workflow from './EnvelopeWorkflow';
+import EnvelopeFilesDownload from "./EnvelopeFilesDownload";
 
 import { fetchEnvelope,
           fetchEnvelopeToken,
@@ -289,8 +294,6 @@ import { fetchEnvelope,
           runEnvelopeFilesQAScript,
           fetchEnvelopeFiles,
           runEnvelopeTransition,
-          fetchEnvelopeFilesConvertScripts,
-          runEnvelopeFilesConvertScript,
           updateFile,
           removeFile,
           } from '../api';
@@ -317,7 +320,8 @@ export default {
   name: 'EnvelopeDetail',
   components: {
     history: History,
-    workflow: Workflow
+    workflow: Workflow,
+    filesdownload: EnvelopeFilesDownload
   },
 
 
@@ -599,39 +603,25 @@ export default {
         });
     },
 
-    getFileConversions(file) {
-      fetchEnvelopeFilesConvertScripts(this.$route.params.envelope_id, file.id)
-        .then((response) => {
-          file.availableConversions.push({value: null, text: 'Please select conversion'});
-          response.data.map((script) => {
-            file.availableConversions.push({value: script.convert_id, text: script.result_type});
-            return script;
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+    showModal () {
+      this.modalFiles();
+      this.$refs.downloadModal.show();
     },
 
-    convertScript(file) {
-      if(file.selectedConversion) {
-        runEnvelopeFilesConvertScript(this.$route.params.envelope_id, file.id, file.selectedConversion)
-          .then((response) => {
-            // console.log('Converted file: ', response.data);
-            const fileName = response.headers["content-disposition"].split('filename=')[1];
-            const fileType = response.headers["content-type"];
-            console.log(response)
-            this.download(response.data, fileName, fileType);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+
+    modalFiles(){
+      let files = [];
+      for (let file of this.envelope.files) {
+        if(file.selected){
+          files.push(file)
+        }
       }
+      return files
     },
 
-    selectFile(file, event) {
-      file.selected = event;
-      if(event === false) this.allFilesSelected = false;
+    selectFile(file, value) {
+      file.selected = value;
+      if(value === false) this.allFilesSelected = false;
     },
 
     selectAll(e){
@@ -640,20 +630,6 @@ export default {
       }
       this.allFilesSelected = true;
     },
-
-    download(blob, filename, filetype) {
-        let a = window.document.createElement('a');
-        a.href = window.URL.createObjectURL(new Blob([blob], {type: filetype}));
-        console.log(a.href)
-        a.download = filename;
-
-        // Append anchor to body.
-        document.body.appendChild(a);
-        a.click();
-
-        // Remove anchor from body
-        document.body.removeChild(a);
-      },
 
     renameFile(file) {
       file.isEditing = true;
