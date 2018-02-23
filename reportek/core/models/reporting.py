@@ -186,7 +186,7 @@ class Envelope(models.Model):
             self.get_storage_directory(),
             file_name
         )
-        info(f'Deleting envelope file: {env_file}')
+        debug(f'Deleting envelope file: {env_file}')
         try:
             os.remove(env_file)
         except FileNotFoundError:
@@ -200,6 +200,19 @@ def validate_filename(value):
             _("'%(value)s' is not a valid file name"),
             params={'value': value},
         )
+
+
+class EnvelopeFileQuerySet(models.QuerySet):
+
+    def delete(self):
+        for obj in self:
+            try:
+                os.remove(obj.file.path)
+                debug(f'Deleted disk file {obj.file.path}')
+            except FileNotFoundError:
+                error(f'Could not delete envelope file from disk (not found): '
+                      f'{obj.file.path}')
+        super().delete()
 
 
 class EnvelopeFile(models.Model):
@@ -229,6 +242,8 @@ class EnvelopeFile(models.Model):
         on_delete=models.CASCADE,
         null=True
     )
+
+    objects = EnvelopeFileQuerySet.as_manager()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -290,8 +305,13 @@ class EnvelopeFile(models.Model):
             os.rename(old_path, new_path)
 
     def delete(self, *args, **kwargs):
+        try:
+            os.remove(self.file.path)
+            debug(f'Deleted disk file {self.file.path}')
+        except FileNotFoundError:
+            error(f'Could not delete envelope file from disk (not found): '
+                  f'{self.file.path}')
         super().delete(*args, **kwargs)
-        os.remove(self.file.path)
 
     def get_file_url(self):
         return reverse('core:envelope-file', kwargs={
