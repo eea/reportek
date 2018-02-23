@@ -247,6 +247,25 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
             uploader_id=self.request.user.pk,
         )
 
+    def destroy(self, request, envelope_pk, pk=None):
+        """
+        Serves `DELETE` requests on both list and detail routes.
+        List deletes must provide the ids of the envelope files to delete
+        as a URL string, using the format: `ids=<ID1>,...,<IDn>`.
+        """
+        if pk is not None:
+            return super().destroy(envelope_pk, pk)
+        else:
+            ids = request.query_params.get('ids', '')
+            try:
+                ids = [int(i) for i in ids.split(',')]
+            except ValueError:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            if not ids or len(ids) != EnvelopeFile.objects.filter(envelope_id=envelope_pk, id__in=ids).count():
+                return Response(status=status.HTTP_404_NOT_FOUND)
+            EnvelopeFile.objects.filter(id__in=ids).delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
     @detail_route(methods=['get', 'head'], renderer_classes=(StaticHTMLRenderer,))
     def download(self, request, envelope_pk, pk):
         envelope_file = self.get_object()

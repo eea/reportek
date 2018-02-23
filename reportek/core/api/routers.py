@@ -20,6 +20,15 @@ from .views import (
 )
 
 
+class BulkDeleteNestedSimpleRouter(routers.NestedSimpleRouter):
+    """
+    Adds 'delete' to allowed methods on 'list' routes.
+    """
+    def __init__(self, *args, **kwargs):
+        self.routes[0].mapping.update({'delete': 'destroy'})
+        super().__init__(*args, **kwargs)
+
+
 instruments_router = routers.SimpleRouter()
 instruments_router.register(
     'instruments',
@@ -102,7 +111,7 @@ envelopes_router.register(
     base_name='envelope'
 )
 
-files_router = routers.NestedSimpleRouter(
+files_router = BulkDeleteNestedSimpleRouter(
     envelopes_router, 'envelopes', lookup='envelope')
 files_router.register(
     'files',
