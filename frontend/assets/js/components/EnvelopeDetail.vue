@@ -4,23 +4,9 @@
       <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="warning"><strong>{{translateCode(envelope.workflow.current_state)}}</strong></b-badge></h1>
       <div class="col-lg-9 col-md-9 col-sm-10">
 
-
         <workflow :state="envelope.workflow.current_state"></workflow>
 
-
-
-
-
         <h4 class="inline"><strong>Envelope files</strong></h4> <small>{{envelope.files.length}} files</small>
-
-        <b-button
-          variant="primary"
-          v-on:click="uploadAllFiles"
-          :disabled="!envelope.workflow.upload_allowed"
-          class="absolute-right"
-        >
-            Upload Files
-        </b-button>
 
         <b-tabs v-model="tabIndex">
 
@@ -123,39 +109,6 @@
                 </div>
 
               </div>
-<!--
-              <div
-                slot="convert"
-                slot-scope="row"
-              >
-
-                <b-link
-                  href="#"
-                  class="card-link"
-                  v-on:click.stop="getFileConversions(row.item)"
-                  v-show="row.item.availableConversions.length === 0"
-                >
-                  <p>Choose Conversion</p>
-                </b-link>
-
-                <b-link
-                  href="#"
-                  class="card-link"
-                  v-on:click="convertScript(row.item)"
-                  v-show="row.item.availableConversions.length > 1"
-                >
-                  <p>Convert</p>
-                </b-link>
-
-                <b-form-select
-                  :options="row.item.availableConversions"
-                  v-model="row.item.selectedConversion"
-                  v-show="row.item.availableConversions.length > 1"
-                >
-                </b-form-select>
-                <p v-show="row.item.availableConversions.length === 1">No conversions available</p>
-
-              </div> -->
 
               <b-form-checkbox
                 slot="select"
@@ -169,20 +122,26 @@
                     class="empty-workarea"
                     v-else>
               <p>Start uploading files so you can test them and prepare for delivery</p>
-              <form
-                enctype="multipart/form-data"
-                novalidate v-if="isInitial || isSaving"
-                class="upload-form">
-                    <label class="btn btn-primary" for="file_uploads">Upload files</label>
-                    <input
-                      type="file"
-                      id="file_uploads"
-                      class="hidden-input"
-                      v-on:disabled="isSaving"
-                      v-on:change="onFileChange"
-                      multiple
-                    >
-              </form>
+
+            <form
+              enctype="multipart/form-data"
+              novalidate
+              class="upload-form">
+                <label
+                  :class="[ {'disabled': filesUploading  }, 'btn', 'btn-primary']"
+                  for="file_uploads">
+                  <i class="far fa-folder-open"></i>  Upload files
+                </label>
+                <input
+                  type="file"
+                  id="file_uploads"
+                  class="hidden-input"
+                  :disabled="filesUploading"
+                  v-on:change="onFileChange"
+                  multiple
+                >
+            </form>
+
             </b-card>
 
             <b-pagination
@@ -193,20 +152,6 @@
               class="my-0"
             />
 
-            <form
-              enctype="multipart/form-data"
-              novalidate v-if="isInitial || isSaving"
-              class="upload-form">
-                  <label for="file_uploads">Add files to envelope</label>
-                  <input
-                    type="file"
-                    id="file_uploads"
-                    class="hidden-input"
-                    v-on:disabled="isSaving"
-                    v-on:change="onFileChange"
-                    multiple
-                  >
-            </form>
 
           </b-tab>
           <b-tab title="feedback">
@@ -263,10 +208,36 @@
           <div class="file-control">
             <div class="file-control-header"><span class="blue-color"><i class="fas fa-file"></i></span> 2 files selected</div>
             <div class="file-control-body">
-              <b-button variant="white"> <i class="far fa-folder-open"></i> Download</b-button>
-              <b-button variant="white" v-on:click="runScriptsForFiles"> <i class="fas fa-play"></i> Run tests</b-button>
+              <b-button variant="white sidebar-button"> <i class="far fa-folder-open"></i> Download</b-button>
+              <b-button variant="white sidebar-button" v-on:click="runScriptsForFiles"> <i class="fas fa-play"></i> Run tests</b-button>
               <!-- <b-button variant="white"> <i class="far fa-edit"></i> Replace</b-button> -->
-              <b-button v-on:click="deleteFiles" variant="white"> <i class="far fa-trash-alt"></i> Delete</b-button>
+              <b-button v-on:click="deleteFiles" variant="white sidebar-button"> <i class="far fa-trash-alt"></i> Delete</b-button>
+
+            <form
+              enctype="multipart/form-data"
+              novalidate
+              class="upload-form">
+                  <label :class="[ {'disabled': filesUploading  }, 'btn', 'btn-white', 'sidebar-button']" for="file_uploads"><i class="far fa-folder-open"></i>  Upload files</label>
+                  <input
+                    type="file"
+                    id="file_uploads"
+                    class="hidden-input"
+                    :disabled="filesUploading"
+                    v-on:change="onFileChange"
+                    multiple
+                  >
+            </form>
+
+            <b-button
+                variant="primary sidebar-button"
+                v-on:click="uploadAllFiles"
+                :disabled="!envelope.workflow.upload_allowed || filesUploading"
+                v-show = "files.length"
+              >
+                <i class="fas fa-play"></i> Add files to envelope
+            </b-button>
+
+
             </div>
           </div>
         </div>
@@ -356,7 +327,6 @@ export default {
       envelope: null,
       allFilesSelected: false,
       envelopeState: '',
-      isSaving: false,
       isInitial: true,
       files: [],
       envelopeFeedback: null,
@@ -364,7 +334,8 @@ export default {
       currentPage: 1,
       perPage: 5,
       extraTabs: [],
-      tabIndex: 0
+      tabIndex: 0,
+      filesUploading: false
     };
   },
 
@@ -470,14 +441,17 @@ export default {
       for (const file of newfiles) {
         this.files.push({ data: file, percentage: 0 });
       }
-      this.extraTabs.push('New Files');
+      if(this.extraTabs.length === 0) {
+        this.extraTabs.push('New Files');
+      }
       setTimeout( () =>{
-        this.tabIndex = 2 ;
+        this.tabIndex = 2;
       })
     },
 
     uploadAllFiles(e) {
       e.preventDefault();
+      this.filesUploading = true;
 
       // for each file create a function that returns a promise
       const funcs = this.files.map((file) => () => this.uploadFile(file));
@@ -493,7 +467,7 @@ export default {
 
       // execute Promises in serial, clear files at the end of all promisees
       promiseSerial(funcs)
-        .then(() => { this.files = []; this.extraTabs=[]; this.tabIndex = 0;})
+        .then(() => { this.files = []; this.extraTabs=[]; this.tabIndex = 0; this.filesUploading = false})
         .catch(console.error.bind(console));
     },
 
@@ -812,7 +786,6 @@ export default {
   }
 }
 .upload-form {
-  margin-top: 2rem;
   position: relative;
   .hidden-input {
     opacity: 0;
@@ -884,6 +857,9 @@ export default {
   }
 }
 
+label.disabled {
+  color: grey;
+}
 
 
 </style>
