@@ -33,7 +33,13 @@
 
               >
               </b-form-checkbox>
-              Select All
+              <span style="position: absolute;
+                    left: 3rem;
+                    top: 1rem;
+                    white-space: nowrap;"
+                >
+                Select All
+              </span>
             </div>
 
               <div
@@ -45,9 +51,12 @@
                   v-model="row.item.name"
                   v-if="row.item.isEditing"
                 ></b-form-input>
-                <p class="blue-color" v-if="!row.item.isEditing">
-                  {{row.item.name}}
-                </p>
+                  <div class="blue-color" v-if="!row.item.isEditing">
+                    {{row.item.name}}
+                  </div>
+                  <div>
+                    <small class="muted">XML document, 6.89 mb</small>
+                  </div>
 
                   <div class="file-tests">
 
@@ -69,43 +78,53 @@
                 slot="tests"
                 slot-scope="row"
                 class="card-link"
+                style="text-align: right;"
               >
 
                   <div class="test-trigger">
-                    <p
-                      class="btn btn-link"
+                    <b-btn
+                      variant="link"
+                      class="muted"
                       v-on:click="getFileScripts(row.item)"
                       v-show="row.item.availableScripts.length === 0 || row.item.visibleScripts === false"
                      >
-                      View Tests
-                    </p>
-                    <p
-                      class="btn btn-link"
+                      <i class="far fa-plus-square"></i> View Tests
+                    </b-btn>
+                    <b-btn
+                      variant="link"
+                      class="muted"
                       v-show="row.item.availableScripts.length != 0 && row.item.visibleScripts === true"
                       v-on:click="row.item.visibleScripts = false"
                       >
-                      Hide Tests
-                    </p>
+                      <i class="far fa-minus-square"></i> Hide Tests
+                    </b-btn>
                   </div>
 
-                <div>
-                  <b-link
-                    href="#"
-                    class="card-link"
+                <span class="more-actions-control">
+                  <b-btn @click="row.item.additionalControls = toggleAdditionalControls(row.item.additionalControls)"
+                    variant="link"
+                    class="muted"
+                    >
+                    <i class="fas fa-bars"></i>
+                  </b-btn>
+                </span>
+                <div class="more-actions" style="    text-align: right;
+    flex-direction: column;
+    align-items: flex-end;" v-show="row.item.additionalControls">
+                  <b-btn
+                    variant="link"
                     v-on:click="renameFile(row.item)"
                     v-if="!row.item.isEditing"
                   >
-                    <p>Rename File</p>
-                  </b-link>
-
-                  <b-link
-                    href="#"
-                    class="card-link"
+                    Rename File
+                  </b-btn>
+                  <b-btn
+                    variant="link"
                     v-on:click="updateFile(row.item)"
                     v-if="row.item.isEditing"
                   >
-                    <p>Save File</p>
-                  </b-link>
+                    Save File
+                  </b-btn>
                 </div>
 
               </div>
@@ -374,6 +393,7 @@ export default {
                   selectedConversion: null,
                   feedback: [],
                   isEditing: false,
+                  additionalControls: false,
                 });
             }
             resolve(this.envelope.files);
@@ -631,6 +651,10 @@ export default {
       this.allFilesSelected = true;
     },
 
+    toggleAdditionalControls(state) {
+      return !state;
+    },
+
     renameFile(file) {
       file.isEditing = true;
     },
@@ -800,14 +824,28 @@ export default {
       display:none;
     }
     th:first-of-type {
-      white-space: nowrap;
+      // white-space: nowrap;
     }
     th {
       border: none;
+      padding-left: 0;
     }
+  }
+  td {
+    padding: 1rem 0 1rem 0;
+    vertical-align: middle;
   }
   td[data-label="Select"] {
     width: 1px;
+  }
+  button, a, label {
+    cursor: pointer;
+  }
+  .btn {
+    font-size: initial;
+  }
+  .btn-link:hover {
+    text-decoration: none;
   }
 }
 .file-control {
@@ -837,5 +875,15 @@ label.disabled {
   color: grey;
 }
 
+.more-actions-control,
+.test-trigger {
+  display: inline-block;
+}
+
+.more-actions {
+  button {
+    display: block;
+  }
+}
 
 </style>
