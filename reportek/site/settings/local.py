@@ -24,7 +24,7 @@ DATABASES = {
 }
 
 CORS_ORIGIN_WHITELIST += [
-    'localhost:8080',
+    'localhost:8000',
 ]
 
 CELERY_BROKER_HEARTBEAT = 0
