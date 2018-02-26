@@ -1,5 +1,7 @@
-
 from django.contrib import admin
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
+from guardian.admin import GuardedModelAdmin
 from django_object_actions import DjangoObjectActions
 
 from .models import (
@@ -18,13 +20,57 @@ from .models import (
 )
 
 
+user_model = get_user_model()
+
+
+class ReportekUserAdmin(UserAdmin):
+
+    fieldsets = UserAdmin.fieldsets + (
+                    ('Effective permissions', {'fields': ('ldap_group_names', 'effective_group_names')}),
+                )
+    readonly_fields = UserAdmin.readonly_fields + ('ldap_group_names', 'effective_group_names')
+
+    def ldap_group_names(self, instance):
+        return ', '.join(sorted([g.name for g in instance.ldap_groups]))
+
+    ldap_group_names.short_description = 'LDAP groups'
+
+    def effective_group_names(self, instance):
+        return ', '.join(sorted([g.name for g in instance.effective_groups]))
+
+    effective_group_names.short_description = 'Effective groups'
+
+
+admin.site.register(user_model, ReportekUserAdmin)
+
+
 # ROD
-admin.site.register(Reporter)
+
+
+@admin.register(Reporter)
+class ReporterAdmin(GuardedModelAdmin):
+    search_fields = ('name', 'abbr')
+    ordering = ('name',)
+
+
 admin.site.register(ReporterSubdivision)
 admin.site.register(ReporterSubdivisionCategory)
-admin.site.register(Client)
+
+
+@admin.register(Client)
+class ClientAdmin(GuardedModelAdmin):
+    search_fields = ('name', 'abbr')
+    ordering = ('name',)
+
+
 admin.site.register(Instrument)
-admin.site.register(Obligation)
+
+
+@admin.register(Obligation)
+class ObligationAdmin(GuardedModelAdmin):
+    list_display = ('title', 'instrument')
+    search_fields = ('title', 'instrument__title')
+    ordering = ('title',)
 
 
 class ObligationSpecReporterAdmin(admin.TabularInline):
@@ -56,27 +102,3 @@ admin.site.register(DemoAutoQAWorkflow)
 # Reporting
 
 admin.site.register(Envelope)
-
-# @admin.register(ObligationGroup)
-# class ObligationGroupAdmin(DjangoObjectActions, admin.ModelAdmin):
-#     def start_reporting_period(self, request, obj):
-#         obj.start_reporting_period()
-#     start_reporting_period.label = "Start Reporting Period"
-#
-#     def close_reporting_period(self, request, obj):
-#         obj.close_reporting_period()
-#     close_reporting_period.label = "Close Reporting Period"
-#
-#     change_actions = ('start_reporting_period', 'close_reporting_period')
-#
-#
-# @admin.register(ReportingPeriod)
-# class ReportingPeriodAdmin(admin.ModelAdmin):
-#     def xperiod(self, obj):
-#         return '%s - %s' % (obj.period.lower, obj.period.upper)
-#     xperiod.short_description = "Period"
-#
-#     list_display = ('obligation_group', 'xperiod', 'open')
-#
-#
-

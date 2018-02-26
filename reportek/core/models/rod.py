@@ -3,6 +3,8 @@ from django.db import models
 from django.conf import settings
 from django.contrib.postgres.fields import ArrayField
 from model_utils import FieldTracker
+from guardian.models import UserObjectPermissionBase
+from guardian.models import GroupObjectPermissionBase
 
 from .workflows import WORKFLOW_CLASSES
 
@@ -30,6 +32,19 @@ class Client(RODModel):
     def __str__(self):
         return self.name + (f' ({self.abbr})' if self.abbr else '')
 
+    class Meta:
+        permissions = (
+            ('inspect_deliveries', 'Can view released reports for obligations to client'),
+        )
+
+
+class ClientUserObjectPermission(UserObjectPermissionBase):
+    content_object = models.ForeignKey(Client, on_delete=models.CASCADE)
+
+
+class ClientGroupObjectPermission(GroupObjectPermissionBase):
+    content_object = models.ForeignKey(Client, on_delete=models.CASCADE)
+
 
 class Reporter(RODModel):
     """
@@ -49,7 +64,22 @@ class Reporter(RODModel):
         return self.abbr.lower()
 
     def __str__(self):
-        return f'{self.name} [{self.abbr}]'
+        return self.name + (f' ({self.abbr})' if self.abbr else '')
+
+    class Meta:
+        permissions = (
+            ('report_for_reporter', 'Can create and deliver envelopes for reporter'),
+            ('collaborate_for_reporter', 'Can collaborate on envelopes for reporter'),
+            ('audit_reporter', 'Can audit reporter\'s envelopes'),
+        )
+
+
+class ReporterUserObjectPermission(UserObjectPermissionBase):
+    content_object = models.ForeignKey(Reporter, on_delete=models.CASCADE)
+
+
+class ReporterGroupObjectPermission(GroupObjectPermissionBase):
+    content_object = models.ForeignKey(Reporter, on_delete=models.CASCADE)
 
 
 class ReporterSubdivisionCategory(RODModel):
@@ -159,6 +189,19 @@ class Obligation(RODModel):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        permissions = (
+            ('report_on_obligation', 'Can report on obligation'),
+        )
+
+
+class ObligationUserObjectPermission(UserObjectPermissionBase):
+    content_object = models.ForeignKey(Obligation, on_delete=models.CASCADE)
+
+
+class ObligationGroupObjectPermission(GroupObjectPermissionBase):
+    content_object = models.ForeignKey(Obligation, on_delete=models.CASCADE)
 
 
 class ObligationSpec(RODModel):

@@ -1,0 +1,81 @@
+version: 1
+# Password for all test users is 'tester'
+
+dn: uid=_alice,ou=Users,o=EIONET,l=Europe
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: eionetAccount
+cn: Alice Tester
+sn: Tester
+givenName: Alice
+mail: alice.tester@example.com
+uid: _alice
+userPassword:: e0NSWVBUfTVzUEppNWFyblIyNVE=
+
+dn: uid=_bob,ou=Users,o=EIONET,l=Europe
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: eionetAccount
+cn: Bob Tester
+sn: Tester
+givenName: Bob
+mail: bob.tester@example.com
+uid: _bob
+userPassword:: e0NSWVBUfTVzUEppNWFyblIyNVE=
+
+dn: uid=_charlie,ou=Users,o=EIONET,l=Europe
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: eionetAccount
+cn: Charlie Tester
+sn: Tester
+givenName: Charlie
+mail: charlie.tester@example.com
+uid: _charlie
+userPassword:: e0NSWVBUfTVzUEppNWFyblIyNVE=
+
+dn: uid=_dan,ou=Users,o=EIONET,l=Europe
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: eionetAccount
+cn: Dan Tester
+sn: Tester
+givenName: Dan
+mail: dan.tester@example.com
+uid: _dan
+userPassword:: e0NSWVBUfTVzUEppNWFyblIyNVE=
+
+dn: uid=_eve,ou=Users,o=EIONET,l=Europe
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: eionetAccount
+cn: Eve Tester
+sn: Tester
+givenName: Eve
+mail: eve.tester@example.com
+uid: _eve
+userPassword:: e0NSWVBUfTVzUEppNWFyblIyNVE=
+
+dn: uid=_frank,ou=Users,o=EIONET,l=Europe
+objectClass: top
+objectClass: person
+objectClass: organizationalPerson
+objectClass: inetOrgPerson
+objectClass: eionetAccount
+cn: Frank Tester
+sn: Tester
+givenName: Frank
+mail: frank.tester@example.com
+uid: _frank
+userPassword:: e0NSWVBUfTVzUEppNWFyblIyNVE=
+

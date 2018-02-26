@@ -15,7 +15,18 @@ from .views import (
     EnvelopeWorkflowViewSet,
     UploadHookView,
     UploadTokenViewSet,
+    WorkspaceProfileViewSet,
+    WorkspaceReporterViewSet,
 )
+
+
+class BulkDeleteNestedSimpleRouter(routers.NestedSimpleRouter):
+    """
+    Adds 'delete' to allowed methods on 'list' routes.
+    """
+    def __init__(self, *args, **kwargs):
+        self.routes[0].mapping.update({'delete': 'destroy'})
+        super().__init__(*args, **kwargs)
 
 
 instruments_router = routers.SimpleRouter()
@@ -100,7 +111,7 @@ envelopes_router.register(
     base_name='envelope'
 )
 
-files_router = routers.NestedSimpleRouter(
+files_router = BulkDeleteNestedSimpleRouter(
     envelopes_router, 'envelopes', lookup='envelope')
 files_router.register(
     'files',
@@ -133,6 +144,21 @@ upload_hooks_router.register(
 )
 
 
+workspace_profile_router = routers.SimpleRouter()
+workspace_profile_router.register(
+    'workspace-profile',
+    WorkspaceProfileViewSet,
+    base_name='workspace'
+)
+
+workspace_reporter_router = routers.SimpleRouter()
+workspace_reporter_router.register(
+    'workspace-reporter',
+    WorkspaceReporterViewSet,
+    base_name='workspace-reporter'
+)
+
+
 main_routers = [
     instruments_router,
     clients_router,
@@ -143,7 +169,10 @@ main_routers = [
     reporting_cycle_router,
     envelopes_router,
     upload_hooks_router,
+    workspace_profile_router,
+    workspace_reporter_router,
 ]
+
 
 nested_routers = [
     files_router,

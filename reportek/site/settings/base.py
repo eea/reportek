@@ -11,26 +11,41 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from pathlib import Path
 from django_jinja.builtins import DEFAULT_EXTENSIONS as JINJA_DEFAULT_EXTENSIONS
+import ldap
+from django.core.exceptions import ImproperlyConfigured
+from django_auth_ldap.config import (
+    LDAPSearch,
+    NestedGroupOfUniqueNamesType
+)
 
 
-def split_env_var(name, sep=','):
-    env_var = os.getenv(name, '')
-    return [e.strip() for e in env_var.split(sep)]
+def get_env_var(var_name, default=None):
+    var = os.getenv(var_name, default)
+    if var is None and default is None:
+        raise ImproperlyConfigured(f'Set the {var_name} environment variable')
+    return var
 
 
-def get_bool_env_var(name, default=None):
-    env_var = os.getenv(name)
-    if env_var is None:
-        return default or None
-    return env_var.lower() == 'yes'
+def get_bool_env_var(var_name, default=None):
+    var = get_env_var(var_name, default)
+    return var.lower() == 'yes'
 
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# repo root dir
-ROOT_DIR = os.path.dirname(BASE_DIR)
-PARENT_DIR = os.path.dirname(ROOT_DIR)
+def split_env_var(var_name, sep=','):
+    var = get_env_var(var_name)
+    return [e.strip() for e in var.split(sep)]
+
+
+# <project>/reportek
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Project dir
+ROOT_DIR = BASE_DIR.parent
+
+# Outside project
+PARENT_DIR = ROOT_DIR.parent
 
 
 if os.getenv('TRAVIS'):
@@ -39,20 +54,20 @@ if os.getenv('TRAVIS'):
     POSTGRES_USER = 'postgres'
     POSTGRES_PASSWORD = ''
 else:
-    POSTGRES_HOST = os.getenv('POSTGRES_HOST')
-    POSTGRES_DB = os.getenv('POSTGRES_DB')
-    POSTGRES_USER = os.getenv('POSTGRES_USER')
-    POSTGRES_PASSWORD = os.getenv('POSTGRES_PASSWORD')
+    POSTGRES_HOST = get_env_var('POSTGRES_HOST')
+    POSTGRES_DB = get_env_var('POSTGRES_DB')
+    POSTGRES_USER = get_env_var('POSTGRES_USER')
+    POSTGRES_PASSWORD = get_env_var('POSTGRES_PASSWORD')
 
-REPORTEK_DOMAIN = os.getenv('REPORTEK_DOMAIN')
+REPORTEK_DOMAIN = get_env_var('REPORTEK_DOMAIN')
 REPORTEK_USE_TLS = get_bool_env_var('REPORTEK_USE_TLS')
 
-TUSD_UPLOADS_DIR = os.getenv('TUSD_UPLOADS_DIR')
+TUSD_UPLOADS_DIR = get_env_var('TUSD_UPLOADS_DIR')
 ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS = split_env_var('ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS')
 ALLOWED_UPLOADS_EXTENSIONS = split_env_var('ALLOWED_UPLOADS_EXTENSIONS')
 
 # QA
-QA_DEFAULT_XMLRPC_URI = os.getenv('QA_DEFAULT_XMLRPC_URI')
+QA_DEFAULT_XMLRPC_URI = get_env_var('QA_DEFAULT_XMLRPC_URI')
 
 # ROD
 ROD_ROOT_URL = 'http://rod.eionet.europa.eu'
@@ -61,19 +76,17 @@ ROD_ROOT_URL = 'http://rod.eionet.europa.eu'
 # i.e. 'dir1/dir2/file.xml' becomes 'dir1_dir2_file.xml'.
 # This provides overwrite protection for cases where the archive
 # contains files with the same name in several directories.
-ARCHIVE_PATH_PREFIX = get_bool_env_var('ARCHIVE_PATH_PREFIX', True)
+ARCHIVE_PATH_PREFIX = get_bool_env_var('ARCHIVE_PATH_PREFIX', 'yes')
 
+SECRET_KEY = get_env_var('SECRET_KEY')
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv('SECRET_KEY', 'secret-key')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = get_bool_env_var('DEBUG', False)
+DEBUG = get_bool_env_var('DEBUG', 'no')
 
 ALLOWED_HOSTS = split_env_var('ALLOWED_HOSTS')
+
+
+# https://django-guardian.readthedocs.io/en/stable/userguide/custom-user-model.html#custom-user-model
+GUARDIAN_MONKEY_PATCH = False
 
 
 # Application definition
@@ -96,6 +109,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'webpack_loader',
+    'guardian',
 ]
 
 MIDDLEWARE = [
@@ -117,14 +131,14 @@ TEMPLATES = [
     {
         'BACKEND': 'django_jinja.backend.Jinja2',
         'DIRS': [
-            os.path.join(ROOT_DIR, 'templates'),
+            ROOT_DIR / 'templates',
         ],
         'APP_DIRS': False,
         'OPTIONS': {
             # everything under our template dir is a jinja template
-            "match_extension": None,
-            "extensions": JINJA_DEFAULT_EXTENSIONS + [
-                "webpack_loader.contrib.jinja2ext.WebpackExtension",
+            'match_extension': None,
+            'extensions': JINJA_DEFAULT_EXTENSIONS + [
+                'webpack_loader.contrib.jinja2ext.WebpackExtension',
             ],
             # TODO: enable bytecode cache in production
         },
@@ -178,6 +192,47 @@ SILENCED_SYSTEM_CHECKS = [
 ]
 
 
+AUTH_USER_MODEL = 'core.ReportekUser'
+
+AUTH_LDAP_SERVER_URI = get_env_var('LDAP_URI')
+
+AUTH_LDAP_CONNECTION_OPTIONS = {
+    ldap.OPT_REFERRALS: 0
+}
+
+AUTH_LDAP_BIND_DN = get_env_var('LDAP_BIND_DN')
+AUTH_LDAP_BIND_PASSWORD = get_env_var('LDAP_BIND_PASSWORD')
+AUTH_LDAP_USER_DN_TEMPLATE = get_env_var('LDAP_USER_DN_TEMPLATE')
+
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+    get_env_var('LDAP_ROLES_DN'),
+    ldap.SCOPE_SUBTREE,
+    '(objectClass=groupOfUniqueNames)'
+)
+AUTH_LDAP_GROUP_TYPE = NestedGroupOfUniqueNamesType(name_attr='cn')
+AUTH_LDAP_REQUIRE_GROUP = get_env_var('LDAP_ROLES_DN')
+
+AUTH_LDAP_ALWAYS_UPDATE_USER = True
+
+AUTH_LDAP_FIND_GROUP_PERMS = True
+
+AUTH_LDAP_CACHE_GROUPS = False
+# AUTH_LDAP_GROUP_CACHE_TIMEOUT = 300
+
+AUTH_LDAP_USER_ATTR_MAP = {
+    'first_name': 'givenName',
+    'last_name': 'sn',
+    'email': 'mail'
+}
+
+AUTHENTICATION_BACKENDS = [
+    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'guardian.backends.ObjectPermissionBackend',
+]
+
+ANONYMOUS_USER_NAME = 'anonymous'
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
@@ -201,7 +256,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = os.getenv('REPORTEK_TZ', 'UTC')
+TIME_ZONE = get_env_var('REPORTEK_TZ', 'UTC')
 
 USE_I18N = True
 
@@ -213,45 +268,45 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-STATIC_ROOT = os.path.join(PARENT_DIR, 'static')
+STATIC_ROOT = PARENT_DIR / 'static'
 STATIC_URL = '/static/'
 
-MEDIA_ROOT = os.path.join(PARENT_DIR, 'uploads')
+MEDIA_ROOT = PARENT_DIR / 'uploads'
 MEDIA_URL = '/files/'
 
-PROTECTED_ROOT = os.path.join(PARENT_DIR, 'protected_uploads')
+PROTECTED_ROOT = PARENT_DIR / 'protected_uploads'
 PROTECTED_URL = '/protected-files/'
 
 # TODO: this part should be synchronized with Webpack
 # (see /frontend/config/conf.js)
-_WEBPACK_DIST_DIR = os.path.join(ROOT_DIR, 'frontend', 'dist')
+_WEBPACK_DIST_DIR = ROOT_DIR / 'frontend' / 'dist'
 
 # TODO: enable this only in production. (this is just a hack
 # because the staticfiles app breaks if the directory doesn't exist.)
-_WEBPACK_BUILD_DIR = os.path.join(_WEBPACK_DIST_DIR, 'build')
-if os.path.isdir(_WEBPACK_BUILD_DIR):
+_WEBPACK_BUILD_DIR = _WEBPACK_DIST_DIR / 'build'
+if _WEBPACK_BUILD_DIR.is_dir():
     STATICFILES_DIRS = (
-        (_WEBPACK_BUILD_DIR),
+        _WEBPACK_BUILD_DIR,
     )
 
 WEBPACK_LOADER = {
     'DEFAULT': {
         'BUNDLE_DIR_NAME': '',
-        'STATS_FILE': os.path.join(_WEBPACK_DIST_DIR, 'stats.json'),
+        'STATS_FILE': _WEBPACK_DIST_DIR / 'stats.json',
     },
 }
 
 
 FIXTURE_DIRS = [
-    os.path.join(ROOT_DIR, 'data', 'fixtures')
+    ROOT_DIR / 'data' / 'fixtures'
 ]
 
 
 # Celery
-CELERY_BROKER_HOST = os.getenv('RABBITMQ_HOST')
-CELERY_BROKER_VHOST = os.getenv('RABBITMQ_DEFAULT_VHOST')
-CELERY_BROKER_USER = os.getenv('RABBITMQ_DEFAULT_USER')
-CELERY_BROKER_PWD = os.getenv('RABBITMQ_DEFAULT_PASS')
+CELERY_BROKER_HOST = get_env_var('RABBITMQ_HOST')
+CELERY_BROKER_VHOST = get_env_var('RABBITMQ_DEFAULT_VHOST')
+CELERY_BROKER_USER = get_env_var('RABBITMQ_DEFAULT_USER')
+CELERY_BROKER_PWD = get_env_var('RABBITMQ_DEFAULT_PASS')
 CELERY_BROKER_URL = f'amqp://{CELERY_BROKER_USER}:{CELERY_BROKER_PWD}@{CELERY_BROKER_HOST}/{CELERY_BROKER_VHOST}'
 CELERY_RESULT_BACKEND = 'amqp'
 
@@ -291,25 +346,27 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'django_auth_ldap': {
+            'handlers': ['console'],
+            'level': get_env_var('LDAP_LOG_LEVEL', 'INFO'),
         },
         'reportek.workflows': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO'),
+        },
+        'reportek.perms': {
+            'handlers': ['console'],
+            'level': get_env_var('PERMS_LOG_LEVEL', 'INFO'),
         },
         'reportek.qa': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO'),
         },
         'reportek.tasks': {
             'handlers': ['console'],
-            'level': os.getenv('DJANGO_LOG_LEVEL', 'INFO'),
+            'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO'),
         },
     },
 }
-
-
-try:
-    from .localsettings import *
-except ImportError:
-    pass
