@@ -4,6 +4,7 @@ from django.contrib.auth.models import (
 )
 
 from django_auth_ldap.backend import LDAPBackend
+import ldap
 from guardian.mixins import GuardianUserMixin
 from guardian.shortcuts import (
     get_objects_for_user,
@@ -25,12 +26,15 @@ class ReportekUser(GuardianUserMixin, AbstractUser):
         through LDAP.
         """
         if not hasattr(self, 'ldap_user'):
-            user = LDAPBackend().populate_user(self.username)
-            if user is None:
-                return []
+            try:
+                user = LDAPBackend().populate_user(self.username)
+                if user is None:
+                    group_names = []
+            except ldap.SERVER_DOWN:
+                group_names = []
         else:
-            user = self
-        return Group.objects.filter(name__in=user.ldap_user.group_names)
+            ldap_groups = user.ldap_user.group_names
+        return Group.objects.filter(name__in=group_names)
 
     @property
     def effective_groups(self):
