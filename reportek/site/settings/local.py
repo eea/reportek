@@ -23,7 +23,7 @@ DATABASES = {
     }
 }
 
-CORS_ORIGIN_WHITELIST = [
+CORS_ORIGIN_WHITELIST += [
     'localhost:8080',
 ]
 
