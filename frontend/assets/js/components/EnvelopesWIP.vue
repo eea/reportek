@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { fetchEnvelopes } from '../api';
+import { fetchWipEnvelopes } from '../api';
 
 export default {
   name: 'Envelopes',
@@ -41,10 +41,10 @@ export default {
   },
 
   created() {
-    fetchEnvelopes()
+    fetchWipEnvelopes(this.$route.params.reporterId)
       .then((response) => {
         // JSON responses are automatically parsed.
-        this.envelopes = response.data.results;
+        this.envelopes = response.data;
       })
       .catch((e) => {
         console.log(e);

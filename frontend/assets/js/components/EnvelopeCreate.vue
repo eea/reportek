@@ -60,11 +60,7 @@
 </template>
 
 <script>
-import { fetchReporters,
-        fetchObligationSpecs,
-        fetchReportingCycles,
-        createEnvelope,
-      } from '../api';
+import { createEnvelope } from '../api';
 
 export default {
   data() {
@@ -82,7 +78,7 @@ export default {
 
   // Fetches posts when the component is created.
   created() {
-    if(!this.$route.params.reportingCycle && !this.$route.params.spec) {
+    if (!this.$route.params.reportingCycle && !this.$route.params.spec) {
       this.$router.push({ name: 'Dashboard' });
     }
     this.getApiData();
@@ -127,9 +123,7 @@ export default {
           text: this.$route.params.reportingCycle.reporting_start_date,
         }];
       this.form.obligationSpec = this.$route.params.spec.id;
-      this.form.reportingCycle =this.$route.params.reportingCycle.id;
-      // fetchObligationSpecs();
-      // fetchReportingCycles();
+      this.form.reportingCycle = this.$route.params.reportingCycle.id;
     },
   },
 };

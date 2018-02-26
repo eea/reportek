@@ -36,10 +36,10 @@ export default {
   },
 
   created() {
-    fetchArchiveEnvelopes()
+    fetchArchiveEnvelopes(this.$route.params.reporterId)
       .then((response) => {
         // JSON responses are automatically parsed.
-        this.envelopes = response.data.results;
+        this.envelopes = response.data;
       })
       .catch((e) => {
         console.log(e);
