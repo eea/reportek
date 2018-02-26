@@ -2,17 +2,17 @@
   <div class="download-body">
     <b-list-group v-for="file in files">
         <b-list-group-item>
-          <span class="blue-color">
+          <span style="flex-grow: 1" class="blue-color">
             {{file.name}}
           </span>
-            <b-link
-             href="#"
+            <b-btn
               class="card-link"
+              variant="primary"
               v-on:click.stop="getFileConversions(file)"
               v-show="file.availableConversions.length === 0"
             >
-              <p>Choose Conversion</p>
-            </b-link>
+              Convert
+            </b-btn>
             <b-form-select
               :options="file.availableConversions"
               v-model="file.selectedConversion"
@@ -20,29 +20,21 @@
             >
             </b-form-select>
             <p v-show="file.availableConversions.length === 1">No conversions available</p>
-               <b-link
-            href="#"
-            class="card-link"
+          <b-btn
+            variant="primary"
             v-on:click="convertScript(file)"
             v-show="file.availableConversions.length > 1"
           >
 
-            <p>Download </p>
-          </b-link>
-          <a download class="btn btn-white"  v-show="file.availableConversions.length <= 1" :href="file.file"> <i class="far fa-folder-open"></i> Download original </a>
-          <b-btn
-            class="btn btn-white"
-            v-on:click="convertScript(file)"
-            v-show="file.availableConversions.length > 1"
-          >
-          Download converted
+            Download converted
           </b-btn>
+          <a download class="btn btn-white"  :href="file.file"> <i class="far fa-folder-open"></i> Download original </a>
+
         </b-list-group-item>
 
 
     </b-list-group>
-    <b-button variant="white"> <i class="far fa-folder-open"></i>Download all</b-button>
-    <div slot="modal-header">sfafas</div>
+    <b-button v-if="files.length > 1" class="download-all-button" variant="primary"> <i class="far fa-folder-open"></i>Download all</b-button>
   </div>
 </template>
 
@@ -124,8 +116,44 @@ export default {
 .download-body {
   .list-group-item {
     display: flex;
+    border: none;
     justify-content: space-between;
     align-items: center;
+    &:last-of-type{
+      border-bottom-right-radius: 0;
+    }
+  }
+  select {
+    max-width: 300px;
+  }
+  button, a {
+    margin-left: 5px;
+  }
+}
+
+.download-all-button {
+    // float: right;
+    // border-top: none;
+    // border-top-left-radius: 0;
+    // border-top-right-radius: 0;
+    float: none;
+    position: absolute;
+    bottom: -50px;
+    right: 6rem;
+}
+
+.modal-title {
+  font-size: 2rem;
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+.modal-footer {
+  border-top: none;
+}
+
+#downloadModal {
+  .modal-footer > :not(:last-child) {
+    display: none;
   }
 }
 </style>

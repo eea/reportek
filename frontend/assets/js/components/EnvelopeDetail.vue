@@ -274,6 +274,8 @@
         <!-- Modal Component -->
         <b-modal id="downloadModal" ref="downloadModal" size="lg" title="Download">
           <filesdownload :files="modalFiles()"></filesdownload>
+          <span @click="removeConversion" slot="modal-cancel">Cancel</span>
+          <span @click="removeConversion" slot="modal-header-close">×</span>
         </b-modal>
         <!-- <history :created_at="envelope.created_at"></history> -->
     </div>
@@ -617,6 +619,12 @@ export default {
         }
       }
       return files
+    },
+
+    removeConversion(){
+      for (let file of this.envelope.files){
+        file.availableConversions = []
+      }
     },
 
     selectFile(file, value) {
