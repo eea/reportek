@@ -5,7 +5,6 @@ axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const logRequests = process.env.NODE_ENV === 'development';
-
 const api = axios.create({
   baseURL: 'http://localhost:8000/api/0.1/',
   withCredentials: true,
@@ -91,7 +90,6 @@ export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
           })
 }
 
-
 export function updateFile(id, fileId, name) {
   return update(`envelopes/${id}/files/${fileId}/`, {name: name});
 }
@@ -112,31 +110,19 @@ export function runEnvelopeTransition(id, transitionName) {
   return post(`envelopes/${id}/transition/`, {transition_name: transitionName});
 }
 
-export function fetchObligations() {
-  return fetch(`obligations/`);
+export function fetchUserProfile() {
+  return fetch(`workspace-profile/`);
 }
 
-export function fetchReporters() {
-  return fetch(`reporters/`);
+export function fetchObligationsPending(reporterId) {
+  return fetch(`workspace-reporter/${reporterId}/pending/`);
 }
 
-export function fetchObligationSpecs() {
-  return fetch(`obligation-spec-reporters/`);
+export function fetchWipEnvelopes(reporterId) {
+  return fetch(`workspace-reporter/${reporterId}/wip/`);
 }
 
-export function fetchReportingCycles() {
-  return fetch(`reporting-cycles/`);
+export function fetchArchiveEnvelopes(reporterId) {
+  return fetch(`workspace-reporter/${reporterId}/archive/`);
 }
 
-export function fetchWipEnvelopes() {
-  return fetchEnvelopes();
-}
-
-
-export function fetchArchiveEnvelopes() {
-  return fetchEnvelopes();
-}
-
-export function fetchObligationsPending() {
-  return fetch(`obligations/14/`);
-}

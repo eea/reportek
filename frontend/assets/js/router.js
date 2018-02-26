@@ -33,12 +33,12 @@ export default new Router({
       path: '/envelopes/:envelope_id(\\d+)',
       name: 'EnvelopeDetail',
       component: EnvelopeDetail,
-      meta: {
-        breadcrumb: {
-          name: 'Envelopes',
-          path: '/envelopes/wip',
-        },
-      },
+      // meta: {
+      //   breadcrumb: {
+      //     name: 'WIP Envelopes',
+      //     path: '/envelopes/wip',
+      //   },
+      // },
     },
     {
       path: '/envelopes/create',
