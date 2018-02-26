@@ -33,7 +33,7 @@ class ReportekUser(GuardianUserMixin, AbstractUser):
             except ldap.SERVER_DOWN:
                 group_names = []
         else:
-            ldap_groups = user.ldap_user.group_names
+            group_names = self.ldap_user.group_names
         return Group.objects.filter(name__in=group_names)
 
     @property
