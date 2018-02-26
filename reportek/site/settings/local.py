@@ -1,8 +1,5 @@
 from .base import *
 
-
-DEBUG = True
-
 INTERNAL_IPS = ['127.0.0.1']
 
 INSTALLED_APPS += [
@@ -26,5 +23,7 @@ DATABASES = {
 CORS_ORIGIN_WHITELIST += [
     'localhost:8000',
 ]
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 CELERY_BROKER_HEARTBEAT = 0

@@ -53,6 +53,10 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:
+    # Enable Browsable API login/logout
+    urlpatterns.append(
+        url(r'^api-auth/', include('rest_framework.urls'))
+    )
     try:
         import debug_toolbar
     except ImportError:
