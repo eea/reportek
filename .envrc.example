@@ -1,6 +1,6 @@
 # Development environment settings for direnv [ https://direnv.net/ ]
 
-export DJANGO_SETTINGS_MODULE=reportek.site.settings.local_adu
+export DJANGO_SETTINGS_MODULE=reportek.site.settings.local
 export SECRET_KEY='secret-key'
 export ALLOWED_HOSTS=*
 export DEBUG=yes
@@ -23,6 +23,9 @@ export REPORTEK_USE_TLS=no
 
 export REPORTEK_HOST=localhost
 export REPORTEK_GUNICORN_PORT=8000
+
+# Can be a list of comma-separated <host>:<port> pairs
+export CORS_ORIGIN_WHITELIST=<LAN IP>:8000
 
 # export REPORTEK_TZ=UTC
 

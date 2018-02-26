@@ -124,6 +124,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = split_env_var('CORS_ORIGIN_WHITELIST')
 
 ROOT_URLCONF = 'reportek.site.urls'
 
