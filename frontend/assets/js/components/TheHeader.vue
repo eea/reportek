@@ -1,12 +1,12 @@
 <template>
   <b-navbar
     toggleable="md"
-    type="dark"
+    type="light"
     sticky
-    variant="primary"
+    variant="white"
   >
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
-    <b-navbar-brand to="/">Home</b-navbar-brand>
+    <b-navbar-brand class="brand-link" to="/">Reportek</b-navbar-brand>
     <b-collapse is-nav id="nav_collapse">
 
       <b-navbar-nav>
@@ -71,4 +71,13 @@ export default {
 </script>
 
 <style>
+.brand-link {
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1.2;
+  color: #17beb4!important;
+}
+.navbar {
+  border-bottom: 2px solid #EEE;
+}
 </style>
