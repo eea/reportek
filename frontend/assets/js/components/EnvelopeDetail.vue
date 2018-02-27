@@ -228,12 +228,12 @@
         </div> -->
         <div class="sidebar-item">
           <div class="file-control">
-            <div class="file-control-header"><span class="blue-color"><i class="fas fa-file"></i></span> 2 files selected</div>
+            <div class="file-control-header"><span class="blue-color"><i class="fas fa-file"></i></span> {{selectedFiles}} files selected</div>
             <div class="file-control-body">
-              <b-button v-show="selectedFiles.length" @click="showModal" variant="white sidebar-button"> <i class="far fa-folder-open"></i> Download</b-button>
-              <b-button v-show="selectedFiles.length" variant="white sidebar-button" v-on:click="runScriptsForFiles"> <i class="fas fa-play"></i> Run tests</b-button>
+              <b-button v-show="selectedFiles" @click="showModal" variant="white sidebar-button"> <i class="far fa-folder-open"></i> Download</b-button>
+              <b-button v-show="selectedFiles" variant="white sidebar-button" v-on:click="runScriptsForFiles"> <i class="fas fa-play"></i> Run tests</b-button>
               <!-- <b-button variant="white"> <i class="far fa-edit"></i> Replace</b-button> -->
-              <b-button v-show="selectedFiles.length" v-on:click="deleteFiles" variant="white sidebar-button"> <i class="far fa-trash-alt"></i> Delete</b-button>
+              <b-button v-show="selectedFiles" v-on:click="deleteFiles" variant="white sidebar-button"> <i class="far fa-trash-alt"></i> Delete</b-button>
 
             <form
               enctype="multipart/form-data"
@@ -350,7 +350,7 @@ export default {
       fields: ['select', 'name', 'tests'],
       envelope: null,
       allFilesSelected: false,
-      selectedFiles: [],
+      selectedFiles: 0,
       envelopeState: '',
       isInitial: true,
       files: [],
@@ -557,6 +557,11 @@ export default {
                   responseFile.availableScripts = [];
                   responseFile.availableConversions = [];
                   responseFile.isEditing = false;
+                  responseFile.selected = false;
+                  responseFile.visibleScripts = false;
+                  responseFile.selectedConversion = null;
+                  responseFile.feedback = [];
+                  responseFile.additionalControls = false;
                   self.envelope.files.push(responseFile);
                   self.files.shift();
                 }
@@ -645,26 +650,26 @@ export default {
       file.selected = value;
       if (value === false) {
         this.allFilesSelected = false;
-        this.selectedFiles.pop(file.id)
+        this.selectedFiles -= 1;
       } else {
-        this.pushUnique(this.selectedFiles, file.id)
-        if(this.selectedFiles.length === this.envelope.files.length){
+        this.selectedFiles += 1;
+        if(this.selectedFiles === this.envelope.files.length){
           this.allFilesSelected = true;
         }
       }
     },
 
-    selectAll(e){
+    selectAll(){
       if(this.allFilesSelected === true) {
         for(const file of this.envelope.files) {
-          file.selected = false
-          this.selectedFiles.pop(file.id)
-          this.allFilesSelected = false;
+          file.selected = false;
         }
+        this.selectedFiles = 0;
+        this.allFilesSelected = false;
       } else {
         for(const file of this.envelope.files) {
-          file.selected = true
-          this.pushUnique(this.selectedFiles, file.id)
+          file.selected = true;
+          this.selectedFiles += 1;
         }
         this.allFilesSelected = true;
       }
@@ -701,8 +706,7 @@ export default {
 
     pushUnique(array, item){
       if(array.indexOf(item) == -1) {
-      //if(jQuery.inArray(item, this) == -1) {
-          array.push(item);
+        array.push(item);
       }
     },
 
