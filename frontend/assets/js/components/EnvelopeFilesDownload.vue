@@ -41,21 +41,14 @@
 
 <script>
 import {fetchEnvelopeFilesConvertScripts,
-          runEnvelopeFilesConvertScript
+          runEnvelopeFilesConvertScript,
         } from '../api';
 
 export default {
-
   name: 'EnvelopeFilesDownload',
 
   props: {
-    files: {}
-  },
-
-  data () {
-    return {
-
-    }
+    files: {},
   },
 
   methods: {
@@ -74,13 +67,11 @@ export default {
     },
 
     convertScript(file) {
-      if(file.selectedConversion) {
+      if (file.selectedConversion) {
         runEnvelopeFilesConvertScript(this.$route.params.envelope_id, file.id, file.selectedConversion)
           .then((response) => {
-            // console.log('Converted file: ', response.data);
-            const fileName = response.headers["content-disposition"].split('filename=')[1];
-            const fileType = response.headers["content-type"];
-            console.log(response)
+            const fileName = response.headers['content-disposition'].split('filename=')[1];
+            const fileType = response.headers['content-type'];
             this.download(response.data, fileName, fileType);
           })
           .catch((error) => {
@@ -90,20 +81,19 @@ export default {
     },
 
     download(blob, filename, filetype) {
-        let a = window.document.createElement('a');
-        a.href = window.URL.createObjectURL(new Blob([blob], {type: filetype}));
-        console.log(a.href)
-        a.download = filename;
+      let a = window.document.createElement('a');
+      a.href = window.URL.createObjectURL(new Blob([blob], {type: filetype}));
+      a.download = filename;
 
-        // Append anchor to body.
-        document.body.appendChild(a);
-        a.click();
+      // Append anchor to body.
+      document.body.appendChild(a);
+      a.click();
 
-        // Remove anchor from body
-        document.body.removeChild(a);
-      },
+      // Remove anchor from body
+      document.body.removeChild(a);
+    },
   },
-}
+};
 </script>
 
 <style lang="scss">
@@ -132,10 +122,6 @@ export default {
 }
 
 .download-all-button {
-    // float: right;
-    // border-top: none;
-    // border-top-left-radius: 0;
-    // border-top-right-radius: 0;
     float: none;
     position: absolute;
     bottom: -50px;

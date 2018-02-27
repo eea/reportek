@@ -341,7 +341,7 @@ export default {
   components: {
     history: History,
     workflow: Workflow,
-    filesdownload: EnvelopeFilesDownload
+    filesdownload: EnvelopeFilesDownload,
   },
 
 
@@ -360,7 +360,7 @@ export default {
       perPage: 5,
       extraTabs: [],
       tabIndex: 0,
-      filesUploading: false
+      filesUploading: false,
     };
   },
 
@@ -400,9 +400,9 @@ export default {
             }
             resolve(this.envelope.files);
           })
-          .catch((e) => {
-            reject(e);
-            console.log(e);
+          .catch((error) => {
+            reject(error);
+            console.log(error);
           });
       });
     },
@@ -426,7 +426,7 @@ export default {
         next: feedback.next,
         previous: feedback.previous,
         files: {},
-      }
+      };
 
       let p = document.createElement("script");
       const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
@@ -435,7 +435,7 @@ export default {
       p.setAttribute("type", "text/javascript");
 
       for (let file of files) {
-        modifiedFeedback.files[file.name] = []
+        modifiedFeedback.files[file.name] = [];
       }
 
       for (let result of feedback.results){
@@ -445,14 +445,14 @@ export default {
         }
         let links = []
         while (matchLink = link_re.exec(result.latest_result.value)) {
-          links.push(matchLink[2])
+          links.push(matchLink[2]);
         }
         for (let link of links) {
-          result.latest_result.value = result.latest_result.value.replace(link, " ")
+          result.latest_result.value = result.latest_result.value.replace(link, " ");
         }
         for (let file of files){
-          if(file.id === result.envelope_file){
-            modifiedFeedback.files[file.name].push(result)
+          if (file.id === result.envelope_file){
+            modifiedFeedback.files[file.name].push(result);
           }
         }
       }
@@ -467,7 +467,7 @@ export default {
       for (const file of newfiles) {
         this.files.push({ data: file, percentage: 0 });
       }
-      if(this.extraTabs.length === 0) {
+      if (this.extraTabs.length === 0) {
         this.extraTabs.push('New Files');
       }
       setTimeout( () =>{
@@ -579,22 +579,20 @@ export default {
         if (file.selected) {
           this.getFileScripts(file)
             .then((response) => {
-              console.log(response)
               response.availableScripts.map((script) => {
-
-                this.runQAScript(response, script.data.id)
+                this.runQAScript(response, script.data.id);
               })
             })
-            .catch((error)=> {
-              console.log(error)
-            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
       })
     },
 
     getFileScripts(file) {
       return new Promise((resolve, reject) => {
-        if(file.availableScripts.length === 0) {
+        if (file.availableScripts.length === 0) {
           fetchEnvelopeFilesQAScripts(this.$route.params.envelope_id, file.id)
             .then((response) => {
               response.data.map((script) => {
@@ -612,7 +610,7 @@ export default {
             resolve(file);
             file.visibleScripts = true;
           }
-      })
+      });
     },
 
     runQAScript(file, scriptId) {
@@ -630,20 +628,20 @@ export default {
         });
     },
 
-    showModal () {
+    showModal() {
       this.modalFiles();
       this.$refs.downloadModal.show();
     },
 
 
-    modalFiles(){
+    modalFiles() {
       let files = [];
       for (let file of this.envelope.files) {
-        if(file.selected){
+        if (file.selected) {
           files.push(file)
         }
       }
-      return files
+      return files;
     },
 
     selectFile(file, value) {
@@ -653,21 +651,21 @@ export default {
         this.selectedFiles -= 1;
       } else {
         this.selectedFiles += 1;
-        if(this.selectedFiles === this.envelope.files.length){
+        if (this.selectedFiles === this.envelope.files.length) {
           this.allFilesSelected = true;
         }
       }
     },
 
-    selectAll(){
-      if(this.allFilesSelected === true) {
-        for(const file of this.envelope.files) {
+    selectAll() {
+      if (this.allFilesSelected === true) {
+        for (const file of this.envelope.files) {
           file.selected = false;
         }
         this.selectedFiles = 0;
         this.allFilesSelected = false;
       } else {
-        for(const file of this.envelope.files) {
+        for (const file of this.envelope.files) {
           file.selected = true;
           this.selectedFiles += 1;
         }
@@ -696,16 +694,16 @@ export default {
         });
     },
 
-    deleteFiles(){
+    deleteFiles() {
       this.envelope.files.map((file) => {
         if (file.selected) {
           this.deleteFile(file);
         }
-      })
+      });
     },
 
-    pushUnique(array, item){
-      if(array.indexOf(item) == -1) {
+    pushUnique(array, item) {
+      if (array.indexOf(item) === -1) {
         array.push(item);
       }
     },
@@ -738,7 +736,7 @@ export default {
     },
 
     updateFeedback(resultFiles) {
-      return this.pollFeedback(() => fetchEnvelopeFeedback(this.$route.params.envelope_id,resultFiles), 10000);
+      return this.pollFeedback(() => fetchEnvelopeFeedback(this.$route.params.envelope_id, resultFiles), 10000);
     },
 
     pollFeedback(fn, delay) {
@@ -769,11 +767,11 @@ export default {
     },
 
     showTransitionButton(code) {
-        return code !== 'fail_qa' && code !== 'pass_qa'
+      return code !== 'fail_qa' && code !== 'pass_qa';
     },
 
-    formatDate(date, count){
-      return dateFormat(date,count)
+    formatDate(date, count) {
+      return dateFormat(date, count);
     },
   },
 };
