@@ -1,6 +1,6 @@
+@import './custom.scss';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/dist/bootstrap-vue';
-
 
 .floating-demo {
   position: fixed;
@@ -14,4 +14,85 @@
   color: white;
   left: -22px;
   font-weight: bold;
+}
+
+.blue-color {
+  color: $blue;
+}
+
+.red-color {
+  color: $red;
+}
+
+.green-color {
+  color: $green;
+}
+
+.green-bg {
+  background: $green;
+}
+
+.grey-bg {
+  background: $grey;
+}
+
+.blue-bg {
+  background: $blue;
+}
+
+.yellow-bg {
+  background: $yellow;
+}
+
+.red-bg {
+  background: $red;
+}
+
+
+h1,
+.h1 {
+  font-size: 2.2rem;
+  font-weight: 400;
+}
+
+.inline {
+  display: inline-block;
+}
+
+
+.custom-control-indicator {
+  width: 24px;
+  height: 25px;
+  background-size: 80%;
+  background-color: white;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.btn-white {
+  background: white;
+  color: $blue;
+  border-color: #e2e2e2;
+}
+
+
+.sidebar-button {
+  width: 100%;
+  text-align: left;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  font-weight: bold;
+}
+
+.btn {
+  font-size: .9rem;
+  border-radius: 3px;
+}
+
+
+.muted {
+  color: #757575;
+}
+
+.nav-tabs .nav-link {
+  border-radius: 0;
 }
