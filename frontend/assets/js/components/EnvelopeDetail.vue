@@ -1,7 +1,11 @@
 <template>
   <div class="hello">
     <div class="row" v-if="envelope">
-      <h1 class="envelope-title">{{envelope.name}} <b-badge pill class="small" variant="warning"><strong>{{translateCode(envelope.workflow.current_state)}}</strong></b-badge></h1>
+      <h1 class="envelope-title">{{envelope.name}} 
+        <b-badge pill class="small" variant="warning">
+          <strong>{{translateCode(envelope.workflow.current_state)}}</strong>
+        </b-badge>
+      </h1>
       <div class="col-lg-9 col-md-9 col-sm-10">
 
         <workflow :state="envelope.workflow.current_state"></workflow>
@@ -25,19 +29,18 @@
               :per-page="perPage"
             >
             <div
-            slot="HEAD_select"
-            slot-scope="row"
+              slot="HEAD_select"
+              slot-scope="row"
             >
               <b-form-checkbox
-               v-model="allFilesSelected"
-
+                v-model="allFilesSelected"
               >
               </b-form-checkbox>
               <span style="position: absolute;
                     left: 3rem;
                     top: 1rem;
                     white-space: nowrap;"
-                >
+              >
                 Select All
               </span>
             </div>
@@ -50,16 +53,17 @@
                   type="text"
                   v-model="row.item.name"
                   v-if="row.item.isEditing"
-                ></b-form-input>
-                  <div class="blue-color" v-if="!row.item.isEditing">
-                    {{row.item.name}}
-                  </div>
-                  <div>
-                    <small class="muted">XML document, 6.89 mb</small>
-                  </div>
+                >
+                </b-form-input>
 
-                  <div class="file-tests">
+                <div class="blue-color" v-if="!row.item.isEditing">
+                  {{row.item.name}}
+                </div>
+                <div>
+                  <small class="muted">XML document, 6.89 mb</small>
+                </div>
 
+                <div class="file-tests">
                   <b-button
                     v-for="script in row.item.availableScripts"
                     :key="script.data.id"
@@ -67,9 +71,8 @@
                     v-on:click.stop="runQAScript(row.item, script.data.id)"
                     v-show="row.item.visibleScripts"
                   >
-                      {{script.data.title}}
+                    {{script.data.title}}
                   </b-button>
-
                 </div>
 
               </div>
@@ -87,7 +90,7 @@
                       class="muted"
                       v-on:click="getFileScripts(row.item)"
                       v-show="row.item.availableScripts.length === 0 || row.item.visibleScripts === false"
-                     >
+                    >
                       <i class="far fa-plus-square"></i> View Tests
                     </b-btn>
                     <b-btn
@@ -95,25 +98,28 @@
                       class="muted"
                       v-show="row.item.availableScripts.length != 0 && row.item.visibleScripts === true"
                       v-on:click="row.item.visibleScripts = false"
-                      >
+                    >
                       <i class="far fa-minus-square"></i> Hide Tests
                     </b-btn>
                   </div>
 
                 <span class="more-actions-control">
-                  <b-btn @click="row.item.additionalControls = toggleAdditionalControls(row.item.additionalControls)"
+                  <b-btn 
+                    @click="row.item.additionalControls = toggleAdditionalControls(row.item.additionalControls)"
                     variant="link"
                     class="muted"
-                    >
+                  >
                     <i class="fas fa-bars"></i>
                   </b-btn>
                 </span>
-                <div class="more-actions" style="
-                      display: flex;
-                      text-align: right;
-                      flex-direction: column;
-                      align-items: flex-end;"
-                      v-show="row.item.additionalControls">
+                <div 
+                  class="more-actions" 
+                  style="
+                    display: flex;
+                    text-align: right;
+                    flex-direction: column;
+                    align-items: flex-end;"
+                  v-show="row.item.additionalControls">
                   <b-btn
                     variant="link"
                     v-on:click="renameFile(row.item)"
@@ -140,18 +146,22 @@
               </b-form-checkbox>
             </b-table>
 
-            <b-card title="Wrok area empty"
-                    class="empty-workarea"
-                    v-else>
+            <b-card 
+              title="Wrok area empty"
+              class="empty-workarea"
+              v-else
+            >
               <p>Start uploading files so you can test them and prepare for delivery</p>
 
-            <form
-              enctype="multipart/form-data"
-              novalidate
-              class="upload-form">
+              <form
+                enctype="multipart/form-data"
+                novalidate
+                class="upload-form"
+              >
                 <label
                   :class="[ {'disabled': filesUploading  }, 'btn', 'btn-primary']"
-                  for="file_uploads">
+                  for="file_uploads"
+                >
                   <i class="far fa-folder-open"></i>  Upload files
                 </label>
                 <input
@@ -162,7 +172,7 @@
                   v-on:change="onFileChange"
                   multiple
                 >
-            </form>
+              </form>
 
             </b-card>
 
@@ -173,9 +183,8 @@
               v-if="envelope.files.length > 5"
               class="my-0"
             />
-
-
           </b-tab>
+
           <b-tab title="feedback">
             <br>
             <div v-if="envelopeFeedback">
@@ -216,30 +225,58 @@
             </b-list-group>
           </b-tab>
 
-
         </b-tabs>
 
     </div>
     <div class="col-lg-3 col-md-3 col-sm-10">
-      <!--   <div class="sidebar-item">
-        <h5>Details</h5>
-          <p>Reporting on obligation {{envelope.obligation_spec}} in cycle {{envelope.reporting_cycle}}</p>
-          <b-link href="#" class="card-link">Edit Envelope</b-link>
-        </div> -->
         <div class="sidebar-item">
           <div class="file-control">
-            <div class="file-control-header"><span class="blue-color"><i class="fas fa-file"></i></span> {{selectedFiles}} files selected</div>
+            <div class="file-control-header">
+              <span class="blue-color">
+                <i class="fas fa-file"></i>
+              </span> 
+              {{selectedFiles}} files selected
+            </div>
+
             <div class="file-control-body">
-              <b-button v-show="selectedFiles" @click="showModal" variant="white sidebar-button"> <i class="far fa-folder-open"></i> Download</b-button>
-              <b-button v-show="selectedFiles" variant="white sidebar-button" v-on:click="runScriptsForFiles"> <i class="fas fa-play"></i> Run tests</b-button>
-              <!-- <b-button variant="white"> <i class="far fa-edit"></i> Replace</b-button> -->
-              <b-button v-show="selectedFiles" v-on:click="deleteFiles" variant="white sidebar-button"> <i class="far fa-trash-alt"></i> Delete</b-button>
+              <b-button 
+                v-show="selectedFiles" 
+                @click="showModal" 
+                variant="white sidebar-button"
+              > 
+                <i class="far fa-folder-open"></i> 
+                Download
+              </b-button>
+
+              <b-button 
+                v-show="selectedFiles" 
+                variant="white sidebar-button"
+                v-on:click="runScriptsForFiles"
+              > 
+                <i class="fas fa-play"></i> 
+                Run tests
+              </b-button>
+
+              <b-button 
+                v-show="selectedFiles" 
+                v-on:click="deleteFiles" 
+                variant="white sidebar-button"
+              > 
+                <i class="far fa-trash-alt"></i> 
+                Delete
+              </b-button>
 
             <form
               enctype="multipart/form-data"
               novalidate
               class="upload-form">
-                  <label :class="[ {'disabled': filesUploading  }, 'btn', 'btn-white', 'sidebar-button']" for="file_uploads"><i class="far fa-folder-open"></i>  Upload files</label>
+                  <label 
+                    :class="[ {'disabled': filesUploading  }, 'btn', 'btn-white', 'sidebar-button']" 
+                    for="file_uploads"
+                  >
+                    <i class="far fa-folder-open"></i>  
+                    Upload files
+                  </label>
                   <input
                     type="file"
                     id="file_uploads"
@@ -279,13 +316,14 @@
 
             <div style="text-align: center;">
               <b-button
-                  v-for="transition in envelope.workflow.available_transitions"
-                  :key="transition"
-                  v-if="showTransitionButton(transition)"
-                  variant="primary"
-                  v-on:click="goToTransition($event, transition)">
-                    {{translateCode(transition)}}
-                </b-button>
+                v-for="transition in envelope.workflow.available_transitions"
+                :key="transition"
+                v-if="showTransitionButton(transition)"
+                variant="primary"
+                v-on:click="goToTransition($event, transition)"
+              >
+                {{translateCode(transition)}}
+              </b-button>
             </div>
            </div>
 
@@ -295,7 +333,6 @@
         <b-modal id="downloadModal" ref="downloadModal" size="lg" title="Download">
           <filesdownload :files="modalFiles()"></filesdownload>
         </b-modal>
-        <!-- <history :created_at="envelope.created_at"></history> -->
     </div>
   </div>
   </div>
@@ -305,7 +342,7 @@
 import tus from 'tus-js-client';
 import History from './EnvelopeHistory';
 import Workflow from './EnvelopeWorkflow';
-import EnvelopeFilesDownload from "./EnvelopeFilesDownload";
+import EnvelopeFilesDownload from './EnvelopeFilesDownload';
 
 import { fetchEnvelope,
           fetchEnvelopeToken,
@@ -316,7 +353,7 @@ import { fetchEnvelope,
           runEnvelopeTransition,
           updateFile,
           removeFile,
-          } from '../api';
+        } from '../api';
 import { dateFormat } from '../utils/UtilityFunctions';
 
 
@@ -332,7 +369,9 @@ const envelopeCodeDictionary = (status) => {
     reject: 'Reject',
     release: 'Release',
   };
-  if (!status) return '';
+  if (!status) {
+    return '';
+  }
   return codeDictionary[status.trim().toLowerCase()] || status;
 };
 
@@ -343,7 +382,6 @@ export default {
     workflow: Workflow,
     filesdownload: EnvelopeFilesDownload,
   },
-
 
   data() {
     return {
@@ -366,13 +404,12 @@ export default {
 
   // Fetches posts when the component is created.
   created() {
-    this.getEnvelope()
+    this
+      .getEnvelope()
       .then((resultFiles) => {
         this.getEnvelopeFeedback(resultFiles);
       });
-
   },
-
 
   methods: {
     getEnvelope() {
@@ -389,7 +426,7 @@ export default {
                 this.envelope.files[index],
                 {
                   availableScripts: [],
-                  selected:false,
+                  selected: false,
                   visibleScripts: false,
                   availableConversions: [],
                   selectedConversion: null,
@@ -418,7 +455,6 @@ export default {
     handleEnvelopeFeedback(feedback, files) {
       let matchScript;
       let matchLink;
-
       let modifiedFeedback = {
         auto_qa_completed: feedback.auto_qa_completed,
         auto_qa_ok: feedback.auto_qa_ok,
@@ -427,31 +463,30 @@ export default {
         previous: feedback.previous,
         files: {},
       };
-
-      let p = document.createElement("script");
+      let p = document.createElement('script');
       const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
-      const link_re = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
+      const linkRe = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
 
-      p.setAttribute("type", "text/javascript");
+      p.setAttribute('type', 'text/javascript');
 
       for (let file of files) {
         modifiedFeedback.files[file.name] = [];
       }
 
-      for (let result of feedback.results){
+      for (let result of feedback.results) {
         while (matchScript = re.exec(result.latest_result.value)) {
           // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
           p.innerHTML += matchScript[1];
         }
-        let links = []
-        while (matchLink = link_re.exec(result.latest_result.value)) {
+        let links = [];
+        while (matchLink = linkRe.exec(result.latest_result.value)) {
           links.push(matchLink[2]);
         }
         for (let link of links) {
-          result.latest_result.value = result.latest_result.value.replace(link, " ");
+          result.latest_result.value = result.latest_result.value.replace(link, ' ');
         }
-        for (let file of files){
-          if (file.id === result.envelope_file){
+        for (let file of files) {
+          if (file.id === result.envelope_file) {
             modifiedFeedback.files[file.name].push(result);
           }
         }
@@ -470,9 +505,9 @@ export default {
       if (this.extraTabs.length === 0) {
         this.extraTabs.push('New Files');
       }
-      setTimeout( () =>{
+      setTimeout(() => {
         this.tabIndex = 2;
-      })
+      });
     },
 
     uploadAllFiles(e) {
@@ -480,7 +515,7 @@ export default {
       this.filesUploading = true;
 
       // for each file create a function that returns a promise
-      const funcs = this.files.map((file) => () => this.uploadFile(file));
+      const funcs = this.files.map(file => () => this.uploadFile(file));
 
       // reduce the array or functions that return promises, in a chain
       const promiseSerial = functions =>
@@ -493,7 +528,12 @@ export default {
 
       // execute Promises in serial, clear files at the end of all promisees
       promiseSerial(funcs)
-        .then(() => { this.files = []; this.extraTabs=[]; this.tabIndex = 0; this.filesUploading = false})
+        .then(() => {
+          this.files = [];
+          this.extraTabs = []; 
+          this.tabIndex = 0;
+          this.filesUploading = false;
+        })
         .catch(console.error.bind(console));
     },
 
@@ -577,17 +617,18 @@ export default {
     runScriptsForFiles() {
       this.envelope.files.map((file) => {
         if (file.selected) {
-          this.getFileScripts(file)
+          this
+            .getFileScripts(file)
             .then((response) => {
               response.availableScripts.map((script) => {
                 this.runQAScript(response, script.data.id);
-              })
+              });
             })
             .catch((error) => {
               console.log(error);
             });
         }
-      })
+      });
     },
 
     getFileScripts(file) {
@@ -604,12 +645,12 @@ export default {
             })
             .catch((error) => {
               console.log(error);
-              reject(e);
+              reject(error);
             });
-          } else {
-            resolve(file);
-            file.visibleScripts = true;
-          }
+        } else {
+          resolve(file);
+          file.visibleScripts = true;
+        }
       });
     },
 
@@ -633,12 +674,12 @@ export default {
       this.$refs.downloadModal.show();
     },
 
-
     modalFiles() {
       let files = [];
+
       for (let file of this.envelope.files) {
         if (file.selected) {
-          files.push(file)
+          files.push(file);
         }
       }
       return files;
@@ -646,6 +687,7 @@ export default {
 
     selectFile(file, value) {
       file.selected = value;
+
       if (value === false) {
         this.allFilesSelected = false;
         this.selectedFiles -= 1;
@@ -684,7 +726,8 @@ export default {
     updateFile(file) {
       updateFile(this.$route.params.envelope_id, file.id, file.name)
         .then((response) => {
-          this.getEnvelope()
+          this
+            .getEnvelope()
             .then((resultFiles) => {
               this.getEnvelopeFeedback(resultFiles);
             });
@@ -747,13 +790,13 @@ export default {
             if (!response.data.auto_qa_completed) {
               self.pollFeedback(fn, delay);
             } else {
-                self.getEnvelope()
-                .then((resultFiles) => {
-                  self.getEnvelopeFeedback(resultFiles);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
+              self.getEnvelope()
+              .then((resultFiles) => {
+                self.getEnvelopeFeedback(resultFiles);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
             }
           })
           .catch((error) => {
