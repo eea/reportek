@@ -166,15 +166,24 @@ class ObligationSerializer(serializers.ModelSerializer):
                   'updated_at',)
 
 
+class PendingObligationSpecSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ObligationSpec
+        fields = ('id', 'version', 'is_current', 'draft', 'schema',
+                  'workflow_class', 'rod_url', 'created_at', 'updated_at')
+
+
 class PendingReportingCycleSerializer(serializers.ModelSerializer):
 
     subdivisions = ReporterSubdivisionSerializer(many=True)
+    obligation_spec = PendingObligationSpecSerializer()
 
     class Meta:
         model = ReportingCycle
         fields = ('id', 'reporting_start_date', 'reporting_end_date',
                   'is_open', 'rod_url', 'created_at', 'updated_at',
-                  'subdivisions')
+                  'obligation_spec', 'subdivisions')
 
 
 class PendingObligationSerializer(serializers.ModelSerializer):
