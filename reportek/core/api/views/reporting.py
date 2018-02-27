@@ -60,6 +60,7 @@ error = log.error
 
 __all__ = [
     'EnvelopeViewSet',
+    'EnvelopeOriginalFileViewSet',
     'EnvelopeFileViewSet',
     'EnvelopeWorkflowViewSet',
     'UploadTokenViewSet',
