@@ -29,7 +29,7 @@
             slot-scope="row"
             >
               <b-form-checkbox
-               v-model="row.selected"
+               v-model="allFilesSelected"
 
               >
               </b-form-checkbox>
@@ -108,9 +108,12 @@
                     <i class="fas fa-bars"></i>
                   </b-btn>
                 </span>
-                <div class="more-actions" style="    text-align: right;
-    flex-direction: column;
-    align-items: flex-end;" v-show="row.item.additionalControls">
+                <div class="more-actions" style="
+                      display: flex;
+                      text-align: right;
+                      flex-direction: column;
+                      align-items: flex-end;"
+                      v-show="row.item.additionalControls">
                   <b-btn
                     variant="link"
                     v-on:click="renameFile(row.item)"
@@ -227,10 +230,10 @@
           <div class="file-control">
             <div class="file-control-header"><span class="blue-color"><i class="fas fa-file"></i></span> 2 files selected</div>
             <div class="file-control-body">
-              <b-button @click="showModal" variant="white sidebar-button"> <i class="far fa-folder-open"></i> Download</b-button>
-              <b-button variant="white sidebar-button" v-on:click="runScriptsForFiles"> <i class="fas fa-play"></i> Run tests</b-button>
+              <b-button v-show="selectedFiles.length" @click="showModal" variant="white sidebar-button"> <i class="far fa-folder-open"></i> Download</b-button>
+              <b-button v-show="selectedFiles.length" variant="white sidebar-button" v-on:click="runScriptsForFiles"> <i class="fas fa-play"></i> Run tests</b-button>
               <!-- <b-button variant="white"> <i class="far fa-edit"></i> Replace</b-button> -->
-              <b-button v-on:click="deleteFiles" variant="white sidebar-button"> <i class="far fa-trash-alt"></i> Delete</b-button>
+              <b-button v-show="selectedFiles.length" v-on:click="deleteFiles" variant="white sidebar-button"> <i class="far fa-trash-alt"></i> Delete</b-button>
 
             <form
               enctype="multipart/form-data"
@@ -255,8 +258,6 @@
               >
                 <i class="fas fa-play"></i> Add files to envelope
             </b-button>
-
-
             </div>
           </div>
         </div>
@@ -349,6 +350,7 @@ export default {
       fields: ['select', 'name', 'tests'],
       envelope: null,
       allFilesSelected: false,
+      selectedFiles: [],
       envelopeState: '',
       isInitial: true,
       files: [],
@@ -641,14 +643,31 @@ export default {
 
     selectFile(file, value) {
       file.selected = value;
-      if(value === false) this.allFilesSelected = false;
+      if (value === false) {
+        this.allFilesSelected = false;
+        this.selectedFiles.pop(file.id)
+      } else {
+        this.pushUnique(this.selectedFiles, file.id)
+        if(this.selectedFiles.length === this.envelope.files.length){
+          this.allFilesSelected = true;
+        }
+      }
     },
 
     selectAll(e){
-      for(const file of this.envelope.files) {
-        file.selected = true
+      if(this.allFilesSelected === true) {
+        for(const file of this.envelope.files) {
+          file.selected = false
+          this.selectedFiles.pop(file.id)
+          this.allFilesSelected = false;
+        }
+      } else {
+        for(const file of this.envelope.files) {
+          file.selected = true
+          this.pushUnique(this.selectedFiles, file.id)
+        }
+        this.allFilesSelected = true;
       }
-      this.allFilesSelected = true;
     },
 
     toggleAdditionalControls(state) {
@@ -678,6 +697,13 @@ export default {
           this.deleteFile(file);
         }
       })
+    },
+
+    pushUnique(array, item){
+      if(array.indexOf(item) == -1) {
+      //if(jQuery.inArray(item, this) == -1) {
+          array.push(item);
+      }
     },
 
     deleteFile(file) {
