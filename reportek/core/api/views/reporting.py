@@ -7,9 +7,12 @@ from base64 import b64encode
 from django.views import static
 from django.db.models import Q, F, Exists, OuterRef
 from django.http import HttpResponse
+from django.utils import timezone
+from django.utils.text import slugify
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
+from rest_framework.exceptions import NotFound
 from rest_framework.renderers import StaticHTMLRenderer, TemplateHTMLRenderer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.authentication import (
@@ -247,6 +250,23 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
             uploader_id=self.request.user.pk,
         )
 
+    @staticmethod
+    def get_ids_or_404(envelope_pk, ids):
+        """
+        Helper method for routes accepting file ids as a comma separated query param.
+        Will issue a 404 response if the ids aren't integers or don't belong to the envelope.
+
+        Returns:
+            The validated ids as list of integers.
+        """
+        try:
+            ids = [int(i) for i in ids.split(',')]
+        except ValueError:
+            raise NotFound
+        if not ids or len(ids) != EnvelopeFile.objects.filter(envelope_id=envelope_pk, id__in=ids).count():
+            raise NotFound
+        return ids
+
     def destroy(self, request, envelope_pk, pk=None):
         """
         Serves `DELETE` requests on both list and detail routes.
@@ -256,13 +276,7 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         if pk is not None:
             return super().destroy(envelope_pk, pk)
         else:
-            ids = request.query_params.get('ids', '')
-            try:
-                ids = [int(i) for i in ids.split(',')]
-            except ValueError:
-                return Response(status=status.HTTP_404_NOT_FOUND)
-            if not ids or len(ids) != EnvelopeFile.objects.filter(envelope_id=envelope_pk, id__in=ids).count():
-                return Response(status=status.HTTP_404_NOT_FOUND)
+            ids = self.get_ids_or_404(envelope_pk, request.query_params.get('ids', ''))
             EnvelopeFile.objects.filter(id__in=ids).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -288,7 +302,51 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
                     'X-Accel-Redirect': _file.storage.url(relpath)
                 }
             )
+
+        response['Content-Disposition'] = f'attachment; filename={relpath}'
         return response
+
+    @list_route(methods=['get', 'head'], renderer_classes=(StaticHTMLRenderer,))
+    def download_archive(self, request, envelope_pk):
+        """
+        List route for downloading a ZIP archive of envelope files, non-compressed.
+
+        The request can specify the query parameter `ids` as a comma separated list
+        of envelope IDs, which must all match files on the envelope.
+        In the absence of the query parameter, ALL files are included.
+        """
+        envelope = Envelope.objects.get(pk=envelope_pk)
+        ids = request.query_params.get('ids')
+        if ids is None:
+            files = envelope.files.all()
+        else:
+            ids = self.get_ids_or_404(envelope_pk, ids)
+            files = EnvelopeFile.objects.filter(id__in=ids)
+        archive_name = f'{slugify(envelope.name)}_files_{timezone.now().strftime("%Y%m%d_%H%M%S")}.zip'
+        archive_path = settings.DOWNLOAD_STAGING_ROOT / archive_name
+        with ZipFile(archive_path, 'w') as archive:
+            for f in files:
+                f_path = settings.PROTECTED_ROOT / f.file.name
+                if f_path is None or f_path == '':
+                    error(f'Envelope file not found: {f_path}')
+                    return Response(status=status.HTTP_404_NOT_FOUND)
+                archive.write(f_path, f_path.name)
+
+            if settings.DEBUG:
+                response = static.serve(
+                    request,
+                    path=archive_name,
+                    document_root=settings.DOWNLOAD_STAGING_ROOT)
+            else:
+                response = Response(
+                    headers={
+                        'X-Accel-Redirect': f'{settings.DOWNLOAD_STAGING_URL}{archive_name}'
+                    }
+                )
+                # TODO : Cleanup job for generated ZIPs (e.g. delete older than 1 day)
+
+            response['Content-Disposition'] = f'attachment; filename={archive_name}'
+            return response
 
     @detail_route(methods=['get'], renderer_classes=(TemplateHTMLRenderer,))
     def xml(self, request, envelope_pk, pk):

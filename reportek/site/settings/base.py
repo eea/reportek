@@ -38,6 +38,14 @@ def split_env_var(var_name, sep=','):
     return [e.strip() for e in var.split(sep)]
 
 
+def validate_dir(path):
+    if not path.exists():
+        raise FileNotFoundError(f'Missing required directory: {path}')
+    if not path.is_dir():
+        raise FileNotFoundError(f'Required directory not found (exists as file): {path}')
+    return path
+
+
 # <project>/reportek
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -81,7 +89,6 @@ ARCHIVE_PATH_PREFIX = get_bool_env_var('ARCHIVE_PATH_PREFIX', 'yes')
 SECRET_KEY = get_env_var('SECRET_KEY')
 
 DEBUG = get_bool_env_var('DEBUG', 'no')
-
 ALLOWED_HOSTS = split_env_var('ALLOWED_HOSTS')
 
 
@@ -192,7 +199,6 @@ SILENCED_SYSTEM_CHECKS = [
     'fields.W342',  # Disable OneToOneField recommendation
 ]
 
-
 AUTH_USER_MODEL = 'core.ReportekUser'
 
 AUTH_LDAP_SERVER_URI = get_env_var('LDAP_URI')
@@ -275,8 +281,11 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = PARENT_DIR / 'uploads'
 MEDIA_URL = '/files/'
 
-PROTECTED_ROOT = PARENT_DIR / 'protected_uploads'
+PROTECTED_ROOT = validate_dir(PARENT_DIR / 'protected_uploads')
 PROTECTED_URL = '/protected-files/'
+
+DOWNLOAD_STAGING_ROOT = validate_dir(PARENT_DIR / 'download_staging')
+DOWNLOAD_STAGING_URL = '/transient-files/'
 
 # TODO: this part should be synchronized with Webpack
 # (see /frontend/config/conf.js)
