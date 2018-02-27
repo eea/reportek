@@ -19,7 +19,7 @@
               {{reportingCycle.reporting_start_date}}
 
               <router-link
-                :to="{ name: 'EnvelopeCreate', params: { reportingCycle: reportingCycle, spec: 1 } }"
+                :to="{ name: 'EnvelopeCreate', params: { reportingCycle: reportingCycle, reporterId: reporterId } }"
                 class="btn btn-primary"
               >
                 Create New Envelop for this cycle
@@ -58,6 +58,7 @@ export default {
         .then((response) => {
           // JSON responses are automatically parsed.
           this.obligationsPending = response.data;
+          console.log('this.obligationsPending ', this.obligationsPending)
         })
         .catch((e) => {
           console.log(e);

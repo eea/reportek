@@ -1,6 +1,9 @@
 <template>
   <div>
-    <b-form @submit="onSubmit" @reset="onReset">
+    <b-form 
+      v-on:submit="onSubmit" 
+      v-on:reset="onReset"
+    >
 
       <b-form-group
         id="envelopeName"
@@ -15,21 +18,6 @@
           placeholder="Enter name"
         >
         </b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="obligationSpecsGroup"
-        label="Obligation Spec:"
-        label-for="obligationSpecsInput"
-      >
-        <b-form-select
-          id="obligationSpecsInput"
-          :options="obligationSpecs"
-          required
-          v-model="form.obligationSpec"
-        >
-
-        </b-form-select>
       </b-form-group>
 
       <b-form-group
@@ -67,18 +55,19 @@ export default {
     return {
       form: {
         name: '',
-        reporter: 10,
+        reporter: null,
         obligationSpec: null,
         reportingCycle: null,
       },
-      obligationSpecs: [],
       reportingCycles: [],
     };
   },
 
   // Fetches posts when the component is created.
   created() {
-    if (!this.$route.params.reportingCycle && !this.$route.params.spec) {
+          console.log('this.$route.params ', this.$route.params)
+
+    if (!this.$route.params.reportingCycle) {
       this.$router.push({ name: 'Dashboard' });
     }
     this.getApiData();
@@ -106,24 +95,19 @@ export default {
       /* Reset our form values */
       this.form.reporter = null;
       this.form.name = null;
-      this.form.obligationSpec = null;
       this.form.reportingCycle = null;
       this.$router.push({ name: 'Dashboard' });
     },
 
     getApiData() {
-      this.obligationSpecs = [
-        {
-          value: this.$route.params.spec.id,
-          text: this.$route.params.spec.id,
-        }];
       this.reportingCycles = [
         {
           value: this.$route.params.reportingCycle.id,
           text: this.$route.params.reportingCycle.reporting_start_date,
         }];
-      this.form.obligationSpec = this.$route.params.spec.id;
       this.form.reportingCycle = this.$route.params.reportingCycle.id;
+      this.form.reporter = this.$route.params.reporterId;
+      this.form.obligationSpec = this.$route.params.reportingCycle.obligation_spec.id;
     },
   },
 };
