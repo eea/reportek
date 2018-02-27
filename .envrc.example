@@ -34,7 +34,7 @@ export TUSD_UPLOADS_DIR=$HOME/src/tusd-bin/data
 # Comma-separated list, e.g. xml,tif
 export ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS=zip
 export ALLOWED_UPLOADS_EXTENSIONS=xml
-export ALLOWED_UPLOADS_EXTENSIONS=xls,ods
+export ALLOWED_UPLOADS_ORIGINAL_EXTENSIONS=xls,ods
 
 # export ARCHIVE_PATH_PREFIX=yes
 
