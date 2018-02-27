@@ -240,6 +240,9 @@ AUTHENTICATION_BACKENDS = [
 
 ANONYMOUS_USER_NAME = 'anonymous'
 
+REPORTNET_API_CLIENTS_GROUP = 'reportnet-api-clients'
+
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 

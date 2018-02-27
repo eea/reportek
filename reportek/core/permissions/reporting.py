@@ -69,7 +69,9 @@ class EnvelopePermissions(DjangoObjectPermissions):
         if not perms:
             return False
         if request.method in SAFE_METHODS:
-            return request.user == envelope.author or True  # need to modify so can see own stuff
+            return request.user == envelope.author or \
+                   envelope.finalized or \
+                   request.user.has_perm('core.act_as_reportnet_api')
         elif request.method == 'PATCH':
             return request.user == envelope.author and not envelope.finalized
         elif request.method == 'DELETE':
@@ -130,7 +132,19 @@ class EnvelopeFilePermissions(DjangoObjectPermissions):
             return False
         envelope = envelope_file.envelope
         if request.method in SAFE_METHODS:
-            return request.user == envelope.author or envelope.finalized
+            groups = request.user.effective_groups
+            # Allow read for:
+            # - author
+            # - public if finalized and not restricted
+            # - obligation's client
+            # - Reportnet APIs
+            debug(f'[EnvelopeFile obj perms] Groups: {groups}')
+            return request.user == envelope.author or \
+                request.user.has_perm('core.act_as_reportnet_api') or \
+                (envelope.finalized and not envelope_file.restricted) or \
+                (envelope.finalized and
+                 'inspect_deliveries' in
+                 get_effective_obj_perms(groups, envelope_file.envelope.obligation_spec.obligation.client))
         elif request.method == 'PATCH':
             return request.user == envelope.author and not envelope.finalized
         elif request.method == 'DELETE':

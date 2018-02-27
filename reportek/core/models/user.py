@@ -19,6 +19,12 @@ __all__ = [
 
 class ReportekUser(GuardianUserMixin, AbstractUser):
 
+    class Meta:
+        verbose_name = 'user'
+        permissions = (
+            ('act_as_reportnet_api', 'This is the user of another Reportnet service'),
+        )
+
     @property
     def ldap_groups(self):
         """
