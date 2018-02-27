@@ -790,13 +790,14 @@ export default {
             if (!response.data.auto_qa_completed) {
               self.pollFeedback(fn, delay);
             } else {
-              self.getEnvelope()
-              .then((resultFiles) => {
-                self.getEnvelopeFeedback(resultFiles);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+              self
+                .getEnvelope()
+                .then((resultFiles) => {
+                  self.getEnvelopeFeedback(resultFiles);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
             }
           })
           .catch((error) => {
