@@ -751,29 +751,34 @@ class UploadHookView(viewsets.ViewSet):
                     file_name
                 )
 
-                # Try to motherlikingly convert the suckler FIRSZT OF ALL
+                # Save the original envelope file
+                envelope_original_file.file.save(file_name, File(file_path.open()))
+                envelope_original_file.uploader = token.user
+                envelope_original_file.save()
+
+                # Try to convert to xml file(s)
                 file_url = fully_qualify_url(envelope_original_file.get_file_url())
                 remote_conversion = RemoteConversion(
                     token.envelope.obligation_spec.qa_xmlrpc_uri
                 )
                 result = remote_conversion.convert_spreadsheet_to_xml(file_url)
+
                 if result['resultCode'] != '0':
-                    # natt gott
-                    # TODO: this should also delete the disk file!!! override the delete method!
+                    # This also deletes the actual disk file
                     envelope_original_file.delete()
                     # TODO: also inform the user
 
+                # Now save every XML file resulted from the original's conversion
                 for converted_file in result['convertedFiles']:
                     # TODO: factor this out in a func/method
                     envelope_file, is_new = EnvelopeFile.get_or_create(
                         token.envelope,
                         converted_file['fileName']
                     )
+
+                    envelope_file.file.save(file_name, ContentFile(converted_file['content'].data))
                     if not is_new:
                         token.envelope.delete_disk_file(converted_file['fileName'])
-
-                    # TODO: do I need to base64-decode?
-                    envelope_file.file.save(file_name, ContentFile(converted_file['content'].data))
 
                     if file_ext == 'xml':
                         envelope_file.xml_schema = envelope_file.extract_xml_schema()
