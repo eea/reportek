@@ -1,24 +1,25 @@
 <template>
   <div class="hello">
     Obligations Pending
-    <b-container class="bv-example-row">
-        <b-row v-if="obligationsPending">
+    <b-container>
+        <b-row 
+          v-for="obligation in obligationsPending"
+          :key="obligation.id"
+        >
           <b-col cols="8">
-            {{obligationsPending.title}}
+            {{obligation.title}}
           </b-col>
           <b-col cols="4">
             <b-row
-              v-for="spec in obligationsPending.specs"
-              :key="spec.id"
+              v-for="reportingCycle in obligation.reporting_cycles"
+              :key="reportingCycle.id"
             >
             <span
-              v-for="reportingCycle in spec.reporting_cycles"
-              :key="reportingCycle.id"
             >
               {{reportingCycle.reporting_start_date}}
 
               <router-link
-                :to="{ name: 'EnvelopeCreate', params: { reportingCycle: reportingCycle, spec: spec } }"
+                :to="{ name: 'EnvelopeCreate', params: { reportingCycle: reportingCycle, reporterId: reporterId } }"
                 class="btn btn-primary"
               >
                 Create New Envelop for this cycle
@@ -37,6 +38,10 @@ import { fetchObligationsPending } from '../api';
 export default {
   name: 'EnvelopesWIP',
 
+  props: {
+    reporterId: null,
+  },
+
   data() {
     return {
       obligationsPending: null,
@@ -44,14 +49,31 @@ export default {
   },
 
   created() {
-    fetchObligationsPending()
-      .then((response) => {
-        // JSON responses are automatically parsed.
-        this.obligationsPending = response.data;
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    this.getObligationsPending();
+  },
+
+  methods: {
+    getObligationsPending() {
+      fetchObligationsPending(this.reporterId)
+        .then((response) => {
+          // JSON responses are automatically parsed.
+          this.obligationsPending = response.data;
+          console.log('this.obligationsPending ', this.obligationsPending)
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+  },
+
+  watch: {
+    reporterId: {
+      handler(newVal, oldVal) {
+        if (oldVal) {
+          this.getObligationsPending();
+        }
+      },
+    },
   },
 };
 </script>
