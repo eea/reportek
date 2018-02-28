@@ -219,20 +219,22 @@ class EnvelopeOriginalFile(models.Model):
     # initially derived from the filename, a change triggers rename
     name = models.CharField(max_length=256, validators=[validate_filename])
 
+    uploader = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True
+    )
+
     def __repr__(self):
         return '<%s: %s/%s>' % (self.__class__.__name__,
                                 self.envelope.pk,
                                 self.name)
 
     def get_file_url(self):
-        return reverse('core:envelope-original-file', kwargs={
-            'pk': self.envelope,
+        return reverse('core:envelope-file', kwargs={
+            'pk': self.envelope.id,
             'filename': self.name,
         })
-
-    def delete(self, *args, **kwargs):
-        super().delete(*args, **kwargs)
-        os.remove(self.file.path)
 
     @classmethod
     def get_or_create(cls, envelope, file_name):
@@ -253,6 +255,16 @@ class EnvelopeOriginalFile(models.Model):
             obj = cls(envelope=envelope, name=file_name)
 
         return obj, is_new
+
+    def delete(self, *args, **kwargs):
+        try:
+            os.remove(self.file.path)
+            debug(f'Deleted disk file {self.file.path}')
+        except FileNotFoundError:
+            error(f'Could not delete original envelope file from disk (not found): '
+                  f'{self.file.path}')
+        super().delete(*args, **kwargs)
+
 
 
 class EnvelopeFileQuerySet(models.QuerySet):
