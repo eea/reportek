@@ -780,6 +780,7 @@ class UploadHookView(viewsets.ViewSet):
                     if not is_new:
                         token.envelope.delete_disk_file(converted_file['fileName'])
 
+                    file_ext = envelope_file.name.split('.')[-1].lower()
                     if file_ext == 'xml':
                         envelope_file.xml_schema = envelope_file.extract_xml_schema()
 
