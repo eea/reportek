@@ -776,7 +776,7 @@ class UploadHookView(viewsets.ViewSet):
                         converted_file['fileName']
                     )
 
-                    envelope_file.file.save(file_name, ContentFile(converted_file['content'].data))
+                    envelope_file.file.save(envelope_file.name, ContentFile(converted_file['content'].data))
                     if not is_new:
                         token.envelope.delete_disk_file(converted_file['fileName'])
 
