@@ -4,6 +4,7 @@ from django.db.models import Q, Exists, OuterRef
 from rest_framework import viewsets
 
 from ...models import (
+    Obligation,
     ReporterSubdivisionCategory,
     ReportingCycle,
     Envelope,
@@ -114,6 +115,10 @@ class PendingObligationsMixin:
                 for spec in obligation_specs
                 if spec and spec.obligation in user_obligations
             }
+            reporting_cycles = [
+                rc for rc in reporting_cycles
+                if rc.obligation_spec.obligation in user_obligations
+            ]
         else:
             obligations = {
                 spec.obligation_id: spec.obligation
