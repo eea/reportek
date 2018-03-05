@@ -4,11 +4,11 @@ ARG REQUIREMENTS_FILE
 
 ENV PROJ_DIR=/var/local/reportek/
 
-RUN runDeps="gcc musl-dev postgresql-dev postgresql-client libressl-dev libxml2-dev libxslt-dev git" \
+RUN runDeps="gcc musl-dev postgresql-dev postgresql-client libressl-dev libxml2-dev libxslt-dev openldap git" \
     && apk add --no-cache $runDeps
 
 RUN apk add --no-cache --virtual .build-deps \
-        gcc musl-dev postgresql-dev libressl-dev libxml2-dev libxslt-dev \
+        gcc musl-dev postgresql-dev libressl-dev libxml2-dev libxslt-dev openldap-dev \
     && mkdir -p $PROJ_DIR
 
 RUN apk add --no-cache yarn nodejs-npm
