@@ -126,3 +126,7 @@ export function fetchArchiveEnvelopes(reporterId) {
   return fetch(`workspace-reporter/${reporterId}/archive/`);
 }
 
+export function fetchObligation(id) {
+  return fetch(`/obligations/${id}/`);
+}
+
