@@ -96,7 +96,6 @@ export default {
       this.form.reporter = null;
       this.form.name = null;
       this.form.reportingCycle = null;
-      console.log(this.$route.params.reporterId)
       this.$router.push({ name: 'Dashboard', params: { id: this.$route.params.id } });
     },
 
@@ -107,7 +106,7 @@ export default {
           text: this.$route.params.reportingCycle.reporting_start_date,
         }];
       this.form.reportingCycle = this.$route.params.reportingCycle.id;
-      this.form.reporter = this.$route.params.reporterId;
+      this.form.reporter = this.$route.params.id;
       this.form.obligationSpec = this.$route.params.reportingCycle.obligation_spec.id;
     },
   },

@@ -36,7 +36,7 @@ export default {
   },
 
   created() {
-    fetchArchiveEnvelopes(this.$route.params.reporterId)
+    fetchArchiveEnvelopes(this.$route.params.id)
       .then((response) => {
         // JSON responses are automatically parsed.
         this.envelopes = response.data;
