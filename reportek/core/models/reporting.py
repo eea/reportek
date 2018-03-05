@@ -128,11 +128,6 @@ class Envelope(models.Model):
     def auto_qa_ok(self):
         return self.auto_qa_complete and all([r.ok for r in self.auto_qa_results])
 
-    class Meta:
-        unique_together = (
-            ('reporter', 'obligation_spec', 'reporting_cycle'),
-        )
-
     def __str__(self):
         return self.name
 
