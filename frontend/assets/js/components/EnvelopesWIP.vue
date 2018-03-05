@@ -1,13 +1,16 @@
 <template>
   <div>
     <div class="envelope-list" v-if="envelopes && envelopes.length">
-    <h1>Envelopes and subcollections</h1>
-    <router-link
-      class="btn btn-primary"
-      :to="'/dashboard'"
-    >
-    Create New Envelope
-    </router-link>
+
+    <b-row class="envelope-list-header">
+      <h1>Envelopes and subcollections</h1>
+      <router-link
+        class="btn btn-primary"
+        :to="'/dashboard'"
+      >
+      <i class="fas fa-plus"></i> Create New Envelope
+      </router-link>
+    </b-row>
     <!--   <b-table
         :hover="false"
         :items="envelopes"
@@ -24,12 +27,12 @@
       </b-table> -->
 
       <b-row class="envelope-list-item" v-for="envelope in envelopes">
-        <b-col lg="1">
+        <div class="status-badge">
           <b-badge pill :variant="envelopeCodeDictionaryVariants(envelope.workflow.current_state)">
             {{envelope.workflow.current_state.charAt(0).toUpperCase()}}
           </b-badge>
-        </b-col>
-        <b-col lg="8">
+        </div>
+        <div class="envelope-name-wrapper">
           <div class="envelope-name">
               <router-link
                 class="router-link"
@@ -38,19 +41,21 @@
               {{envelope.name}}
               </router-link>
           </div>
-          <div>
-            <strong>Obligation:</strong> None
+          <div class="mb-1 mt-1">
+            <strong>Obligation:</strong> <span class="muted"> None</span>
           </div>
           <div>
-            <strong>Status:</strong> {{translateCode(envelope.workflow.current_state)}}
+            <strong>Status:</strong> <span class="muted">{{translateCode(envelope.workflow.current_state)}}</span>
           </div>
-        </b-col>
-        <b-col lg="3">
+        </div>
+        <div class="envelope-reporting-period">
           <div>
             <strong>Reporting period</strong>
           </div>
-          {{envelope.reporting_cycle.reporting_start_date}} - {{envelope.reporting_cycle.reporting_end_date}} 2018-02-01
-        </b-col>
+          <div class="reporting-period muted">
+            {{envelope.reporting_cycle.reporting_start_date}} - {{envelope.reporting_cycle.reporting_end_date}} 2018-02-01
+          </div>
+        </div>
       </b-row>
     </div>
 
@@ -107,25 +112,34 @@ a.btn-primary {
 
 .envelope-list {
   .envelope-list-item {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid #eee;
     margin-top:1rem;
     margin-bottom: 1rem;
     padding-top:.5rem;
     padding-bottom: .5rem;
     &:last-of-type {
-      border-bottom: 1px solid #ddd;
+      border-bottom: 1px solid #eee;
     }
   }
   .envelope-name {
     .router-link {
-      font-size: 1.7rem;
+      font-size: 1.5rem;
+      font-weight: bold;
     }
   }
-  .col-lg-1 {
-    max-width: 3%;
+  .status-badge {
     display: flex;
     padding-top: .5rem;
+    margin-right: 1rem;
     justify-content:center;
+  }
+  .envelope-reporting-period {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .envelope-name-wrapper {
+    flex-grow: 1;
   }
   .badge-pill {
     line-height: 1.4;
@@ -133,6 +147,15 @@ a.btn-primary {
   }
   h1 {
     font-weight: 400;
+    flex-grow: 1;
+  }
+  .envelope-list-header {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+  }
+  .reporting-period {
+    font-size: .9rem;
   }
 }
 </style>
