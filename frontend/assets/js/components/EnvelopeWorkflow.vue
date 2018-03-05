@@ -26,7 +26,7 @@ export default {
   },
 
   created() {
-    fetchEnvelopeWorkflow(this.$route.params.envelope_id)
+    fetchEnvelopeWorkflow(this.$route.params.envelopeId)
     .then((response) => {
       this.graphJson = response.data;
       this.data();

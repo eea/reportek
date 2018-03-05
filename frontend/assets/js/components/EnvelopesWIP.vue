@@ -3,7 +3,7 @@
     <div class="envelope-list" v-if="envelopes && envelopes.length">
 
     <b-row class="envelope-list-header">
-      <h1>Envelopes and subcollections</h1>
+      <h1>Envelopes in progress</h1>
       <router-link
         class="btn btn-primary"
         :to="'/dashboard'"
@@ -11,23 +11,8 @@
       <i class="fas fa-plus"></i> Create New Envelope
       </router-link>
     </b-row>
-    <!--   <b-table
-        :hover="false"
-        :items="envelopes"
-        :fields="fields"
-      >
-        <router-link
-          slot="name"
-          slot-scope="envelope"
-          class="nav-link"
-          :to="`/envelopes/${envelope.item.id}`"
-        >
-          {{envelope.value}}
-        </router-link>
-      </b-table> -->
-
-      <b-row 
-        class="envelope-list-item" 
+      <b-row
+        class="envelope-list-item"
         v-for="envelope in envelopes"
         :key="envelope.id"
       >
@@ -40,16 +25,26 @@
           <div class="envelope-name">
               <router-link
                 class="router-link"
-                :to="`/envelopes/${envelope.id}`"
+                :to="`${envelope.id}`"
               >
               {{envelope.name}}
               </router-link>
           </div>
           <div class="mb-1 mt-1">
-            <strong>Obligation:</strong> <span class="muted"> None</span>
+            <strong>Obligation:</strong>
+            <b-btn
+              variant="link"
+              style="padding: 0;"
+              v-on:click="goToObligation(envelope.obligation.id)"
+            >
+              {{envelope.obligation.title}}
+            </b-btn>
           </div>
           <div>
             <strong>Status:</strong> <span class="muted">{{translateCode(envelope.workflow.current_state)}}</span>
+          </div>
+           <div>
+            <strong>Last transition:</strong> <span class="muted">{{fromatDate(envelope.workflow.updated_at, 2)}}</span>
           </div>
         </div>
         <div class="envelope-reporting-period">
@@ -57,7 +52,7 @@
             <strong>Reporting period</strong>
           </div>
           <div class="reporting-period muted">
-            {{envelope.reporting_cycle.reporting_start_date}} - {{envelope.reporting_cycle.reporting_end_date}} 2018-02-01
+            {{fromatDate(envelope.reporting_cycle.reporting_start_date, 2)}} - {{fromatDate(envelope.reporting_cycle.reporting_end_date, 2)}}
           </div>
         </div>
       </b-row>
@@ -70,6 +65,7 @@
 <script>
 import { fetchWipEnvelopes } from '../api';
 import utilsMixin from '../mixins/utils';
+import {dateFormat} from '../utils/UtilityFunctions';
 
 export default {
   name: 'Envelopes',
@@ -83,8 +79,18 @@ export default {
     };
   },
 
+  methods: {
+    fromatDate(date, count){
+      return dateFormat(date, count)
+    },
+
+    goToObligation(id){
+      this.$router.push({ name: 'ObligationDetail', params: { obligationId: id } });
+    },
+  },
+
   created() {
-    fetchWipEnvelopes(this.$route.params.id)
+    fetchWipEnvelopes(this.$route.params.reporterId)
       .then((response) => {
         // JSON responses are automatically parsed.
         this.envelopes = response.data;

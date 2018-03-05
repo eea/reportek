@@ -1,6 +1,6 @@
 <template>
   <div class="download-body">
-    <b-list-group 
+    <b-list-group
       v-for="file in files"
       :key="file.id"
     >
@@ -8,7 +8,7 @@
         <span style="flex-grow: 1" class="blue-color">
           {{file.name}}
         </span>
-        
+
         <b-btn
           class="card-link"
           variant="primary"
@@ -39,11 +39,11 @@
       </b-list-group-item>
     </b-list-group>
 
-    <b-button 
-      v-if="files.length > 1" 
-      class="download-all-button" 
+    <b-button
+      v-if="files.length > 1"
+      class="download-all-button"
       variant="primary"
-    > 
+    >
       <i class="far fa-folder-open"></i>
       Download all
     </b-button>
@@ -65,7 +65,7 @@ export default {
 
   methods: {
     getFileConversions(file) {
-      fetchEnvelopeFilesConvertScripts(this.$route.params.envelope_id, file.id)
+      fetchEnvelopeFilesConvertScripts(this.$route.params.envelopeId, file.id)
         .then((response) => {
           file.availableConversions.push({ value: null, text: 'Please select conversion' });
           response.data.map((script) => {
@@ -80,7 +80,7 @@ export default {
 
     convertScript(file) {
       if (file.selectedConversion) {
-        runEnvelopeFilesConvertScript(this.$route.params.envelope_id, file.id, file.selectedConversion)
+        runEnvelopeFilesConvertScript(this.$route.params.envelopeId, file.id, file.selectedConversion)
           .then((response) => {
             const fileName = response.headers['content-disposition'].split('filename=')[1];
             const fileType = response.headers['content-type'];

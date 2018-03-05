@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-list-group v-if="userProfile">
-      <b-list-group-item 
+      <b-list-group-item
         v-for="reporter in userProfile.reporters"
         :key="reporter.id"
       >
@@ -25,7 +25,7 @@ import { fetchUserProfile } from '../api';
 
 export default {
   name: 'ReportersList',
-  
+
   components: {
     wip: WIP,
     envelopeArchive: EnvelopeArchive,
@@ -34,10 +34,7 @@ export default {
 
   data() {
     return {
-      fields: [],
       userProfile: null,
-      reporters: [],
-      selectedReporterId: null,
     };
   },
 
@@ -48,7 +45,7 @@ export default {
         let reportersTemp = [];
         this.userProfile = response.data;
         if (this.userProfile.reporters.length === 1) {
-          this.$router.push({ name: 'Dashboard', params: { id: this.userProfile.reporters[0].id } });
+          this.$router.push({ name: 'Dashboard', params: { reporterId: this.userProfile.reporters[0].id } });
         }
       })
       .catch((e) => {
