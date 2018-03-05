@@ -2,7 +2,10 @@ version: '2'
 
 services:
   app:
-    build: .
+    build:
+      context: .
+      args:
+        REQUIREMENTS_FILE: dev-requirements.txt
     extra_hosts:
       - "xmlconv.edw.ro:10.0.30.58"
     ports:

@@ -1,5 +1,7 @@
 FROM python:3.6-alpine3.6
 
+ARG REQUIREMENTS_FILE
+
 ENV PROJ_DIR=/var/local/reportek/
 
 RUN runDeps="gcc musl-dev postgresql-dev postgresql-client libressl-dev libxml2-dev libxslt-dev git" \
@@ -12,13 +14,11 @@ RUN apk add --no-cache --virtual .build-deps \
 RUN apk add --no-cache yarn nodejs-npm
 
 # Add requirements.txt before rest of repo for caching
-COPY requirements.txt dev-requirements.txt $PROJ_DIR
+COPY $REQUIREMENTS_FILE $PROJ_DIR
 WORKDIR $PROJ_DIR
 
-RUN pip install --no-cache-dir -r requirements.txt \
+RUN pip install --no-cache-dir -r REQUIREMENTS_FILE \
     && apk del .build-deps
-
-RUN pip install --no-cache-dir -r dev-requirements.txt
 
 COPY . $PROJ_DIR
 

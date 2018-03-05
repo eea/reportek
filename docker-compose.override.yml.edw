@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+  postgres:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  app:
+    build: .
+    extra_hosts:
+      - "xmlconv.edw.ro:10.0.30.58"
+    environment:
+      - ALLOWED_HOSTS=*
+      - DEBUG=yes
+      - QA_DEFAULT_XMLRPC_URI=http://xmlconv.edw.ro:8080/RpcRouter
+      - HOST=0.0.0.0
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  celery-worker:
+    extra_hosts:
+      - "xmlconv.edw.ro:10.0.30.58"
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  celery-beat:
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  tusd:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  rabbitmq:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  nginx:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes

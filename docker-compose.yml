@@ -34,6 +34,9 @@ services:
       - ./docker/demo.env
       - ./docker/postgres.env
       - ./docker/rabbitmq.env
+    build:
+      args:
+        REQUIREMENTS_FILE: requirements.txt
     volumes:
     - static-files:/var/local/reportek/reportek/static
     - tusd-uploads:/var/local/tusd_uploads
