@@ -6,9 +6,6 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   app:
-    build: .
-    extra_hosts:
-      - "xmlconv.edw.ro:10.0.30.58"
     environment:
       - ALLOWED_HOSTS=*
       - DEBUG=yes
@@ -19,8 +16,6 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   celery-worker:
-    extra_hosts:
-      - "xmlconv.edw.ro:10.0.30.58"
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
