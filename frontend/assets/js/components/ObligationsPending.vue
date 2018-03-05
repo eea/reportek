@@ -53,8 +53,10 @@ export default {
   },
 
   methods: {
+    
     getObligationsPending() {
-      fetchObligationsPending(this.reporterId)
+      console.log(this.$route)
+      fetchObligationsPending(this.$route.params.id)
         .then((response) => {
           // JSON responses are automatically parsed.
           this.obligationsPending = response.data;

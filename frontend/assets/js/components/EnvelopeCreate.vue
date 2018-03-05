@@ -96,7 +96,8 @@ export default {
       this.form.reporter = null;
       this.form.name = null;
       this.form.reportingCycle = null;
-      this.$router.push({ name: 'Dashboard' });
+      console.log(this.$route.params.reporterId)
+      this.$router.push({ name: 'Dashboard', params: { id: this.$route.params.id } });
     },
 
     getApiData() {
