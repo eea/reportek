@@ -1,4 +1,4 @@
-version: '2'
+version: '3.5'
 
 services:
   postgres:
@@ -6,11 +6,6 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   app:
-    environment:
-      - ALLOWED_HOSTS=*
-      - DEBUG=yes
-      - QA_DEFAULT_XMLRPC_URI=http://xmlconv.edw.ro:8080/RpcRouter
-      - HOST=0.0.0.0
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
@@ -34,5 +29,9 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   nginx:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  frontend:
     labels:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes

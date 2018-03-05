@@ -1,4 +1,4 @@
-version: '2'
+version: '3.5'
 
 services:
   app:
@@ -10,11 +10,10 @@ services:
       - "xmlconv.edw.ro:10.0.30.58"
     ports:
       - "8000:8000"
-    environment:
-      - ALLOWED_HOSTS=*
-      - DEBUG=yes
-      - QA_DEFAULT_XMLRPC_URI=http://xmlconv.edw.ro:8080/RpcRouter
-      - HOST=0.0.0.0
+
+  postgres:
+    ports:
+      - "5432:5432"
 
   celery-worker:
     extra_hosts:
@@ -31,6 +30,10 @@ services:
   nginx:
     ports:
       - "80:80"
+
+  frontend:
+    ports:
+      - "8080:8080"
 
 volumes:
   pg-data:
