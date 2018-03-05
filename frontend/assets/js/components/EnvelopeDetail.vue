@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div class="row" v-if="envelope">
-      <h1 class="envelope-title">{{envelope.name}} 
+      <h1 class="envelope-title">{{envelope.name}}
         <b-badge pill class="small" variant="warning">
           <strong>{{translateCode(envelope.workflow.current_state)}}</strong>
         </b-badge>
@@ -104,7 +104,7 @@
                   </div>
 
                 <span class="more-actions-control">
-                  <b-btn 
+                  <b-btn
                     @click="row.item.additionalControls = toggleAdditionalControls(row.item.additionalControls)"
                     variant="link"
                     class="muted"
@@ -112,8 +112,8 @@
                     <i class="fas fa-bars"></i>
                   </b-btn>
                 </span>
-                <div 
-                  class="more-actions" 
+                <div
+                  class="more-actions"
                   style="
                     display: flex;
                     text-align: right;
@@ -146,7 +146,7 @@
               </b-form-checkbox>
             </b-table>
 
-            <b-card 
+            <b-card
               title="Wrok area empty"
               class="empty-workarea"
               v-else
@@ -234,35 +234,35 @@
             <div class="file-control-header">
               <span class="blue-color">
                 <i class="fas fa-file"></i>
-              </span> 
+              </span>
               {{selectedFiles}} files selected
             </div>
 
             <div class="file-control-body">
-              <b-button 
-                v-show="selectedFiles" 
-                @click="showModal" 
+              <b-button
+                v-show="selectedFiles"
+                @click="showModal"
                 variant="white sidebar-button"
-              > 
-                <i class="far fa-folder-open"></i> 
+              >
+                <i class="far fa-folder-open"></i>
                 Download
               </b-button>
 
-              <b-button 
-                v-show="selectedFiles" 
+              <b-button
+                v-show="selectedFiles"
                 variant="white sidebar-button"
                 v-on:click="runScriptsForFiles"
-              > 
-                <i class="fas fa-play"></i> 
+              >
+                <i class="fas fa-play"></i>
                 Run tests
               </b-button>
 
-              <b-button 
-                v-show="selectedFiles" 
-                v-on:click="deleteFiles" 
+              <b-button
+                v-show="selectedFiles"
+                v-on:click="deleteFiles"
                 variant="white sidebar-button"
-              > 
-                <i class="far fa-trash-alt"></i> 
+              >
+                <i class="far fa-trash-alt"></i>
                 Delete
               </b-button>
 
@@ -270,11 +270,11 @@
               enctype="multipart/form-data"
               novalidate
               class="upload-form">
-                  <label 
-                    :class="[ {'disabled': filesUploading  }, 'btn', 'btn-white', 'sidebar-button']" 
+                  <label
+                    :class="[ {'disabled': filesUploading  }, 'btn', 'btn-white', 'sidebar-button']"
                     for="file_uploads"
                   >
-                    <i class="far fa-folder-open"></i>  
+                    <i class="far fa-folder-open"></i>
                     Upload files
                   </label>
                   <input
@@ -344,6 +344,7 @@ import History from './EnvelopeHistory';
 import Workflow from './EnvelopeWorkflow';
 import EnvelopeFilesDownload from './EnvelopeFilesDownload';
 
+
 import { fetchEnvelope,
           fetchEnvelopeToken,
           fetchEnvelopeFeedback,
@@ -355,25 +356,8 @@ import { fetchEnvelope,
           removeFile,
         } from '../api';
 import { dateFormat } from '../utils/UtilityFunctions';
+import utilsMixin from '../mixins/utils';
 
-
-const envelopeCodeDictionary = (status) => {
-  const codeDictionary = {
-    info: 'success',
-    ok: 'success',
-    error: 'danger',
-    fail: 'danger',
-    draft: 'Draft',
-    auto_qa: 'Automatic QA',
-    send_to_qa: 'Send to QA',
-    reject: 'Reject',
-    release: 'Release',
-  };
-  if (!status) {
-    return '';
-  }
-  return codeDictionary[status.trim().toLowerCase()] || status;
-};
 
 export default {
   name: 'EnvelopeDetail',
@@ -382,6 +366,8 @@ export default {
     workflow: Workflow,
     filesdownload: EnvelopeFilesDownload,
   },
+
+  mixins: [utilsMixin],
 
   data() {
     return {
@@ -418,7 +404,7 @@ export default {
           .then((response) => {
             // JSON responses are automatically parsed.
             this.envelope = response.data;
-            this.envelopeState = envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
+            this.envelopeState = this.envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
 
             for (let index = 0; index < this.envelope.files.length; index += 1) {
               this.envelope.files[index] = Object.assign(
@@ -530,7 +516,7 @@ export default {
       promiseSerial(funcs)
         .then(() => {
           this.files = [];
-          this.extraTabs = []; 
+          this.extraTabs = [];
           this.tabIndex = 0;
           this.filesUploading = false;
         })
@@ -659,7 +645,7 @@ export default {
         .then((response) => {
           file.availableScripts.map((script) => {
             if (script.data.id === scriptId) {
-              script.variant = envelopeCodeDictionary(response.data.feedback_status);
+              script.variant = this.envelopeCodeDictionary(response.data.feedback_status);
             }
             return script;
           });
@@ -804,10 +790,6 @@ export default {
             console.log(error);
           });
       }, delay);
-    },
-
-    translateCode(code) {
-      return envelopeCodeDictionary(code);
     },
 
     showTransitionButton(code) {

@@ -23,7 +23,7 @@
       >
         Archive
       </router-link>
-      
+
       <obligations-pending :reporterId="selectedReporterId"></obligations-pending>
     </div>
 
@@ -39,7 +39,7 @@ import { fetchUserProfile } from '../api';
 
 export default {
   name: 'Dashboard',
-  
+
   components: {
     wip: WIP,
     envelopeArchive: EnvelopeArchive,
@@ -68,8 +68,8 @@ export default {
         });
         this.reporters = reportersTemp.slice();
 
-        if (this.reporters.length === 1) {
-          this.selectedReporterId = this.reporters[0];
+        if (this.reporters.length === 2) {
+          this.selectedReporterId = this.reporters[1].value;
         }
       })
       .catch((e) => {
