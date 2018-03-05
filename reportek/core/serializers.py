@@ -244,6 +244,7 @@ class NestedEnvelopeWorkflowSerializer(
     class Meta(EnvelopeWorkflowSerializer.Meta):
         fields = ('current_state', 'previous_state',
                   'available_transitions', 'upload_allowed',
+                  'updated_at',
                   )
         extra_kwargs = {
             'url': {
@@ -356,3 +357,15 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
 
 class WorkspaceEnvelopeSerializer(EnvelopeSerializer):
     files = EnvelopeFileSerializer(many=True, read_only=True)
+    obligation = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_obligation(obj):
+        return WorkspaceObligationSerializer(obj.obligation_spec.obligation).data
+
+
+class WorkspaceObligationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Obligation
+        fields = ('id', 'title')
