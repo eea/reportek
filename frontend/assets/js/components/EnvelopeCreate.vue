@@ -1,7 +1,7 @@
 <template>
   <div>
-    <b-form 
-      v-on:submit="onSubmit" 
+    <b-form
+      v-on:submit="onSubmit"
       v-on:reset="onReset"
     >
 
@@ -81,7 +81,7 @@ export default {
           this.$router.push({
             name: 'EnvelopeDetail',
             params: {
-              envelope_id: response.data.id,
+              envelopeId: response.data.id,
             },
           });
         })
@@ -96,7 +96,7 @@ export default {
       this.form.reporter = null;
       this.form.name = null;
       this.form.reportingCycle = null;
-      this.$router.push({ name: 'Dashboard', params: { id: this.$route.params.id } });
+      this.$router.push({ name: 'Dashboard', params: { reporterId: this.$route.params.reporterId } });
     },
 
     getApiData() {
@@ -106,7 +106,7 @@ export default {
           text: this.$route.params.reportingCycle.reporting_start_date,
         }];
       this.form.reportingCycle = this.$route.params.reportingCycle.id;
-      this.form.reporter = this.$route.params.id;
+      this.form.reporter = this.$route.params.reporterId;
       this.form.obligationSpec = this.$route.params.reportingCycle.obligation_spec.id;
     },
   },

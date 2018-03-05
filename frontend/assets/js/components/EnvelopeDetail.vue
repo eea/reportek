@@ -400,7 +400,7 @@ export default {
   methods: {
     getEnvelope() {
       return new Promise((resolve, reject) => {
-        fetchEnvelope(this.$route.params.envelope_id)
+        fetchEnvelope(this.$route.params.envelopeId)
           .then((response) => {
             // JSON responses are automatically parsed.
             this.envelope = response.data;
@@ -432,7 +432,7 @@ export default {
 
     getEnvelopeFeedback(files) {
       this.envelopeFeedback = null;
-      fetchEnvelopeFeedback(this.$route.params.envelope_id)
+      fetchEnvelopeFeedback(this.$route.params.envelopeId)
         .then((response) => {
           this.handleEnvelopeFeedback(response.data, files);
         });
@@ -526,7 +526,7 @@ export default {
     uploadFile(file) {
       // Create a new tus upload
       return new Promise((resolve, reject) => {
-        fetchEnvelopeToken(this.$route.params.envelope_id)
+        fetchEnvelopeToken(this.$route.params.envelopeId)
           .then((response) => {
             const token = response.data.token;
             const upload = new tus.Upload(file.data,
@@ -563,7 +563,7 @@ export default {
     },
 
     updateFilesList() {
-      return this.pollFiles(() => fetchEnvelopeFiles(this.$route.params.envelope_id), 500);
+      return this.pollFiles(() => fetchEnvelopeFiles(this.$route.params.envelopeId), 500);
     },
 
     // TODO if file already exists and will not be added to the server, the poll will request forever
@@ -620,7 +620,7 @@ export default {
     getFileScripts(file) {
       return new Promise((resolve, reject) => {
         if (file.availableScripts.length === 0) {
-          fetchEnvelopeFilesQAScripts(this.$route.params.envelope_id, file.id)
+          fetchEnvelopeFilesQAScripts(this.$route.params.envelopeId, file.id)
             .then((response) => {
               response.data.map((script) => {
                 file.availableScripts.push({ data: script, variant: 'primary' });
@@ -641,7 +641,7 @@ export default {
     },
 
     runQAScript(file, scriptId) {
-      runEnvelopeFilesQAScript(this.$route.params.envelope_id, file.id, scriptId)
+      runEnvelopeFilesQAScript(this.$route.params.envelopeId, file.id, scriptId)
         .then((response) => {
           file.availableScripts.map((script) => {
             if (script.data.id === scriptId) {
@@ -710,7 +710,7 @@ export default {
     },
 
     updateFile(file) {
-      updateFile(this.$route.params.envelope_id, file.id, file.name)
+      updateFile(this.$route.params.envelopeId, file.id, file.name)
         .then((response) => {
           this
             .getEnvelope()
@@ -738,7 +738,7 @@ export default {
     },
 
     deleteFile(file) {
-      removeFile(this.$route.params.envelope_id, file.id)
+      removeFile(this.$route.params.envelopeId, file.id)
         .then((response) => {
           this.getEnvelope()
             .then((resultFiles) => {
@@ -753,9 +753,9 @@ export default {
     goToTransition(e, transition) {
       e.preventDefault();
 
-      runEnvelopeTransition(this.$route.params.envelope_id, transition)
+      runEnvelopeTransition(this.$route.params.envelopeId, transition)
         .then((response) => {
-          this.getEnvelope(this.$route.params.envelope_id).then((resultFiles) => {
+          this.getEnvelope(this.$route.params.envelopeId).then((resultFiles) => {
             this.updateFeedback(resultFiles);
           });
         })
@@ -765,7 +765,7 @@ export default {
     },
 
     updateFeedback(resultFiles) {
-      return this.pollFeedback(() => fetchEnvelopeFeedback(this.$route.params.envelope_id, resultFiles), 10000);
+      return this.pollFeedback(() => fetchEnvelopeFeedback(this.$route.params.envelopeId, resultFiles), 10000);
     },
 
     pollFeedback(fn, delay) {

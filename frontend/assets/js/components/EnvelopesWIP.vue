@@ -31,7 +31,14 @@
               </router-link>
           </div>
           <div class="mb-1 mt-1">
-            <strong>Obligation:</strong> <span class="muted"> {{envelope.obligation.title}}</span>
+            <strong>Obligation:</strong>
+            <b-btn
+              variant="link"
+              style="padding: 0;"
+              v-on:click="goToObligation(envelope.obligation.id)"
+            >
+              {{envelope.obligation.title}}
+            </b-btn>
           </div>
           <div>
             <strong>Status:</strong> <span class="muted">{{translateCode(envelope.workflow.current_state)}}</span>
@@ -75,11 +82,15 @@ export default {
   methods: {
     fromatDate(date, count){
       return dateFormat(date, count)
-    }
+    },
+
+    goToObligation(id){
+      this.$router.push({ name: 'ObligationDetail', params: { obligationId: id } });
+    },
   },
 
   created() {
-    fetchWipEnvelopes(this.$route.params.id)
+    fetchWipEnvelopes(this.$route.params.reporterId)
       .then((response) => {
         // JSON responses are automatically parsed.
         this.envelopes = response.data;

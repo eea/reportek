@@ -88,7 +88,7 @@ export default {
 
   methods: {
     getEnvelopeHistory() {
-      fetchEnvelopeHistory(this.$route.params.envelope_id)
+      fetchEnvelopeHistory(this.$route.params.envelopeId)
         .then((response) => {
           this.envelopeHistory = response.data;
         });
