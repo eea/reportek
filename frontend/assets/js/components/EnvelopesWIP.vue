@@ -26,7 +26,11 @@
         </router-link>
       </b-table> -->
 
-      <b-row class="envelope-list-item" v-for="envelope in envelopes">
+      <b-row 
+        class="envelope-list-item" 
+        v-for="envelope in envelopes"
+        :key="envelope.id"
+      >
         <div class="status-badge">
           <b-badge pill :variant="envelopeCodeDictionaryVariants(envelope.workflow.current_state)">
             {{envelope.workflow.current_state.charAt(0).toUpperCase()}}
@@ -80,7 +84,7 @@ export default {
   },
 
   created() {
-    fetchWipEnvelopes(this.$route.params.reporterId)
+    fetchWipEnvelopes(this.$route.params.id)
       .then((response) => {
         // JSON responses are automatically parsed.
         this.envelopes = response.data;

@@ -47,6 +47,9 @@ export default {
       .then((response) => {
         let reportersTemp = [];
         this.userProfile = response.data;
+        if (this.userProfile.reporters.length === 1) {
+          this.$router.push({ name: 'Dashboard', params: { id: this.userProfile.reporters[0].id } });
+        }
       })
       .catch((e) => {
         console.log(e);
