@@ -6,7 +6,6 @@ export default {
 
   name: 'utils',
   created(){
-    console.log('asdasfasf')
   },
 
   data () {
