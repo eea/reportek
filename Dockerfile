@@ -1,6 +1,7 @@
 FROM python:3.6-alpine3.6
 
-ARG REQUIREMENTS_FILE
+# Can be overriden by compose
+ARG REQUIREMENTS_FILE=requirements.txt
 
 ENV PROJ_DIR=/var/local/reportek/
 
