@@ -2,7 +2,7 @@
   <div :class="[{ 'dashboard-component': context }, 'envelope-listing']">
 
     <b-row class="envelope-listing-header">
-      <h1>Envelopes archive</h1>
+      <h1>Released envelopes</h1>
       <router-link
         class="btn btn-primary"
         v-if="!context"
