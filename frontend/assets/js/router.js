@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Envelopes from './components/Envelopes';
 import EnvelopeDetail from './components/EnvelopeDetail';
 import EnvelopeCreate from './components/EnvelopeCreate';
 import Dashboard from './components/Dashboard';
 import EnvelopesArchive from './components/EnvelopesArchive';
 import EnvelopesWIP from './components/EnvelopesWIP';
 import ReportersList from './components/ReportersList';
+import ObligationDetail from './components/ObligationDetail';
+import ObligationsPending from './components/ObligationsPending';
 
 Vue.use(Router);
 
@@ -21,22 +22,22 @@ export default new Router({
       component: ReportersList,
     },
     {
-      path: '/reporter/:id',
+      path: '/reporter/:reporterId',
       name: 'Dashboard',
       component: Dashboard,
     },
     {
-      path: '/reporter/:id/envelopes/archive',
+      path: '/reporter/:reporterId/envelopes/archive',
       name: 'EnvelopesArchive',
       component: EnvelopesArchive,
     },
     {
-      path: '/reporter/:id/envelopes/wip',
+      path: '/reporter/:reporterId/envelopes/wip',
       name: 'EnvelopesWIP',
       component: EnvelopesWIP,
     },
     {
-      path: '/reporter/:id/envelopes/:envelope_id(\\d+)',
+      path: '/reporter/:reporterId/envelopes/:envelopeId(\\d+)',
       name: 'EnvelopeDetail',
       component: EnvelopeDetail,
       // meta: {
@@ -47,9 +48,19 @@ export default new Router({
       // },
     },
     {
-      path: '/reporter/:id/envelopes/create',
+      path: '/reporter/:reporterId/envelopes/create',
       name: 'EnvelopeCreate',
       component: EnvelopeCreate,
+    },
+    {
+      path: '/reporter/:reporterId/obligations/:obligationId',
+      name: 'ObligationDetail',
+      component: ObligationDetail,
+    },
+    {
+      path: '/reporter/:reporterId/obligations',
+      name: 'ObligationsPending',
+      component: ObligationsPending,
     },
     {
       path: '*',
