@@ -74,6 +74,10 @@ export function fetchEnvelopeFiles(id) {
   return fetch(`envelopes/${id}/files/`);
 }
 
+export function fetchEnvelopeFile(envelopeId, fileId) {
+    return fetch(`envelopes/${envelopeId}/files/${fileId}`);
+}
+
 export function fetchEnvelopeWorkflow(id) {
   return fetch(`envelopes/${id}/workflow_graph/`);
 }
