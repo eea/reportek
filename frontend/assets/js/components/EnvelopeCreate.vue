@@ -23,6 +23,20 @@
       </b-form-group>
 
       <b-form-group
+        id="descriptionGroup"
+        label="Description:"
+        label-for="descriptionInput"
+      >
+        <b-form-textarea
+          id="descriptionInput"
+          v-model="form.description"
+          placeholder="Enter Description"
+          :rows="3"
+        >
+        </b-form-textarea>
+      </b-form-group>
+
+      <b-form-group
         id="reportingCyclesGroup"
         label="Reporting Cycle:"
         label-for="reportingCyclesInput"
@@ -31,16 +45,37 @@
           id="reportingCyclesInput"
           :options="reportingCycles"
           required
+          style="max-width: 148px!important;"
           v-model="form.reportingCycle"
         >
         </b-form-select>
+      </b-form-group>
+
+
+      <div class="mb-2">
+        <label>Coverage:</label><span class="muted"> {{form.country}}</span>
+      </div>
+
+      <b-form-group
+        id="coverageNotesGroup"
+        label="Coverage notes:"
+        label-for="coverageNotesInput"
+      >
+        <b-form-input
+          type="text"
+          id="coverageNotesInput"
+          v-model="form.coverageNotes"
+          placeholder="Enter coverage notes"
+          :rows="1"
+        >
+        </b-form-input>
       </b-form-group>
 
       <div class="button-group">
         <b-button
           type="submit"
           variant="primary"
-        >Submit
+        >Add
         </b-button>
         <button class='btn btn-transparent'
           type="reset"
@@ -51,7 +86,7 @@
 </template>
 
 <script>
-import { createEnvelope } from '../api';
+import { createEnvelope, fetchUserProfile } from '../api';
 
 export default {
   data() {
@@ -61,6 +96,9 @@ export default {
         reporter: null,
         obligationSpec: null,
         reportingCycle: null,
+        country: null,
+        description: '',
+        coverageNotes: '',
       },
       reportingCycles: [],
     };
@@ -69,11 +107,12 @@ export default {
   // Fetches posts when the component is created.
   created() {
           console.log('this.$route.params ', this.$route.params)
-
     if (!this.$route.params.reportingCycle) {
       this.$router.push({ name: 'Dashboard' });
     }
-    this.getApiData();
+    fetchUserProfile().then((response) => {
+      this.getApiData(response.data);
+    })
   },
 
   methods: {
@@ -102,12 +141,13 @@ export default {
       this.$router.push({ name: 'Dashboard', params: { reporterId: this.$route.params.reporterId } });
     },
 
-    getApiData() {
+    getApiData(userProfile) {
       this.reportingCycles = [
         {
           value: this.$route.params.reportingCycle.id,
           text: this.$route.params.reportingCycle.reporting_start_date,
         }];
+      this.form.country = userProfile.reporters[0].name
       this.form.reportingCycle = this.$route.params.reportingCycle.id;
       this.form.reporter = this.$route.params.reporterId;
       this.form.obligationSpec = this.$route.params.reportingCycle.obligation_spec.id;
@@ -118,7 +158,7 @@ export default {
 
 <style lang="scss">
   .create-envelope {
-    max-width: 500px;
+    max-width: 915px;
     margin: auto;
     h1 {
       margin-top: 2rem;
@@ -131,6 +171,9 @@ export default {
     }
     .button-group {
       float: right;
+    }
+    textarea {
+      max-width: 760px;
     }
   }
 </style>
