@@ -57,7 +57,12 @@
                 </b-form-input>
 
                 <div class="blue-color" v-if="!row.item.isEditing">
+                  <router-link
+                    :to="{name:'FileDetails', params: {envelopeId: `${envelope.id}`, fileId: `${row.item.id}`}}"
+                  >
                   {{row.item.name}}
+                  </router-link>
+
                 </div>
                 <div>
                   <small class="muted">XML document, 6.89 mb</small>
