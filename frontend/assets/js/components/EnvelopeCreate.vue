@@ -45,7 +45,7 @@
           id="reportingCyclesInput"
           :options="reportingCycles"
           required
-          style="max-width: 148px!important;"
+          style="max-width: 300px!important;"
           v-model="form.reportingCycle"
         >
         </b-form-select>
@@ -57,14 +57,14 @@
       </div>
 
       <b-form-group
-        id="coverageNotesGroup"
+        id="coverage_noteGroup"
         label="Coverage notes:"
-        label-for="coverageNotesInput"
+        label-for="coverage_noteInput"
       >
         <b-form-input
           type="text"
-          id="coverageNotesInput"
-          v-model="form.coverageNotes"
+          id="coverage_noteInput"
+          v-model="form.coverage_note"
           placeholder="Enter coverage notes"
           :rows="1"
         >
@@ -98,7 +98,7 @@ export default {
         reportingCycle: null,
         country: null,
         description: '',
-        coverageNotes: '',
+        coverage_note: '',
       },
       reportingCycles: [],
     };
