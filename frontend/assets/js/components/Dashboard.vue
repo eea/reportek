@@ -146,8 +146,10 @@ export default {
   .reporting-period {
       min-width: 16rem;
   }
-
-
+  .create-envelope {
+    right: auto!important;
+    left: 0;
+  }
 }
 
 .dashboard {
