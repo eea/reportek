@@ -116,6 +116,10 @@
             </b-row>
           </div>
         </b-tab>
+        <b-tab title="Legislation"></b-tab>
+        <b-tab title="Deliveries"></b-tab>
+        <b-tab title="Parameters"></b-tab>
+        <b-tab title="History"></b-tab>
       </b-tabs>
       <br><br>
       <h2>
@@ -169,9 +173,6 @@
           <a href="#"> European Environment Agency</a>
         </b-col>
       </b-row>
-      <pre v-if="obligation">
-        <!-- {{obligation}} -->
-      </pre>
     </div>
   </div>
 </template>
