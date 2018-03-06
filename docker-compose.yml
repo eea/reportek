@@ -122,6 +122,8 @@ services:
       dockerfile: Dockerfile-frontend
     env_file:
       - ./docker/demo.env
+    environment:
+      - HOST=0.0.0.0
     depends_on:
       - app
     volumes:
