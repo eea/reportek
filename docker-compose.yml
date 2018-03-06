@@ -35,6 +35,7 @@ services:
       - ./docker/postgres.env
       - ./docker/rabbitmq.env
     build:
+      context: .
       args:
         REQUIREMENTS_FILE: requirements.txt
     volumes:
