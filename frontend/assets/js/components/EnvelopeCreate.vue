@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <div class="create-envelope clearfix">
+    <h1>New envelope</h1>
+    <p class="muted" style="font-size: .8rem">Fill out the fields in this report profile and click Add. This will create an envelope into which you make the delivery</p>
     <b-form
       v-on:submit="onSubmit"
       v-on:reset="onReset"
@@ -7,7 +9,7 @@
 
       <b-form-group
         id="envelopeName"
-        label="Envelope Name:"
+        label="Title:"
         label-for="envelopeNameInput"
       >
         <b-form-input
@@ -34,15 +36,16 @@
         </b-form-select>
       </b-form-group>
 
-      <b-button
-        type="submit"
-        variant="primary"
-      >Submit
-      </b-button>
-      <b-button
-        type="reset"
-        variant="danger"
-      >Cancel</b-button>
+      <div class="button-group">
+        <b-button
+          type="submit"
+          variant="primary"
+        >Submit
+        </b-button>
+        <button class='btn btn-transparent'
+          type="reset"
+        >Cancel</button>
+      </div>
     </b-form>
   </div>
 </template>
@@ -113,6 +116,21 @@ export default {
 };
 </script>
 
-<style>
-
+<style lang="scss">
+  .create-envelope {
+    max-width: 500px;
+    margin: auto;
+    h1 {
+      margin-top: 2rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: .5rem;
+      font-weight: 400;
+    }
+    label {
+      font-weight: bold;
+    }
+    .button-group {
+      float: right;
+    }
+  }
 </style>

@@ -8,7 +8,7 @@
         class="btn btn-primary"
         :to="'/dashboard'"
       >
-      <i class="fas fa-plus"></i> Create New Envelope
+      Dashboard
       </router-link>
     </b-row>
       <b-row
