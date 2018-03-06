@@ -5,10 +5,22 @@ axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const logRequests = process.env.NODE_ENV === 'development';
+
+const BACKEND_HOST = 'localhost';
+const BACKEND_PORT = 8000;
+const _backend_host = process.env.BACKEND_HOST || BACKEND_HOST;
+const _backend_port = process.env.BACKEND_PORT && Number(process.env.BACKEND_PORT) || BACKEND_PORT;
+
+const TUSD_HOST = 'localhost';
+const TUSD_PORT = 1080;
+const _tusd_host = process.env.TUSD_HOST || TUSD_HOST;
+const _tusd_port = process.env.TUSD_PORT && Number(process.env.TUSD_PORT) || TUSD_PORT;
+
 const api = axios.create({
-  baseURL: 'http://10.0.10.72:8000/api/0.1/',
+  baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
   withCredentials: true,
-})
+});
+
 
 function fetch(path) {
   logRequests && console.log(`fetching ${path}...`);
@@ -81,7 +93,7 @@ export function fetchEnvelopeFilesConvertScripts(id, fileId) {
 export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
 // Using the post method doesn't work. We have to use a new axios instance
   return  axios({
-            baseURL: 'http://10.0.10.72:8000/api/0.1/',
+            baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
             withCredentials: true,
             method:'post',
             xsrfCookieName: "csrftoken",
@@ -128,7 +140,41 @@ export function fetchArchiveEnvelopes(reporterId) {
   return fetch(`workspace-reporter/${reporterId}/archive/`);
 }
 
+export function uploadFile(fileName, fileId, token) {
+  // Create a new tus upload
+  return new Promise((resolve, reject) => {
+    const upload = new tus.Upload(file.data,
+      {
+        endpoint: `http://${_tusd_host}:${_tusd_port}/files/`,
+        metadata: {
+          token,
+          fileName,
+          fileId,
+        },
+        retryDelays: [0, 1000, 3000, 5000],
+        onError: function onError(error) {
+          console.log('Failed because: ', error);
+          reject(error);
+        },
+        onProgress: function onProgress(bytesUploaded, bytesTotal) {
+          file.percentage = parseInt(((bytesUploaded / bytesTotal) * 100).toFixed(2), 10);
+          console.log(bytesUploaded, bytesTotal, file.percentage, '%');
+        },
+        onSuccess: function onSuccess() {
+          console.log('Download %s from %s', upload.file.name, upload.url);
+          resolve(
+            {
+              fileName: upload.file.name,
+              uploadUrl: upload.url,
+            },
+          );
+        },
+      });
+    // Start the upload
+    upload.start();
+  });
+}
+
 export function fetchObligation(id) {
   return fetch(`/obligations/${id}/`);
 }
-

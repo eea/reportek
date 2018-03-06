@@ -1,0 +1,16 @@
+FROM node:6
+
+ENV PROJ_DIR=/var/local/reportek/
+
+RUN mkdir -p $PROJ_DIR
+
+# App source
+COPY . $PROJ_DIR
+
+WORKDIR $PROJ_DIR
+
+# Yarn the madness
+RUN yarn
+
+# Start the madness
+CMD ["npm", "run", "dev"]

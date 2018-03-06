@@ -1,4 +1,4 @@
-version: '2'
+version: '3.5'
 
 services:
   postgres:
@@ -34,6 +34,9 @@ services:
       - ./docker/demo.env
       - ./docker/postgres.env
       - ./docker/rabbitmq.env
+    build:
+      args:
+        REQUIREMENTS_FILE: requirements.txt
     volumes:
     - static-files:/var/local/reportek/reportek/static
     - tusd-uploads:/var/local/tusd_uploads
@@ -109,6 +112,21 @@ services:
     - static-files:/var/local/reportek/reportek/static:ro
     depends_on:
       - app
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: reserved=yes
+
+  frontend:
+    image: eeacms/reportek-frontend
+    build:
+      context: .
+      dockerfile: Dockerfile-frontend
+    env_file:
+      - ./docker/demo.env
+      - ./docker/frontend.env
+    depends_on:
+      - app
+    volumes:
+    - static-files:/var/local/reportek/reportek/static
     labels:
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 

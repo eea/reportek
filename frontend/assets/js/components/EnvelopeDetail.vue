@@ -354,6 +354,7 @@ import { fetchEnvelope,
           runEnvelopeTransition,
           updateFile,
           removeFile,
+          uploadFile,
         } from '../api';
 import { dateFormat } from '../utils/UtilityFunctions';
 import utilsMixin from '../mixins/utils';
@@ -527,38 +528,7 @@ export default {
       // Create a new tus upload
       return new Promise((resolve, reject) => {
         fetchEnvelopeToken(this.$route.params.envelopeId)
-          .then((response) => {
-            const token = response.data.token;
-            const upload = new tus.Upload(file.data,
-              {
-                endpoint: 'http://localhost:1080/files/',
-                metadata: {
-                  token,
-                  filename: file.data.name,
-                  fileId: file.data.id,
-                },
-                retryDelays: [0, 1000, 3000, 5000],
-                onError: function onError(error) {
-                  console.log('Failed because: ', error);
-                  reject(error);
-                },
-                onProgress: function onProgress(bytesUploaded, bytesTotal) {
-                  file.percentage = parseInt(((bytesUploaded / bytesTotal) * 100).toFixed(2), 10);
-                  console.log(bytesUploaded, bytesTotal, file.percentage, '%');
-                },
-                onSuccess: function onSuccess() {
-                  console.log('Download %s from %s', upload.file.name, upload.url);
-                  resolve(
-                    {
-                      fileName: upload.file.name,
-                      uploadUrl: upload.url,
-                    },
-                  );
-                },
-              });
-            // Start the upload
-            upload.start();
-          });
+          .then(uploadFile(file.data.name, file.data.id, response.data.token));
       });
     },
 

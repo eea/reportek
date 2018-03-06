@@ -6,7 +6,7 @@ const path = require('path')
 
 // these are used for the dev server.
 // can be overriden using process.env.HOST and process.env.PORT
-const HOST = 'localhost'
+const HOST = '0.0.0.0'
 const PORT = 8080
 
 const _host = process.env.HOST || HOST

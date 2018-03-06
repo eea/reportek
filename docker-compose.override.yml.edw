@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+  postgres:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  app:
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  celery-worker:
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  celery-beat:
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  tusd:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  rabbitmq:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  nginx:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  frontend:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
