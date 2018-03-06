@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="envelope-list" v-if="envelopes && envelopes.length">
+    <div :class="[{ 'dashboard-component': context }, 'envelope-list']" v-if="envelopes && envelopes.length">
 
     <b-row class="envelope-list-header">
       <h1>Envelopes in progress</h1>
@@ -25,7 +25,7 @@
           <div class="envelope-name">
               <router-link
                 class="router-link"
-                :to="`${envelope.id}`"
+                :to="{name:'EnvelopeDetail', params: {envelopeId: `${envelope.id}`}}"
               >
               {{envelope.name}}
               </router-link>
@@ -74,9 +74,13 @@ export default {
 
   data() {
     return {
-      fields: ['name', 'files_count', 'created_at', 'finalized', 'reporting_period_start', 'reporting_period_end'],
       envelopes: [],
     };
+  },
+
+  props: {
+    context: null,
+    envelopesCount: null,
   },
 
   methods: {
@@ -92,8 +96,10 @@ export default {
   created() {
     fetchWipEnvelopes(this.$route.params.reporterId)
       .then((response) => {
-        // JSON responses are automatically parsed.
-        this.envelopes = response.data;
+        // JSON responses are automatically parsed.]
+        console.log('count', this.envelopesCount)
+        this.envelopes = this.context ? response.data.slice(0,this.envelopesCount) : response.data;
+        this.$emit('envelopesWipLoaded', response.data.length)
       })
       .catch((e) => {
         console.log(e);

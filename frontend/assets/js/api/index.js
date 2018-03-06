@@ -49,6 +49,8 @@ export function createEnvelope(envelope) {
     reporter: envelope.reporter,
     obligation_spec: envelope.obligationSpec,
     reporting_cycle: envelope.reportingCycle,
+    description: envelope.description,
+    coverage_note: envelope.coverage_note,
   });
 }
 

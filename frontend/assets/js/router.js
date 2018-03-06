@@ -7,6 +7,7 @@ import EnvelopesArchive from './components/EnvelopesArchive';
 import EnvelopesWIP from './components/EnvelopesWIP';
 import ReportersList from './components/ReportersList';
 import ObligationDetail from './components/ObligationDetail';
+import ObligationsPending from './components/ObligationsPending';
 
 Vue.use(Router);
 
@@ -55,6 +56,11 @@ export default new Router({
       path: '/reporter/:reporterId/obligations/:obligationId',
       name: 'ObligationDetail',
       component: ObligationDetail,
+    },
+    {
+      path: '/reporter/:reporterId/obligations',
+      name: 'ObligationsPending',
+      component: ObligationsPending,
     },
     {
       path: '*',

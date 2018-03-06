@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div :class="[{ 'dashboard-component': context }, 'obligations-pending']">
     Obligations Pending
     <b-container>
         <b-row
@@ -44,7 +44,12 @@ export default {
     };
   },
 
+  props: {
+    context: null,
+  },
+
   created() {
+    console.log(this.context)
     this.getObligationsPending();
   },
 
