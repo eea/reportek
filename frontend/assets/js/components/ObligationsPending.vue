@@ -46,6 +46,7 @@ export default {
 
   props: {
     context: null,
+    obligationsCount: null,
   },
 
   created() {
@@ -54,13 +55,13 @@ export default {
   },
 
   methods: {
-
     getObligationsPending() {
       console.log(this.$route)
       fetchObligationsPending(this.$route.params.reporterId)
         .then((response) => {
           // JSON responses are automatically parsed.
-          this.obligationsPending = response.data;
+          this.obligationsPending = this.context ? response.data.slice(0,this.obligationsCount) : response.data;
+          this.$emit('obligationsLoaded', response.data.length)
           console.log('this.obligationsPending ', this.obligationsPending)
         })
         .catch((e) => {

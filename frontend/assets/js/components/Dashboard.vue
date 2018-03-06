@@ -1,9 +1,6 @@
 <template>
   <div>
-
     <div>
-
-
       <wip
         v-on:envelopesWipLoaded="handleEnvelopesWipLoaded($event)"
         context="dashboardComponent"
@@ -15,10 +12,11 @@
         v-if="showMoreWip"
         :to="{ name: 'EnvelopesWIP'}"
       >
-        Show {{actualLength.envelopesWipLength}} more
+        Show {{actualLength.envelopesWipLength - envelopesCount}} more envelopes
       </router-link>
       <envelopeArchive
-
+        v-on:archiveLoaded="handleArchiveLoaded($event)"
+        :archiveCount="archiveCount"
         context="dashboardComponent"
       >
       </envelopeArchive>
@@ -26,9 +24,21 @@
         class="nav-link"
         :to="{ name: 'EnvelopesArchive', params: { spec: 1 } }"
       >
-        Archive
+        Show {{actualLength.archiveLength - archiveCount}} more envelopes
+
       </router-link>
-      <obligations-pending context="dashboardComponent" :obligationsCount="obligationsCount"></obligations-pending>
+      <obligations-pending
+        context="dashboardComponent"
+        v-on:obligationsLoaded="handleObligationsLoaded($event)"
+        :obligationsCount="obligationsCount"
+      >
+      </obligations-pending>
+      <router-link
+        class="nav-link"
+        :to="{ name: 'ObligationsPending', params: { reporterId: `${$route.params.reporterId}` } }"
+      >
+        Show {{actualLength.obligationsLength - obligationsCount}} more obligations
+      </router-link>
     </div>
 
   </div>
@@ -50,9 +60,9 @@ export default {
 
   data() {
     return {
-      obligationsCount: 3,
-      envelopesCount: 3,
-      archivesCount: 3,
+      obligationsCount: 1,
+      envelopesCount: 1,
+      archiveCount: 2,
       showMoreWip: false,
       showMoreObligations: false,
       showMoreArchive: false,
@@ -71,8 +81,9 @@ export default {
     },
 
     handleArchiveLoaded(count){
+      console.log('a intrat aici', count)
       this.actualLength.archiveLength = count;
-      this.showMoreArchive = count > this.archivesCount;
+      this.showMoreArchive = count > this.archiveCount;
     },
 
     handleObligationsLoaded(count){

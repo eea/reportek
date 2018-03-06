@@ -1,10 +1,11 @@
 <template>
   <div>
-    <div :class="[{ 'dashboard-component': context }, 'envelope-list']" v-if="envelopes && envelopes.length">
+    <div :class="[{ 'dashboard-component': context }, 'envelope-listing']" v-if="envelopes && envelopes.length">
 
-    <b-row class="envelope-list-header">
+    <b-row class="envelope-listing-header">
       <h1>Envelopes in progress</h1>
       <router-link
+        v-if="!context"
         class="btn btn-primary"
         :to="'/dashboard'"
       >
@@ -12,7 +13,7 @@
       </router-link>
     </b-row>
       <b-row
-        class="envelope-list-item"
+        class="envelope-listing-item"
         v-for="envelope in envelopes"
         :key="envelope.id"
       >
@@ -126,8 +127,8 @@ a.btn-primary {
   color: #fff;
 }
 
-.envelope-list {
-  .envelope-list-item {
+.envelope-listing {
+  .envelope-listing-item {
     border-top: 1px solid #eee;
     margin-top:1rem;
     margin-bottom: 1rem;
@@ -165,7 +166,7 @@ a.btn-primary {
     font-weight: 400;
     flex-grow: 1;
   }
-  .envelope-list-header {
+  .envelope-listing-header {
     margin-top: 2rem;
     display: flex;
     align-items: center;
