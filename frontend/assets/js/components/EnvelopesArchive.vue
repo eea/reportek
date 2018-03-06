@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div :class="[{ 'dashboard-component': context }, 'envelope-archive']">
     Envelope Archive
     <div v-if="envelopes && envelopes.length">
       <b-table
@@ -33,6 +33,10 @@ export default {
       fields: ['name', 'files_count', 'created_at', 'finalized', 'reporting_period_start', 'reporting_period_end'],
       envelopes: [],
     };
+  },
+
+  props: {
+    context: null,
   },
 
   created() {
