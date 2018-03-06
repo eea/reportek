@@ -3,7 +3,8 @@
     <div :class="[{ 'dashboard-component': context }, 'envelope-listing']" v-if="envelopes && envelopes.length">
 
     <b-row class="envelope-listing-header">
-      <h1>Envelopes in progress</h1>
+      <h1 v-if="!context">Envelopes in progress</h1>
+      <h1 v-else>Work in progress</h1>
       <router-link
         v-if="!context"
         class="btn btn-primary"
