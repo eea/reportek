@@ -12,7 +12,7 @@
         :envelopesCount="envelopesCount"
       >
       </wip>
-      <div v-if="showMoreArchive" class="show-more">
+      <div v-if="showMoreWip" class="show-more">
         <span>Showing {{envelopesCount}} out of {{actualLength.envelopesWipLength}} envelopes.</span>
         <router-link
           class="nav-link"
