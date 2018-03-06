@@ -121,9 +121,7 @@ export default {
   h1 {
     font-size: 1.4rem;
   }
-  .envelope-listing-item {
-    padding-right: 8rem;
-  }
+
   .envelope-listing-header {
     margin-top: 1rem!important;
   }
@@ -137,10 +135,19 @@ export default {
     font-size: 1.4rem!important;
     font-weight: 400!important;
   }
+   .obligation-name {
+    .router-link {
+      font-weight: 400!important;
+    }
+  }
   .obligations-pending-item {
     padding-left: 53px;
-    padding-right: 8rem;
   }
+  .reporting-period {
+      min-width: 16rem;
+  }
+
+
 }
 
 .dashboard {
