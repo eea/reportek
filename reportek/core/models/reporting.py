@@ -64,6 +64,9 @@ class EnvelopeManager(models.Manager.from_queryset(EnvelopeQuerySet)):
 class Envelope(models.Model):
     name = models.CharField(max_length=256)
 
+    description = models.TextField(null=True, blank=True)
+    coverage_note = models.CharField(max_length=256, null=True, blank=True)
+
     reporter = models.ForeignKey(Reporter, related_name='envelopes')
     obligation_spec = models.ForeignKey(ObligationSpec, related_name='envelopes')
     reporter_subdivision = models.ForeignKey(ReporterSubdivision,
@@ -264,7 +267,6 @@ class EnvelopeOriginalFile(models.Model):
             error(f'Could not delete original envelope file from disk (not found): '
                   f'{self.file.path}')
         super().delete(*args, **kwargs)
-
 
 
 class EnvelopeFileQuerySet(models.QuerySet):
