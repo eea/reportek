@@ -5,10 +5,21 @@ axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
 
 const logRequests = process.env.NODE_ENV === 'development';
+
+const BACKEND_HOST = 'localhost';
+const BACKEND_PORT = 8000;
+const _backend_host = process.env.BACKEND_HOST || BACKEND_HOST;
+const _backend_port = process.env.BACKEND_PORT && Number(process.env.BACKEND_PORT) || BACKEND_PORT;
+
+const TUSD_HOST = 'localhost';
+const TUSD_PORT = 1080;
+const _tusd_host = process.env.TUSD_HOST || TUSD_HOST;
+const _tusd_port = process.env.TUSD_PORT && Number(process.env.TUSD_PORT) || TUSD_PORT;
+
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api/0.1/',
+  baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
   withCredentials: true,
-})
+});
 
 function fetch(path) {
   logRequests && console.log(`fetching ${path}...`);
@@ -79,7 +90,7 @@ export function fetchEnvelopeFilesConvertScripts(id, fileId) {
 export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
 // Using the post method doesn't work. We have to use a new axios instance
   return  axios({
-            baseURL: 'http://localhost:8000/api/0.1/',
+            baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
             withCredentials: true,
             method:'post',
             xsrfCookieName: "csrftoken",
