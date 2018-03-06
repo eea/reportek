@@ -45,6 +45,7 @@
           id="reportingCyclesInput"
           :options="reportingCycles"
           required
+          style="max-width: 148px!important;"
           v-model="form.reportingCycle"
         >
         </b-form-select>
