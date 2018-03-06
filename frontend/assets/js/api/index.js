@@ -21,6 +21,7 @@ const api = axios.create({
   withCredentials: true,
 });
 
+
 function fetch(path) {
   logRequests && console.log(`fetching ${path}...`);
 
@@ -137,3 +138,37 @@ export function fetchArchiveEnvelopes(reporterId) {
   return fetch(`workspace-reporter/${reporterId}/archive/`);
 }
 
+export function uploadFile(fileName, fileId, token) {
+  // Create a new tus upload
+  return new Promise((resolve, reject) => {
+    const upload = new tus.Upload(file.data,
+      {
+        endpoint: `http://${_tusd_host}:${_tusd_port}/files/`,
+        metadata: {
+          token,
+          fileName,
+          fileId,
+        },
+        retryDelays: [0, 1000, 3000, 5000],
+        onError: function onError(error) {
+          console.log('Failed because: ', error);
+          reject(error);
+        },
+        onProgress: function onProgress(bytesUploaded, bytesTotal) {
+          file.percentage = parseInt(((bytesUploaded / bytesTotal) * 100).toFixed(2), 10);
+          console.log(bytesUploaded, bytesTotal, file.percentage, '%');
+        },
+        onSuccess: function onSuccess() {
+          console.log('Download %s from %s', upload.file.name, upload.url);
+          resolve(
+            {
+              fileName: upload.file.name,
+              uploadUrl: upload.url,
+            },
+          );
+        },
+      });
+    // Start the upload
+    upload.start();
+  });
+}
