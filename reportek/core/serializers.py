@@ -13,7 +13,7 @@ from .models import (
     ObligationSpec,
     ObligationSpecReporter,
     ReportingCycle,
-    Envelope, EnvelopeFile,
+    Envelope, EnvelopeFile, EnvelopeOriginalFile,
     BaseWorkflow,
     UploadToken,
     QAJob,
@@ -198,6 +198,34 @@ class PendingObligationSerializer(serializers.ModelSerializer):
                   'updated_at', 'reporting_cycles')
 
 
+class EnvelopeOriginalFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnvelopeOriginalFile
+        fields = ('id', 'name', 'file')
+        read_only_fields = ('file',)
+
+
+class NestedEnvelopeOriginalFileSerializer(NestedHyperlinkedModelSerializer,
+                                           EnvelopeOriginalFileSerializer):
+    parent_lookup_kwargs = {
+        'envelope_pk': 'envelope__pk'
+    }
+
+    class Meta(EnvelopeOriginalFileSerializer.Meta):
+        fields = ('url', ) + EnvelopeOriginalFileSerializer.Meta.fields
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:envelope-original-file-detail',
+            }
+        }
+
+
+class CreateEnvelopeOriginalFileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EnvelopeOriginalFile
+        fields = ('file', )
+
+
 class EnvelopeFileSerializer(serializers.ModelSerializer):
     uploader = serializers.PrimaryKeyRelatedField(read_only=True)
 
@@ -244,6 +272,7 @@ class NestedEnvelopeWorkflowSerializer(
     class Meta(EnvelopeWorkflowSerializer.Meta):
         fields = ('current_state', 'previous_state',
                   'available_transitions', 'upload_allowed',
+                  'updated_at',
                   )
         extra_kwargs = {
             'url': {
@@ -276,6 +305,7 @@ class NestedUploadTokenSerializer(
 
 class EnvelopeSerializer(serializers.ModelSerializer):
     files = NestedEnvelopeFileSerializer(many=True, read_only=True)
+    original_files = NestedEnvelopeOriginalFileSerializer(many=True, read_only=True)
     workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
 
     class Meta:
@@ -356,3 +386,15 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
 
 class WorkspaceEnvelopeSerializer(EnvelopeSerializer):
     files = EnvelopeFileSerializer(many=True, read_only=True)
+    obligation = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_obligation(obj):
+        return WorkspaceObligationSerializer(obj.obligation_spec.obligation).data
+
+
+class WorkspaceObligationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Obligation
+        fields = ('id', 'title')

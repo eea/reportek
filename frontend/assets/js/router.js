@@ -6,6 +6,7 @@ import EnvelopeCreate from './components/EnvelopeCreate';
 import Dashboard from './components/Dashboard';
 import EnvelopesArchive from './components/EnvelopesArchive';
 import EnvelopesWIP from './components/EnvelopesWIP';
+import ReportersList from './components/ReportersList';
 
 Vue.use(Router);
 
@@ -16,21 +17,26 @@ export default new Router({
   routes: [
     {
       path: '/',
+      name: 'ReportersList',
+      component: ReportersList,
+    },
+    {
+      path: '/reporter/:id',
       name: 'Dashboard',
       component: Dashboard,
     },
     {
-      path: '/envelopes/archive',
+      path: '/reporter/:id/envelopes/archive',
       name: 'EnvelopesArchive',
       component: EnvelopesArchive,
     },
     {
-      path: '/envelopes/wip',
+      path: '/reporter/:id/envelopes/wip',
       name: 'EnvelopesWIP',
       component: EnvelopesWIP,
     },
     {
-      path: '/envelopes/:envelope_id(\\d+)',
+      path: '/reporter/:id/envelopes/:envelope_id(\\d+)',
       name: 'EnvelopeDetail',
       component: EnvelopeDetail,
       // meta: {
@@ -41,7 +47,7 @@ export default new Router({
       // },
     },
     {
-      path: '/envelopes/create',
+      path: '/reporter/:id/envelopes/create',
       name: 'EnvelopeCreate',
       component: EnvelopeCreate,
     },
