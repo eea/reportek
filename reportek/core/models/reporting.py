@@ -42,6 +42,7 @@ UPLOAD_TOKEN_DURATION = 60 * 60  # 60 minutes
 __all__ = [
     'Envelope',
     'EnvelopeFile',
+    'EnvelopeOriginalFile',
     'UploadToken'
 ]
 
@@ -197,6 +198,75 @@ def validate_filename(value):
         )
 
 
+class EnvelopeOriginalFile(models.Model):
+    """
+    Used to describe original non-XML files uploaded to the envelope
+    that are converted to and stored as XML EnvelopeFiles.
+    """
+
+    class Meta:
+        db_table = 'original_envelope_file'
+
+    def get_envelope_directory(self, filename):
+        return os.path.join(
+            self.envelope.get_storage_directory(),
+            os.path.basename(filename)
+        )
+
+    envelope = models.ForeignKey(Envelope, related_name='original_files')
+    file = protected.fields.ProtectedFileField(upload_to=get_envelope_directory,
+                                               max_length=512)
+    # initially derived from the filename, a change triggers rename
+    name = models.CharField(max_length=256, validators=[validate_filename])
+
+    uploader = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True
+    )
+
+    def __repr__(self):
+        return '<%s: %s/%s>' % (self.__class__.__name__,
+                                self.envelope.pk,
+                                self.name)
+
+    def get_file_url(self):
+        return reverse('core:envelope-file', kwargs={
+            'pk': self.envelope.id,
+            'filename': self.name,
+        })
+
+    @classmethod
+    def get_or_create(cls, envelope, file_name):
+        """
+        Locates an `EnvelopeOriginalFile` based on `file_name`, or creates a new one.
+        Returns a tuple of the `EnvelopeOriginalFile` instance and a boolean indicating
+        if it is newly created.
+        """
+        is_new = True
+        try:
+            obj = cls.objects.get(
+                envelope=envelope,
+                name=file_name
+            )
+            is_new = False
+
+        except cls.DoesNotExist:
+            obj = cls(envelope=envelope, name=file_name)
+
+        return obj, is_new
+
+    def delete(self, *args, **kwargs):
+        try:
+            os.remove(self.file.path)
+            debug(f'Deleted disk file {self.file.path}')
+        except FileNotFoundError:
+            error(f'Could not delete original envelope file from disk (not found): '
+                  f'{self.file.path}')
+        super().delete(*args, **kwargs)
+
+
+
 class EnvelopeFileQuerySet(models.QuerySet):
 
     def delete(self):
@@ -239,6 +309,10 @@ class EnvelopeFile(models.Model):
     )
 
     objects = EnvelopeFileQuerySet.as_manager()
+
+    original_file = models.ForeignKey(EnvelopeOriginalFile,
+                                      related_name='envelope_files',
+                                      null=True)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -341,7 +415,7 @@ class EnvelopeFile(models.Model):
         return obj, is_new
 
     @staticmethod
-    def has_valid_extension(filename, include_archives=False):
+    def has_valid_extension(filename, include_archives=False, include_spreadsheets=False):
         """
         Checks a file's extension against allowed extensions.
         If `include_archives` is `True`, extensions in
@@ -349,7 +423,9 @@ class EnvelopeFile(models.Model):
         """
         allowed_extensions = settings.ALLOWED_UPLOADS_EXTENSIONS
         if include_archives:
-            allowed_extensions += settings.ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS
+            allowed_extensions = allowed_extensions + settings.ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS
+        if include_spreadsheets:
+            allowed_extensions = allowed_extensions + settings.ALLOWED_UPLOADS_ORIGINAL_EXTENSIONS
         return filename.split('.')[-1].lower() in allowed_extensions
 
     def extract_xml_schema(self):

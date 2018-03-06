@@ -38,11 +38,19 @@ class EnvelopeFileDownloadView(protected.views.ProtectedBaseDetailFileView):
     @cached_property
     def _file(self):
         envelope = self.get_object()
-        try:
-            efile = envelope.files.filter(
-                name=self.kwargs['filename']
-            ).get()
-        except ObjectDoesNotExist:
+        found = False
+
+        for files in (envelope.files, envelope.original_files):
+            try:
+                efile = files.filter(
+                    name=self.kwargs['filename']
+                ).get()
+                found = True
+                break
+            except ObjectDoesNotExist:
+                pass
+
+        if not found:
             raise Http404()
         return efile.file
 
