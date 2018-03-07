@@ -6,7 +6,14 @@
         <div class="file-details">
           <div class="file-details-header">
           <label>File name</label>
-            <h4>{{file.name}}</h4>
+            <h4 v-if="!isEditing">{{file.name}}</h4>
+            <b-form-input
+                type="text"
+                v-model="file.name"
+                style="margin: 0 1rem;"
+                v-else
+              >
+            </b-form-input>
           </div>
           <div class="file-details-section">
             <label>File size</label>
@@ -26,11 +33,32 @@
             <b-btn variant="link">Restrict from public</b-btn>
           </div>
           <div class="actions-section">
-             <b-link href="#">Download</b-link>
+             <b-link @click="showModal"
+               href="#">Download</b-link>
           </div>
            <div class="actions-section">
-            <b-btn variant="link">Rename</b-btn>
-            <b-btn style="color: red" variant="link">Remove</b-btn>
+            <b-btn
+             variant="link"
+             @click="renameFile()"
+             v-if="!isEditing"
+            >
+              Rename
+            </b-btn>
+            <b-btn
+              variant="link"
+              @click="updateFile()"
+              v-if="isEditing"
+            >
+              Save File
+            </b-btn>
+
+            <b-btn
+              style="color: red"
+              @click="deleteFile"
+              variant="link"
+            >
+              Remove
+            </b-btn>
           </div>
         </div>
       </b-col>
@@ -56,6 +84,9 @@
         </div>
       </b-col>
     </b-row>
+     <b-modal v-if="modalFile" id="downloadModal" ref="downloadModal" size="lg" title="Download">
+          <filesdownload :files="modalFile"></filesdownload>
+    </b-modal>
   </div>
 </template>
 
@@ -80,33 +111,19 @@ export default {
   data() {
     return {
       file: null,
+      modalFile: [],
       envelopeName: null,
       fileQaScripts: null,
+      isEditing: false,
     }
   },
 
+  components: {
+    filesdownload: EnvelopeFilesDownload,
+  },
+
   created(){
-    fetchEnvelopeFile(this.$route.params.envelopeId, this.$route.params.fileId)
-      .then((response) => {
-        this.file = response.data
-        fetchEnvelopeFilesQAScripts(this.$route.params.envelopeId, this.$route.params.fileId)
-        .then((response) => {
-          let scripts = response.data
-          for(let script of scripts) {
-            script.status = null
-          }
-
-          this.fileQaScripts = scripts
-
-        })
-      }).catch((error) => {
-        console.log(error)
-      })
-    fetchEnvelope(this.$route.params.envelopeId).then((response) => {
-      this.envelopeName = response.data.name
-    }).catch((error) => {
-      console.log(error)
-    })
+   this.getFile()
   },
 
   methods: {
@@ -122,13 +139,79 @@ export default {
         })
         .catch((error) => {
           console.log(error);
+      });
+    },
+
+    createModalFile(){
+       this.modalFile[0] = Object.assign(
+          {},
+          this.modalFile[0],
+          {
+            availableConversions: [],
+            selectedConversion: null,
+          });
+    },
+
+    deleteFile() {
+      removeFile(this.$route.params.envelopeId, this.$route.params.fileId)
+        .then((response) => {
+          this.$router.push({ name: 'EnvelopeDetail', params: { reporterId: this.$route.params.reporterId, envelopeId: this.$route.params.envelopeId } });
+        })
+        .catch((error) => {
+          console.log(error);
         });
+    },
+
+    showModal() {
+      this.createModalFile();
+      this.$refs.downloadModal.show();
     },
 
     runAllQaScripts(){
       for(let script of this.fileQaScripts) {
         this.runQAScript(this.file, script.id)
       }
+    },
+
+    getFile(){
+      fetchEnvelopeFile(this.$route.params.envelopeId, this.$route.params.fileId)
+        .then((response) => {
+          this.file = response.data
+          this.modalFile.push(response.data)
+          this.createModalFile()
+          fetchEnvelopeFilesQAScripts(this.$route.params.envelopeId, this.$route.params.fileId)
+          .then((response) => {
+            let scripts = response.data
+            for(let script of scripts) {
+              script.status = null
+            }
+
+            this.fileQaScripts = scripts
+
+          })
+        }).catch((error) => {
+          console.log(error)
+        })
+      fetchEnvelope(this.$route.params.envelopeId).then((response) => {
+        this.envelopeName = response.data.name
+      }).catch((error) => {
+        console.log(error)
+      })
+    },
+
+
+    renameFile() {
+      this.isEditing = true;
+    },
+
+    updateFile() {
+      updateFile(this.$route.params.envelopeId, this.file.id, this.file.name)
+        .then((response) => {
+          this.getFile()
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
   }
