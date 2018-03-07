@@ -34,8 +34,7 @@ class ReportekUser(GuardianUserMixin, AbstractUser):
         if not hasattr(self, 'ldap_user'):
             try:
                 user = LDAPBackend().populate_user(self.username)
-                if user is None:
-                    group_names = []
+                group_names = user.ldap_user.group_names if user is not None else []
             except ldap.SERVER_DOWN:
                 group_names = []
         else:
