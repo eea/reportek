@@ -1,5 +1,6 @@
 /* eslint-disable */
 import axios from 'axios';
+import tus from 'tus-js-client';
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -144,7 +145,7 @@ export function fetchArchiveEnvelopes(reporterId) {
   return fetch(`workspace-reporter/${reporterId}/archive/`);
 }
 
-export function uploadFile(fileName, fileId, token) {
+export function uploadFile(file, filename, fileId, token) {
   // Create a new tus upload
   return new Promise((resolve, reject) => {
     const upload = new tus.Upload(file.data,
@@ -152,7 +153,7 @@ export function uploadFile(fileName, fileId, token) {
         endpoint: `http://${_tusd_host}:${_tusd_port}/files/`,
         metadata: {
           token,
-          fileName,
+          filename,
           fileId,
         },
         retryDelays: [0, 1000, 3000, 5000],

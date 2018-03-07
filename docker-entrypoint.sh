@@ -13,6 +13,10 @@ if [ "x$DJANGO_MIGRATE" = 'xyes' ]; then
     python manage.py migrate --noinput
 fi
 
+if [ "x$DJANGO_COLLECT_STATIC" = "xyes" ]; then
+  python manage.py collectstatic --noinput
+fi
+
 if [ "x$DJANGO_LOAD_ROD_FIXTURES" = 'xyes' ]; then
     python manage.py load_rod_fixtures
 fi

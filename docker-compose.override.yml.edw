@@ -1,4 +1,4 @@
-version: '3.5'
+version: '2'
 
 services:
   postgres:
@@ -6,16 +6,25 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   app:
+    image: eeacms/reportek2:latest-backend
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   celery-worker:
+    image: eeacms/reportek2:latest-backend
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   celery-beat:
+    image: eeacms/reportek2:latest-backend
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
+  frontend:
+    image: eeacms/reportek2:latest-frontend
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
@@ -29,9 +38,5 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   nginx:
-    labels:
-      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
-
-  frontend:
     labels:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
