@@ -339,12 +339,9 @@
 </template>
 
 <script>
-import tus from 'tus-js-client';
 import History from './EnvelopeHistory';
 import Workflow from './EnvelopeWorkflow';
 import EnvelopeFilesDownload from './EnvelopeFilesDownload';
-
-
 import { fetchEnvelope,
           fetchEnvelopeToken,
           fetchEnvelopeFeedback,
@@ -425,8 +422,8 @@ export default {
             resolve(this.envelope.files);
           })
           .catch((error) => {
-            reject(error);
             console.log(error);
+            reject(error);
           });
       });
     },
@@ -528,7 +525,13 @@ export default {
       // Create a new tus upload
       return new Promise((resolve, reject) => {
         fetchEnvelopeToken(this.$route.params.envelope_id)
-          .then(uploadFile(file.data.name, file.data.id, response.data.token));
+          .then((response) =>  {
+            return uploadFile(file, file.data.name, file.data.id, response.data.token);
+          })
+          .then((response) =>  {
+            resolve(response);
+          })
+          .catch(console.error.bind(console));
       });
     },
 
