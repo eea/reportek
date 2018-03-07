@@ -32,7 +32,9 @@
             <div v-if="!file.restricted" style="color:#1ea83a;"><i class="fas fa-eye"></i> Public file</div>
             <div v-else style="color: red;"><i class="fas fa-eye"></i> Restricted file</div>
 
-            <b-btn variant="link">Restrict from public</b-btn>
+            <b-btn v-if="!file.restricted" @click="restricFile(!file.restricted)" variant="link">Restrict from public</b-btn>
+            <b-btn v-else @click="restricFile(!file.restricted)" variant="link">Make file public</b-btn>
+
           </div>
           <div class="actions-section">
              <b-link @click="showModal"
@@ -96,6 +98,7 @@
 import {  fetchEnvelope,
           fetchEnvelopeFile,
           updateFile,
+          updateFileRestriction,
           removeFile,
           fetchEnvelopeFilesQAScripts,
           runEnvelopeFilesQAScript,
@@ -142,6 +145,13 @@ export default {
         .catch((error) => {
           console.log(error);
       });
+    },
+
+    restricFile(restriction){
+      updateFileRestriction(this.$route.params.envelopeId, this.file.id, restriction)
+        .then((response) => {
+          this.getFile()
+        })
     },
 
     createModalFile(){

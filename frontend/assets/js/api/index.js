@@ -113,6 +113,12 @@ export function updateFile(id, fileId, name) {
   return update(`envelopes/${id}/files/${fileId}/`, {name: name});
 }
 
+
+export function updateFileRestriction(id, fileId, restricted) {
+  return update(`envelopes/${id}/files/${fileId}/`, {restricted: restricted});
+}
+
+
 export function removeFile(id, fileId) {
   return remove(`envelopes/${id}/files/${fileId}/`);
 }
