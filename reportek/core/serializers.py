@@ -201,8 +201,8 @@ class PendingObligationSerializer(serializers.ModelSerializer):
 class EnvelopeOriginalFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnvelopeOriginalFile
-        fields = ('id', 'name', 'file')
-        read_only_fields = ('file',)
+        fields = ('id', 'name', 'file', 'uploader', 'size', 'created', 'updated')
+        read_only_fields = ('file', 'uploader', 'size', 'created', 'updated')
 
 
 class NestedEnvelopeOriginalFileSerializer(NestedHyperlinkedModelSerializer,
@@ -231,8 +231,8 @@ class EnvelopeFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EnvelopeFile
-        fields = ('id', 'name', 'file', 'restricted', 'uploader')
-        read_only_fields = ('file', 'uploader')
+        fields = ('id', 'name', 'file', 'restricted', 'uploader', 'size', 'created', 'updated')
+        read_only_fields = ('file', 'uploader', 'size', 'created', 'updated')
 
 
 class NestedEnvelopeFileSerializer(NestedHyperlinkedModelSerializer,

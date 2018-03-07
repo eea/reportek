@@ -228,6 +228,13 @@ class EnvelopeOriginalFile(models.Model):
         null=True
     )
 
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    @property
+    def size(self):
+        return self.file.size
+
     def __repr__(self):
         return '<%s: %s/%s>' % (self.__class__.__name__,
                                 self.envelope.pk,
@@ -310,11 +317,14 @@ class EnvelopeFile(models.Model):
         null=True
     )
 
-    objects = EnvelopeFileQuerySet.as_manager()
-
     original_file = models.ForeignKey(EnvelopeOriginalFile,
                                       related_name='envelope_files',
                                       null=True)
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    objects = EnvelopeFileQuerySet.as_manager()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -326,6 +336,10 @@ class EnvelopeFile(models.Model):
         return '<%s: %s/%s>' % (self.__class__.__name__,
                                 self.envelope.pk,
                                 self.name)
+
+    @property
+    def size(self):
+        return self.file.size
 
     @property
     def qa_results(self):

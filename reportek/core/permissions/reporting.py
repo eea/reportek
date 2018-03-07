@@ -42,21 +42,31 @@ class EnvelopePermissions(DjangoObjectPermissions):
         if request.method in SAFE_METHODS:
             return True
         elif request.method == 'POST':
-            reporter_id = request.data.get('reporter')
-            obligation_spec_id = request.data.get('obligation_spec')
-            try:
-                reporter = Reporter.objects.get(pk=reporter_id)
-                obligation_spec = ObligationSpec.objects.get(pk=obligation_spec_id)
-            except ObjectDoesNotExist:
-                return False
-
-            # Creating an envelope requires permission to report on
+            # Creating or transitioning an envelope requires permission to report on
             # the obligation on behalf of the reporter.
             groups = request.user.effective_groups
-            return (
-                'report_for_reporter' in get_effective_obj_perms(groups, reporter) and
-                'report_on_obligation' in get_effective_obj_perms(groups, obligation_spec.obligation)
-            )
+            if view.action == 'create':
+                reporter_id = request.data.get('reporter')
+                obligation_spec_id = request.data.get('obligation_spec')
+                try:
+                    reporter = Reporter.objects.get(pk=reporter_id)
+                    obligation_spec = ObligationSpec.objects.get(pk=obligation_spec_id)
+                except ObjectDoesNotExist:
+                    return False
+                return (
+                    'report_for_reporter' in get_effective_obj_perms(groups, reporter) and
+                    'report_on_obligation' in get_effective_obj_perms(groups, obligation_spec.obligation)
+                )
+            elif view.action == 'transition':
+                try:
+                    envelope = Envelope.objects.get(pk=request.resolver_match.kwargs.get('pk'))
+                except Envelope.DoesNotExist:
+                    return False
+
+                return (
+                    'report_for_reporter' in get_effective_obj_perms(groups, envelope.reporter) and
+                    'report_on_obligation' in get_effective_obj_perms(groups, envelope.obligation_spec.obligation)
+                )
 
     def get_required_object_permissions(self, method, model_cls):
         perms = super().get_required_object_permissions(method, model_cls)
@@ -76,6 +86,8 @@ class EnvelopePermissions(DjangoObjectPermissions):
             return request.user == envelope.author and not envelope.finalized
         elif request.method == 'DELETE':
             return request.user == envelope.author and not envelope.finalized
+        elif request.method == 'POST' and view.action == 'transition':
+            return request.user == envelope.author
 
 
 class EnvelopeFilePermissions(DjangoObjectPermissions):
