@@ -1,8 +1,8 @@
 <template>
-  <div class="hello">
+  <div :class="[{ 'dashboard-component': context }, 'obligations-pending']">
     Obligations Pending
     <b-container>
-        <b-row 
+        <b-row
           v-for="obligation in obligationsPending"
           :key="obligation.id"
         >
@@ -19,7 +19,7 @@
               {{reportingCycle.reporting_start_date}}
 
               <router-link
-                :to="{ name: 'EnvelopeCreate', params: { reportingCycle: reportingCycle, reporterId: reporterId } }"
+                :to="{ name: 'EnvelopeCreate', params: { reportingCycle: reportingCycle } }"
                 class="btn btn-primary"
               >
                 Create New Envelop for this cycle
@@ -38,28 +38,30 @@ import { fetchObligationsPending } from '../api';
 export default {
   name: 'EnvelopesWIP',
 
-  props: {
-    reporterId: null,
-  },
-
   data() {
     return {
       obligationsPending: null,
     };
   },
 
+  props: {
+    context: null,
+    obligationsCount: null,
+  },
+
   created() {
+    console.log(this.context)
     this.getObligationsPending();
   },
 
   methods: {
-    
     getObligationsPending() {
       console.log(this.$route)
-      fetchObligationsPending(this.$route.params.id)
+      fetchObligationsPending(this.$route.params.reporterId)
         .then((response) => {
           // JSON responses are automatically parsed.
-          this.obligationsPending = response.data;
+          this.obligationsPending = this.context ? response.data.slice(0,this.obligationsCount) : response.data;
+          this.$emit('obligationsLoaded', response.data.length)
           console.log('this.obligationsPending ', this.obligationsPending)
         })
         .catch((e) => {

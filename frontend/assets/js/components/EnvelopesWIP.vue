@@ -1,33 +1,19 @@
 <template>
   <div>
-    <div class="envelope-list" v-if="envelopes && envelopes.length">
+    <div :class="[{ 'dashboard-component': context }, 'envelope-listing']" v-if="envelopes && envelopes.length">
 
-    <b-row class="envelope-list-header">
-      <h1>Envelopes and subcollections</h1>
+    <b-row class="envelope-listing-header">
+      <h1>Envelopes in progress</h1>
       <router-link
+        v-if="!context"
         class="btn btn-primary"
         :to="'/dashboard'"
       >
-      <i class="fas fa-plus"></i> Create New Envelope
+      Dashboard
       </router-link>
     </b-row>
-    <!--   <b-table
-        :hover="false"
-        :items="envelopes"
-        :fields="fields"
-      >
-        <router-link
-          slot="name"
-          slot-scope="envelope"
-          class="nav-link"
-          :to="`/envelopes/${envelope.item.id}`"
-        >
-          {{envelope.value}}
-        </router-link>
-      </b-table> -->
-
-      <b-row 
-        class="envelope-list-item" 
+      <b-row
+        class="envelope-listing-item"
         v-for="envelope in envelopes"
         :key="envelope.id"
       >
@@ -40,16 +26,26 @@
           <div class="envelope-name">
               <router-link
                 class="router-link"
-                :to="`/envelopes/${envelope.id}`"
+                :to="{name:'EnvelopeDetail', params: {envelopeId: `${envelope.id}`}}"
               >
               {{envelope.name}}
               </router-link>
           </div>
           <div class="mb-1 mt-1">
-            <strong>Obligation:</strong> <span class="muted"> None</span>
+            <strong>Obligation:</strong>
+            <b-btn
+              variant="link"
+              style="padding: 0;"
+              v-on:click="goToObligation(envelope.obligation.id)"
+            >
+              {{envelope.obligation.title}}
+            </b-btn>
           </div>
           <div>
             <strong>Status:</strong> <span class="muted">{{translateCode(envelope.workflow.current_state)}}</span>
+          </div>
+           <div>
+            <strong>Last transition:</strong> <span class="muted">{{fromatDate(envelope.workflow.updated_at, 2)}}</span>
           </div>
         </div>
         <div class="envelope-reporting-period">
@@ -57,7 +53,7 @@
             <strong>Reporting period</strong>
           </div>
           <div class="reporting-period muted">
-            {{envelope.reporting_cycle.reporting_start_date}} - {{envelope.reporting_cycle.reporting_end_date}} 2018-02-01
+            {{fromatDate(envelope.reporting_cycle.reporting_start_date, 2)}} - {{fromatDate(envelope.reporting_cycle.reporting_end_date, 2)}}
           </div>
         </div>
       </b-row>
@@ -70,6 +66,7 @@
 <script>
 import { fetchWipEnvelopes } from '../api';
 import utilsMixin from '../mixins/utils';
+import {dateFormat} from '../utils/UtilityFunctions';
 
 export default {
   name: 'Envelopes',
@@ -78,16 +75,32 @@ export default {
 
   data() {
     return {
-      fields: ['name', 'files_count', 'created_at', 'finalized', 'reporting_period_start', 'reporting_period_end'],
       envelopes: [],
     };
   },
 
+  props: {
+    context: null,
+    envelopesCount: null,
+  },
+
+  methods: {
+    fromatDate(date, count){
+      return dateFormat(date, count)
+    },
+
+    goToObligation(id){
+      this.$router.push({ name: 'ObligationDetail', params: { obligationId: id } });
+    },
+  },
+
   created() {
-    fetchWipEnvelopes(this.$route.params.id)
+    fetchWipEnvelopes(this.$route.params.reporterId)
       .then((response) => {
-        // JSON responses are automatically parsed.
-        this.envelopes = response.data;
+        // JSON responses are automatically parsed.]
+        console.log('count', this.envelopesCount)
+        this.envelopes = this.context ? response.data.slice(0,this.envelopesCount) : response.data;
+        this.$emit('envelopesWipLoaded', response.data.length)
       })
       .catch((e) => {
         console.log(e);
@@ -114,8 +127,8 @@ a.btn-primary {
   color: #fff;
 }
 
-.envelope-list {
-  .envelope-list-item {
+.envelope-listing {
+  .envelope-listing-item {
     border-top: 1px solid #eee;
     margin-top:1rem;
     margin-bottom: 1rem;
@@ -153,7 +166,7 @@ a.btn-primary {
     font-weight: 400;
     flex-grow: 1;
   }
-  .envelope-list-header {
+  .envelope-listing-header {
     margin-top: 2rem;
     display: flex;
     align-items: center;

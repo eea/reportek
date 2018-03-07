@@ -62,6 +62,8 @@ export function createEnvelope(envelope) {
     reporter: envelope.reporter,
     obligation_spec: envelope.obligationSpec,
     reporting_cycle: envelope.reportingCycle,
+    description: envelope.description,
+    coverage_note: envelope.coverage_note,
   });
 }
 
@@ -172,4 +174,8 @@ export function uploadFile(file, filename, fileId, token) {
     // Start the upload
     upload.start();
   });
+}
+
+export function fetchObligation(id) {
+  return fetch(`/obligations/${id}/`);
 }

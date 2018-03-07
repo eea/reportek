@@ -26,9 +26,5 @@ COPY . $PROJ_DIR
 
 RUN mkdir -p $MEDIA_ROOT $PROTECTED_ROOT $DOWNLOAD_STAGING_ROOT
 
-RUN if [ "x$DJANGO_COLLECT_STATIC" = "xyes" ] ; then python manage.py collectstatic --noinput ; fi
-
-# RUN python setup.py build_sphinx
-
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["run"]

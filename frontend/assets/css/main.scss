@@ -96,3 +96,25 @@ h1,
 .nav-tabs .nav-link {
   border-radius: 0;
 }
+
+
+input[type="text"],
+select {
+  max-width: 500px!important;
+  height: 36px!important;
+  border-radius: 3px!important;
+  background: none!important;
+  background-color: #ffffff!important;
+  border: solid 2px rgba(0, 0, 0, 0.15)!important;
+}
+
+textarea {
+  border-radius: 3px!important;
+  background: none!important;
+  background-color: #ffffff!important;
+  border: solid 2px rgba(0, 0, 0, 0.15)!important;
+}
+
+.btn-transparent {
+  background: white;
+}
