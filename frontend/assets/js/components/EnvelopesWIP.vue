@@ -93,19 +93,30 @@ export default {
     goToObligation(id){
       this.$router.push({ name: 'ObligationDetail', params: { obligationId: id } });
     },
+
+    getWipEnvelopes() {
+      fetchWipEnvelopes(this.$route.params.reporterId)
+        .then((response) => {
+          // JSON responses are automatically parsed.]
+          this.envelopes = this.context ? response.data.slice(0,this.envelopesCount) : response.data;
+          this.$emit('envelopesWipLoaded', response.data.length)
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+      }
   },
 
   created() {
-    fetchWipEnvelopes(this.$route.params.reporterId)
-      .then((response) => {
-        // JSON responses are automatically parsed.]
-        console.log('count', this.envelopesCount)
-        this.envelopes = this.context ? response.data.slice(0,this.envelopesCount) : response.data;
-        this.$emit('envelopesWipLoaded', response.data.length)
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    this.getWipEnvelopes();
+  },
+
+  watch: {
+    $route(to, from) {
+      if (from && (to.params.reporterId != from.params.reporterId)) {
+        this.getWipEnvelopes();
+      }
+    },
   },
 };
 </script>

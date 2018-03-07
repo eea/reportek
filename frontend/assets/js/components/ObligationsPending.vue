@@ -20,7 +20,7 @@
           <div class="obligation-name">
               <router-link
                 class="router-link"
-                :to="{name:'obligationDetail', params: {obligationId: `${obligation.id}`}}"
+                :to="{ name:'ObligationDetail', params: { obligationId: `${obligation.id}` }}"
               >
               {{obligation.title}}
               </router-link>
@@ -39,7 +39,11 @@
           <div>
             <strong>Reporting period</strong>
           </div>
-          <div v-for="cycle in obligation.reporting_cycles" class="reporting-period">
+          <div 
+            v-for="cycle in obligation.reporting_cycles"
+            :key="cycle.id"
+            class="reporting-period"
+          >
             <span class="muted">
               {{formatDate(cycle.reporting_start_date, 2)}} - {{formatDate(cycle.reporting_end_date,2)}}
             </span>
@@ -76,19 +80,16 @@ export default {
   },
 
   created() {
-    console.log(this.context)
     this.getObligationsPending();
   },
 
   methods: {
     getObligationsPending() {
-      console.log(this.$route)
       fetchObligationsPending(this.$route.params.reporterId)
         .then((response) => {
           // JSON responses are automatically parsed.
           this.obligationsPending = this.context ? response.data.slice(0,this.obligationsCount) : response.data;
           this.$emit('obligationsLoaded', response.data.length)
-          console.log('this.obligationsPending ', this.obligationsPending)
         })
         .catch((e) => {
           console.log(e);
@@ -107,6 +108,12 @@ export default {
           this.getObligationsPending();
         }
       },
+    },
+
+    $route(to, from) {
+      if (from && (to.params.reporterId != from.params.reporterId)) {
+        this.getObligationsPending();
+      }
     },
   },
 };

@@ -103,7 +103,6 @@ export default {
     },
 
     handleArchiveLoaded(count){
-      console.log('a intrat aici', count)
       this.actualLength.archiveLength = count;
       this.showMoreArchive = count > this.archiveCount;
     },

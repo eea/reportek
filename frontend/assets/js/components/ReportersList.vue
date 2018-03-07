@@ -9,7 +9,7 @@
           class="nav-link"
           :to="`/reporter/${reporter.id}`"
         >
-          {{reporter.name}}
+          <span v-bind:class="[countryFlag(reporter.abbr), 'flag-icon']">{{reporter.name}}</span>
         </router-link>
       </b-list-group-item>
     </b-list-group>
@@ -40,20 +40,27 @@ export default {
 
   // Fetches posts when the component is created.
   created() {
-    fetchUserProfile()
-      .then((response) => {
-        let reportersTemp = [];
-        this.userProfile = response.data;
-        if (this.userProfile.reporters.length === 1) {
-          this.$router.push({ name: 'Dashboard', params: { reporterId: this.userProfile.reporters[0].id } });
-        }
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    this.getUserProfile();
   },
 
   methods: {
+    getUserProfile() {
+      fetchUserProfile()
+        .then((response) => {
+          let reportersTemp = [];
+          this.userProfile = response.data;
+          if (this.userProfile.reporters.length === 1) {
+            this.$router.push({ name: 'Dashboard', params: { reporterId: this.userProfile.reporters[0].id } });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+
+    countryFlag(countryAbbr) {
+      return 'flag-icon-' + countryAbbr.toLowerCase();
+    },
   },
 };
 </script>

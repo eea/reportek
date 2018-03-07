@@ -187,18 +187,17 @@ export default {
 
   data(){
     return {
-      obligation: null
+      obligation: null,
     }
   },
 
   created() {
     fetchObligation(this.$route.params.obligationId)
       .then((response) => {
-        this.obligation = response.data
-        console.log(response.data)
+        this.obligation = response.data;
       })
       .catch((error) => {
-        console.log(error)
+        console.log(error);
       })
   },
 }
