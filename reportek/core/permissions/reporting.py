@@ -86,8 +86,8 @@ class EnvelopePermissions(DjangoObjectPermissions):
             return request.user == envelope.author and not envelope.finalized
         elif request.method == 'DELETE':
             return request.user == envelope.author and not envelope.finalized
-        elif request.method == 'POST' and view.action == 'transition':
-            return request.user == envelope.author
+        elif request.method == 'POST' and view.action != 'create':
+            return request.user == envelope.author and not envelope.finalized
 
 
 class EnvelopeFilePermissions(DjangoObjectPermissions):
@@ -105,7 +105,11 @@ class EnvelopeFilePermissions(DjangoObjectPermissions):
         if request.method in SAFE_METHODS:
             return True
         elif request.method == 'POST':
-            envelope_id = request.data.get('envelope_pk')
+            if view.action == 'create':
+                envelope_id = request.data.get('envelope_pk')
+            else:
+                envelope_id = request.resolver_match.kwargs.get('envelope_pk')
+
             try:
                 envelope = Envelope.objects.get(pk=envelope_id)
             except ObjectDoesNotExist:
@@ -114,7 +118,7 @@ class EnvelopeFilePermissions(DjangoObjectPermissions):
             # Creating an envelope file requires an envelope in a state
             # that allows uploads, and permission to report/collaborate
             # on the obligation on behalf of the reporter.
-            if not envelope.workflow.upload_allowed:
+            if view.action == 'create' and not envelope.workflow.upload_allowed:
                 return False
 
             groups = request.user.effective_groups
@@ -160,4 +164,6 @@ class EnvelopeFilePermissions(DjangoObjectPermissions):
         elif request.method == 'PATCH':
             return request.user == envelope.author and not envelope.finalized
         elif request.method == 'DELETE':
+            return request.user == envelope.author and not envelope.finalized
+        elif request.method == 'POST' and view.action != 'create':
             return request.user == envelope.author and not envelope.finalized
