@@ -29,17 +29,14 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
   app:
-    image: eeacms/reportek
+    image: eeacms/reportek2:current-backend
     env_file:
       - ./docker/demo.env
       - ./docker/postgres.env
       - ./docker/rabbitmq.env
-    build:
-      context: .
-      args:
-        REQUIREMENTS_FILE: requirements.txt
     volumes:
     - static-files:/var/local/reportek/reportek/static
+    - frontend-dist:/var/local/reportek/frontend/dist
     - tusd-uploads:/var/local/tusd_uploads
     depends_on:
       - postgres
@@ -50,7 +47,7 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
   celery-worker:
-    image: eeacms/reportek
+    image: eeacms/reportek2:current-backend
     env_file:
       - ./docker/demo.env
       - ./docker/postgres.env
@@ -68,7 +65,7 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
   celery-beat:
-    image: eeacms/reportek
+    image: eeacms/reportek2:current-backend
     env_file:
       - ./docker/demo.env
       - ./docker/postgres.env
@@ -85,13 +82,27 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
+  frontend:
+    image: eeacms/reportek2:current-frontend
+    env_file:
+      - ./docker/demo.env
+      - ./docker/frontend.env
+    depends_on:
+      - app
+    volumes:
+    - static-files:/var/local/reportek/reportek/static
+    - frontend-dist:/var/local/reportek/frontend/dist
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label_ne: reserved=yes
+
   nginx:
     image: nginx:latest
     environment:
       NGINX_CONF: |-
         upstream app {
           ip_hash;
-          server app:80;
+          server app:${REPORTEK_GUNICORN_PORT};
         }
         server {
           listen 80;
@@ -116,21 +127,6 @@ services:
     labels:
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
-  frontend:
-    image: eeacms/reportek-frontend
-    build:
-      context: .
-      dockerfile: Dockerfile-frontend
-    env_file:
-      - ./docker/demo.env
-      - ./docker/frontend.env
-    depends_on:
-      - app
-    volumes:
-    - static-files:/var/local/reportek/reportek/static
-    labels:
-      io.rancher.scheduler.affinity:host_label_ne: reserved=yes
-
 volumes:
   pg-data:
     driver: rancher-nfs
@@ -139,4 +135,6 @@ volumes:
   tusd-uploads:
     driver: rancher-nfs
   static-files:
+    driver: rancher-nfs
+  frontend-dist:
     driver: rancher-nfs

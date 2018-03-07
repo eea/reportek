@@ -32,6 +32,9 @@ services:
       - "80:80"
 
   frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile-frontend
     ports:
       - "8080:8080"
 
@@ -44,3 +47,5 @@ volumes:
     driver: local
   static-files:
     driver: local
+  frontend-dist:
+    driver: rancher-nfs
