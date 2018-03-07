@@ -17,11 +17,11 @@
           </div>
           <div class="file-details-section">
             <label>File size</label>
-            <div>699kb</div>
+            <div>{{file.size}} kb</div>
           </div>
           <div class="file-details-section">
             <label>Last modified</label>
-            <div>Ieri</div>
+            <div>{{file.updated}}</div>
           </div>
           <div class="file-type">
             .XML
@@ -29,7 +29,9 @@
         </div>
         <div class="file-actions">
           <div class="actions-section">
-            <div style="color:#1ea83a;"><i class="fas fa-eye"></i> Public file</div>
+            <div v-if="!file.restricted" style="color:#1ea83a;"><i class="fas fa-eye"></i> Public file</div>
+            <div v-else style="color: red;"><i class="fas fa-eye"></i> Restricted file</div>
+
             <b-btn variant="link">Restrict from public</b-btn>
           </div>
           <div class="actions-section">
@@ -177,6 +179,7 @@ export default {
       fetchEnvelopeFile(this.$route.params.envelopeId, this.$route.params.fileId)
         .then((response) => {
           this.file = response.data
+          console.log(response.data)
           this.modalFile.push(response.data)
           this.createModalFile()
           fetchEnvelopeFilesQAScripts(this.$route.params.envelopeId, this.$route.params.fileId)
@@ -185,9 +188,7 @@ export default {
             for(let script of scripts) {
               script.status = null
             }
-
             this.fileQaScripts = scripts
-
           })
         }).catch((error) => {
           console.log(error)
