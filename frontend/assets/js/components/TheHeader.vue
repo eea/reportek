@@ -27,17 +27,17 @@
           <!-- Using button-content slot -->
           <template slot="button-content">
             <em>Reporting for
-              <span v-bind:class="[countryStyleClass, 'flag-icon']">{{currentCountry.name}}</span>
+              <span v-bind:class="[countryStyleClass, 'flag-icon']"></span>{{currentCountry.name}}
             </em>
           </template>
-          <b-dropdown-item 
+          <b-dropdown-item
             v-for="country in userProfile.reporters"
             :key="country.id"
             :to="{ name: 'Dashboard', params: { reporterId: country.id }}"
           >
                       <!-- :to="{ name: 'Dashboard', params: { reporterId: country.id }}" -->
 
-            <span v-bind:class="[countryFlag(country.abbr), 'flag-icon']">{{country.name}}</span>
+            <span v-bind:class="[countryFlag(country.abbr), 'flag-icon']"></span>{{country.name}}
           </b-dropdown-item>
         </b-nav-item-dropdown>
 
@@ -134,7 +134,7 @@ export default {
 
     renderUserInfo(newCountry) {
         let currentCountryIndex = this.userProfile.reporters.findIndex(country => String(country.id) == newCountry);
-        
+
         this.currentCountry = this.userProfile.reporters[currentCountryIndex];
         this.countryStyleClass = 'flag-icon-' + this.currentCountry.abbr.toLowerCase();
     },
@@ -155,5 +155,9 @@ export default {
 }
 .navbar {
   border-bottom: 2px solid #EEE;
+}
+
+.navbar-collapse .flag-icon {
+  margin-right: .5rem;
 }
 </style>
