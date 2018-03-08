@@ -60,15 +60,12 @@ class EffectiveObjectPermissions(DjangoObjectPermissions):
         # authentication checks have already executed via has_permission
         queryset = self._queryset(view)
         model_cls = queryset.model
-        # user = request.user
         eff_groups = request.user.effective_groups
 
         perms = self.get_required_object_permissions(request.method, model_cls)
 
         eff_perms = get_effective_obj_perms(eff_groups, obj)
 
-        print(perms, eff_perms)
-        # if not user.has_perms(perms, obj):
         if not set(perms).issubset(eff_perms):
             # If the user does not have permissions we need to determine if
             # they have read permissions to see 403, or not, and simply see
@@ -80,7 +77,6 @@ class EffectiveObjectPermissions(DjangoObjectPermissions):
                 raise Http404
 
             read_perms = self.get_required_object_permissions('GET', model_cls)
-            # if not user.has_perms(read_perms, obj):
             if not set(read_perms).issubset(eff_perms):
                 raise Http404
 
