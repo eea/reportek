@@ -1,7 +1,6 @@
 import logging
 from django.db.models import ObjectDoesNotExist
 from rest_framework.permissions import (
-    DjangoObjectPermissions,
     SAFE_METHODS,
 )
 
@@ -11,6 +10,7 @@ from ..models import (
     Envelope,
 )
 
+from .base import EffectiveObjectPermissions
 from .utils import get_effective_obj_perms
 
 
@@ -27,12 +27,7 @@ __all__ = [
 ]
 
 
-class EnvelopePermissions(DjangoObjectPermissions):
-
-    def get_required_permissions(self, method, model_cls):
-        perms = super().get_required_permissions(method, model_cls)
-        debug(f'Envelope req. perms: {perms}')
-        return perms
+class EnvelopePermissions(EffectiveObjectPermissions):
 
     def has_permission(self, request, view):
         perms = super().has_permission(request, view)
@@ -68,16 +63,10 @@ class EnvelopePermissions(DjangoObjectPermissions):
                     'report_on_obligation' in get_effective_obj_perms(groups, envelope.obligation_spec.obligation)
                 )
 
-    def get_required_object_permissions(self, method, model_cls):
-        perms = super().get_required_object_permissions(method, model_cls)
-        debug(f'Envelope req. obj. perms: {perms}')
-        return perms
+        # Allow GET detail, PATCH, PUT & DELETE to fall through to `has_object_permissions`
+        return True
 
     def has_object_permission(self, request, view, envelope):
-        perms = super().has_object_permission(request, view, envelope)
-        debug(f'Envelope obj. perms: {perms}')
-        if not perms:
-            return False
         if request.method in SAFE_METHODS:
             return request.user == envelope.author or \
                    envelope.finalized or \
@@ -89,13 +78,10 @@ class EnvelopePermissions(DjangoObjectPermissions):
         elif request.method == 'POST' and view.action != 'create':
             return request.user == envelope.author and not envelope.finalized
 
+        return False
 
-class EnvelopeFilePermissions(DjangoObjectPermissions):
 
-    def get_required_permissions(self, method, model_cls):
-        perms = super().get_required_permissions(method, model_cls)
-        debug(f'EnvelopeFile req. perms: {perms}')
-        return perms
+class EnvelopeFilePermissions(EffectiveObjectPermissions):
 
     def has_permission(self, request, view):
         perms = super().has_permission(request, view)
@@ -136,16 +122,7 @@ class EnvelopeFilePermissions(DjangoObjectPermissions):
         # Allow GET detail, PATCH, PUT & DELETE to fall through to `has_object_permissions`
         return True
 
-    def get_required_object_permissions(self, method, model_cls):
-        perms = super().get_required_object_permissions(method, model_cls)
-        debug(f'EnvelopeFile req. obj. perms: {perms}')
-        return perms
-
     def has_object_permission(self, request, view, envelope_file):
-        perms = super().has_object_permission(request, view, envelope_file)
-        debug(f'EnvelopeFile obj. perms: {perms}')
-        if not perms:
-            return False
         envelope = envelope_file.envelope
         if request.method in SAFE_METHODS:
             groups = request.user.effective_groups
@@ -167,3 +144,5 @@ class EnvelopeFilePermissions(DjangoObjectPermissions):
             return request.user == envelope.author and not envelope.finalized
         elif request.method == 'POST' and view.action != 'create':
             return request.user == envelope.author and not envelope.finalized
+
+        return False
