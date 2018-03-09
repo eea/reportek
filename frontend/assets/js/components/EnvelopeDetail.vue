@@ -554,14 +554,14 @@ export default {
       // Create a new tus upload
       return new Promise((resolve, reject) => {
         fetchEnvelopeToken(this.$route.params.envelopeId)
-          .then((response) =>  {
+          .then((response) => {
             return uploadFile(file, file.data.name, file.data.id, response.data.token);
           })
-          .then((response) =>  {
+          .then((response) => {
             resolve(response);
           })
           .catch((error) => {
-            console.log(error)
+            console.log(error);
             this.handleUploadFileError(file);
           });
       });
@@ -571,11 +571,11 @@ export default {
       this.filesUploading = false;
       this.removeFileFromUploadList(file);
       this.uploadAllFiles();
-      alert('file type is wrong. It will be removed')
+      alert('file type is wrong. It will be removed');
     },
 
-    removeFileFromUploadList(file){
-      this.files.splice(this.files.indexOf(file), 1)
+    removeFileFromUploadList(file) {
+      this.files.splice(this.files.indexOf(file), 1);
     },
 
     updateFilesList() {

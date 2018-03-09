@@ -47,7 +47,7 @@
             <strong>Status:</strong> <span class="muted">{{translateCode(envelope.workflow.current_state)}}</span>
           </div>
            <div>
-            <strong>Last transition:</strong> <span class="muted">{{fromatDate(envelope.workflow.updated_at, 2)}}</span>
+            <strong>Last transition:</strong> <span class="muted">{{formatDate(envelope.workflow.updated_at, 2)}}</span>
           </div>
         </div>
         <div class="envelope-reporting-period">
@@ -55,7 +55,7 @@
             <strong>Reporting period</strong>
           </div>
           <div class="reporting-period muted">
-            {{fromatDate(envelope.reporting_cycle.reporting_start_date, 2)}} - {{fromatDate(envelope.reporting_cycle.reporting_end_date, 2)}}
+            {{formatDate(envelope.reporting_cycle.reporting_start_date, 2)}} - {{formatDate(envelope.reporting_cycle.reporting_end_date, 2)}}
           </div>
         </div>
       </b-row>
@@ -68,7 +68,6 @@
 <script>
 import { fetchWipEnvelopes } from '../api';
 import utilsMixin from '../mixins/utils';
-import {dateFormat} from '../utils/UtilityFunctions';
 
 export default {
   name: 'Envelopes',
@@ -87,25 +86,21 @@ export default {
   },
 
   methods: {
-    fromatDate(date, count){
-      return dateFormat(date, count)
-    },
 
-    goToObligation(id){
+    goToObligation(id) {
       this.$router.push({ name: 'ObligationDetail', params: { obligationId: id } });
     },
 
     getWipEnvelopes() {
       fetchWipEnvelopes(this.$route.params.reporterId)
         .then((response) => {
-          // JSON responses are automatically parsed.]
-          this.envelopes = this.context ? response.data.slice(0,this.envelopesCount) : response.data;
-          this.$emit('envelopesWipLoaded', response.data.length)
+          this.envelopes = this.context ? response.data.slice(0, this.envelopesCount) : response.data;
+          this.$emit('envelopesWipLoaded', response.data.length);
         })
         .catch((e) => {
           console.log(e);
         });
-      }
+    },
   },
 
   created() {

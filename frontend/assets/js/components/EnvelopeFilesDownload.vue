@@ -93,7 +93,7 @@ export default {
     },
 
     download(blob, filename, filetype) {
-      let a = window.document.createElement('a');
+      const a = window.document.createElement('a');
       a.href = window.URL.createObjectURL(new Blob([blob], { type: filetype }));
       a.download = filename;
 

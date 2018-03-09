@@ -203,10 +203,10 @@ export default {
 
   mixins: [utilsMixin],
 
-  data(){
+  data() {
     return {
       obligation: null,
-    }
+    };
   },
 
   created() {
@@ -216,9 +216,9 @@ export default {
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
   },
-}
+};
 </script>
 
 <style lang="scss">

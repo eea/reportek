@@ -81,9 +81,9 @@ export default {
   },
 
   updated(){
-    if(Object.keys(this.envelopeHistory).length <= 2) {
+    if (Object.keys(this.envelopeHistory).length <= 2) {
       this.hiddenItems = false;
-    }
+    };
   },
 
   methods: {
@@ -102,8 +102,8 @@ export default {
       );
     },
 
-    formatDate(date,count){
-      return dateFormat(date,count)
+    formatDate(date,count) {
+      return dateFormat(date,count);
     },
 
     countContainedKeys(obj) {

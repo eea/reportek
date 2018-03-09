@@ -46,7 +46,7 @@
             <strong>Status:</strong> <span class="muted">{{translateCode(envelope.workflow.current_state)}}</span>
           </div>
            <div>
-            <strong>Last transition:</strong> <span class="muted">{{fromatDate(envelope.workflow.updated_at, 2)}}</span>
+            <strong>Last transition:</strong> <span class="muted">{{formatDate(envelope.workflow.updated_at, 2)}}</span>
           </div>
         </div>
         <div class="envelope-reporting-period">
@@ -54,7 +54,7 @@
             <strong>Reporting period</strong>
           </div>
           <div class="reporting-period muted">
-            {{fromatDate(envelope.reporting_cycle.reporting_start_date, 2)}} - {{fromatDate(envelope.reporting_cycle.reporting_end_date, 2)}}
+            {{formatDate(envelope.reporting_cycle.reporting_start_date, 2)}} - {{formatDate(envelope.reporting_cycle.reporting_end_date, 2)}}
           </div>
         </div>
       </b-row>
@@ -65,7 +65,6 @@
 <script>
 import { fetchArchiveEnvelopes } from '../api';
 import utilsMixin from '../mixins/utils';
-import {dateFormat} from '../utils/UtilityFunctions';
 
 export default {
   name: 'EnvelopesArchive',
@@ -90,20 +89,15 @@ export default {
   },
 
   methods: {
-    fromatDate(date, count){
-      return dateFormat(date, count)
-    },
-
-    goToObligation(id){
+    goToObligation(id) {
       this.$router.push({ name: 'ObligationDetail', params: { obligationId: id } });
     },
 
     getArchiveEnvelopes() {
       fetchArchiveEnvelopes(this.$route.params.reporterId)
         .then((response) => {
-          // JSON responses are automatically parsed.
-          this.envelopes = this.context ? response.data.slice(0,this.archiveCount) : response.data;
-          this.$emit('archiveLoaded', response.data.length)
+          this.envelopes = this.context ? response.data.slice(0, this.archiveCount) : response.data;
+          this.$emit('archiveLoaded', response.data.length);
         })
         .catch((e) => {
           console.log(e);

@@ -8,7 +8,7 @@ export function capitalize(value) {
 }
 
 export function dateFormat(date, fields) {
-  if(date){
+  if (date) {
     const options = {
       year: 'numeric',
       month: 'long',
@@ -21,7 +21,7 @@ export function dateFormat(date, fields) {
     if (fields != undefined) {
       Object.keys(options).forEach(function(option, index) {
         if (index > fields) {
-          delete options[option]
+          delete options[option];
         }
       });
     }
@@ -33,11 +33,11 @@ export function dateFormat(date, fields) {
 }
 
 
-export function formatFileSize(bytes,decimalPoint) {
-   if(bytes == 0) return '0 Bytes';
-   var k = 1000,
-       dm = decimalPoint || 2,
-       sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
-       i = Math.floor(Math.log(bytes) / Math.log(k));
-   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+export function formatFileSize(bytes, decimalPoint) {
+  if (bytes == 0) return '0 Bytes';
+  let k = 1000,
+    dm = decimalPoint || 2,
+    sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+    i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }

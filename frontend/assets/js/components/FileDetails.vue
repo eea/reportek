@@ -136,8 +136,6 @@ import {  fetchEnvelope,
 import utilsMixin from '../mixins/utils';
 import EnvelopeFilesDownload from './EnvelopeFilesDownload';
 
-
-
 export default {
 
   name: 'FileDetails',
@@ -152,22 +150,21 @@ export default {
       fileQaScripts: null,
       isEditing: false,
       envelopeFinalized: false,
-    }
+    };
   },
 
   components: {
     filesdownload: EnvelopeFilesDownload,
   },
 
-  created(){
-   this.getFile()
+  created() {
+   this.getFile();
   },
 
   methods: {
     runQAScript(file, scriptId) {
       runEnvelopeFilesQAScript(this.$route.params.envelopeId, file.id, scriptId)
         .then((response) => {
-          console.log(this.fileQaScripts)
           this.fileQaScripts.map((script) => {
             if (script.id === scriptId) {
               script.variant = this.envelopeCodeDictionary(response.data.feedback_status);
@@ -177,24 +174,18 @@ export default {
         })
         .catch((error) => {
           console.log(error);
-      });
+        });
     },
 
-    restricFile(restriction){
+    restricFile(restriction) {
       updateFileRestriction(this.$route.params.envelopeId, this.file.id, restriction)
         .then((response) => {
-          this.getFile()
-        })
+          this.getFile();
+        });
     },
 
-    createModalFile(){
-       this.modalFile[0] = Object.assign(
-          {},
-          this.modalFile[0],
-          {
-            availableConversions: [],
-            selectedConversion: null,
-          });
+    createModalFile() {
+      this.modalFile[0] = Object.assign({},this.modalFile[0], {availableConversions: [], selectedConversion: null});
     },
 
     deleteFile() {
@@ -212,36 +203,38 @@ export default {
       this.$refs.downloadModal.show();
     },
 
-    runAllQaScripts(){
-      for(let script of this.fileQaScripts) {
-        this.runQAScript(this.file, script.id)
+    runAllQaScripts() {
+      for (let script of this.fileQaScripts) {
+        this.runQAScript(this.file, script.id);
       }
     },
 
-    getFile(){
+    getFile() {
       fetchEnvelopeFile(this.$route.params.envelopeId, this.$route.params.fileId)
         .then((response) => {
-          this.file = response.data
-          console.log(response.data)
-          this.modalFile.push(response.data)
-          this.createModalFile()
+          this.file = response.data;
+          this.modalFile.push(response.data);
+          this.createModalFile();
           fetchEnvelopeFilesQAScripts(this.$route.params.envelopeId, this.$route.params.fileId)
           .then((response) => {
-            let scripts = response.data
-            for(let script of scripts) {
-              script.status = null
+            let scripts = response.data;
+            for (let script of scripts) {
+              script.status = null;
             }
-            this.fileQaScripts = scripts
+            this.fileQaScripts = scripts;
           })
+          .catch((error) => {
+            console.log(error)
+          });
         }).catch((error) => {
-          console.log(error)
-        })
+          console.log(error);
+        });
       fetchEnvelope(this.$route.params.envelopeId).then((response) => {
-        this.envelopeName = response.data.name
-        this.envelopeFinalized= response.data.finalized
+        this.envelopeName = response.data.name;
+        this.envelopeFinalized = response.data.finalized;
       }).catch((error) => {
-        console.log(error)
-      })
+        console.log(error);
+      });
     },
 
     renameFile() {
@@ -251,7 +244,7 @@ export default {
     updateFile() {
       updateFile(this.$route.params.envelopeId, this.file.id, this.file.name)
         .then((response) => {
-          this.getFile()
+          this.getFile();
           this.isEditing = false;
         })
         .catch((error) => {
@@ -259,9 +252,8 @@ export default {
         });
     },
 
-  }
-
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -113,7 +113,7 @@ export default {
     },
 
     handeCountryChange(newCountry) {
-      if(!newCountry) {
+      if (!newCountry) {
         this.currentCountry = null;
         this.countryStyleClass = null;
         return;
@@ -133,10 +133,10 @@ export default {
     },
 
     renderUserInfo(newCountry) {
-        let currentCountryIndex = this.userProfile.reporters.findIndex(country => String(country.id) == newCountry);
+      const currentCountryIndex = this.userProfile.reporters.findIndex(country => String(country.id) == newCountry);
 
-        this.currentCountry = this.userProfile.reporters[currentCountryIndex];
-        this.countryStyleClass = 'flag-icon-' + this.currentCountry.abbr.toLowerCase();
+      this.currentCountry = this.userProfile.reporters[currentCountryIndex];
+      this.countryStyleClass = 'flag-icon-' + this.currentCountry.abbr.toLowerCase();
     },
 
     countryFlag(countryAbbr) {
