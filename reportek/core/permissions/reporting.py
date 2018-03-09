@@ -11,7 +11,11 @@ from ..models import (
 )
 
 from .base import EffectiveObjectPermissions
-from .utils import get_effective_obj_perms
+
+from .utils import (
+    get_effective_obj_perms,
+    debug_call,
+)
 
 
 log = logging.getLogger('reportek.perms')
@@ -24,20 +28,35 @@ error = log.error
 __all__ = [
     'EnvelopePermissions',
     'EnvelopeFilePermissions',
+    'EnvelopeOriginalFilePermissions',
 ]
+
+
+def has_reporter_permissions(groups, reporter, obligation):
+    return (
+        'report_for_reporter' in get_effective_obj_perms(groups, reporter) and
+        'report_on_obligation' in get_effective_obj_perms(groups, obligation)
+    )
+
+
+def has_collaborator_permissions(groups, reporter, obligation):
+    return (
+        'collaborate_for_reporter' in get_effective_obj_perms(groups, reporter) and
+        'report_on_obligation' in get_effective_obj_perms(groups, obligation)
+    )
 
 
 class EnvelopePermissions(EffectiveObjectPermissions):
 
+    @debug_call
     def has_permission(self, request, view):
         perms = super().has_permission(request, view)
-        debug(f'Envelope perms: {perms}')
         if not perms:
             return False
         if request.method in SAFE_METHODS:
             return True
         elif request.method == 'POST':
-            # Creating or transitioning an envelope requires permission to report on
+            # Creating or other POSTS on an envelope requires permission to report on
             # the obligation on behalf of the reporter.
             groups = request.user.effective_groups
             if view.action == 'create':
@@ -48,29 +67,25 @@ class EnvelopePermissions(EffectiveObjectPermissions):
                     obligation_spec = ObligationSpec.objects.get(pk=obligation_spec_id)
                 except ObjectDoesNotExist:
                     return False
-                return (
-                    'report_for_reporter' in get_effective_obj_perms(groups, reporter) and
-                    'report_on_obligation' in get_effective_obj_perms(groups, obligation_spec.obligation)
-                )
-            elif view.action == 'transition':
+                return has_reporter_permissions(groups, reporter, obligation_spec.obligation)
+            else:
+                # Non-create POST requests, e.g. `transition`
                 try:
                     envelope = Envelope.objects.get(pk=request.resolver_match.kwargs.get('pk'))
                 except Envelope.DoesNotExist:
                     return False
 
-                return (
-                    'report_for_reporter' in get_effective_obj_perms(groups, envelope.reporter) and
-                    'report_on_obligation' in get_effective_obj_perms(groups, envelope.obligation_spec.obligation)
-                )
+                return has_reporter_permissions(groups, envelope.reporter, envelope.obligation_spec.obligation)
 
         # Allow GET detail, PATCH, PUT & DELETE to fall through to `has_object_permissions`
         return True
 
+    @debug_call
     def has_object_permission(self, request, view, envelope):
+        # We do NOT check object permissions on the Envelope object itself,
+        # as there are none currently in use.
         if request.method in SAFE_METHODS:
-            return request.user == envelope.author or \
-                   envelope.finalized or \
-                   request.user.has_perm('core.act_as_reportnet_api')
+            return True
         elif request.method == 'PATCH':
             return request.user == envelope.author and not envelope.finalized
         elif request.method == 'DELETE':
@@ -81,63 +96,44 @@ class EnvelopePermissions(EffectiveObjectPermissions):
         return False
 
 
-class EnvelopeFilePermissions(EffectiveObjectPermissions):
+class BaseEnvelopeFilePermissions(EffectiveObjectPermissions):
 
+    @debug_call
     def has_permission(self, request, view):
         perms = super().has_permission(request, view)
-        debug(f'EnvelopeFile perms: {perms}')
         if not perms:
             return False
         if request.method in SAFE_METHODS:
             return True
-        elif request.method == 'POST':
-            if view.action == 'create':
-                envelope_id = request.data.get('envelope_pk')
-            else:
-                envelope_id = request.resolver_match.kwargs.get('envelope_pk')
+        elif request.method == 'POST' and view.action == 'create':
+            envelope_id = request.data.get('envelope_pk')
+        else:
+            envelope_id = request.resolver_match.kwargs.get('envelope_pk')
 
-            try:
-                envelope = Envelope.objects.get(pk=envelope_id)
-            except ObjectDoesNotExist:
-                return False
+        try:
+            envelope = Envelope.objects.get(pk=envelope_id)
+        except ObjectDoesNotExist:
+            return False
 
-            # Creating an envelope file requires an envelope in a state
-            # that allows uploads, and permission to report/collaborate
-            # on the obligation on behalf of the reporter.
-            if view.action == 'create' and not envelope.workflow.upload_allowed:
-                return False
+        # Creating an envelope file requires an envelope in a state
+        # that allows uploads, and permission to report/collaborate
+        # on the obligation on behalf of the reporter.
+        if view.action == 'create' and not envelope.workflow.upload_allowed:
+            return False
 
-            groups = request.user.effective_groups
-            return (
-                (
-                    'report_for_reporter' in get_effective_obj_perms(groups, envelope.reporter) and
-                    'report_on_obligation' in get_effective_obj_perms(groups, envelope.obligation_spec.obligation)
-                ) or
-                (
-                    'collaborate_for_reporter' in get_effective_obj_perms(groups, envelope.reporter) and
-                    'report_on_obligation' in get_effective_obj_perms(groups, envelope.obligation_spec.obligation)
-                )
-            )
+        groups = request.user.effective_groups
+        return (
+            has_reporter_permissions(groups, envelope.reporter, envelope.obligation_spec.obligation) or
+            has_collaborator_permissions(groups, envelope.reporter, envelope.obligation_spec.obligation)
+        )
 
-        # Allow GET detail, PATCH, PUT & DELETE to fall through to `has_object_permissions`
-        return True
-
+    @debug_call
     def has_object_permission(self, request, view, envelope_file):
+        # We do NOT check object permissions on the EnvelopeFile object itself,
+        # as there are none currently in use.
         envelope = envelope_file.envelope
         if request.method in SAFE_METHODS:
-            groups = request.user.effective_groups
-            # Allow read for:
-            # - author
-            # - public if finalized and not restricted
-            # - obligation's client
-            # - Reportnet APIs
-            debug(f'[EnvelopeFile obj perms] Groups: {groups}')
-            return request.user == envelope.author or \
-                request.user.has_perm('core.act_as_reportnet_api') or \
-                (envelope.finalized and not envelope_file.restricted) or \
-                (envelope.finalized and
-                 'inspect_deliveries' in
-                 get_effective_obj_perms(groups, envelope_file.envelope.obligation_spec.obligation.client))
+            return True
         elif request.method == 'PATCH':
             return request.user == envelope.author and not envelope.finalized
         elif request.method == 'DELETE':
@@ -146,3 +142,11 @@ class EnvelopeFilePermissions(EffectiveObjectPermissions):
             return request.user == envelope.author and not envelope.finalized
 
         return False
+
+
+class EnvelopeFilePermissions(BaseEnvelopeFilePermissions):
+    pass
+
+
+class EnvelopeOriginalFilePermissions(BaseEnvelopeFilePermissions):
+    pass

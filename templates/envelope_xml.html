@@ -5,13 +5,11 @@
 <coverage>http://rod.eionet.europa.eu/spatial/{{ envelope.reporter.id }}</coverage>
 <countrycode>{{ envelope.reporter.abbr }}</countrycode>
 <obligation>{{ envelope.obligation.rod_url }}</obligation>
-<link>
-{{ envelope.url }}
-</link>
+<link>{{ envelope.fq_url }}</link>
 <year/>
 <endyear/>
 <partofyear>{{ envelope.created_at.year }}</partofyear>
 {% for file in envelope.files.all() %}
-  <file name="{{ file.name }}" type="file_type" schema="{{ file.xml_schema }}" title="{{ file.name }}" restricted="no" link="{{ file.get_api_download_url() }}"/>
+  <file name="{{ file.name }}" type="file_type" schema="{{ file.xml_schema }}" title="{{ file.name }}" restricted="{{ file.restricted }}" link="{{ file.fq_dl_url }}"/>
 {% endfor %}
 </envelope>

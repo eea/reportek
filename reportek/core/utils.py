@@ -241,7 +241,7 @@ def log_xmlrpc_errors(logger):
             except xmlrpc.client.Fault as err:
                 logger.error(f'XMLRPC fault: code={err.faultCode}, error={err.faultString}')
             except xmlrpc.client.ProtocolError as err:
-                logger.error(f'XMLRPC protocol error: url={err.url}, headers={err.headers}, '
+                logger.error(f'XMLRPC protocol error: url={err.dl_url}, headers={err.headers}, '
                              f'code={err.errcode}, msg={err.errmsg}')
         return wrapper
     return log_decorator
