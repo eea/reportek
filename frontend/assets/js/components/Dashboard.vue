@@ -117,9 +117,6 @@ export default {
 
 <style lang="scss">
 .dashboard-component {
-  h1 {
-    font-size: 1.4rem;
-  }
 
   .envelope-listing-header {
     margin-top: 1rem!important;

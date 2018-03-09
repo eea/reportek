@@ -1,15 +1,8 @@
 <template>
   <div :class="[{ 'dashboard-component': context }, 'obligations-pending']">
     <b-row v-if="obligationsPending" class="obligations-pending-header">
-      <h1 v-if="!context">Obligations Pendingprogress</h1>
-      <h1 v-else>Obligations Pending</h1>
-      <router-link
-        v-if="!context"
-        class="btn btn-primary"
-        :to="'/dashboard'"
-      >
-      Dashboard
-      </router-link>
+      <h1 v-if="!context">Pending obligations</h1>
+      <h1 v-else>Pending obligations</h1>
     </b-row>
       <b-row
         class="obligations-pending-item"
@@ -39,7 +32,7 @@
           <div>
             <strong>Reporting period</strong>
           </div>
-          <div 
+          <div
             v-for="cycle in obligation.reporting_cycles"
             :key="cycle.id"
             class="reporting-period"

@@ -4,14 +4,7 @@
 
     <b-row class="envelope-listing-header">
       <h1 v-if="!context">Envelopes in progress</h1>
-      <h1 v-else>Work in progress</h1>
-      <router-link
-        v-if="!context"
-        class="btn btn-primary"
-        :to="'/dashboard'"
-      >
-      Dashboard
-      </router-link>
+      <h4 v-else>Work in progress</h4>
     </b-row>
       <b-row
         class="envelope-listing-item"
@@ -123,68 +116,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-
-a.btn-primary {
-  color: #fff;
-}
-
-.envelope-listing {
-  .envelope-listing-item {
-    border-top: 1px solid #eee;
-    margin-top:1rem;
-    margin-bottom: 1rem;
-    padding-top:.5rem;
-    padding-bottom: .5rem;
-    &:last-of-type {
-      border-bottom: 1px solid #eee;
-    }
-  }
-  .envelope-name {
-    .router-link {
-      font-size: 1.5rem;
-      font-weight: bold;
-    }
-  }
-  .status-badge {
-    display: flex;
-    padding-top: .5rem;
-    margin-right: 1rem;
-    justify-content:center;
-  }
-  .envelope-reporting-period {
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-  }
-  .envelope-name-wrapper {
-    flex-grow: 1;
-  }
-  .badge-pill {
-    line-height: 1.4;
-    height: 22px;
-  }
-  h1 {
-    font-weight: 400;
-    flex-grow: 1;
-  }
-  .envelope-listing-header {
-    margin-top: 2rem;
-    display: flex;
-    align-items: center;
-  }
-  .reporting-period {
-    font-size: .9rem;
-  }
-}
 </style>

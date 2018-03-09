@@ -17,11 +17,11 @@
           </div>
           <div class="file-details-section">
             <label>File size</label>
-            <div>{{file.size}} kb</div>
+            <div>{{formatSize(file.size)}}</div>
           </div>
           <div class="file-details-section">
             <label>Last modified</label>
-            <div>{{file.updated}}</div>
+            <div>{{formatDate(file.updated, 5)}}</div>
           </div>
           <div class="file-type">
             .XML
@@ -104,14 +104,16 @@ import {  fetchEnvelope,
           runEnvelopeFilesQAScript,
         } from '../api';
 
-import { dateFormat } from '../utils/UtilityFunctions';
 import utilsMixin from '../mixins/utils';
 import EnvelopeFilesDownload from './EnvelopeFilesDownload';
+
 
 
 export default {
 
   name: 'FileDetails',
+
+  mixins: [utilsMixin],
 
   data() {
     return {
@@ -135,8 +137,9 @@ export default {
     runQAScript(file, scriptId) {
       runEnvelopeFilesQAScript(this.$route.params.envelopeId, file.id, scriptId)
         .then((response) => {
-          file.availableScripts.map((script) => {
-            if (script.data.id === scriptId) {
+          console.log(this.fileQaScripts)
+          this.fileQaScripts.map((script) => {
+            if (script.id === scriptId) {
               script.variant = this.envelopeCodeDictionary(response.data.feedback_status);
             }
             return script;
@@ -210,7 +213,6 @@ export default {
       })
     },
 
-
     renameFile() {
       this.isEditing = true;
     },
@@ -219,6 +221,7 @@ export default {
       updateFile(this.$route.params.envelopeId, this.file.id, this.file.name)
         .then((response) => {
           this.getFile()
+          this.isEditing = false;
         })
         .catch((error) => {
           console.log(error);

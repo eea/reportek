@@ -34,7 +34,7 @@
               Active period
             </b-col>
             <b-col lg="10">
-              {{obligation.active_since}} - {{obligation.active_until}}
+              {{formatDate(obligation.active_since,2)}} - {{formatDate(obligation.active_until,2)}}
             </b-col>
           </b-row>
           <b-row>
@@ -42,7 +42,7 @@
               Active period
             </b-col>
             <b-col lg="10">
-              {{obligation.active_since}} - {{obligation.active_until}}
+              {{formatDate(obligation.active_since,2)}} - {{formatDate(obligation.active_until,2)}}
             </b-col>
           </b-row>
           <b-row>
@@ -94,7 +94,7 @@
               </b-col>
               <b-col lg="10">
                 <div v-for="cycle in spec.reporting_cycles">
-                  {{cycle.reporting_start_date}} - {{cycle.reporting_end_date}}
+                  {{formatDate(cycle.reporting_start_date,2)}} - {{formatDate(cycle.reporting_end_date,2)}}
                 </div>
               </b-col>
             </b-row>
@@ -103,7 +103,7 @@
                 Created at
               </b-col>
               <b-col lg="10">
-                {{spec.created_at}}
+                {{formatDate(spec.created_at,2)}}
               </b-col>
             </b-row>
             <b-row>
@@ -111,7 +111,7 @@
                 Last updated
               </b-col>
               <b-col lg="10">
-                {{spec.updated_at}}
+                {{formatDate(spec.updated_at,2)}}
               </b-col>
             </b-row>
           </div>
@@ -180,10 +180,13 @@
 <script>
 
 import { fetchObligation } from '../api';
+import utilsMixin from '../mixins/utils';
 
 export default {
 
   name: 'ObligationDetail',
+
+  mixins: [utilsMixin],
 
   data(){
     return {
