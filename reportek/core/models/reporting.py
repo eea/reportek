@@ -25,7 +25,10 @@ from .rod import (
 
 from .qa import QAJob, QAJobResult
 
-from reportek.core.utils import get_xsd_uri
+from reportek.core.utils import (
+    get_xsd_uri,
+    fully_qualify_url,
+)
 
 log = logging.getLogger('reportek.workflows')
 info = log.info
@@ -97,6 +100,15 @@ class Envelope(models.Model):
         if self.obligation_spec is None:
             return None
         return self.obligation_spec.obligation
+
+    @property
+    def url(self):
+        return reverse('api:envelope-detail',
+                       kwargs={'pk': self.pk})
+
+    @property
+    def fq_url(self):
+        return fully_qualify_url(self.url)
 
     @property
     def auto_qa_jobs(self):
@@ -340,6 +352,14 @@ class EnvelopeFile(models.Model):
     @property
     def size(self):
         return self.file.size
+
+    @property
+    def dl_url(self):
+        return self.get_api_download_url()
+
+    @property
+    def fq_dl_url(self):
+        return fully_qualify_url(self.dl_url)
 
     @property
     def qa_results(self):

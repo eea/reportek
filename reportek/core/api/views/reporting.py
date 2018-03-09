@@ -16,6 +16,7 @@ from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from rest_framework.renderers import StaticHTMLRenderer, TemplateHTMLRenderer
 from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.authentication import (
     TokenAuthentication
 )
@@ -45,6 +46,8 @@ from ...serializers import (
 
 from ... import permissions
 
+from .base import MappedPermissionsMixin
+
 from reportek.core.utils import path_parts
 
 from reportek.core.qa import RemoteQA
@@ -73,14 +76,29 @@ class EnvelopeResultsSetPagination(LimitOffsetPagination):
     max_limit = 100
 
 
-class EnvelopeViewSet(viewsets.ModelViewSet):
-    queryset = Envelope.objects.all().prefetch_related('files')
+class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
     serializer_class = EnvelopeSerializer
     authentication_classes = viewsets.ModelViewSet.authentication_classes + [TokenAuthentication]
-    permission_classes = (
-        permissions.EnvelopePermissions,
-    )
     pagination_class = EnvelopeResultsSetPagination
+
+    permission_classes_map = {
+        'default': [permissions.EnvelopePermissions],
+        'list': [IsAuthenticatedOrReadOnly],
+        'retrieve': [IsAuthenticatedOrReadOnly]
+    }
+
+    def get_queryset(self):
+        if self.request.user.is_anonymous:
+            return Envelope.objects.filter(finalized=True).prefetch_related('files')
+        elif self.request.user.has_perm('core.act_as_reportnet_api'):
+            return Envelope.objects.all().prefetch_related('files')
+
+        reporters = self.request.user.get_reporters()
+        obligations = self.request.user.get_obligations()
+
+        return Envelope.objects.filter(
+            Q(finalized=True) | Q(reporter__in=reporters, obligation_spec__obligation__in=obligations)
+        ).prefetch_related('files')
 
     def perform_create(self, serializer):
         serializer.validated_data['author'] = self.request.user
@@ -192,6 +210,18 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(envelopes, many=True)
         return Response(serializer.data)
 
+    @detail_route(methods=['get'], renderer_classes=(TemplateHTMLRenderer,))
+    def xml(self, request, pk):
+        """
+        Returns an evelope's metadata in XML format.
+        """
+        envelope = self.get_object()
+        return Response(
+            {'envelope': envelope},
+            template_name='envelope_xml.html',
+            content_type='text/xml'
+        )
+
     @detail_route(methods=['get'])
     def feedback(self, request, pk):
         """
@@ -232,19 +262,26 @@ class EnvelopeViewSet(viewsets.ModelViewSet):
         return Response(envelope.workflow.to_json_graph())
 
 
-class EnvelopeOriginalFileViewSet(viewsets.ModelViewSet):
-    queryset = EnvelopeOriginalFile.objects.all()
-    permission_classes = (permissions.IsAuthenticated, )
+class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
+
+    permission_classes_map = {
+        'default': [permissions.EnvelopeOriginalFilePermissions],
+        'list': [IsAuthenticatedOrReadOnly],
+        'retrieve': [IsAuthenticatedOrReadOnly],
+        'download': [IsAuthenticatedOrReadOnly]
+    }
+
+    def get_queryset(self):
+        qs = EnvelopeOriginalFile.objects.filter(envelope_id=self.kwargs['envelope_pk'])
+        if self.request.user.is_anonymous() and self.action != 'list':
+            return qs.filter(restricted=False)
+
+        return qs
 
     def get_serializer_class(self):
         if self.request.method == "POST":
             return CreateEnvelopeOriginalFileSerializer
         return EnvelopeOriginalFileSerializer
-
-    def get_queryset(self):
-        return super().get_queryset().filter(
-            envelope_id=self.kwargs['envelope_pk']
-        )
 
     def perform_create(self, serializer):
         serializer.save(
@@ -270,27 +307,33 @@ class EnvelopeOriginalFileViewSet(viewsets.ModelViewSet):
             # https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/
             response = Response(
                 headers={
-                    'X-Accel-Redirect': _file.storage.url(relpath)
+                    'X-Accel-Redirect': _file.storage.dl_url(relpath)
                 }
             )
         return response
 
 
-class EnvelopeFileViewSet(viewsets.ModelViewSet):
-    queryset = EnvelopeFile.objects.all()
-    permission_classes = (
-        permissions.EnvelopeFilePermissions,
-    )
+class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
+
+    permission_classes_map = {
+        'default': [permissions.EnvelopeFilePermissions],
+        'list': [IsAuthenticatedOrReadOnly],
+        'retrieve': [IsAuthenticatedOrReadOnly],
+        'download': [IsAuthenticatedOrReadOnly],
+        'download_archive': [IsAuthenticatedOrReadOnly]
+    }
+
+    def get_queryset(self):
+        qs = EnvelopeFile.objects.filter(envelope_id=self.kwargs['envelope_pk'])
+        if self.request.user.is_anonymous() and self.action != 'list':
+            return qs.filter(restricted=False)
+
+        return qs
 
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreateEnvelopeFileSerializer
         return EnvelopeFileSerializer
-
-    def get_queryset(self):
-        return super().get_queryset().filter(
-            envelope_id=self.kwargs['envelope_pk']
-        )
 
     def perform_create(self, serializer):
         serializer.save(
@@ -299,7 +342,7 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         )
 
     @staticmethod
-    def get_ids_or_404(envelope_pk, ids):
+    def get_ids_or_404(queryset, ids):
         """
         Helper method for routes accepting file ids as a comma separated query param.
         Will issue a 404 response if the ids aren't integers or don't belong to the envelope.
@@ -311,7 +354,7 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
             ids = [int(i) for i in ids.split(',')]
         except ValueError:
             raise NotFound
-        if not ids or len(ids) != EnvelopeFile.objects.filter(envelope_id=envelope_pk, id__in=ids).count():
+        if not ids or len(ids) != queryset.filter(id__in=ids).count():
             raise NotFound
         return ids
 
@@ -324,8 +367,9 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         if pk is not None:
             return super().destroy(envelope_pk, pk)
         else:
-            ids = self.get_ids_or_404(envelope_pk, request.query_params.get('ids', ''))
-            EnvelopeFile.objects.filter(id__in=ids).delete()
+            qs = self.get_queryset()
+            ids = self.get_ids_or_404(qs, request.query_params.get('ids', ''))
+            qs.filter(id__in=ids).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
 
     @detail_route(methods=['get', 'head'], renderer_classes=(StaticHTMLRenderer,))
@@ -347,7 +391,7 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
             # https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/
             response = Response(
                 headers={
-                    'X-Accel-Redirect': _file.storage.url(relpath)
+                    'X-Accel-Redirect': _file.storage.dl_url(relpath)
                 }
             )
 
@@ -363,13 +407,14 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
         of envelope IDs, which must all match files on the envelope.
         In the absence of the query parameter, ALL files are included.
         """
-        envelope = Envelope.objects.get(pk=envelope_pk)
         ids = request.query_params.get('ids')
+        qs = self.get_queryset()
         if ids is None:
-            files = envelope.files.all()
+            files = qs.all()
         else:
-            ids = self.get_ids_or_404(envelope_pk, ids)
-            files = EnvelopeFile.objects.filter(id__in=ids)
+            ids = self.get_ids_or_404(qs, ids)
+            files = qs.filter(id__in=ids)
+        envelope = Envelope.objects.get(pk=envelope_pk)
         archive_name = f'{slugify(envelope.name)}_files_{timezone.now().strftime("%Y%m%d_%H%M%S")}.zip'
         archive_path = settings.DOWNLOAD_STAGING_ROOT / archive_name
         with ZipFile(archive_path, 'w') as archive:
@@ -395,18 +440,6 @@ class EnvelopeFileViewSet(viewsets.ModelViewSet):
 
             response['Content-Disposition'] = f'attachment; filename={archive_name}'
             return response
-
-    @detail_route(methods=['get'], renderer_classes=(TemplateHTMLRenderer,))
-    def xml(self, request, envelope_pk, pk):
-        """
-        Returns an evelope's metadata in XML format.
-        """
-        envelope = self.get_object()
-        return Response(
-            {'envelope': envelope},
-            template_name='envelope_xml.html',
-            content_type='text/xml'
-        )
 
     @detail_route(methods=['get'])
     def qa_scripts(self, request, envelope_pk, pk):

@@ -51,13 +51,22 @@ class EffectiveObjectPermissions(DjangoObjectPermissions):
         debug(f'{model_cls.__name__} req. perms: {perms}')
         return perms
 
+    def has_permission(self, request, view):
+        perms = super().has_permission(request, view)
+        debug(f'{self._queryset(view).model.__name__} has perms? {perms}')
+        return perms
+
     def get_required_object_permissions(self, method, model_cls):
         perms = super().get_required_object_permissions(method, model_cls)
         debug(f'{model_cls.__name__} req. obj. perms: {perms}')
         return perms
 
     def has_object_permission(self, request, view, obj):
-        # authentication checks have already executed via has_permission
+        perms = super().has_object_permission(request, view, obj)
+        debug(f'{obj.__class__.__name__} has obj. perms? {perms}')
+        return perms
+
+    def has_effective_object_permission(self, request, view, obj):
         queryset = self._queryset(view)
         model_cls = queryset.model
         eff_groups = request.user.effective_groups
