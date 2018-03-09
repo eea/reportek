@@ -75,6 +75,10 @@ export function fetchEnvelopeFiles(id) {
   return fetch(`envelopes/${id}/files/`);
 }
 
+export function fetchEnvelopeFile(envelopeId, fileId) {
+    return fetch(`envelopes/${envelopeId}/files/${fileId}`);
+}
+
 export function fetchEnvelopeWorkflow(id) {
   return fetch(`envelopes/${id}/workflow_graph/`);
 }
@@ -108,6 +112,12 @@ export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
 export function updateFile(id, fileId, name) {
   return update(`envelopes/${id}/files/${fileId}/`, {name: name});
 }
+
+
+export function updateFileRestriction(id, fileId, restricted) {
+  return update(`envelopes/${id}/files/${fileId}/`, {restricted: restricted});
+}
+
 
 export function removeFile(id, fileId) {
   return remove(`envelopes/${id}/files/${fileId}/`);

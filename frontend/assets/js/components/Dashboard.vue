@@ -12,7 +12,7 @@
         :envelopesCount="envelopesCount"
       >
       </wip>
-      <div v-if="showMoreArchive" class="show-more">
+      <div v-if="showMoreWip" class="show-more">
         <span>Showing {{envelopesCount}} out of {{actualLength.envelopesWipLength}} envelopes.</span>
         <router-link
           class="nav-link"
@@ -103,7 +103,6 @@ export default {
     },
 
     handleArchiveLoaded(count){
-      console.log('a intrat aici', count)
       this.actualLength.archiveLength = count;
       this.showMoreArchive = count > this.archiveCount;
     },
@@ -118,9 +117,7 @@ export default {
 
 <style lang="scss">
 .dashboard-component {
-  h1 {
-    font-size: 1.4rem;
-  }
+
   .envelope-listing-header {
     margin-top: 1rem!important;
   }
@@ -133,6 +130,21 @@ export default {
   .envelope-name .router-link{
     font-size: 1.4rem!important;
     font-weight: 400!important;
+  }
+   .obligation-name {
+    .router-link {
+      font-weight: 400!important;
+    }
+  }
+  .obligations-pending-item {
+    padding-left: 53px;
+  }
+  .reporting-period {
+      min-width: 16rem;
+  }
+  .create-envelope {
+    right: auto!important;
+    left: 0;
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="envelope-detail">
     <div class="row" v-if="envelope">
       <h1 class="envelope-title">{{envelope.name}}
         <b-badge pill class="small" variant="warning">
@@ -57,10 +57,15 @@
                 </b-form-input>
 
                 <div class="blue-color" v-if="!row.item.isEditing">
+                  <router-link
+                    :to="{name:'FileDetails', params: {envelopeId: `${envelope.id}`, fileId: `${row.item.id}`}}"
+                  >
                   {{row.item.name}}
+                  </router-link>
+
                 </div>
                 <div>
-                  <small class="muted">XML document, 6.89 mb</small>
+                  <small class="muted">XML document, {{formatSize(row.item.size)}}</small>
                 </div>
 
                 <div class="file-tests">
@@ -89,14 +94,14 @@
                       variant="link"
                       class="muted"
                       v-on:click="getFileScripts(row.item)"
-                      v-show="row.item.availableScripts.length === 0 || row.item.visibleScripts === false"
+                      v-show="row.item.visibleScripts === false"
                     >
                       <i class="far fa-plus-square"></i> View Tests
                     </b-btn>
                     <b-btn
                       variant="link"
                       class="muted"
-                      v-show="row.item.availableScripts.length != 0 && row.item.visibleScripts === true"
+                      v-show="row.item.visibleScripts === true"
                       v-on:click="row.item.visibleScripts = false"
                     >
                       <i class="far fa-minus-square"></i> Hide Tests
@@ -147,7 +152,7 @@
             </b-table>
 
             <b-card
-              title="Wrok area empty"
+              title="Work area empty"
               class="empty-workarea"
               v-else
             >
@@ -159,7 +164,7 @@
                 class="upload-form"
               >
                 <label
-                  :class="[ {'disabled': filesUploading  }, 'btn', 'btn-primary']"
+                  :class="[ {'disabled': filesUploading || !envelope.workflow.upload_allowed  }, 'btn', 'btn-primary']"
                   for="file_uploads"
                 >
                   <i class="far fa-folder-open"></i>  Upload files
@@ -168,7 +173,7 @@
                   type="file"
                   id="file_uploads"
                   class="hidden-input"
-                  :disabled="filesUploading"
+                  :disabled="filesUploading || !envelope.workflow.upload_allowed"
                   v-on:change="onFileChange"
                   multiple
                 >
@@ -212,7 +217,10 @@
                 v-for="file in files"
                 :key="file.data.name"
               >
-                {{file.data.name}}
+                <div class="file-row">
+                  <span>{{file.data.name}}</span>
+                  <b-btn @click="removeFileFromUploadList(file)" variant="danger"> Remove file </b-btn>
+                </div>
 
                 <b-progress-bar
                   :value="file.percentage"
@@ -271,7 +279,7 @@
               novalidate
               class="upload-form">
                   <label
-                    :class="[ {'disabled': filesUploading  }, 'btn', 'btn-white', 'sidebar-button']"
+                    :class="[ {'disabled': filesUploading || !envelope.workflow.upload_allowed }, 'btn', 'btn-white', 'sidebar-button']"
                     for="file_uploads"
                   >
                     <i class="far fa-folder-open"></i>
@@ -281,7 +289,7 @@
                     type="file"
                     id="file_uploads"
                     class="hidden-input"
-                    :disabled="filesUploading"
+                    :disabled="filesUploading || !envelope.workflow.upload_allowed"
                     v-on:change="onFileChange"
                     multiple
                   >
@@ -353,7 +361,6 @@ import { fetchEnvelope,
           removeFile,
           uploadFile,
         } from '../api';
-import { dateFormat } from '../utils/UtilityFunctions';
 import utilsMixin from '../mixins/utils';
 
 
@@ -495,7 +502,7 @@ export default {
     },
 
     uploadAllFiles(e) {
-      e.preventDefault();
+      // e.preventDefault();
       this.filesUploading = true;
 
       // for each file create a function that returns a promise
@@ -531,8 +538,22 @@ export default {
           .then((response) =>  {
             resolve(response);
           })
-          .catch(console.error.bind(console));
+          .catch((error) => {
+            console.log(error)
+            this.handleUploadFileError(file);
+          });
       });
+    },
+
+    handleUploadFileError(file) {
+      this.filesUploading = false;
+      this.removeFileFromUploadList(file);
+      this.uploadAllFiles();
+      alert('file type is wrong. It will be removed')
+    },
+
+    removeFileFromUploadList(file){
+      this.files.splice(this.files.indexOf(file), 1)
     },
 
     updateFilesList() {
@@ -595,9 +616,9 @@ export default {
         if (file.availableScripts.length === 0) {
           fetchEnvelopeFilesQAScripts(this.$route.params.envelopeId, file.id)
             .then((response) => {
+              file.visibleScripts = true;
               response.data.map((script) => {
                 file.availableScripts.push({ data: script, variant: 'primary' });
-                file.visibleScripts = true;
                 return script;
               });
               resolve(file);
@@ -769,9 +790,6 @@ export default {
       return code !== 'fail_qa' && code !== 'pass_qa';
     },
 
-    formatDate(date, count) {
-      return dateFormat(date, count);
-    },
   },
 };
 </script>
@@ -911,6 +929,12 @@ label.disabled {
   button {
     display: block;
   }
+}
+
+.file-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 </style>

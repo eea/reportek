@@ -2,6 +2,8 @@
 </template>
 
 <script>
+
+import * as utils from '../utils/UtilityFunctions'
 export default {
 
   name: 'utils',
@@ -40,8 +42,8 @@ export default {
         error: 'danger',
         fail: 'danger',
         draft: 'warning',
-        auto_qa: 'default',
-        send_to_qa: 'default',
+        auto_qa: 'secondary',
+        send_to_qa: 'secondary',
         reject: 'danger',
         release: 'success',
       };
@@ -57,6 +59,18 @@ export default {
     translateCodeVariant(code) {
       return this.envelopeCodeDictionaryVariants(code);
     },
+
+    formatDate(date, format) {
+      return utils.dateFormat(date,format);
+    },
+
+    formatSize(size, decimalPoint) {
+      return utils.formatFileSize(size, decimalPoint);
+    },
+
+    capitalize(value) {
+      return utils.capitalize(value);
+    }
 
   },
 }

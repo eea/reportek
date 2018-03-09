@@ -1,6 +1,7 @@
 @import './custom.scss';
 @import '~bootstrap/scss/bootstrap';
 @import '~bootstrap-vue/dist/bootstrap-vue';
+@import '~flag-icon-css/css/flag-icon.css';
 
 .floating-demo {
   position: fixed;
@@ -117,4 +118,70 @@ textarea {
 
 .btn-transparent {
   background: white;
+}
+
+
+h1, h2 {
+  font-weight: normal;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+li {
+  display: inline-block;
+  margin: 0 10px;
+}
+
+a.btn-primary {
+  color: #fff;
+}
+
+.envelope-listing {
+  .envelope-listing-item {
+    border-top: 1px solid #eee;
+    margin-top:1rem;
+    margin-bottom: 1rem;
+    padding-top:.5rem;
+    padding-bottom: .5rem;
+    &:last-of-type {
+      border-bottom: 1px solid #eee;
+    }
+  }
+  .envelope-name {
+    .router-link {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+  }
+  .status-badge {
+    display: flex;
+    padding-top: .5rem;
+    margin-right: 1rem;
+    justify-content:center;
+  }
+  .envelope-reporting-period {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .envelope-name-wrapper {
+    flex-grow: 1;
+  }
+  .badge-pill {
+    line-height: 1.4;
+    height: 22px;
+  }
+  h1 {
+    font-weight: 400;
+    flex-grow: 1;
+  }
+  .envelope-listing-header {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+  }
+  .reporting-period {
+    font-size: .9rem;
+  }
 }

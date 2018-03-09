@@ -1,15 +1,8 @@
 <template>
   <div :class="[{ 'dashboard-component': context }, 'envelope-listing']">
-
     <b-row class="envelope-listing-header">
-      <h1>Released envelopes</h1>
-      <router-link
-        class="btn btn-primary"
-        v-if="!context"
-        :to="'/dashboard'"
-      >
-      Dashboard
-      </router-link>
+      <h1 v-if="!context">Released envelopes</h1>
+      <h4 v-else>Released</h4>
     </b-row>
       <b-row
         class="envelope-listing-item"
@@ -84,15 +77,7 @@ export default {
   },
 
   created() {
-    fetchArchiveEnvelopes(this.$route.params.reporterId)
-      .then((response) => {
-        // JSON responses are automatically parsed.
-        this.envelopes = this.context ? response.data.slice(0,this.archiveCount) : response.data;
-        this.$emit('archiveLoaded', response.data.length)
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+    this.getArchiveEnvelopes();
   },
 
   methods: {
@@ -102,6 +87,26 @@ export default {
 
     goToObligation(id){
       this.$router.push({ name: 'ObligationDetail', params: { obligationId: id } });
+    },
+
+    getArchiveEnvelopes() {
+      fetchArchiveEnvelopes(this.$route.params.reporterId)
+        .then((response) => {
+          // JSON responses are automatically parsed.
+          this.envelopes = this.context ? response.data.slice(0,this.archiveCount) : response.data;
+          this.$emit('archiveLoaded', response.data.length)
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+  },
+
+  watch: {
+    $route(to, from) {
+      if (from && (to.params.reporterId != from.params.reporterId)) {
+        this.getArchiveEnvelopes();
+      }
     },
   },
 };
