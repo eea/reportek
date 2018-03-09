@@ -1,5 +1,34 @@
 <template>
   <div class="file-page" v-if="file">
+   <div class="breadcrumbs">
+      <router-link
+         :to="{name:'Dashboard', params: {reporterId: `${$route.params.reporterId}`}}"
+        >
+        Dashboard
+      </router-link>
+      <span class="separator">/</span>
+      <router-link
+         :to="{name:'EnvelopesWIP', params: {reporterId: `${$route.params.reporterId}`}}"
+         v-if="!envelopeFinalized"
+        >
+        Envelopes in progress
+      </router-link>
+      <router-link
+         :to="{name:'EnvelopesArchive', params: {reporterId: `${$route.params.reporterId}`}}"
+         v-else
+        >
+        Envelopes archive
+      </router-link>
+      <span class="separator">/</span>
+      <router-link
+         :to="{name:'EnvelopeDetail', params: {reporterId: `${$route.params.reporterId}`, envelopeId: `${$route.params.envelopeId}`}}"
+
+        >
+        {{envelopeName}}
+      </router-link>
+      <span class="separator">/</span>
+      <span class="current-page">{{file.name}}</span>
+    </div>
     <h1>{{envelopeName}}</h1>
     <b-row>
       <b-col class="file-details-wrapper" lg="6">
@@ -122,6 +151,7 @@ export default {
       envelopeName: null,
       fileQaScripts: null,
       isEditing: false,
+      envelopeFinalized: false,
     }
   },
 
@@ -208,6 +238,7 @@ export default {
         })
       fetchEnvelope(this.$route.params.envelopeId).then((response) => {
         this.envelopeName = response.data.name
+        this.envelopeFinalized= response.data.finalized
       }).catch((error) => {
         console.log(error)
       })

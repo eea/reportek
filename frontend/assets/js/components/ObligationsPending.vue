@@ -1,5 +1,14 @@
 <template>
   <div :class="[{ 'dashboard-component': context }, 'obligations-pending']">
+    <div v-if="!context" class="breadcrumbs">
+      <router-link
+         :to="{name:'Dashboard', params: {reporterId: `${$route.params.reporterId}`}}"
+        >
+        Dashboard
+      </router-link>
+      <span class="separator">/</span>
+      <span class="current-page">Pending obligations</span>
+    </div>
     <b-row v-if="obligationsPending" class="obligations-pending-header">
       <h1 v-if="!context">Pending obligations</h1>
       <h1 v-else>Pending obligations</h1>

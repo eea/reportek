@@ -1,5 +1,20 @@
 <template>
   <div class="create-envelope clearfix">
+    <div class="breadcrumbs">
+        <router-link
+           :to="{name:'Dashboard', params: {reporterId: `${$route.params.reporterId}`}}"
+          >
+          Dashboard
+        </router-link>
+        <span class="separator">/</span>
+        <router-link
+           :to="{name:'ObligationsPending', params: {reporterId: `${$route.params.reporterId}`}}"
+          >
+          Pending obligations
+        </router-link>
+        <span class="separator">/</span>
+        <span class="current-page">Create envelope</span>
+      </div>
     <h1>New envelope</h1>
     <p class="muted" style="font-size: .8rem">Fill out the fields in this report profile and click Add. This will create an envelope into which you make the delivery</p>
     <b-form

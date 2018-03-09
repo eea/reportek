@@ -1,5 +1,14 @@
 <template>
   <div :class="[{ 'dashboard-component': context }, 'envelope-listing']">
+    <div v-if="!context" class="breadcrumbs">
+      <router-link
+         :to="{name:'Dashboard', params: {reporterId: `${$route.params.reporterId}`}}"
+        >
+        Dashboard
+      </router-link>
+      <span class="separator">/</span>
+      <span class="current-page">Released envelopes</span>
+    </div>
     <b-row class="envelope-listing-header">
       <h1 v-if="!context">Released envelopes</h1>
       <h4 v-else>Released</h4>
