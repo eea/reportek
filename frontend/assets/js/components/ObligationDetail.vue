@@ -1,6 +1,21 @@
 <template>
   <div>
     <div class="obligation-detail" v-if="obligation">
+      <div class="breadcrumbs">
+        <router-link
+           :to="{name:'Dashboard', params: {reporterId: `${$route.params.reporterId}`}}"
+          >
+          Dashboard
+        </router-link>
+        <span class="separator">/</span>
+        <router-link
+           :to="{name:'ObligationsPending', params: {reporterId: `${$route.params.reporterId}`}}"
+          >
+          Pending obligations
+        </router-link>
+        <span class="separator">/</span>
+        <span class="current-page">{{obligation.title}}</span>
+      </div>
       <h1>Reporting for: {{obligation.title}}</h1>
       <h3>Details</h3>
       <b-tabs>

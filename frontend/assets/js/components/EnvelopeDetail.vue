@@ -1,6 +1,28 @@
 <template>
   <div class="envelope-detail">
     <div class="row" v-if="envelope">
+      <div class="breadcrumbs">
+        <router-link
+           :to="{name:'Dashboard', params: {reporterId: `${$route.params.reporterId}`}}"
+          >
+          Dashboard
+        </router-link>
+        <span class="separator">/</span>
+        <router-link
+           :to="{name:'EnvelopesWIP', params: {reporterId: `${$route.params.reporterId}`}}"
+           v-if="!envelope.finalized"
+          >
+          Envelopes in progress
+        </router-link>
+        <router-link
+           :to="{name:'EnvelopesArchive', params: {reporterId: `${$route.params.reporterId}`}}"
+           v-else
+          >
+          Envelopes archive
+        </router-link>
+        <span class="separator">/</span>
+        <span class="current-page">{{envelope.name}}</span>
+      </div>
       <h1 class="envelope-title">{{envelope.name}}
         <b-badge pill class="small" variant="warning">
           <strong>{{translateCode(envelope.workflow.current_state)}}</strong>
