@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import datetime
 from pathlib import Path
 from django_jinja.builtins import DEFAULT_EXTENSIONS as JINJA_DEFAULT_EXTENSIONS
 import ldap
@@ -31,6 +32,15 @@ def get_env_var(var_name, default=None):
 def get_bool_env_var(var_name, default=None):
     var = get_env_var(var_name, default)
     return var.lower() == 'yes'
+
+
+def get_int_env_var(var_name, default=None):
+    var = get_env_var(var_name, default)
+    try:
+        return int(var)
+    except ValueError:
+        raise ImproperlyConfigured(f'Environment variable {var_name} '
+                                   f'must be an integer or integer-convertible string')
 
 
 def split_env_var(var_name, sep=','):
@@ -176,7 +186,8 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
+        'reportek.core.authentication.ExpiringTokenAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication',
     ),
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
@@ -238,6 +249,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'guardian.backends.ObjectPermissionBackend',
 ]
+
+TOKEN_EXPIRE_INTERVAL = datetime.timedelta(days=get_int_env_var('TOKEN_EXPIRE_INTERVAL'))
 
 ANONYMOUS_USER_NAME = 'anonymous'
 
@@ -370,9 +383,9 @@ LOGGING = {
             'handlers': ['console'],
             'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO'),
         },
-        'reportek.perms': {
+        'reportek.auth': {
             'handlers': ['console'],
-            'level': get_env_var('PERMS_LOG_LEVEL', 'INFO'),
+            'level': get_env_var('AUTH_LOG_LEVEL', 'INFO'),
         },
         'reportek.qa': {
             'handlers': ['console'],

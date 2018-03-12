@@ -17,9 +17,7 @@ from rest_framework.exceptions import NotFound
 from rest_framework.renderers import StaticHTMLRenderer, TemplateHTMLRenderer
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from rest_framework.authentication import (
-    TokenAuthentication
-)
+
 
 from django.conf import settings
 from django.core.files import File
@@ -78,7 +76,6 @@ class EnvelopeResultsSetPagination(LimitOffsetPagination):
 
 class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
     serializer_class = EnvelopeSerializer
-    authentication_classes = viewsets.ModelViewSet.authentication_classes + [TokenAuthentication]
     pagination_class = EnvelopeResultsSetPagination
 
     permission_classes_map = {

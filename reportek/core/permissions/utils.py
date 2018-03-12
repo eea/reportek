@@ -4,7 +4,7 @@ import itertools
 from guardian.shortcuts import get_perms
 
 
-log = logging.getLogger('reportek.perms')
+log = logging.getLogger('reportek.auth')
 info = log.info
 debug = log.debug
 warn = log.warning
