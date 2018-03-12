@@ -1,6 +1,6 @@
 <template>
   <div class="login-page">
-  <b-form @submit="onSubmit" @reset="onReset">
+  <b-form @submit="login">
       <b-form-group id="exampleInputGroup2"
                     label="Username"
                     label-for="username">
@@ -11,6 +11,7 @@
                       placeholder="Enter username">
         </b-form-input>
       </b-form-group>
+
       <b-form-group id="exampleInputGroup1"
                     label="Password"
                     label-for="password"
@@ -28,9 +29,13 @@
 </template>
 
 <script>
-export default {
 
+import authMixin from '../mixins/auth';
+
+export default {
   name: 'Login',
+
+  mixins: [ authMixin ],
 
   data() {
     return {
@@ -38,24 +43,8 @@ export default {
         username: '',
         password: '',
       },
-    }
+    };
   },
-
-  methods: {
-    onSubmit(evt) {
-      evt.preventDefault();
-      console.log(JSON.stringify(this.form));
-
-      let date = new Date;
-      date.setDate(date.getDate() + 0.001);
-      this.$cookies.set('authToken', this.form.username, date)
-      this.$router.push({ name: 'ReportersList' });
-
-    },
-    onReset(evt) {
-      evt.preventDefault();
-    }
-  }
 }
 </script>
 

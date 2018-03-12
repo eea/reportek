@@ -9,6 +9,7 @@ import VueCookies from 'vue-cookies'
 
 // Globally register bootstrap-vue components
 Vue.use(BootstrapVue);
+// Globally register vue cookies
 Vue.use(VueCookies)
 Vue.config.productionTip = false;
 

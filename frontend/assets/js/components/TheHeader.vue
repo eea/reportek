@@ -9,7 +9,6 @@
     <b-navbar-brand class="brand-link" to="/">Reportek</b-navbar-brand>
     <b-collapse is-nav id="nav_collapse">
 
-
       <b-navbar-nav>
         <router-link
           class="nav-link"
@@ -57,9 +56,12 @@
 
 <script>
 import { fetchUserProfile } from '../api';
+import authMixin from '../mixins/auth'
 
 export default {
   name: 'TheHeader',
+
+  mixins: [authMixin],
 
   data() {
     return {
@@ -71,37 +73,17 @@ export default {
   },
 
   created() {
-    this.breadcrumbs = this.makeBreadcrumbs();
     this.getUserProfile();
     this.handeCountryChange(this.$route.params.reporterId);
   },
 
   watch: {
     $route(to, from) {
-      this.breadcrumbs = this.makeBreadcrumbs();
       this.handeCountryChange(to.params.reporterId);
     },
   },
 
   methods: {
-    logout() {
-      this.$cookies.remove('authToken');
-      this.$router.push({ name: 'Login' });
-    },
-
-    makeBreadcrumbs() {
-      const crumbs = [];
-      for (let i = 0; i < this.$route.matched.length; i += 1) {
-        if (this.$route.matched[i].meta && this.$route.matched[i].meta.breadcrumb) {
-          const paramIdName = Object.keys(this.$route.params)[0];
-          const paramIdValue = this.$route.params[paramIdName];
-          const path = this.$route.matched[i].meta.breadcrumb.path.replace(paramIdName, paramIdValue).replace(':', '');
-          const name = this.$route.matched[i].meta.breadcrumb.name;
-          crumbs.push({ path, name });
-        }
-      }
-      return crumbs;
-    },
 
     getUserProfile() {
       return new Promise((resolve, reject) => {

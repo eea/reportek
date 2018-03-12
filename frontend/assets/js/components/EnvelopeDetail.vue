@@ -383,7 +383,7 @@ import { fetchEnvelope,
           removeFile,
           uploadFile,
         } from '../api';
-import utilsMixin from '../mixins/utils';
+import utilsMixin from '../mixins/utils.js';
 
 
 export default {

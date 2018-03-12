@@ -133,7 +133,7 @@ import {  fetchEnvelope,
           runEnvelopeFilesQAScript,
         } from '../api';
 
-import utilsMixin from '../mixins/utils';
+import utilsMixin from '../mixins/utils.js';
 import EnvelopeFilesDownload from './EnvelopeFilesDownload';
 
 export default {
