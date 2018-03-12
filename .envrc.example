@@ -54,11 +54,13 @@ export LDAP_URI="ldap://127.0.0.1:389"
 export LDAP_USER_DN_TEMPLATE="uid=%(user)s,ou=Users,o=EIONET,l=Europe"
 export LDAP_ROLES_DN="cn=reportnet,ou=Roles,o=EIONET,l=Europe"
 #export LDAP_LOG_LEVEL=DEBUG
-#export PERMS_LOG_LEVEL=DEBUG
+#export AUTH_LOG_LEVEL=DEBUG
 
 # Used for frontend configuration
-HOST=0.0.0.0
-BACKEND_HOST=<LAN_IP>
-BACKEND_POST=8000
-TUSD_HOST=<LAN_IP>
-TUSD_PORT=1080
+export HOST=0.0.0.0
+export BACKEND_HOST=<LAN_IP>
+export BACKEND_PORT=8000
+export TUSD_HOST=<LAN_IP>
+export TUSD_PORT=1080
+
+export TOKEN_EXPIRE_INTERVAL=30
