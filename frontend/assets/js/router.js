@@ -9,6 +9,7 @@ import ReportersList from './components/ReportersList';
 import ObligationDetail from './components/ObligationDetail';
 import ObligationsPending from './components/ObligationsPending';
 import FileDetails from './components/FileDetails';
+import Login from './components/Login';
 
 Vue.use(Router);
 
@@ -67,6 +68,11 @@ export default new Router({
       path: '/reporter/:reporterId/obligations',
       name: 'ObligationsPending',
       component: ObligationsPending,
+    },
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login,
     },
     {
       path: '*',
