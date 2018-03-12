@@ -7619,6 +7619,10 @@ void-elements@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
 
+vue-cookies@^1.5.6:
+  version "1.5.6"
+  resolved "https://registry.yarnpkg.com/vue-cookies/-/vue-cookies-1.5.6.tgz#ed014462c2fd29fcb909fb3f1a95b8abb5553b4d"
+
 vue-functional-data-merge@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-2.0.3.tgz#fe79c9f6fab13e047f1e6dcaa4a0fde63fe15587"

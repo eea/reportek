@@ -44,7 +44,13 @@ export default {
   methods: {
     onSubmit(evt) {
       evt.preventDefault();
-      alert(JSON.stringify(this.form));
+      console.log(JSON.stringify(this.form));
+
+      let date = new Date;
+      date.setDate(date.getDate() + 0.001);
+      this.$cookies.set('authToken', this.form.username, date)
+      this.$router.push({ name: 'ReportersList' });
+
     },
     onReset(evt) {
       evt.preventDefault();

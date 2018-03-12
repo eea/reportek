@@ -47,7 +47,7 @@
             <em>{{userProfile.username}}</em>
           </template>
           <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Signout</b-dropdown-item>
+          <b-dropdown-item @click="logout" href="#">Log out</b-dropdown-item>
         </b-nav-item-dropdown>
 
       </b-navbar-nav>
@@ -84,6 +84,11 @@ export default {
   },
 
   methods: {
+    logout() {
+      this.$cookies.remove('authToken');
+      this.$router.push({ name: 'Login' });
+    },
+
     makeBreadcrumbs() {
       const crumbs = [];
       for (let i = 0; i < this.$route.matched.length; i += 1) {

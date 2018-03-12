@@ -5,9 +5,11 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import '../css/main.scss';
+import VueCookies from 'vue-cookies'
 
 // Globally register bootstrap-vue components
 Vue.use(BootstrapVue);
+Vue.use(VueCookies)
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
