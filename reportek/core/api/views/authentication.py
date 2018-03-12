@@ -3,8 +3,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.response import Response
 
+from ...serializers import AuthTokenByValueSerializer
 
-class AuthTokenViewSet(mixins.CreateModelMixin,
+
+class AuthTokenViewSet(mixins.ListModelMixin,
+                       mixins.CreateModelMixin,
                        mixins.DestroyModelMixin,
                        viewsets.GenericViewSet):
 
@@ -24,14 +27,26 @@ class AuthTokenViewSet(mixins.CreateModelMixin,
         }
         ```
 
+    get (list):
+        Returns the current user's token.
+        Note that normally there will be a single token, as ``create``
+        returns an existing token if found.
+
     delete:
         For use at logout, to delete the token of the current user.
         The current user's token must match the token provided in the URL (auth-token/<token>)
     """
 
-    queryset = Token.objects.all()
+    queryset = Token.objects.none()
     lookup_field = 'key'
     lookup_url_kwarg = 'token'
+    serializer_class = AuthTokenByValueSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            return Token.objects.filter(user=self.request.user)
+        else:
+            return self.queryset
 
     def create(self, request, *args, **kwargs):
         serializer = AuthTokenSerializer(data=request.data,
