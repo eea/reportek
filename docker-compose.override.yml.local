@@ -48,4 +48,4 @@ volumes:
   static-files:
     driver: local
   frontend-dist:
-    driver: rancher-nfs
+    driver: local
