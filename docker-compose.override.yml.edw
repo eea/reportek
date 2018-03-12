@@ -57,7 +57,7 @@ services:
             gzip on;
             gzip_types text/plain application/x-javascript text/css;
             expires 1d;
-            root /var/local/reportek/reportek;
+            root /var/local/reportek;
           }
         }
     labels:
