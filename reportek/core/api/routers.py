@@ -1,6 +1,7 @@
 from rest_framework_nested import routers
 
 from .views import (
+    AuthTokenViewSet,
     InstrumentViewSet,
     ClientViewSet,
     ReporterViewSet,
@@ -170,6 +171,13 @@ workspace_reporter_router.register(
 )
 
 
+auth_tokens_router = routers.SimpleRouter()
+auth_tokens_router.register(
+    'auth-token',
+    AuthTokenViewSet,
+    base_name='auth-token'
+)
+
 main_routers = [
     instruments_router,
     clients_router,
@@ -182,6 +190,7 @@ main_routers = [
     upload_hooks_router,
     workspace_profile_router,
     workspace_reporter_router,
+    auth_tokens_router,
 ]
 
 

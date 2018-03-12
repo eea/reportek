@@ -12,7 +12,7 @@ from reportek.core.utils import basic_auth_login
 from .utils import get_effective_obj_perms
 
 
-log = logging.getLogger('reportek.perms')
+log = logging.getLogger('reportek.auth')
 info = log.info
 debug = log.debug
 warn = log.warning
