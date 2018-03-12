@@ -35,7 +35,7 @@ services:
       - ./docker/postgres.env
       - ./docker/rabbitmq.env
     volumes:
-    - static-files:/var/local/reportek/reportek/static
+    - static-files:/var/local/reportek/static
     - frontend-dist:/var/local/reportek/frontend/dist
     - tusd-uploads:/var/local/tusd_uploads
     depends_on:
@@ -90,7 +90,7 @@ services:
     depends_on:
       - app
     volumes:
-    - static-files:/var/local/reportek/reportek/static
+    - static-files:/var/local/reportek/static
     - frontend-dist:/var/local/reportek/frontend/dist
     labels:
       io.rancher.container.pull_image: always
@@ -116,12 +116,12 @@ services:
             gzip on;
             gzip_types text/plain application/x-javascript text/css;
             expires 1d;
-            root /var/local/reportek/reportek;
+            root /var/local/reportek;
           }
         }
     command: /bin/sh -c 'echo "$$NGINX_CONF" > /etc/nginx/conf.d/default.conf && exec nginx -g "daemon off;"'
     volumes:
-    - static-files:/var/local/reportek/reportek/static:ro
+    - static-files:/var/local/reportek/static:ro
     depends_on:
       - app
     labels:
