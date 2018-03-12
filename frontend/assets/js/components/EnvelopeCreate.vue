@@ -121,13 +121,12 @@ export default {
 
   // Fetches posts when the component is created.
   created() {
-          console.log('this.$route.params ', this.$route.params)
     if (!this.$route.params.reportingCycle) {
       this.$router.push({ name: 'Dashboard' });
     }
     fetchUserProfile().then((response) => {
       this.getApiData(response.data);
-    })
+    });
   },
 
   methods: {
@@ -162,7 +161,7 @@ export default {
           value: this.$route.params.reportingCycle.id,
           text: this.$route.params.reportingCycle.reporting_start_date,
         }];
-      this.form.country = userProfile.reporters[0].name
+      this.form.country = userProfile.reporters[0].name;
       this.form.reportingCycle = this.$route.params.reportingCycle.id;
       this.form.reporter = this.$route.params.reporterId;
       this.form.obligationSpec = this.$route.params.reportingCycle.obligation_spec.id;

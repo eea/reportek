@@ -3,21 +3,21 @@
 
 <script>
 
-import * as utils from '../utils/UtilityFunctions'
+import * as utils from '../utils/UtilityFunctions';
+
 export default {
 
   name: 'utils',
   created(){
   },
 
-  data () {
+  data() {
     return {
-
-    }
+    };
   },
 
   methods: {
-     envelopeCodeDictionary(status){
+    envelopeCodeDictionary(status) {
       const codeDictionary = {
         info: 'success',
         ok: 'success',
@@ -35,7 +35,7 @@ export default {
       return codeDictionary[status.trim().toLowerCase()] || status;
     },
 
-    envelopeCodeDictionaryVariants(status){
+    envelopeCodeDictionaryVariants(status) {
       const codeDictionary = {
         info: 'info',
         ok: 'primary',
@@ -70,10 +70,10 @@ export default {
 
     capitalize(value) {
       return utils.capitalize(value);
-    }
+    },
 
   },
-}
+};
 </script>
 
 <style lang="css" scoped>

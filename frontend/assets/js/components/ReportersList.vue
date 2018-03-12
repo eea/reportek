@@ -60,7 +60,6 @@ export default {
     getUserProfile() {
       fetchUserProfile()
         .then((response) => {
-          let reportersTemp = [];
           this.userProfile = response.data;
           if (this.userProfile.reporters.length === 1) {
             this.$router.push({ name: 'Dashboard', params: { reporterId: this.userProfile.reporters[0].id } });

@@ -65,10 +65,11 @@
 <script>
 import { fetchObligationsPending } from '../api';
 import utilsMixin from '../mixins/utils';
-import {dateFormat} from '../utils/UtilityFunctions';
 
 export default {
   name: 'obligationsWIP',
+
+  mixins: [utilsMixin],
 
   data() {
     return {
@@ -89,17 +90,12 @@ export default {
     getObligationsPending() {
       fetchObligationsPending(this.$route.params.reporterId)
         .then((response) => {
-          // JSON responses are automatically parsed.
-          this.obligationsPending = this.context ? response.data.slice(0,this.obligationsCount) : response.data;
-          this.$emit('obligationsLoaded', response.data.length)
+          this.obligationsPending = this.context ? response.data.slice(0, this.obligationsCount) : response.data;
+          this.$emit('obligationsLoaded', response.data.length);
         })
         .catch((e) => {
           console.log(e);
         });
-    },
-
-    formatDate(date, count){
-      return dateFormat(date, count)
     },
   },
 

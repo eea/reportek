@@ -97,20 +97,20 @@ export default {
   },
 
   methods: {
-    handleEnvelopesWipLoaded(count){
+    handleEnvelopesWipLoaded(count) {
       this.actualLength.envelopesWipLength = count;
       this.showMoreWip = count > this.envelopesCount;
     },
 
-    handleArchiveLoaded(count){
+    handleArchiveLoaded(count) {
       this.actualLength.archiveLength = count;
       this.showMoreArchive = count > this.archiveCount;
     },
 
-    handleObligationsLoaded(count){
+    handleObligationsLoaded(count) {
       this.actualLength.obligationsLength = count;
       this.showMoreObligations = count > this.obligationsCount;
-    }
+    },
   },
 };
 </script>

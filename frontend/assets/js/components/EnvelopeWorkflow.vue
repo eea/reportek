@@ -21,7 +21,7 @@ export default {
     };
   },
 
-  props :{
+  props: {
     state: null,
   },
 
@@ -37,18 +37,18 @@ export default {
   },
 
   methods: {
-    data(){
-      let dataset = JSON.parse(JSON.stringify(this.graphJson));
+    data() {
+      const dataset = JSON.parse(JSON.stringify(this.graphJson));
 
       for (let node of dataset.graph.nodes) {
         node.color = 'grey';
         if (node.metadata.initial === true) {
           node.shape = 'doublecircle';
         }
-         if(node.metadata.final === true) {
+        if (node.metadata.final === true) {
           node.shape = 'doublecircle';
         }
-        if(this.state === node.id){
+        if (this.state === node.id) {
           node.style = 'filled';
           node.fontcolor = 'white';
           node.fillcolor = '#007bff';
@@ -60,7 +60,7 @@ export default {
         edge.color = 'grey';
       }
 
-      this.convertToDot(dataset)
+      this.convertToDot(dataset);
     },
 
     convertToDot(data) {
@@ -68,11 +68,11 @@ export default {
     },
 
     renderGraph(dot) {
-      let new_dot = dot.split('\n');
-      new_dot[0] = new_dot[0] + 'rankdir=LR;';
-      let final_dot = new_dot.join('\n');
-      this.graph = Viz(final_dot, { format: 'svg' });
-    }
+      let newDot = dot.split('\n');
+      newDot[0] = newDot[0] + 'rankdir=LR;';
+      const finalDot = newDot.join('\n');
+      this.graph = Viz(finalDot, { format: 'svg' });
+    },
   },
 
   watch: {
@@ -81,7 +81,7 @@ export default {
         this.data();
       },
       deep: true,
-    }
+    },
   },
 
 };
