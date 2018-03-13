@@ -2,10 +2,23 @@
 import axios from 'axios';
 import tus from 'tus-js-client';
 
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-axios.defaults.xsrfCookieName = "csrftoken";
+
+function getCookie(name) {
+  let cookie = {};
+  document.cookie.split(';').forEach(function(el) {
+    let [k,v] = el.split('=');
+    cookie[k.trim()] = v;
+  })
+  return cookie[name];
+}
+
+
+// console.log(axios.defaults)
 
 const logRequests = process.env.NODE_ENV === 'development';
+
+
+
 
 const BACKEND_HOST = 'localhost';
 const BACKEND_PORT = 8000;
@@ -21,6 +34,17 @@ const api = axios.create({
   baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
   withCredentials: true,
 });
+
+const apiForLogin = axios.create({
+    baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
+    xsrfCookieName: "csrftoken",
+    xsrfHeaderName: "X-CSRFTOKEN",
+});
+
+
+api.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+api.defaults.xsrfCookieName = "csrftoken";
+api.defaults.headers.authorization = 'token ' + getCookie('authToken');
 
 
 function fetch(path) {
@@ -45,6 +69,14 @@ function remove(path) {
   logRequests && console.log(`removig ${path} ...`);
 
   return api.delete(path);
+}
+
+export function removeLoginToken() {
+  return remove(`/auth-token/${getCookie('authToken')}`)
+}
+
+export function getLoginToken(username,password) {
+  return apiForLogin.post('/auth-token/', {'username': username, 'password': password});
 }
 
 export function fetchEnvelopes() {
@@ -97,6 +129,12 @@ export function fetchEnvelopeFilesConvertScripts(id, fileId) {
 
 export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
 // Using the post method doesn't work. We have to use a new axios instance
+axios.defaults.headers['auth-token'] = authToken;
+axios.defaults.headers.token = authToken;
+axios.defaults.headers.authorization = authToken;
+
+// console.log(axios.defaults)
+
   return  axios({
             baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
             withCredentials: true,
@@ -105,7 +143,7 @@ export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
             xsrfHeaderName: "X-CSRFTOKEN",
             url:`envelopes/${id}/files/${fileId}/run_conversion_script/`,
             responseType:'arraybuffer',
-            data: {convert_id: scriptId}
+            data: {convert_id: scriptId},
           })
 }
 

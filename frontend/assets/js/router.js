@@ -80,9 +80,9 @@ const routes = [
 ];
 
 const routerOptions = {
-  routes, 
-  mode:'history', 
-  scrollBehavior: (to, from, savedPosition) => ({ y: 0 }), 
+  routes,
+  mode:'history',
+  scrollBehavior: (to, from, savedPosition) => ({ y: 0 }),
   base: '/workspace',
 }
 const router = new Router(routerOptions);
@@ -90,7 +90,7 @@ const router = new Router(routerOptions);
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
     const authToken = window.$cookies.get('authToken');
-
+    console.log('AUTH TOKEN',authToken)
     if (!authToken) {
       next({ name:'Login' });
     } else {
