@@ -378,6 +378,8 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_reporters(obj):
+        if not obj.is_authenticated():
+            return []
         return [WorkspaceReporterSerializer(r).data for r in obj.get_reporters()]
 
     @staticmethod
@@ -386,10 +388,14 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_ldap_groups(obj):
+        if not obj.is_authenticated():
+            return []
         return sorted([g.name for g in obj.ldap_groups])
 
     @staticmethod
     def get_effective_groups(obj):
+        if not obj.is_authenticated():
+            return []
         return sorted([g.name for g in obj.effective_groups])
 
     class Meta:
