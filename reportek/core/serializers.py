@@ -202,10 +202,17 @@ class PendingObligationSerializer(serializers.ModelSerializer):
 
 
 class EnvelopeOriginalFileSerializer(serializers.ModelSerializer):
+
+    content_url = serializers.SerializerMethodField()
+
     class Meta:
         model = EnvelopeOriginalFile
-        fields = ('id', 'name', 'file', 'uploader', 'size', 'created', 'updated')
-        read_only_fields = ('file', 'uploader', 'size', 'created', 'updated')
+        fields = ('id', 'name', 'content_url', 'uploader', 'size', 'created', 'updated')
+        read_only_fields = ('content_url', 'uploader', 'size', 'created', 'updated')
+
+    @staticmethod
+    def get_content_url(obj):
+        return obj.fq_download_url
 
 
 class NestedEnvelopeOriginalFileSerializer(NestedHyperlinkedModelSerializer,
@@ -231,11 +238,16 @@ class CreateEnvelopeOriginalFileSerializer(serializers.ModelSerializer):
 
 class EnvelopeFileSerializer(serializers.ModelSerializer):
     uploader = serializers.PrimaryKeyRelatedField(read_only=True)
+    content_url = serializers.SerializerMethodField()
 
     class Meta:
         model = EnvelopeFile
-        fields = ('id', 'name', 'file', 'restricted', 'uploader', 'size', 'created', 'updated')
-        read_only_fields = ('file', 'uploader', 'size', 'created', 'updated')
+        fields = ('id', 'name', 'content_url', 'restricted', 'uploader', 'size', 'created', 'updated')
+        read_only_fields = ('content', 'uploader', 'size', 'created', 'updated')
+
+    @staticmethod
+    def get_content_url(obj):
+        return obj.fq_download_url
 
 
 class NestedEnvelopeFileSerializer(NestedHyperlinkedModelSerializer,

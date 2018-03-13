@@ -23,32 +23,15 @@ from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 
 from ..core.api import urls as api_urls
-from . import views
+from .views import spabundle
 
 
-API_VERSION = "0.1"
+API_VERSION = '0.1'
 
-
-_country = r'(?P<country>[a-z]{2})'
-_instrument = r'(?P<instrument>[\w-]+)'
-_obligation = r'(?P<obligation>[\w-]+)'
 
 urlpatterns = [
-    # TODO: this is starting to get messy, the namespacing needs some love.
-    url(r'^', include('reportek.core.frontend.urls', namespace='core')),
-    url(r'^admin/', admin.site.urls),
-    # url(r'^$',
-    #     views.home, name='home'),
-    url(r'^workspace/(?P<path>.*)$',
-        views.workspace, name='workspace'),
-    # url(f'^{ _country }/$',
-    #     views.country, name='country'),
-    # url(f'^{ _country }/{ _instrument }/$',
-    #     views.instrument, name='instrument'),
-    # url(f'^{ _country }/{ _instrument }/{ _obligation }/$',
-    #     views.obligation, name='obligation'),
-
     url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
+    url(r'^admin/', admin.site.urls),
     url(r'^api-docs/', include_docs_urls(title='Reportek API Documentation', public=False)),
 ]
 
@@ -65,3 +48,8 @@ if settings.DEBUG:
         urlpatterns.append(
             url(r'^__debug__/', include(debug_toolbar.urls))
         )
+
+# Add the SPA catch-all route last
+urlpatterns += [
+    url(r'^', spabundle, name='spa'),
+]

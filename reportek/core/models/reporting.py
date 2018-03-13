@@ -247,15 +247,23 @@ class EnvelopeOriginalFile(models.Model):
     def size(self):
         return self.file.size
 
+    @property
+    def download_url(self):
+        return self.get_download_url()
+
+    @property
+    def fq_download_url(self):
+        return fully_qualify_url(self.download_url)
+
     def __repr__(self):
         return '<%s: %s/%s>' % (self.__class__.__name__,
                                 self.envelope.pk,
                                 self.name)
 
-    def get_file_url(self):
-        return reverse('core:envelope-file', kwargs={
-            'pk': self.envelope.id,
-            'filename': self.name,
+    def get_download_url(self):
+        return reverse('api:envelope-original-file-download', kwargs={
+            'envelope_pk': self.envelope_id,
+            'pk': self.pk,
         })
 
     @classmethod
@@ -354,12 +362,12 @@ class EnvelopeFile(models.Model):
         return self.file.size
 
     @property
-    def dl_url(self):
-        return self.get_api_download_url()
+    def download_url(self):
+        return self.get_download_url()
 
     @property
-    def fq_dl_url(self):
-        return fully_qualify_url(self.dl_url)
+    def fq_download_url(self):
+        return fully_qualify_url(self.download_url)
 
     @property
     def qa_results(self):
@@ -418,13 +426,7 @@ class EnvelopeFile(models.Model):
                   f'{self.file.path}')
         super().delete(*args, **kwargs)
 
-    def get_file_url(self):
-        return reverse('core:envelope-file', kwargs={
-            'pk': self.envelope_id,
-            'filename': self.name,
-        })
-
-    def get_api_download_url(self):
+    def get_download_url(self):
         return reverse('api:envelope-file-download', kwargs={
             'envelope_pk': self.envelope_id,
             'pk': self.pk,

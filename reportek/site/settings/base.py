@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 import datetime
 from pathlib import Path
-from django_jinja.builtins import DEFAULT_EXTENSIONS as JINJA_DEFAULT_EXTENSIONS
 import ldap
 from django.core.exceptions import ImproperlyConfigured
 from django_auth_ldap.config import (
@@ -115,7 +114,6 @@ INSTALLED_APPS = [
     'typedmodels',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_jinja',
     'django_celery_beat',
     'django_extensions',
     'django_object_actions',
@@ -148,23 +146,10 @@ ROOT_URLCONF = 'reportek.site.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django_jinja.backend.Jinja2',
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             ROOT_DIR / 'templates',
         ],
-        'APP_DIRS': False,
-        'OPTIONS': {
-            # everything under our template dir is a jinja template
-            'match_extension': None,
-            'extensions': JINJA_DEFAULT_EXTENSIONS + [
-                'webpack_loader.contrib.jinja2ext.WebpackExtension',
-            ],
-            # TODO: enable bytecode cache in production
-        },
-    },
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
