@@ -37,7 +37,6 @@ class AuthTokenViewSet(mixins.ListModelMixin,
         The current user's token must match the token provided in the URL (auth-token/<token>)
     """
 
-    queryset = Token.objects.none()
     lookup_field = 'key'
     lookup_url_kwarg = 'token'
     serializer_class = AuthTokenByValueSerializer
@@ -46,7 +45,7 @@ class AuthTokenViewSet(mixins.ListModelMixin,
         if self.request.user.is_authenticated:
             return Token.objects.filter(user=self.request.user)
         else:
-            return self.queryset
+            return Token.objects.none()
 
     def create(self, request, *args, **kwargs):
         serializer = AuthTokenSerializer(data=request.data,
