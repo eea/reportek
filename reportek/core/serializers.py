@@ -1,7 +1,10 @@
+from django.conf import settings
 from rest_framework import serializers
 from rest_framework_nested.serializers import NestedHyperlinkedModelSerializer
 
 from django.contrib.auth.models import Group
+
+from rest_framework.authtoken.models import Token
 
 from .models import (
     Instrument,
@@ -398,3 +401,20 @@ class WorkspaceObligationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Obligation
         fields = ('id', 'title')
+
+
+class AuthTokenByValueSerializer(serializers.ModelSerializer):
+    token = serializers.SerializerMethodField()
+    expires = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Token
+        fields = ('token', 'created', 'expires')
+
+    @staticmethod
+    def get_token(obj):
+        return obj.key
+
+    @staticmethod
+    def get_expires(obj):
+        return obj.created + settings.TOKEN_EXPIRE_INTERVAL
