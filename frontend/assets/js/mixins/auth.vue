@@ -24,8 +24,8 @@ export default {
     logout() {
         // var p = new Promise((resolve, reject) => {
           removeLoginToken().then((response)=> {
-          this.$cookies.remove('authToken');
-          this.$router.push({ name: 'Login' });
+            this.$cookies.remove('authToken');
+            this.$router.push({ name: 'Login' });
           })
           // resolve()
         // })

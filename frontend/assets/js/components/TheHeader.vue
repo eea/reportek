@@ -3,6 +3,7 @@
     toggleable="md"
     type="light"
     sticky
+    v-if="!doNotRender"
     variant="white"
   >
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
@@ -65,6 +66,7 @@ export default {
 
   data() {
     return {
+      doNotRender: false,
       breadcrumbs: [],
       currentCountry: null,
       userProfile: null,
@@ -72,9 +74,9 @@ export default {
     };
   },
 
+
   created() {
-    this.getUserProfile();
-    this.handeCountryChange(this.$route.params.reporterId);
+    this.renderFunction();
   },
 
   watch: {
@@ -84,6 +86,17 @@ export default {
   },
 
   methods: {
+
+    renderFunction() {
+      if(this.$cookies.get('authToken')) {
+        this.doNotRender = false;
+        this.getUserProfile();
+        this.handeCountryChange(this.$route.params.reporterId);
+      }
+      else {
+        this.doNotRender = true;
+      }
+    },
 
     getUserProfile() {
       return new Promise((resolve, reject) => {
@@ -128,6 +141,11 @@ export default {
 
     countryFlag(countryAbbr) {
       return 'flag-icon-' + countryAbbr.toLowerCase();
+    },
+  },
+  watch: {
+    $route(to, from) {
+      this.renderFunction();
     },
   },
 };

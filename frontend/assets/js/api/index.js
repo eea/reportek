@@ -35,16 +35,10 @@ const api = axios.create({
   withCredentials: true,
 });
 
-const apiForLogin = axios.create({
-    baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
-    xsrfCookieName: "csrftoken",
-    xsrfHeaderName: "X-CSRFTOKEN",
-});
-
-
 api.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 api.defaults.xsrfCookieName = "csrftoken";
-api.defaults.headers.authorization = 'token ' + getCookie('authToken');
+
+
 
 
 function fetch(path) {
@@ -76,7 +70,8 @@ export function removeLoginToken() {
 }
 
 export function getLoginToken(username,password) {
-  return apiForLogin.post('/auth-token/', {'username': username, 'password': password});
+  delete api.defaults.headers.authorization
+  return api.post('/auth-token/', {'username': username, 'password': password});
 }
 
 export function fetchEnvelopes() {
@@ -174,6 +169,7 @@ export function runEnvelopeTransition(id, transitionName) {
 }
 
 export function fetchUserProfile() {
+  api.defaults.headers.authorization = 'token '+ getCookie('authToken')
   return fetch(`workspace-profile/`);
 }
 
