@@ -2,23 +2,7 @@
 import axios from 'axios';
 import tus from 'tus-js-client';
 
-
-function getCookie(name) {
-  let cookie = {};
-  document.cookie.split(';').forEach(function(el) {
-    let [k,v] = el.split('=');
-    cookie[k.trim()] = v;
-  })
-  return cookie[name];
-}
-
-
-// console.log(axios.defaults)
-
 const logRequests = process.env.NODE_ENV === 'development';
-
-
-
 
 const BACKEND_HOST = 'localhost';
 const BACKEND_PORT = 8000;
@@ -37,8 +21,6 @@ const api = axios.create({
 
 api.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 api.defaults.xsrfCookieName = "csrftoken";
-
-
 
 
 function fetch(path) {
@@ -66,12 +48,40 @@ function remove(path) {
 }
 
 export function removeLoginToken() {
-  return remove(`/auth-token/${getCookie('authToken')}`)
+
+  return new Promise((resolve, reject) => {
+    remove(`/auth-token/${getCookie('authToken')}`)
+      .then((response) => {
+        delete api.defaults.headers.authorization;
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  })
+}
+
+function getCookie(name) {
+  let cookie = {};
+  document.cookie.split(';').forEach(function(el) {
+    let [k,v] = el.split('=');
+    cookie[k.trim()] = v;
+  })
+  return cookie[name];
 }
 
 export function getLoginToken(username,password) {
-  delete api.defaults.headers.authorization
-  return api.post('/auth-token/', {'username': username, 'password': password});
+
+  return new Promise((resolve, reject) => {
+    post('/auth-token/', {'username': username, 'password': password})
+      .then((response) => {
+        api.defaults.headers.authorization = 'token ' + response.data.token;
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 
 export function fetchEnvelopes() {
@@ -123,12 +133,6 @@ export function fetchEnvelopeFilesConvertScripts(id, fileId) {
 }
 
 export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
-// Using the post method doesn't work. We have to use a new axios instance
-axios.defaults.headers['auth-token'] = authToken;
-axios.defaults.headers.token = authToken;
-axios.defaults.headers.authorization = authToken;
-
-// console.log(axios.defaults)
 
   return  axios({
             baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
@@ -146,11 +150,9 @@ export function updateFile(id, fileId, name) {
   return update(`envelopes/${id}/files/${fileId}/`, {name: name});
 }
 
-
 export function updateFileRestriction(id, fileId, restricted) {
   return update(`envelopes/${id}/files/${fileId}/`, {restricted: restricted});
 }
-
 
 export function removeFile(id, fileId) {
   return remove(`envelopes/${id}/files/${fileId}/`);
@@ -169,7 +171,6 @@ export function runEnvelopeTransition(id, transitionName) {
 }
 
 export function fetchUserProfile() {
-  api.defaults.headers.authorization = 'token '+ getCookie('authToken')
   return fetch(`workspace-profile/`);
 }
 

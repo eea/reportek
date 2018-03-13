@@ -22,17 +22,10 @@ export default {
     },
 
     logout() {
-        // var p = new Promise((resolve, reject) => {
-          removeLoginToken().then((response)=> {
-            this.$cookies.remove('authToken');
-            this.$router.push({ name: 'Login' });
-          })
-          // resolve()
-        // })
-
-        // p.then(()=>{
-        //   console.log(this.$cookies.get('authToken'));
-        // })
+      removeLoginToken().then((response)=> {
+        this.$cookies.remove('authToken');
+        this.$router.push({ name: 'Login' });
+      });
     },
   },
 }
