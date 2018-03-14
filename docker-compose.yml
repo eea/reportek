@@ -82,20 +82,6 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
-  frontend:
-    image: eeacms/reportek2:current-frontend
-    env_file:
-      - ./docker/demo.env
-      - ./docker/frontend.env
-    depends_on:
-      - app
-    volumes:
-    - static-files:/var/local/reportek/static
-    - frontend-dist:/var/local/reportek/frontend/dist
-    labels:
-      io.rancher.container.pull_image: always
-      io.rancher.scheduler.affinity:host_label_ne: reserved=yes
-
   nginx:
     image: nginx:latest
     environment:

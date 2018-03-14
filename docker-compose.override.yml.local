@@ -10,6 +10,7 @@ services:
       - "xmlconv.edw.ro:10.0.30.58"
     ports:
       - "8000:8000"
+      - "8080:8080"
 
   postgres:
     ports:
@@ -30,13 +31,6 @@ services:
   nginx:
     ports:
       - "80:80"
-
-  frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile-frontend
-    ports:
-      - "8080:8080"
 
 volumes:
   pg-data:

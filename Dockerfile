@@ -12,19 +12,31 @@ RUN runDeps="gcc musl-dev postgresql-dev postgresql-client libressl-dev libxml2-
     && apk add --no-cache $runDeps
 
 RUN apk add --no-cache --virtual .build-deps \
-        gcc musl-dev postgresql-dev libressl-dev libxml2-dev libxslt-dev openldap-dev \
+        gcc musl-dev postgresql-dev libressl-dev libxml2-dev libxslt-dev openldap-dev yarn nodejs-npm \
     && mkdir -p $PROJ_DIR
 
 # Add requirements.txt before rest of repo for caching
 COPY *requirements.txt $PROJ_DIR
 WORKDIR $PROJ_DIR
 
-RUN pip install --no-cache-dir -r $REQUIREMENTS_FILE \
-    && apk del .build-deps
+RUN pip install --no-cache-dir -r $REQUIREMENTS_FILE
 
+# Only add yarn sources for caching
+COPY yarn.lock package*.json $PROJ_DIR
+
+# Yarn the madness
+RUN yarn
+
+# And now finally copy everything
 COPY . $PROJ_DIR
 
+# Build the webpack
+RUN npm build
+
 RUN mkdir -p $MEDIA_ROOT $PROTECTED_ROOT $DOWNLOAD_STAGING_ROOT
+
+# Delete the build deps
+apk del .build-deps
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["run"]
