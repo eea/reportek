@@ -41,5 +41,3 @@ volumes:
     driver: local
   static-files:
     driver: local
-  frontend-dist:
-    driver: local

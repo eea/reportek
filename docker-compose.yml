@@ -36,7 +36,6 @@ services:
       - ./docker/rabbitmq.env
     volumes:
     - static-files:/var/local/reportek/static
-    - frontend-dist:/var/local/reportek/frontend/dist
     - tusd-uploads:/var/local/tusd_uploads
     depends_on:
       - postgres
@@ -92,6 +91,8 @@ services:
         }
         server {
           listen 80;
+          server_name ${REPORTEK_DOMAIN};
+
           access_log /var/log/nginx/access.log main;
           location / {
             proxy_pass http://app/;
@@ -104,6 +105,26 @@ services:
             expires 1d;
             root /var/local/reportek;
           }
+        }
+        upstream tusd {
+          ip_hash;
+          server tusd:${TUSD_PORT};
+        }
+        server {
+          listen 8080;
+          server_name ${REPORTEK_DOMAIN};
+
+          location / {
+            proxy_pass http://tusd/;
+          }
+
+          access_log /var/log/nginx/access-tusd.log main;
+
+          proxy_request_buffering  off;
+          proxy_buffering          off;
+          proxy_http_version       1.1;
+
+          client_max_body_size     0;
         }
     command: /bin/sh -c 'echo "$$NGINX_CONF" > /etc/nginx/conf.d/default.conf && exec nginx -g "daemon off;"'
     volumes:
@@ -121,6 +142,4 @@ volumes:
   tusd-uploads:
     driver: rancher-nfs
   static-files:
-    driver: rancher-nfs
-  frontend-dist:
     driver: rancher-nfs

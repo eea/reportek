@@ -32,27 +32,5 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   nginx:
-    environment:
-      NGINX_CONF: |-
-        upstream app {
-          ip_hash;
-          server app:${REPORTEK_GUNICORN_PORT};
-        }
-        server {
-          listen 80;
-          server_name reportek2.eaudeweb.ro;
-          access_log /var/log/nginx/access.log main;
-          location / {
-            proxy_pass http://app/;
-          }
-          location /static {
-            sendfile on;
-            tcp_nopush on;
-            gzip on;
-            gzip_types text/plain application/x-javascript text/css;
-            expires 1d;
-            root /var/local/reportek;
-          }
-        }
     labels:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
