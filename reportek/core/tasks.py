@@ -33,7 +33,7 @@ def submit_xml_to_qa(envelope_pk):
         if file.xml_schema is not None:  # only consider XML files
             file.qa_jobs.all().delete()  # delete existing jobs and results
             xml_schema = file.xml_schema.split(' ')[0]  # use the first schema listed in file
-            file_url = fully_qualify_url(file.get_file_url())
+            file_url = file.fq_download_url
             params[xml_schema].append(file_url)
             urls_to_files[file_url] = file.pk
 

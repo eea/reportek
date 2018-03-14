@@ -13,7 +13,7 @@ from ..models import (
 from .base import EffectiveObjectPermissions
 
 from .utils import (
-    get_effective_obj_perms,
+    get_groups_obj_perms,
     debug_call,
 )
 
@@ -33,16 +33,13 @@ __all__ = [
 
 
 def has_reporter_permissions(groups, reporter, obligation):
+    reporter_perms = get_groups_obj_perms(groups, reporter)
+    obligation_perms = get_groups_obj_perms(groups, obligation)
+    debug(f'Perms on reporter "{reporter}": {reporter_perms}')
+    debug(f'Perms on obligation "{obligation}": {obligation_perms}')
     return (
-        'report_for_reporter' in get_effective_obj_perms(groups, reporter) and
-        'report_on_obligation' in get_effective_obj_perms(groups, obligation)
-    )
-
-
-def has_collaborator_permissions(groups, reporter, obligation):
-    return (
-        'collaborate_for_reporter' in get_effective_obj_perms(groups, reporter) and
-        'report_on_obligation' in get_effective_obj_perms(groups, obligation)
+        'report_for_reporter' in reporter_perms and
+        'report_on_obligation' in obligation_perms
     )
 
 
@@ -116,16 +113,13 @@ class BaseEnvelopeFilePermissions(EffectiveObjectPermissions):
             return False
 
         # Creating an envelope file requires an envelope in a state
-        # that allows uploads, and permission to report/collaborate
+        # that allows uploads, and permission to report
         # on the obligation on behalf of the reporter.
         if view.action == 'create' and not envelope.workflow.upload_allowed:
             return False
 
         groups = request.user.effective_groups
-        return (
-            has_reporter_permissions(groups, envelope.reporter, envelope.obligation_spec.obligation) or
-            has_collaborator_permissions(groups, envelope.reporter, envelope.obligation_spec.obligation)
-        )
+        return has_reporter_permissions(groups, envelope.reporter, envelope.obligation_spec.obligation)
 
     @debug_call
     def has_object_permission(self, request, view, envelope_file):

@@ -304,7 +304,7 @@ class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet)
             # https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/
             response = Response(
                 headers={
-                    'X-Accel-Redirect': _file.storage.dl_url(relpath)
+                    'X-Accel-Redirect': _file.storage.download_url(relpath)
                 }
             )
         return response
@@ -388,7 +388,7 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
             # https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/
             response = Response(
                 headers={
-                    'X-Accel-Redirect': _file.storage.dl_url(relpath)
+                    'X-Accel-Redirect': _file.storage.download_url(relpath)
                 }
             )
 
@@ -538,6 +538,24 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         response.write(conversion_result["content"].data)
 
         return response
+
+    @detail_route(methods=['get'], renderer_classes=(TemplateHTMLRenderer,))
+    def xml(self, request, envelope_pk, pk):
+        """
+        Returns the file's evelope's metadata in XML format.
+
+        Note:
+             This detail route is available here as well as on the envelope's URL,
+             due to XMLCONV's expectation that it can reach the envelope metadata URL
+             by replacing the last fragment in the file download URL with 'xml'.
+
+        """
+        envelope_file = self.get_object()
+        return Response(
+            {'envelope': envelope_file.envelope},
+            template_name='envelope_xml.html',
+            content_type='text/xml'
+        )
 
 
 class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):

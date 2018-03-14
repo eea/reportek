@@ -1,1 +1,1 @@
-from .account import workspace
+from .spabundle import spabundle

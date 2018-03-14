@@ -35,7 +35,7 @@
           Download converted
         </b-btn>
 
-        <a download class="btn btn-white"  :href="file.file"> <i class="far fa-folder-open"></i> Download original </a>
+        <a download class="btn btn-white"  :href="file.content_url"> <i class="far fa-folder-open"></i> Download original </a>
       </b-list-group-item>
     </b-list-group>
 
