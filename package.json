@@ -11,7 +11,8 @@
     "e2e": "node tests/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src frontend/tests/unit/specs tests/e2e/specs",
-    "build": "node frontend/config/build.js"
+    "build": "node frontend/config/build.js",
+    "build-debug": "SOURCE_MAPS=yes node frontend/config/build.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome": "^1.1.3",

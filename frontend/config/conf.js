@@ -8,9 +8,13 @@ const path = require('path')
 // can be overriden using process.env.HOST and process.env.PORT
 const HOST = '0.0.0.0'
 const PORT = 8080
+const SOURCE_MAPS = false
 
 const _host = process.env.HOST || HOST
 const _port = process.env.PORT && Number(process.env.PORT) || PORT
+
+const _source_maps = process.env.SOURCE_MAPS === 'yes' || SOURCE_MAPS
+
 
 module.exports = {
   dev: {
@@ -69,7 +73,7 @@ module.exports = {
      * Source Maps
      */
 
-    productionSourceMap: true,
+    productionSourceMap: _source_maps,
     // https://webpack.js.org/configuration/devtool/#production
     devtool: '#source-map',
 
