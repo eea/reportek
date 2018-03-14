@@ -9,7 +9,10 @@ from rest_framework.permissions import (
 
 from reportek.core.utils import basic_auth_login
 
-from .utils import get_effective_obj_perms
+from .utils import (
+    get_groups_obj_perms,
+    get_groups_perms,
+)
 
 
 log = logging.getLogger('reportek.auth')
@@ -52,9 +55,24 @@ class EffectiveObjectPermissions(DjangoObjectPermissions):
         return perms
 
     def has_permission(self, request, view):
-        perms = super().has_permission(request, view)
-        debug(f'{self._queryset(view).model.__name__} has perms? {perms}')
-        return perms
+        if getattr(view, '_ignore_model_permissions', False):
+            return True
+
+        if not request.user or (
+           not request.user.is_authenticated and self.authenticated_users_only):
+            return False
+
+        queryset = self._queryset(view)
+        req_perms = self.get_required_permissions(request.method, queryset.model)
+
+        has_perms = request.user.has_perms(req_perms)
+        if not has_perms:
+            eff_groups = request.user.effective_groups
+            eff_perms = get_groups_perms(eff_groups)
+            has_perms = set(req_perms).issubset(eff_perms)
+
+        debug(f'{self._queryset(view).model.__name__} has perms? {has_perms}')
+        return has_perms
 
     def get_required_object_permissions(self, method, model_cls):
         perms = super().get_required_object_permissions(method, model_cls)
@@ -62,20 +80,23 @@ class EffectiveObjectPermissions(DjangoObjectPermissions):
         return perms
 
     def has_object_permission(self, request, view, obj):
-        perms = super().has_object_permission(request, view, obj)
-        debug(f'{obj.__class__.__name__} has obj. perms? {perms}')
-        return perms
-
-    def has_effective_object_permission(self, request, view, obj):
+        user = request.user
         queryset = self._queryset(view)
         model_cls = queryset.model
         eff_groups = request.user.effective_groups
 
-        perms = self.get_required_object_permissions(request.method, model_cls)
+        req_perms = self.get_required_object_permissions(request.method, model_cls)
 
-        eff_perms = get_effective_obj_perms(eff_groups, obj)
+        has_perms = user.has_perms(req_perms, obj)
 
-        if not set(perms).issubset(eff_perms):
+        eff_perms = set()
+
+        if not has_perms:
+            eff_perms = get_groups_obj_perms(eff_groups, obj)
+            has_perms = set(req_perms).issubset(eff_perms)
+
+        if not has_perms:
+            debug(f'{obj.__class__.__name__} missing req. obj. perms')
             # If the user does not have permissions we need to determine if
             # they have read permissions to see 403, or not, and simply see
             # a 404 response.
@@ -86,7 +107,7 @@ class EffectiveObjectPermissions(DjangoObjectPermissions):
                 raise Http404
 
             read_perms = self.get_required_object_permissions('GET', model_cls)
-            if not set(read_perms).issubset(eff_perms):
+            if not user.has_perms(read_perms) and not set(read_perms).issubset(eff_perms):
                 raise Http404
 
             # Has read permissions.

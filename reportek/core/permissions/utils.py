@@ -1,6 +1,7 @@
 import logging
 from functools import wraps
 import itertools
+from django.contrib.auth.models import Permission
 from guardian.shortcuts import get_perms
 
 
@@ -11,7 +12,7 @@ warn = log.warning
 error = log.error
 
 
-def get_effective_obj_perms(groups, obj):
+def get_groups_obj_perms(groups, obj):
     """
     Builds the set of object permissions found in a list of groups
     for a model instance.
@@ -19,7 +20,7 @@ def get_effective_obj_perms(groups, obj):
     a user's effective object privileges, e.g.:
     ```
     user_groups = groups = get_effective_groups(request.user)
-    get_effective_obj_perms(groups, envelope.reporter)
+    get_groups_obj_perms(groups, envelope.reporter)
     ```
 
     Params:
@@ -36,6 +37,30 @@ def get_effective_obj_perms(groups, obj):
     )
     debug(f'Effective permissions of groups {[g.name for g in groups]} '
           f'on {obj.__class__.__name__} "{obj}": {eff_perms}')
+    return eff_perms
+
+
+def get_groups_perms(groups):
+    """
+    Builds the set of (model) permissions found in a list of groups.
+    Intended for use in combination with `get_effective_groups` to get
+    a user's effective privileges, e.g.:
+    ```
+    user_groups = groups = get_effective_groups(request.user)
+    get_groups_perms(groups)
+    ```
+
+    Params:
+        groups: List of `Group` instances
+
+    Returns:
+         A set of permissions names, namespaced with the app label.
+    """
+    eff_perms = Permission.objects.filter(group__in=groups).order_by('codename').distinct('codename')
+    eff_perms = set(
+        [f'{p.content_type.app_label}.{p.codename}' for p in eff_perms]
+    )
+    debug(f'Effective permissions of groups {[g.name for g in groups]}: {eff_perms}')
     return eff_perms
 
 

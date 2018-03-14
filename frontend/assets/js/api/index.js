@@ -14,13 +14,13 @@ const TUSD_PORT = 1080;
 const _tusd_host = process.env.TUSD_HOST || TUSD_HOST;
 const _tusd_port = process.env.TUSD_PORT && Number(process.env.TUSD_PORT) || TUSD_PORT;
 
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
+
 const api = axios.create({
   baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
   withCredentials: true,
 });
-
-api.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-api.defaults.xsrfCookieName = "csrftoken";
 
 
 function fetch(path) {
@@ -113,7 +113,7 @@ export function fetchEnvelopeFiles(id) {
 }
 
 export function fetchEnvelopeFile(envelopeId, fileId) {
-    return fetch(`envelopes/${envelopeId}/files/${fileId}`);
+    return fetch(`envelopes/${envelopeId}/files/${fileId}/`);
 }
 
 export function fetchEnvelopeWorkflow(id) {

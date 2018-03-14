@@ -202,10 +202,17 @@ class PendingObligationSerializer(serializers.ModelSerializer):
 
 
 class EnvelopeOriginalFileSerializer(serializers.ModelSerializer):
+
+    content_url = serializers.SerializerMethodField()
+
     class Meta:
         model = EnvelopeOriginalFile
-        fields = ('id', 'name', 'file', 'uploader', 'size', 'created', 'updated')
-        read_only_fields = ('file', 'uploader', 'size', 'created', 'updated')
+        fields = ('id', 'name', 'content_url', 'uploader', 'size', 'created', 'updated')
+        read_only_fields = ('content_url', 'uploader', 'size', 'created', 'updated')
+
+    @staticmethod
+    def get_content_url(obj):
+        return obj.fq_download_url
 
 
 class NestedEnvelopeOriginalFileSerializer(NestedHyperlinkedModelSerializer,
@@ -231,11 +238,16 @@ class CreateEnvelopeOriginalFileSerializer(serializers.ModelSerializer):
 
 class EnvelopeFileSerializer(serializers.ModelSerializer):
     uploader = serializers.PrimaryKeyRelatedField(read_only=True)
+    content_url = serializers.SerializerMethodField()
 
     class Meta:
         model = EnvelopeFile
-        fields = ('id', 'name', 'file', 'restricted', 'uploader', 'size', 'created', 'updated')
-        read_only_fields = ('file', 'uploader', 'size', 'created', 'updated')
+        fields = ('id', 'name', 'content_url', 'restricted', 'uploader', 'size', 'created', 'updated')
+        read_only_fields = ('content', 'uploader', 'size', 'created', 'updated')
+
+    @staticmethod
+    def get_content_url(obj):
+        return obj.fq_download_url
 
 
 class NestedEnvelopeFileSerializer(NestedHyperlinkedModelSerializer,
@@ -366,6 +378,8 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_reporters(obj):
+        if not obj.is_authenticated():
+            return []
         return [WorkspaceReporterSerializer(r).data for r in obj.get_reporters()]
 
     @staticmethod
@@ -374,10 +388,14 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
 
     @staticmethod
     def get_ldap_groups(obj):
+        if not obj.is_authenticated():
+            return []
         return sorted([g.name for g in obj.ldap_groups])
 
     @staticmethod
     def get_effective_groups(obj):
+        if not obj.is_authenticated():
+            return []
         return sorted([g.name for g in obj.effective_groups])
 
     class Meta:
