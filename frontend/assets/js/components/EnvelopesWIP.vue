@@ -67,7 +67,7 @@
 
 <script>
 import { fetchWipEnvelopes } from '../api';
-import utilsMixin from '../mixins/utils';
+import utilsMixin from '../mixins/utils.js';
 
 export default {
   name: 'Envelopes',

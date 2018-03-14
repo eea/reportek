@@ -2,9 +2,6 @@
 import axios from 'axios';
 import tus from 'tus-js-client';
 
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-axios.defaults.xsrfCookieName = "csrftoken";
-
 const logRequests = process.env.NODE_ENV === 'development';
 
 const BACKEND_HOST = 'localhost';
@@ -16,6 +13,9 @@ const TUSD_HOST = 'localhost';
 const TUSD_PORT = 1080;
 const _tusd_host = process.env.TUSD_HOST || TUSD_HOST;
 const _tusd_port = process.env.TUSD_PORT && Number(process.env.TUSD_PORT) || TUSD_PORT;
+
+axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+axios.defaults.xsrfCookieName = "csrftoken";
 
 const api = axios.create({
   baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
@@ -45,6 +45,43 @@ function remove(path) {
   logRequests && console.log(`removig ${path} ...`);
 
   return api.delete(path);
+}
+
+export function removeLoginToken() {
+
+  return new Promise((resolve, reject) => {
+    remove(`/auth-token/${getCookie('authToken')}`)
+      .then((response) => {
+        delete api.defaults.headers.authorization;
+        resolve();
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  })
+}
+
+function getCookie(name) {
+  let cookie = {};
+  document.cookie.split(';').forEach(function(el) {
+    let [k,v] = el.split('=');
+    cookie[k.trim()] = v;
+  })
+  return cookie[name];
+}
+
+export function getLoginToken(username,password) {
+
+  return new Promise((resolve, reject) => {
+    post('/auth-token/', {'username': username, 'password': password})
+      .then((response) => {
+        api.defaults.headers.authorization = 'token ' + response.data.token;
+        resolve(response);
+      })
+      .catch((error) => {
+        reject(error);
+      });
+  });
 }
 
 export function fetchEnvelopes() {
@@ -96,7 +133,7 @@ export function fetchEnvelopeFilesConvertScripts(id, fileId) {
 }
 
 export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
-// Using the post method doesn't work. We have to use a new axios instance
+
   return  axios({
             baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
             withCredentials: true,
@@ -105,7 +142,7 @@ export function runEnvelopeFilesConvertScript(id, fileId, scriptId) {
             xsrfHeaderName: "X-CSRFTOKEN",
             url:`envelopes/${id}/files/${fileId}/run_conversion_script/`,
             responseType:'arraybuffer',
-            data: {convert_id: scriptId}
+            data: {convert_id: scriptId},
           })
 }
 
@@ -113,11 +150,9 @@ export function updateFile(id, fileId, name) {
   return update(`envelopes/${id}/files/${fileId}/`, {name: name});
 }
 
-
 export function updateFileRestriction(id, fileId, restricted) {
   return update(`envelopes/${id}/files/${fileId}/`, {restricted: restricted});
 }
-
 
 export function removeFile(id, fileId) {
   return remove(`envelopes/${id}/files/${fileId}/`);

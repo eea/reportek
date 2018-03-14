@@ -1,13 +1,8 @@
-<template>
-</template>
-
-<script>
-
 import * as utils from '../utils/UtilityFunctions';
 
 export default {
-
   name: 'utils',
+
   created(){
   },
 
@@ -47,6 +42,7 @@ export default {
         reject: 'danger',
         release: 'success',
       };
+      
       if (!status) {
         return '';
       }
@@ -74,7 +70,3 @@ export default {
 
   },
 };
-</script>
-
-<style lang="css" scoped>
-</style>

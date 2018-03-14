@@ -3,12 +3,12 @@
     toggleable="md"
     type="light"
     sticky
+    v-if="!doNotRender"
     variant="white"
   >
     <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
     <b-navbar-brand class="brand-link" to="/">Reportek</b-navbar-brand>
     <b-collapse is-nav id="nav_collapse">
-
 
       <b-navbar-nav>
         <router-link
@@ -47,7 +47,7 @@
             <em>{{userProfile.username}}</em>
           </template>
           <b-dropdown-item href="#">Profile</b-dropdown-item>
-          <b-dropdown-item href="#">Signout</b-dropdown-item>
+          <b-dropdown-item @click="logout" href="#">Log out</b-dropdown-item>
         </b-nav-item-dropdown>
 
       </b-navbar-nav>
@@ -57,12 +57,16 @@
 
 <script>
 import { fetchUserProfile } from '../api';
+import authMixin from '../mixins/auth'
 
 export default {
   name: 'TheHeader',
 
+  mixins: [authMixin],
+
   data() {
     return {
+      doNotRender: false,
       breadcrumbs: [],
       currentCountry: null,
       userProfile: null,
@@ -70,32 +74,28 @@ export default {
     };
   },
 
+
   created() {
-    this.breadcrumbs = this.makeBreadcrumbs();
-    this.getUserProfile();
-    this.handeCountryChange(this.$route.params.reporterId);
+    this.renderFunction();
   },
 
   watch: {
     $route(to, from) {
-      this.breadcrumbs = this.makeBreadcrumbs();
       this.handeCountryChange(to.params.reporterId);
     },
   },
 
   methods: {
-    makeBreadcrumbs() {
-      const crumbs = [];
-      for (let i = 0; i < this.$route.matched.length; i += 1) {
-        if (this.$route.matched[i].meta && this.$route.matched[i].meta.breadcrumb) {
-          const paramIdName = Object.keys(this.$route.params)[0];
-          const paramIdValue = this.$route.params[paramIdName];
-          const path = this.$route.matched[i].meta.breadcrumb.path.replace(paramIdName, paramIdValue).replace(':', '');
-          const name = this.$route.matched[i].meta.breadcrumb.name;
-          crumbs.push({ path, name });
-        }
+
+    renderFunction() {
+      if(this.$cookies.get('authToken')) {
+        this.doNotRender = false;
+        this.getUserProfile();
+        this.handeCountryChange(this.$route.params.reporterId);
       }
-      return crumbs;
+      else {
+        this.doNotRender = true;
+      }
     },
 
     getUserProfile() {
@@ -141,6 +141,11 @@ export default {
 
     countryFlag(countryAbbr) {
       return 'flag-icon-' + countryAbbr.toLowerCase();
+    },
+  },
+  watch: {
+    $route(to, from) {
+      this.renderFunction();
     },
   },
 };

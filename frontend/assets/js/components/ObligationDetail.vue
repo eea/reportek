@@ -78,7 +78,10 @@
           </b-row>
         </b-tab>
         <b-tab title="Specifications">
-          <div v-for="spec in obligation.specs">
+          <div 
+            v-for="spec in obligation.specs"
+            :key="spec.id"
+          >
             <b-row>
               <b-col lg="2">
                 Url
@@ -108,7 +111,10 @@
                 Reporting Cycles
               </b-col>
               <b-col lg="10">
-                <div v-for="cycle in spec.reporting_cycles">
+                <div 
+                  v-for="cycle in spec.reporting_cycles"
+                  :key="cycle.id"
+                >
                   {{formatDate(cycle.reporting_start_date,2)}} - {{formatDate(cycle.reporting_end_date,2)}}
                 </div>
               </b-col>
@@ -195,7 +201,7 @@
 <script>
 
 import { fetchObligation } from '../api';
-import utilsMixin from '../mixins/utils';
+import utilsMixin from '../mixins/utils.js';
 
 export default {
 
