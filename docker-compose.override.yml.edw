@@ -6,19 +6,19 @@ services:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   app:
-    image: eeacms/reportek2:latest-backend
+    image: eeacms/reportek2:latest
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   celery-worker:
-    image: eeacms/reportek2:latest-backend
+    image: eeacms/reportek2:latest
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
   celery-beat:
-    image: eeacms/reportek2:latest-backend
+    image: eeacms/reportek2:latest
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
