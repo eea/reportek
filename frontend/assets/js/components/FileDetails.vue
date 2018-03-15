@@ -113,7 +113,9 @@
               </b-btn>
             </div>
           </div>
-
+          <div v-if="testResult" v-html="testResult" class="testResult">
+             
+          </div>
         </div>
       </b-col>
     </b-row>
@@ -150,6 +152,7 @@ export default {
       fileQaScripts: null,
       isEditing: false,
       envelopeFinalized: false,
+      testResult: null,
     };
   },
 
@@ -168,6 +171,8 @@ export default {
           this.fileQaScripts.map((script) => {
             if (script.id === scriptId) {
               script.variant = this.envelopeCodeDictionary(response.data.feedback_status);
+              console.log(response.data)
+              this.handleEnvelopeFeedback(response.data.result, this.file)
             }
             return script;
           });
@@ -176,6 +181,34 @@ export default {
           console.log(error);
         });
     },
+
+    
+    handleEnvelopeFeedback(result, files) {
+      let matchScript;
+      let matchLink;
+   
+      let p = document.createElement('script');
+      const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
+      const linkRe = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
+
+      p.setAttribute('type', 'text/javascript');
+
+        while (matchScript = re.exec(result)) {
+          // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
+          p.innerHTML += matchScript[1];
+        }
+        let links = [];
+        while (matchLink = linkRe.exec(result)) {
+          links.push(matchLink[2]);
+        }
+        for (let link of links) {
+          result = result.replace(link, ' ');
+        }
+
+      document.body.appendChild(p);
+      this.testResult = result;
+    },
+    
 
     restricFile(restriction) {
       updateFileRestriction(this.$route.params.envelopeId, this.file.id, restriction)
@@ -263,7 +296,8 @@ export default {
   background-size: cover;
   min-height: 386px;
   padding: 1rem;
-  max-width: 320px;;
+  max-width: 320px;
+  max-height: 400px;
   position: relative;
 
   .file-details-header {
@@ -330,6 +364,13 @@ export default {
 .file-page {
   h1 {
     margin: 2rem 0;
+  }
+  .testResult {
+    max-height: 550px;
+    overflow: auto;
+    box-shadow: 1px 1px 3px #aaa;
+    padding: 1rem;
+    margin-top: 1rem;
   }
 }
 </style>
