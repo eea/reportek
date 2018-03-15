@@ -14,36 +14,42 @@ const TUSD_PORT = 1080;
 const _tusd_host = process.env.TUSD_HOST || TUSD_HOST;
 const _tusd_port = process.env.TUSD_PORT && Number(process.env.TUSD_PORT) || TUSD_PORT;
 
-axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-axios.defaults.xsrfCookieName = "csrftoken";
 
 const api = axios.create({
   baseURL: `http://${_backend_host}:${_backend_port}/api/0.1/`,
   withCredentials: true,
 });
 
+api.defaults.xsrfHeaderName = "X-CSRFTOKEN";
+api.defaults.xsrfCookieName = "csrftoken";
+
+function checkAuth() {
+  if(!api.defaults.headers['authorization'] && getCookie('authToken')) {
+    api.defaults.headers.authorization = 'token ' + getCookie('authToken');
+  }
+}
 
 function fetch(path) {
   logRequests && console.log(`fetching ${path}...`);
-
+  checkAuth();
   return api.get(path);
 }
 
 function post(path, data) {
   logRequests && console.log(`posting ${path} with data ${data}...`);
-
+  checkAuth();
   return api.post(path, data);
 }
 
 function update(path, data) {
   logRequests && console.log(`patching ${path} with data ${data}...`);
-
+  checkAuth();
   return api.patch(path, data);
 }
 
 function remove(path) {
   logRequests && console.log(`removig ${path} ...`);
-
+  checkAuth();
   return api.delete(path);
 }
 
@@ -52,6 +58,7 @@ export function removeLoginToken() {
   return new Promise((resolve, reject) => {
     remove(`/auth-token/${getCookie('authToken')}`)
       .then((response) => {
+        console.log('delete');
         delete api.defaults.headers.authorization;
         resolve();
       })
@@ -75,6 +82,8 @@ export function getLoginToken(username,password) {
   return new Promise((resolve, reject) => {
     post('/auth-token/', {'username': username, 'password': password})
       .then((response) => {
+        console.log('get login token');
+
         api.defaults.headers.authorization = 'token ' + response.data.token;
         resolve(response);
       })
