@@ -36,7 +36,7 @@ RUN npm build
 RUN mkdir -p $MEDIA_ROOT $PROTECTED_ROOT $DOWNLOAD_STAGING_ROOT
 
 # Delete the build deps
-apk del .build-deps
+RUN apk del .build-deps
 
 ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["run"]
