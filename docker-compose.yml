@@ -37,6 +37,7 @@ services:
     volumes:
     - static-files:/var/local/reportek/static
     - tusd-uploads:/var/local/tusd_uploads
+    - envelope-files:/var/local/protected_uploads
     depends_on:
       - postgres
       - rabbitmq
@@ -57,6 +58,7 @@ services:
     entrypoint: ["./run_celery_worker.sh"]
     volumes:
     - tusd-uploads:/var/local/tusd_uploads
+    - envelope-files:/var/local/protected_uploads
     depends_on:
       - app
     labels:
@@ -75,6 +77,7 @@ services:
     entrypoint: ["./run_celery_beat.sh"]
     volumes:
     - tusd-uploads:/var/local/tusd_uploads
+    - envelope-files:/var/local/protected_uploads
     depends_on:
       - celery-worker
     labels:
@@ -142,4 +145,6 @@ volumes:
   tusd-uploads:
     driver: rancher-nfs
   static-files:
+    driver: rancher-nfs
+  envelope-files:
     driver: rancher-nfs
