@@ -8,6 +8,9 @@ ENV MEDIA_ROOT=/var/local/uploads/
 ENV PROTECTED_ROOT = /var/local/protected_uploads
 ENV DOWNLOAD_STAGING_ROOT = /var/local/download_staging
 
+# No yarn, nodejs-npm and who knows what else without this
+RUN apk update
+
 RUN runDeps="gcc musl-dev postgresql-dev postgresql-client libressl-dev libxml2-dev libxslt-dev openldap git" \
     && apk add --no-cache $runDeps
 
@@ -31,7 +34,7 @@ RUN yarn
 COPY . $PROJ_DIR
 
 # Build the webpack
-RUN npm build
+RUN npm build .
 
 RUN mkdir -p $MEDIA_ROOT $PROTECTED_ROOT $DOWNLOAD_STAGING_ROOT
 
