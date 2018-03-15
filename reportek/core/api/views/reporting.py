@@ -475,8 +475,7 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         remote_qa = RemoteQA(
             envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
         )
-        # file_url = fully_qualify_url(envelope_file.get_api_download_url())
-        file_url = fully_qualify_url(envelope_file.get_file_url())
+        file_url = envelope_file.fq_download_url
         return Response(remote_qa.run_script(file_url, str(script_id)))
 
     @detail_route(methods=['get'])
@@ -527,8 +526,7 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         remote_conversion = RemoteConversion(
             envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
         )
-        # file_url = fully_qualify_url(envelope_file.get_api_download_url())
-        file_url = fully_qualify_url(envelope_file.get_file_url())
+        file_url = envelope_file.fq_download_url
         conversion_result = remote_conversion.convert_xml(file_url, str(script_id))
 
         response = HttpResponse()
@@ -805,7 +803,7 @@ class UploadHookView(viewsets.ViewSet):
                 envelope_original_file.save()
 
                 # Try to convert to xml file(s)
-                file_url = fully_qualify_url(envelope_original_file.get_file_url())
+                file_url = envelope_original_file.fq_download_url
                 remote_conversion = RemoteConversion(
                     token.envelope.obligation_spec.qa_xmlrpc_uri
                 )
