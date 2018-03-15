@@ -50,6 +50,13 @@ class DemoAutoQAWorkflow(BaseWorkflow):
         qa_jobs_count = len(self.bearer.submit_xml_to_qa())
         info(f'QA started {qa_jobs_count} job(s) for envelope "{self.bearer.envelope.name}"')
 
+    @xwf.on_enter_state('auto_qa')
+    def on_enter_auto_qa(self, *args, **kwargs):
+        print(self.bearer.envelope.auto_qa_jobs, len(self.bearer.envelope.auto_qa_jobs))
+        if len(self.bearer.envelope.auto_qa_jobs) == 0:
+            info('No QA jobs found on entering auto_qa state')
+            self.pass_qa()
+
     def handle_auto_qa_results(self):
         """
         Example of QA callback with automatic transition logic.
