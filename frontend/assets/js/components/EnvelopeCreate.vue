@@ -123,10 +123,11 @@ export default {
   created() {
     if (!this.$route.params.reportingCycle) {
       this.$router.push({ name: 'Dashboard' });
+    } else {
+      fetchUserProfile().then((response) => {
+        this.getApiData(response.data);
+      });
     }
-    fetchUserProfile().then((response) => {
-      this.getApiData(response.data);
-    });
   },
 
   methods: {
@@ -161,7 +162,9 @@ export default {
           value: this.$route.params.reportingCycle.id,
           text: this.$route.params.reportingCycle.reporting_start_date,
         }];
-      this.form.country = userProfile.reporters[0].name;
+      this.form.country = userProfile.reporters.find((reporter) => {
+        return reporter.id.toString() === this.$route.params.reporterId.toString();
+      }).name;
       this.form.reportingCycle = this.$route.params.reportingCycle.id;
       this.form.reporter = this.$route.params.reporterId;
       this.form.obligationSpec = this.$route.params.reportingCycle.obligation_spec.id;
