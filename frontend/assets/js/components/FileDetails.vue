@@ -111,7 +111,8 @@
               </a>
               <b-btn
                 variant="primary"
-                v-on:click.stop="runQAScript(file, script.id)"
+                class="test-button"
+                v-on:click.stop="runQAScript(file, script.id, $event)"
                 >
                 Run test
               </b-btn>
@@ -161,6 +162,7 @@ export default {
       isEditing: false,
       envelopeFinalized: false,
       testResult: [],
+
     };
   },
 
@@ -174,7 +176,17 @@ export default {
   },
 
   methods: {
-    runQAScript(file, scriptId) {
+    runQAScript(file, scriptId,e) {
+      if(e){
+        e.target.innerText = 'Running test'
+        e.target.setAttribute('disabled', 'true')
+      } else {
+        document.querySelectorAll('.test-button').forEach(function(item,index) {
+          item.innerText = 'Running test'
+          item.setAttribute('disabled', 'true')
+        })
+      }
+
       runEnvelopeFilesQAScript(this.$route.params.envelopeId, file.id, scriptId)
         .then((response) => {
           this.fileQaScripts.map((script) => {
@@ -182,6 +194,15 @@ export default {
               script.variant = this.envelopeCodeDictionary(response.data.feedback_status);
               console.log(response.data)
               this.handleEnvelopeFeedback(response.data.result, scriptId)
+            }
+            if(e){
+              e.target.innerText = 'Run test'
+              e.target.removeAttribute('disabled')
+            } else {
+              document.querySelectorAll('.test-button').forEach(function(item,index) {
+                item.innerText = 'Run test'
+                item.removeAttribute('disabled')
+              })
             }
             return script;
           });
@@ -385,7 +406,6 @@ export default {
     margin: 2rem 0;
   }
   .testResult {
-    max-height: 550px;
     overflow: auto;
     box-shadow: 1px 1px 3px #aaa;
     padding: 1rem;
