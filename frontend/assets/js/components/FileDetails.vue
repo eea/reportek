@@ -176,14 +176,15 @@ export default {
   },
 
   methods: {
-    runQAScript(file, scriptId,e) {
-      if(e){
-        e.target.innerText = 'Running test'
-        e.target.setAttribute('disabled', 'true')
+    runQAScript(file, scriptId, e) {
+
+      if (e) {
+        e.target.innerText = 'Running test';
+        e.target.setAttribute('disabled', 'true');
       } else {
         document.querySelectorAll('.test-button').forEach(function(item,index) {
-          item.innerText = 'Running test'
-          item.setAttribute('disabled', 'true')
+          item.innerText = 'Running test';
+          item.setAttribute('disabled', 'true');
         })
       }
 
@@ -195,13 +196,13 @@ export default {
               console.log(response.data)
               this.handleEnvelopeFeedback(response.data.result, scriptId)
             }
-            if(e){
-              e.target.innerText = 'Run test'
-              e.target.removeAttribute('disabled')
+            if (e) {
+              e.target.innerText = 'Run test';
+              e.target.removeAttribute('disabled');
             } else {
               document.querySelectorAll('.test-button').forEach(function(item,index) {
-                item.innerText = 'Run test'
-                item.removeAttribute('disabled')
+                item.innerText = 'Run test';
+                item.removeAttribute('disabled');
               })
             }
             return script;
@@ -224,25 +225,25 @@ export default {
 
       p.setAttribute('type', 'text/javascript');
 
-        while (matchScript = re.exec(result)) {
-          // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
-          p.innerHTML += matchScript[1];
-        }
-        let links = [];
-        while (matchLink = linkRe.exec(result)) {
-          links.push(matchLink[2]);
-        }
-        for (let link of links) {
-          result = result.replace(link, ' ');
-        }
+      while (matchScript = re.exec(result)) {
+        // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
+        p.innerHTML += matchScript[1];
+      }
+      let links = [];
+      while (matchLink = linkRe.exec(result)) {
+        links.push(matchLink[2]);
+      }
+      for (let link of links) {
+        result = result.replace(link, ' ');
+      }
 
       document.body.appendChild(p);
 
-      resultObject = {id: scriptId, data: result}
+      resultObject = {id: scriptId, data: result};
 
-      for(let test of this.testResult) {
-        if(test.id === scriptId) {
-          test.data = result
+      for (let test of this.testResult) {
+        if (test.id === scriptId) {
+          test.data = result;
         }
       }
 
