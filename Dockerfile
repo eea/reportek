@@ -36,7 +36,7 @@ RUN runDeps="gcc postgresql-client-10 libxml2-dev libxslt-dev libsasl2-dev pytho
 
 RUN mkdir -p $APP_HOME $MEDIA_ROOT $PROTECTED_ROOT $DOWNLOAD_STAGING_ROOT
 
-COPY yarn.lock package*.json $REQUIREMENTS_FILE $APP_HOME
+COPY yarn.lock package*.json requirements.txt $REQUIREMENTS_FILE $APP_HOME
 WORKDIR $APP_HOME
 
 RUN pip install --no-cache-dir -r $REQUIREMENTS_FILE
