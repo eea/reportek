@@ -102,19 +102,20 @@
           <div>{{fileQaScripts.length}} tests<b-btn @click="runAllQaScripts" variant="link"> Run all tests</b-btn></div>
           <div  class="qa-tests">
             <div
+              style="display: flex; justify-content: space-between"
+              class="mb-2"
               v-for="script in fileQaScripts"
               :key="script.id">
-              Test:
+              <a :href='`#${script.id}`'>
+                {{script.title}}
+              </a>
               <b-btn
-                variant="link"
+                variant="primary"
                 v-on:click.stop="runQAScript(file, script.id)"
                 >
-                {{script.title}}
+                Run test
               </b-btn>
             </div>
-          </div>
-          <div v-if="testResult" v-html="testResult" class="testResult">
-             
           </div>
         </div>
       </b-col>
@@ -122,6 +123,12 @@
      <b-modal v-if="modalFile" id="downloadModal" ref="downloadModal" size="lg" title="Download">
           <filesdownload :files="modalFile"></filesdownload>
     </b-modal>
+    <div  v-if="testResult" v-for="result in testResult">
+      <div v-if="result.data" :id="result.id" v-html="result.data" class="testResult">
+      </div>
+    </div>
+    <backtotop text="Back to top"></backtotop>
+
   </div>
 </template>
 
@@ -137,6 +144,7 @@ import {  fetchEnvelope,
 
 import utilsMixin from '../mixins/utils.js';
 import EnvelopeFilesDownload from './EnvelopeFilesDownload';
+import BackToTop from 'vue-backtotop'
 
 export default {
 
@@ -152,12 +160,13 @@ export default {
       fileQaScripts: null,
       isEditing: false,
       envelopeFinalized: false,
-      testResult: null,
+      testResult: [],
     };
   },
 
   components: {
     filesdownload: EnvelopeFilesDownload,
+    backtotop: BackToTop,
   },
 
   created() {
@@ -172,7 +181,7 @@ export default {
             if (script.id === scriptId) {
               script.variant = this.envelopeCodeDictionary(response.data.feedback_status);
               console.log(response.data)
-              this.handleEnvelopeFeedback(response.data.result, this.file)
+              this.handleEnvelopeFeedback(response.data.result, scriptId)
             }
             return script;
           });
@@ -182,11 +191,12 @@ export default {
         });
     },
 
-    
-    handleEnvelopeFeedback(result, files) {
+
+    handleEnvelopeFeedback(result, scriptId) {
       let matchScript;
       let matchLink;
-   
+      let resultObject = {};
+
       let p = document.createElement('script');
       const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
       const linkRe = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
@@ -206,9 +216,17 @@ export default {
         }
 
       document.body.appendChild(p);
-      this.testResult = result;
+
+      resultObject = {id: scriptId, data: result}
+
+      for(let test of this.testResult) {
+        if(test.id === scriptId) {
+          test.data = result
+        }
+      }
+
     },
-    
+
 
     restricFile(restriction) {
       updateFileRestriction(this.$route.params.envelopeId, this.file.id, restriction)
@@ -253,6 +271,7 @@ export default {
             let scripts = response.data;
             for (let script of scripts) {
               script.status = null;
+              this.testResult.push({id: script.id, data: null})
             }
             this.fileQaScripts = scripts;
           })
