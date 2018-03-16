@@ -20,7 +20,7 @@
                       type="password"
                       v-model="form.password"
                       required
-                      placeholder="Enter email">
+                      placeholder="Enter password">
         </b-form-input>
       </b-form-group>
       <b-button type="submit" variant="primary">Log in</b-button>
