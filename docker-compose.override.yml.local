@@ -28,6 +28,10 @@ services:
     ports:
       - "5672:5672"
 
+  redis:
+    ports:
+      - "6379:6379"
+
   nginx:
     ports:
       - "80:80"

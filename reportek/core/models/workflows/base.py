@@ -1,13 +1,13 @@
 import re
 import logging
-from collections import OrderedDict
+import asyncio
 from django.db import models
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.contrib.contenttypes.fields import GenericRelation
 from typedmodels.models import TypedModel
 import xworkflows as xwf
 
+from channels.layers import get_channel_layer
 
 from reportek.core.tasks import submit_xml_to_qa
 from .log import TransitionEvent
@@ -160,6 +160,31 @@ class BaseWorkflow(TypedModel):
 
         def post_transition(self, *args, **kwargs):
             """After transition hook applied to all workflows"""
+
+            async def announce_change(self):
+                """
+                Coroutine for workflow state notifications over websockets.
+                We roll our own async context, as the channel layer `group_send`
+                needs one to run in, and `asgiref.sync.AsyncToSync` does not work
+                with Celery worker threads.
+                """
+
+                # Announce state change to websocket envelope group
+                payload = {
+                    'previous_state': self.bearer.previous_state,
+                    'current_state': self.bearer.current_state,
+                    'finalized': self.bearer.envelope.finalized
+                }
+
+                channel_layer = get_channel_layer()
+                await channel_layer.group_send(
+                    f'envelope_{self.bearer.envelope.pk}',
+                    {
+                        'type': 'envelope.entered_state',
+                        'data': payload
+                    }
+                )
+
             info(f'Persisting state change to "{self.state.name}".')
             # Persist state
             self.bearer.previous_state = self.bearer.current_state
@@ -174,6 +199,22 @@ class BaseWorkflow(TypedModel):
                 self.bearer.envelope.finalized = False
                 self.bearer.envelope.save()
                 info(f'Envelope "{self.bearer.envelope.name}" is no longer finalized.')
+
+            # Make sure we have an active async loop before kicking off notifications
+            try:
+                loop = asyncio.get_event_loop()
+                if loop.is_closed():
+                    debug('Event loop is closed, getting new one ...')
+                    loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(loop)
+                else:
+                    debug('Using existing event loop ...')
+            except RuntimeError:
+                debug(f'No current event loop in thread, getting one now ...')
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
+
+            loop.run_until_complete(announce_change(self))
 
         # Transplant the transition methods
         attrs = self.xwf_methods

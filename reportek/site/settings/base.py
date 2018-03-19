@@ -101,7 +101,6 @@ SECRET_KEY = get_env_var('SECRET_KEY')
 DEBUG = get_bool_env_var('DEBUG', 'no')
 ALLOWED_HOSTS = split_env_var('ALLOWED_HOSTS')
 
-
 # https://django-guardian.readthedocs.io/en/stable/userguide/custom-user-model.html#custom-user-model
 GUARDIAN_MONKEY_PATCH = False
 
@@ -126,6 +125,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'webpack_loader',
     'guardian',
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -138,6 +138,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REDIS_HOST = get_env_var('REDIS_HOST')
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [(REDIS_HOST, 6379)],
+        },
+    },
+}
+
+ASGI_APPLICATION = 'reportek.site.routing.application'
+
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_WHITELIST = split_env_var('CORS_ORIGIN_WHITELIST')

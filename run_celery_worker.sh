@@ -31,4 +31,4 @@ while ! nc -z ${REPORTEK_HOST} ${REPORTEK_GUNICORN_PORT}; do
   sleep 1s
 done
 
-exec celery -A reportek.site worker -l info -P gevent
+exec celery -A reportek.site worker -l info

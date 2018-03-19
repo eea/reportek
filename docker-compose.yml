@@ -18,6 +18,12 @@ services:
     labels:
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
 
+  redis:
+    image: redis:4.0-alpine
+    command: "redis-server"
+    volumes:
+      - redis-data:/data
+
   tusd:
     image: tusproject/tusd:latest
     env_file:
@@ -42,6 +48,7 @@ services:
       - postgres
       - rabbitmq
       - tusd
+      - redis
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label_ne: reserved=yes
@@ -147,4 +154,6 @@ volumes:
   static-files:
     driver: rancher-nfs
   envelope-files:
+    driver: rancher-nfs
+  redis-data:
     driver: rancher-nfs

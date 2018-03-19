@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% csrf_token %}
+{% load static %}
 {% load render_bundle from webpack_loader %}
 <html lang="en">
 <head>
@@ -7,6 +8,7 @@
     <title>Reportek</title>
 </head>
 <body>
+  <script src="{% static 'channels/js/websocketbridge.js' %}"></script>
   <div id="app"></div>
   {% render_bundle 'app' %}
 </body>

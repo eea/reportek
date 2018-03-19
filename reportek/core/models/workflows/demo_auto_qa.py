@@ -52,7 +52,6 @@ class DemoAutoQAWorkflow(BaseWorkflow):
 
     @xwf.on_enter_state('auto_qa')
     def on_enter_auto_qa(self, *args, **kwargs):
-        print(self.bearer.envelope.auto_qa_jobs, len(self.bearer.envelope.auto_qa_jobs))
         if len(self.bearer.envelope.auto_qa_jobs) == 0:
             info('No QA jobs found on entering auto_qa state')
             self.pass_qa()
