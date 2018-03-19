@@ -9,7 +9,7 @@
 <year/>
 <endyear/>
 <partofyear>{{ envelope.created_at.year }}</partofyear>
-{% for file in envelope.files.all %}
+{% for file in envelope.envelopefiles.all %}
   <file name="{{ file.name }}" type="file_type" schema="{{ file.xml_schema }}" title="{{ file.name }}" restricted="{{ file.restricted }}" link="{{ file.fq_download_url }}"/>
 {% endfor %}
 </envelope>

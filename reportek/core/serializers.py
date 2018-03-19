@@ -319,8 +319,8 @@ class NestedUploadTokenSerializer(
 
 
 class EnvelopeSerializer(serializers.ModelSerializer):
-    files = NestedEnvelopeFileSerializer(many=True, read_only=True)
-    original_files = NestedEnvelopeOriginalFileSerializer(many=True, read_only=True)
+    envelopefiles = NestedEnvelopeFileSerializer(many=True, read_only=True)
+    envelopeoriginalfiles = NestedEnvelopeOriginalFileSerializer(many=True, read_only=True)
     workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
 
     class Meta:

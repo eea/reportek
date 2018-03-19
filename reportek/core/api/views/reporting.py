@@ -86,16 +86,16 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_anonymous:
-            return Envelope.objects.filter(finalized=True).prefetch_related('files')
+            return Envelope.objects.filter(finalized=True).prefetch_related('envelopefiles')
         elif self.request.user.has_perm('core.act_as_reportnet_api'):
-            return Envelope.objects.all().prefetch_related('files')
+            return Envelope.objects.all().prefetch_related('envelopefiles')
 
         reporters = self.request.user.get_reporters()
         obligations = self.request.user.get_obligations()
 
         return Envelope.objects.filter(
             Q(finalized=True) | Q(reporter__in=reporters, obligation_spec__obligation__in=obligations)
-        ).prefetch_related('files')
+        ).prefetch_related('envelopefiles')
 
     def perform_create(self, serializer):
         serializer.validated_data['author'] = self.request.user
@@ -170,7 +170,7 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         obligations = request.query_params.getlist('obligation')
         finalized = request.query_params.get('finalized')
 
-        envelopes = Envelope.objects.prefetch_related('files')
+        envelopes = Envelope.objects.prefetch_related('envelopefiles')
 
         if reporters:
             reporters = Reporter.objects.filter(abbr__in=reporters).all()

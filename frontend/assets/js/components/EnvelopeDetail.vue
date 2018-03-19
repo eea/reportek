@@ -32,7 +32,7 @@
 
         <workflow :state="envelope.workflow.current_state"></workflow>
 
-        <h4 class="inline"><strong>Envelope files</strong></h4> <small>{{envelope.files.length}} files</small>
+        <h4 class="inline"><strong>Envelope files</strong></h4> <small>{{envelope.envelopefiles.length}} files</small>
 
         <b-tabs v-model="tabIndex">
 
@@ -43,8 +43,8 @@
               class="files-table"
               border-variant="default"
               :hover="false"
-              v-if="envelope.files.length"
-              :items="envelope.files"
+              v-if="envelope.envelopefiles.length"
+              :items="envelope.envelopefiles"
               @head-clicked="selectAll()"
               :fields="fields"
               :current-page="currentPage"
@@ -204,10 +204,10 @@
             </b-card>
 
             <b-pagination
-              :total-rows="envelope.files.length"
+              :total-rows="envelope.envelopefiles.length"
               :per-page="perPage"
               v-model="currentPage"
-              v-if="envelope.files.length > 5"
+              v-if="envelope.envelopefiles.length > 5"
               class="my-0"
             />
           </b-tab>
@@ -335,7 +335,7 @@
               Envelope status: {{translateCode(envelope.workflow.current_state)}}
             </div>
            <div class="status-control-body">
-            <div>{{envelope.files.length}} files uploaded</div>
+            <div>{{envelope.envelopefiles.length}} files uploaded</div>
             <p  v-if="translateCode(envelope.workflow.current_state) === 'Draft'" class="">
               Add files and run QA tests on them. Fix any error you encounter and keep adding files.
               When the envelope is ready run all tests and get feedback
@@ -433,10 +433,10 @@ export default {
             this.envelope = response.data;
             this.envelopeState = this.envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
 
-            for (let index = 0; index < this.envelope.files.length; index += 1) {
-              this.envelope.files[index] = Object.assign(
+            for (let index = 0; index < this.envelope.envelopefiles.length; index += 1) {
+              this.envelope.envelopefiles[index] = Object.assign(
                 {},
-                this.envelope.files[index],
+                this.envelope.envelopefiles[index],
                 {
                   availableScripts: [],
                   selected: false,
@@ -448,7 +448,7 @@ export default {
                   additionalControls: false,
                 });
             }
-            resolve(this.envelope.files);
+            resolve(this.envelope.envelopefiles);
           })
           .catch((error) => {
             console.log(error);
@@ -588,12 +588,12 @@ export default {
       setTimeout(() => {
         fn()
           .then((response) => {
-            if (self.envelope.files.length === response.data.length) {
+            if (self.envelope.envelopefiles.length === response.data.length) {
               self.pollFiles(fn, delay);
             } else {
               for (let index = 0; index <= response.data.length; index += 1) {
                 const responseFile = response.data[index];
-                const found = self.envelope.files.find(file => file.id === responseFile.id);
+                const found = self.envelope.envelopefiles.find(file => file.id === responseFile.id);
 
                 if (found === undefined) {
                   responseFile.availableScripts = [];
@@ -604,7 +604,7 @@ export default {
                   responseFile.selectedConversion = null;
                   responseFile.feedback = [];
                   responseFile.additionalControls = false;
-                  self.envelope.files.push(responseFile);
+                  self.envelope.envelopefiles.push(responseFile);
                   self.files.shift();
                 }
               }
@@ -617,7 +617,7 @@ export default {
     },
 
     runScriptsForFiles() {
-      this.envelope.files.map((file) => {
+      this.envelope.envelopefiles.map((file) => {
         if (file.selected) {
           this
             .getFileScripts(file)
@@ -679,7 +679,7 @@ export default {
     modalFiles() {
       let files = [];
 
-      for (let file of this.envelope.files) {
+      for (let file of this.envelope.envelopefiles) {
         if (file.selected) {
           files.push(file);
         }
@@ -695,7 +695,7 @@ export default {
         this.selectedFiles -= 1;
       } else {
         this.selectedFiles += 1;
-        if (this.selectedFiles === this.envelope.files.length) {
+        if (this.selectedFiles === this.envelope.envelopefiles.length) {
           this.allFilesSelected = true;
         }
       }
@@ -703,13 +703,13 @@ export default {
 
     selectAll() {
       if (this.allFilesSelected === true) {
-        for (const file of this.envelope.files) {
+        for (const file of this.envelope.envelopefiles) {
           file.selected = false;
         }
         this.selectedFiles = 0;
         this.allFilesSelected = false;
       } else {
-        for (const file of this.envelope.files) {
+        for (const file of this.envelope.envelopefiles) {
           file.selected = true;
           this.selectedFiles += 1;
         }
@@ -740,7 +740,7 @@ export default {
     },
 
     deleteFiles() {
-      this.envelope.files.map((file) => {
+      this.envelope.envelopefiles.map((file) => {
         if (file.selected) {
           this.deleteFile(file);
         }
