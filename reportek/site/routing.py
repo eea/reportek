@@ -13,7 +13,7 @@ from reportek.core.api.consumers import EnvelopeWebsocketConsumer
 application = ProtocolTypeRouter({
     'websocket': AuthMiddlewareStack(
         URLRouter([
-            url('^envelopes/(?P<pk>[0-9]+)$', EnvelopeWebsocketConsumer)
+            url('^ws/envelopes/(?P<pk>[0-9]+)$', EnvelopeWebsocketConsumer)
         ])
     )
 })
