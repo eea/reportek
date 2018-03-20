@@ -9,7 +9,8 @@ from django.utils.crypto import get_random_string
 from django.utils.translation import ugettext_lazy as _
 from edw.djutils import protected
 from model_utils import FieldTracker
-
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 from .workflows import (
     BaseWorkflow,
@@ -382,7 +383,9 @@ class EnvelopeFile(models.Model):
             raise RuntimeError("Envelope is final.")
 
         renamed = False
+        new = False
         if self.pk is None:
+            new = True
             self.name = os.path.basename(self.file.name)
             # TODO: go full OCD and guard against receiving both name and file?
         elif self.name != self._prev_name:
@@ -417,6 +420,28 @@ class EnvelopeFile(models.Model):
             debug(f'renaming: {old_path} to {new_path}')
             os.rename(old_path, new_path)
 
+        channel_layer = get_channel_layer()
+        payload = {
+            'file_id': self.pk,
+        }
+
+        if new:
+            async_to_sync(channel_layer.group_send)(
+                f'envelope_{self.envelope.pk}',
+                {
+                    'type': 'envelope.added_file',
+                    'data': payload
+                }
+            )
+        else:
+            async_to_sync(channel_layer.group_send)(
+                f'envelope_{self.envelope.pk}',
+                {
+                    'type': 'envelope.changed_file',
+                    'data': payload
+                }
+            )
+
     def delete(self, *args, **kwargs):
         try:
             os.remove(self.file.path)
@@ -424,7 +449,23 @@ class EnvelopeFile(models.Model):
         except FileNotFoundError:
             error(f'Could not delete envelope file from disk (not found): '
                   f'{self.file.path}')
+
+        envelope_id = self.envelope_id
+        file_id = self.pk
         super().delete(*args, **kwargs)
+
+        channel_layer = get_channel_layer()
+        payload = {
+            'file_id': file_id,
+        }
+
+        async_to_sync(channel_layer.group_send)(
+            f'envelope_{envelope_id}',
+            {
+                'type': 'envelope.deleted_file',
+                'data': payload
+            }
+        )
 
     def get_download_url(self):
         return reverse('api:envelope-file-download', kwargs={

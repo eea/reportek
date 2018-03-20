@@ -7,13 +7,13 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 
 
-from reportek.core.api.consumers import EnvelopeWebsocketConsumer
+from reportek.core.api.consumers import EnvelopeWSConsumer
 
 
 application = ProtocolTypeRouter({
     'websocket': AuthMiddlewareStack(
         URLRouter([
-            url('^ws/envelopes/(?P<pk>[0-9]+)$', EnvelopeWebsocketConsumer)
+            url('^ws/envelopes/(?P<pk>[0-9]+)$', EnvelopeWSConsumer)
         ])
     )
 })

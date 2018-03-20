@@ -1,3 +1,1 @@
-from .envelope import (
-    EnvelopeWebsocketConsumer,
-)
+from .envelope import EnvelopeWSConsumer
