@@ -109,7 +109,6 @@ GUARDIAN_MONKEY_PATCH = False
 
 INSTALLED_APPS = [
     'reportek.core.apps.Config',
-    'django_xworkflows',
     'typedmodels',
     'rest_framework',
     'rest_framework.authtoken',
