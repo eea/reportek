@@ -1,6 +1,6 @@
 from .base import *
 
-INTERNAL_IPS = ['127.0.0.1', '10.0.10.202',]
+INTERNAL_IPS = ['127.0.0.1', ]
 
 INSTALLED_APPS += [
     'debug_toolbar',
