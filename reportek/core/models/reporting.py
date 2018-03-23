@@ -235,14 +235,20 @@ class EnvelopeFileCommon(models.Model):
     class Meta:
         abstract = True
 
-    # Used by get_download_url()
-    _download_view_name = ''
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # keep track of the name to handle renames
+        self._prev_name = (None if self.pk is None
+                           else self.name)
 
     def get_envelope_directory(self, filename):
         return os.path.join(
             self.envelope.get_storage_directory(),
             os.path.basename(filename)
         )
+
+    # Used by get_download_url()
+    _download_view_name = ''
 
     envelope = models.ForeignKey(Envelope, related_name='%(class)ss')
 
@@ -388,12 +394,6 @@ class EnvelopeFile(EnvelopeFileCommon):
     original_file = models.ForeignKey(EnvelopeOriginalFile,
                                       related_name='envelope_files',
                                       null=True)
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # keep track of the name to handle renames
-        self._prev_name = (None if self.pk is None
-                           else self.name)
 
     @property
     def qa_results(self):
