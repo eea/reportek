@@ -369,9 +369,9 @@
 </template>
 
 <script>
-import History from "./EnvelopeHistory";
-import Workflow from "./EnvelopeWorkflow";
-import EnvelopeFilesDownload from "./EnvelopeFilesDownload";
+import History from './EnvelopeHistory';
+import Workflow from './EnvelopeWorkflow';
+import EnvelopeFilesDownload from './EnvelopeFilesDownload';
 import {
   fetchEnvelope,
   fetchEnvelopeToken,
@@ -383,28 +383,28 @@ import {
   updateFile,
   removeFile,
   uploadFile
-} from "../api";
-import utilsMixin from "../mixins/utils.js";
+} from '../api';
+import utilsMixin from '../mixins/utils.js';
 
 
 export default {
-  name: "EnvelopeDetail",
+  name: 'EnvelopeDetail',
 
   components: {
     history: History,
     workflow: Workflow,
-    filesdownload: EnvelopeFilesDownload
+    filesdownload: EnvelopeFilesDownload,
   },
 
   mixins: [utilsMixin],
 
   data() {
     return {
-      fields: ["select", "name", "tests"],
+      fields: ['select', 'name', 'tests'],
       envelope: null,
       allFilesSelected: false,
       selectedFiles: 0,
-      envelopeState: "",
+      envelopeState: '',
       isInitial: true,
       files: [],
       envelopeFeedback: null,
@@ -413,7 +413,7 @@ export default {
       perPage: 5,
       extraTabs: [],
       tabIndex: 0,
-      filesUploading: false
+      filesUploading: false,
     };
   },
 
@@ -441,10 +441,10 @@ export default {
           self.handleNewMessage(newMessage);
         },
         error(error) {
-          console.error("File got an error: ", error);
+          console.error('File got an error: ', error);
         },
         complete() {
-          console.log("File got a complete notification");
+          console.log('File got a complete notification');
         }
       };
 
@@ -453,7 +453,7 @@ export default {
     },
 
     handleNewMessage(newMessage) {
-      console.log("File got a next value: ", newMessage);
+      console.log('File got a next value: ', newMessage);
       this.getEnvelope().then(resultFiles => {
         this.getEnvelopeFeedback(resultFiles);
       });
@@ -469,14 +469,8 @@ export default {
               response.data.workflow.available_transitions[0]
             );
 
-            for (
-              let index = 0;
-              index < this.envelope.files.length;
-              index += 1
-            ) {
-              this.envelope.files[index] = Object.assign(
-                {},
-                this.envelope.files[index],
+            for (let index = 0; index < this.envelope.files.length; index += 1) {
+              this.envelope.files[index] = Object.assign({}, this.envelope.files[index],
                 {
                   availableScripts: [],
                   selected: false,
@@ -485,7 +479,7 @@ export default {
                   selectedConversion: null,
                   feedback: [],
                   isEditing: false,
-                  additionalControls: false
+                  additionalControls: false,
                 }
               );
             }
@@ -514,13 +508,13 @@ export default {
         count: feedback.count,
         next: feedback.next,
         previous: feedback.previous,
-        files: {}
+        files: {},
       };
-      let p = document.createElement("script");
+      let p = document.createElement('script');
       const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
       const linkRe = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/gi;
 
-      p.setAttribute("type", "text/javascript");
+      p.setAttribute('type', 'text/javascript');
 
       for (let file of files) {
         modifiedFeedback.files[file.name] = [];
@@ -536,10 +530,7 @@ export default {
           links.push(matchLink[2]);
         }
         for (let link of links) {
-          result.latest_result.value = result.latest_result.value.replace(
-            link,
-            " "
-          );
+          result.latest_result.value = result.latest_result.value.replace(link, ' ');
         }
         for (let file of files) {
           if (file.id === result.envelope_file) {
@@ -559,7 +550,7 @@ export default {
         this.files.push({ data: file, percentage: 0 });
       }
       if (this.extraTabs.length === 0) {
-        this.extraTabs.push("New Files");
+        this.extraTabs.push('New Files');
       }
       setTimeout(() => {
         this.tabIndex = 2;
@@ -622,7 +613,7 @@ export default {
       this.filesUploading = false;
       this.removeFileFromUploadList(file);
       this.uploadAllFiles();
-      alert("file type is wrong. It will be removed");
+      alert('file type is wrong. It will be removed');
     },
 
     removeFileFromUploadList(file) {
@@ -652,10 +643,7 @@ export default {
             .then(response => {
               file.visibleScripts = true;
               response.data.map(script => {
-                file.availableScripts.push({
-                  data: script,
-                  variant: "primary",
-                });
+                file.availableScripts.push({ data: script, variant: 'primary' });
                 return script;
               });
               resolve(file);
@@ -785,7 +773,7 @@ export default {
     },
 
     showTransitionButton(code) {
-      return code !== "fail_qa" && code !== "pass_qa";
+      return code !== 'fail_qa' && code !== 'pass_qa';
     }
   }
 };

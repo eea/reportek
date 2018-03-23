@@ -156,13 +156,13 @@ import {
   removeFile,
   fetchEnvelopeFilesQAScripts,
   runEnvelopeFilesQAScript
-} from "../api";
-import utilsMixin from "../mixins/utils.js";
-import EnvelopeFilesDownload from "./EnvelopeFilesDownload";
-import BackToTop from "vue-backtotop";
+} from '../api';
+import utilsMixin from '../mixins/utils.js';
+import EnvelopeFilesDownload from './EnvelopeFilesDownload';
+import BackToTop from 'vue-backtotop';
 
 export default {
-  name: "FileDetails",
+  name: 'FileDetails',
 
   mixins: [utilsMixin],
 
@@ -174,14 +174,15 @@ export default {
       fileQaScripts: null,
       isEditing: false,
       envelopeFinalized: false,
-      testResult: []
+      testResult: [],
     };
   },
 
   components: {
     filesdownload: EnvelopeFilesDownload,
-    backtotop: BackToTop
+    backtotop: BackToTop,
   },
+
   // Fetches posts when the component is created.
   created() {
     this.getFile();
@@ -237,10 +238,10 @@ export default {
           self.handleNewMessage(newMessage);
         },
         error(error) {
-          console.error("File got an error: ", error);
+          console.error('File got an error: ', error);
         },
         complete() {
-          console.log("File got a complete notification");
+          console.log('File got a complete notification');
         }
       };
 
@@ -249,8 +250,8 @@ export default {
     },
 
     handleNewMessage(newMessage) {
-      console.log("File got a next value: ", newMessage);
-      if (newMessage.event === "changed_file") {
+      console.log('File got a next value: ', newMessage);
+      if (newMessage.event === 'changed_file') {
         this.getFile();
       }
     },
@@ -263,14 +264,14 @@ export default {
 
     runQAScript(file, scriptId, e) {
       if (e) {
-        e.target.innerText = "Running test";
-        e.target.setAttribute("disabled", "true");
+        e.target.innerText = 'Running test';
+        e.target.setAttribute('disabled', 'true');
       } else {
         document
-          .querySelectorAll(".test-button")
+          .querySelectorAll('.test-button')
           .forEach(function(item, index) {
-            item.innerText = "Running test";
-            item.setAttribute("disabled", "true");
+            item.innerText = 'Running test';
+            item.setAttribute('disabled', 'true');
           });
       }
 
@@ -278,21 +279,18 @@ export default {
         .then(response => {
           this.fileQaScripts.map(script => {
             if (script.id === scriptId) {
-              script.variant = this.envelopeCodeDictionary(
-                response.data.feedback_status
-              );
-              console.log(response.data);
+              script.variant = this.envelopeCodeDictionary(response.data.feedback_status);
               this.handleEnvelopeFeedback(response.data.result, scriptId);
             }
             if (e) {
-              e.target.innerText = "Run test";
-              e.target.removeAttribute("disabled");
+              e.target.innerText = 'Run test';
+              e.target.removeAttribute('disabled');
             } else {
               document
-                .querySelectorAll(".test-button")
+                .querySelectorAll('.test-button')
                 .forEach(function(item, index) {
-                  item.innerText = "Run test";
-                  item.removeAttribute("disabled");
+                  item.innerText = 'Run test';
+                  item.removeAttribute('disabled');
                 });
             }
             return script;
@@ -308,11 +306,11 @@ export default {
       let matchLink;
       let resultObject = {};
 
-      let p = document.createElement("script");
+      let p = document.createElement('script');
       const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
       const linkRe = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/gi;
 
-      p.setAttribute("type", "text/javascript");
+      p.setAttribute('type', 'text/javascript');
 
       while ((matchScript = re.exec(result))) {
         // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
@@ -323,7 +321,7 @@ export default {
         links.push(matchLink[2]);
       }
       for (let link of links) {
-        result = result.replace(link, " ");
+        result = result.replace(link, ' ');
       }
 
       document.body.appendChild(p);
@@ -349,7 +347,7 @@ export default {
       removeFile(this.$route.params.envelopeId, this.$route.params.fileId)
         .then(response => {
           this.$router.push({
-            name: "EnvelopeDetail",
+            name: 'EnvelopeDetail',
             params: {
               reporterId: this.$route.params.reporterId,
               envelopeId: this.$route.params.envelopeId
