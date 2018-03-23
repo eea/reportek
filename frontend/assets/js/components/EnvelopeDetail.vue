@@ -369,40 +369,42 @@
 </template>
 
 <script>
-import History from './EnvelopeHistory';
-import Workflow from './EnvelopeWorkflow';
-import EnvelopeFilesDownload from './EnvelopeFilesDownload';
-import { fetchEnvelope,
-          fetchEnvelopeToken,
-          fetchEnvelopeFeedback,
-          fetchEnvelopeFilesQAScripts,
-          runEnvelopeFilesQAScript,
-          fetchEnvelopeFiles,
-          runEnvelopeTransition,
-          updateFile,
-          removeFile,
-          uploadFile,
-        } from '../api';
-import utilsMixin from '../mixins/utils.js';
+import History from "./EnvelopeHistory";
+import Workflow from "./EnvelopeWorkflow";
+import EnvelopeFilesDownload from "./EnvelopeFilesDownload";
+import {
+  fetchEnvelope,
+  fetchEnvelopeToken,
+  fetchEnvelopeFeedback,
+  fetchEnvelopeFilesQAScripts,
+  runEnvelopeFilesQAScript,
+  fetchEnvelopeFiles,
+  runEnvelopeTransition,
+  updateFile,
+  removeFile,
+  uploadFile
+} from "../api";
+import utilsMixin from "../mixins/utils.js";
 
 
 export default {
-  name: 'EnvelopeDetail',
+  name: "EnvelopeDetail",
+
   components: {
     history: History,
     workflow: Workflow,
-    filesdownload: EnvelopeFilesDownload,
+    filesdownload: EnvelopeFilesDownload
   },
 
   mixins: [utilsMixin],
 
   data() {
     return {
-      fields: ['select', 'name', 'tests'],
+      fields: ["select", "name", "tests"],
       envelope: null,
       allFilesSelected: false,
       selectedFiles: 0,
-      envelopeState: '',
+      envelopeState: "",
       isInitial: true,
       files: [],
       envelopeFeedback: null,
@@ -411,29 +413,67 @@ export default {
       perPage: 5,
       extraTabs: [],
       tabIndex: 0,
-      filesUploading: false,
+      filesUploading: false
     };
   },
 
   // Fetches posts when the component is created.
   created() {
-    this
-      .getEnvelope()
-      .then((resultFiles) => {
-        this.getEnvelopeFeedback(resultFiles);
-      });
+    this.handleSubscription();
+
+    this.getEnvelope().then(resultFiles => {
+      this.getEnvelopeFeedback(resultFiles);
+    });
+  },
+
+  destroyed() {
+    // TODO solve multiple event for reentering the same envelope
+    this.unsubscribe();
   },
 
   methods: {
+
+    handleSubscription() {
+      const envelopeChannel = `/ws/envelopes/` + this.$route.params.envelopeId;
+      const self = this;
+      const observer = {
+        next(newMessage) {
+          self.handleNewMessage(newMessage);
+        },
+        error(error) {
+          console.error("File got an error: ", error);
+        },
+        complete() {
+          console.log("File got a complete notification");
+        }
+      };
+
+      this.$listen(envelopeChannel);
+      this.subscribe(observer);
+    },
+
+    handleNewMessage(newMessage) {
+      console.log("File got a next value: ", newMessage);
+      this.getEnvelope().then(resultFiles => {
+        this.getEnvelopeFeedback(resultFiles);
+      });
+    },
+
     getEnvelope() {
       return new Promise((resolve, reject) => {
         fetchEnvelope(this.$route.params.envelopeId)
-          .then((response) => {
+          .then(response => {
             // JSON responses are automatically parsed.
             this.envelope = response.data;
-            this.envelopeState = this.envelopeCodeDictionary(response.data.workflow.available_transitions[0]);
+            this.envelopeState = this.envelopeCodeDictionary(
+              response.data.workflow.available_transitions[0]
+            );
 
-            for (let index = 0; index < this.envelope.files.length; index += 1) {
+            for (
+              let index = 0;
+              index < this.envelope.files.length;
+              index += 1
+            ) {
               this.envelope.files[index] = Object.assign(
                 {},
                 this.envelope.files[index],
@@ -445,12 +485,13 @@ export default {
                   selectedConversion: null,
                   feedback: [],
                   isEditing: false,
-                  additionalControls: false,
-                });
+                  additionalControls: false
+                }
+              );
             }
             resolve(this.envelope.files);
           })
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
             reject(error);
           });
@@ -459,10 +500,9 @@ export default {
 
     getEnvelopeFeedback(files) {
       this.envelopeFeedback = null;
-      fetchEnvelopeFeedback(this.$route.params.envelopeId)
-        .then((response) => {
-          this.handleEnvelopeFeedback(response.data, files);
-        });
+      fetchEnvelopeFeedback(this.$route.params.envelopeId).then(response => {
+        this.handleEnvelopeFeedback(response.data, files);
+      });
     },
 
     handleEnvelopeFeedback(feedback, files) {
@@ -474,29 +514,32 @@ export default {
         count: feedback.count,
         next: feedback.next,
         previous: feedback.previous,
-        files: {},
+        files: {}
       };
-      let p = document.createElement('script');
+      let p = document.createElement("script");
       const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
-      const linkRe = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
+      const linkRe = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/gi;
 
-      p.setAttribute('type', 'text/javascript');
+      p.setAttribute("type", "text/javascript");
 
       for (let file of files) {
         modifiedFeedback.files[file.name] = [];
       }
 
       for (let result of feedback.results) {
-        while (matchScript = re.exec(result.latest_result.value)) {
+        while ((matchScript = re.exec(result.latest_result.value))) {
           // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
           p.innerHTML += matchScript[1];
         }
         let links = [];
-        while (matchLink = linkRe.exec(result.latest_result.value)) {
+        while ((matchLink = linkRe.exec(result.latest_result.value))) {
           links.push(matchLink[2]);
         }
         for (let link of links) {
-          result.latest_result.value = result.latest_result.value.replace(link, ' ');
+          result.latest_result.value = result.latest_result.value.replace(
+            link,
+            " "
+          );
         }
         for (let file of files) {
           if (file.id === result.envelope_file) {
@@ -516,7 +559,7 @@ export default {
         this.files.push({ data: file, percentage: 0 });
       }
       if (this.extraTabs.length === 0) {
-        this.extraTabs.push('New Files');
+        this.extraTabs.push("New Files");
       }
       setTimeout(() => {
         this.tabIndex = 2;
@@ -532,11 +575,14 @@ export default {
 
       // reduce the array or functions that return promises, in a chain
       const promiseSerial = functions =>
-        functions.reduce((promise, func) =>
-          promise.then(resultPromise =>
-            func().then((resultFunc) => { this.updateFilesList(); }),
-          ),
-          Promise.resolve([]),
+        functions.reduce(
+          (promise, func) =>
+            promise.then(resultPromise =>
+              func().then(resultFunc => {
+                // this.updateFilesList();
+              })
+            ),
+          Promise.resolve([])
         );
 
       // execute Promises in serial, clear files at the end of all promisees
@@ -554,13 +600,18 @@ export default {
       // Create a new tus upload
       return new Promise((resolve, reject) => {
         fetchEnvelopeToken(this.$route.params.envelopeId)
-          .then((response) => {
-            return uploadFile(file, file.data.name, file.data.id, response.data.token);
+          .then(response => {
+            return uploadFile(
+              file,
+              file.data.name,
+              file.data.id,
+              response.data.token
+            );
           })
-          .then((response) => {
+          .then(response => {
             resolve(response);
           })
-          .catch((error) => {
+          .catch(error => {
             console.log(error);
             this.handleUploadFileError(file);
           });
@@ -571,62 +622,23 @@ export default {
       this.filesUploading = false;
       this.removeFileFromUploadList(file);
       this.uploadAllFiles();
-      alert('file type is wrong. It will be removed');
+      alert("file type is wrong. It will be removed");
     },
 
     removeFileFromUploadList(file) {
       this.files.splice(this.files.indexOf(file), 1);
     },
 
-    updateFilesList() {
-      return this.pollFiles(() => fetchEnvelopeFiles(this.$route.params.envelopeId), 500);
-    },
-
-    // TODO if file already exists and will not be added to the server, the poll will request forever
-    pollFiles(fn, delay) {
-      const self = this;
-      setTimeout(() => {
-        fn()
-          .then((response) => {
-            if (self.envelope.files.length === response.data.length) {
-              self.pollFiles(fn, delay);
-            } else {
-              for (let index = 0; index <= response.data.length; index += 1) {
-                const responseFile = response.data[index];
-                const found = self.envelope.files.find(file => file.id === responseFile.id);
-
-                if (found === undefined) {
-                  responseFile.availableScripts = [];
-                  responseFile.availableConversions = [];
-                  responseFile.isEditing = false;
-                  responseFile.selected = false;
-                  responseFile.visibleScripts = false;
-                  responseFile.selectedConversion = null;
-                  responseFile.feedback = [];
-                  responseFile.additionalControls = false;
-                  self.envelope.files.push(responseFile);
-                  self.files.shift();
-                }
-              }
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }, delay);
-    },
-
     runScriptsForFiles() {
-      this.envelope.files.map((file) => {
+      this.envelope.files.map(file => {
         if (file.selected) {
-          this
-            .getFileScripts(file)
-            .then((response) => {
-              response.availableScripts.map((script) => {
+          this.getFileScripts(file)
+            .then(response => {
+              response.availableScripts.map(script => {
                 this.runQAScript(response, script.data.id);
               });
             })
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
             });
         }
@@ -637,15 +649,18 @@ export default {
       return new Promise((resolve, reject) => {
         if (file.availableScripts.length === 0) {
           fetchEnvelopeFilesQAScripts(this.$route.params.envelopeId, file.id)
-            .then((response) => {
+            .then(response => {
               file.visibleScripts = true;
-              response.data.map((script) => {
-                file.availableScripts.push({ data: script, variant: 'primary' });
+              response.data.map(script => {
+                file.availableScripts.push({
+                  data: script,
+                  variant: "primary",
+                });
                 return script;
               });
               resolve(file);
             })
-            .catch((error) => {
+            .catch(error => {
               console.log(error);
               reject(error);
             });
@@ -658,15 +673,15 @@ export default {
 
     runQAScript(file, scriptId) {
       runEnvelopeFilesQAScript(this.$route.params.envelopeId, file.id, scriptId)
-        .then((response) => {
-          file.availableScripts.map((script) => {
+        .then(response => {
+          file.availableScripts.map(script => {
             if (script.data.id === scriptId) {
               script.variant = this.envelopeCodeDictionary(response.data.feedback_status);
             }
             return script;
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     },
@@ -727,20 +742,18 @@ export default {
 
     updateFile(file) {
       updateFile(this.$route.params.envelopeId, file.id, file.name)
-        .then((response) => {
-          this
-            .getEnvelope()
-            .then((resultFiles) => {
-              this.getEnvelopeFeedback(resultFiles);
-            });
+        .then(response => {
+          this.getEnvelope().then(resultFiles => {
+            this.getEnvelopeFeedback(resultFiles);
+          });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     },
 
     deleteFiles() {
-      this.envelope.files.map((file) => {
+      this.envelope.files.map(file => {
         if (file.selected) {
           this.deleteFile(file);
         }
@@ -755,13 +768,12 @@ export default {
 
     deleteFile(file) {
       removeFile(this.$route.params.envelopeId, file.id)
-        .then((response) => {
-          this.getEnvelope()
-            .then((resultFiles) => {
-              this.getEnvelopeFeedback(resultFiles);
-            });
+        .then(response => {
+          this.getEnvelope().then(resultFiles => {
+            this.getEnvelopeFeedback(resultFiles);
+          });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     },
@@ -769,59 +781,19 @@ export default {
     goToTransition(e, transition) {
       e.preventDefault();
 
-      runEnvelopeTransition(this.$route.params.envelopeId, transition)
-        .then((response) => {
-          this.getEnvelope(this.$route.params.envelopeId).then((resultFiles) => {
-            this.updateFeedback(resultFiles);
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    updateFeedback(resultFiles) {
-      return this.pollFeedback(() => fetchEnvelopeFeedback(this.$route.params.envelopeId, resultFiles), 10000);
-    },
-
-    pollFeedback(fn, delay) {
-      const self = this;
-      setTimeout(() => {
-        fn()
-          .then((response) => {
-            if (!response.data.auto_qa_completed) {
-              self.pollFeedback(fn, delay);
-            } else {
-              self
-                .getEnvelope()
-                .then((resultFiles) => {
-                  self.getEnvelopeFeedback(resultFiles);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }, delay);
+      runEnvelopeTransition(this.$route.params.envelopeId, transition);
     },
 
     showTransitionButton(code) {
-      return code !== 'fail_qa' && code !== 'pass_qa';
-    },
-
-  },
+      return code !== "fail_qa" && code !== "pass_qa";
+    }
+  }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
-
-
 .sidebar-item {
-
   margin-top: 1rem;
   padding-top: 1rem;
 }
@@ -842,8 +814,8 @@ export default {
   }
 }
 .absolute-right {
-    position: absolute;
-    right: 15px;
+  position: absolute;
+  right: 15px;
 }
 
 .feedback-container {
@@ -869,15 +841,15 @@ export default {
   border-radius: 4px;
   border: 1px solid #eee;
   p {
-    font-size: .8rem;
+    font-size: 0.8rem;
     font-style: italic;
-    color: rgba(0,0,0,0.54);
+    color: rgba(0, 0, 0, 0.54);
   }
   .status-control-header {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
     text-align: center;
-    padding: .3rem;
+    padding: 0.3rem;
     font-weight: 600;
   }
   .status-control-body {
@@ -887,8 +859,8 @@ export default {
 
 .files-table {
   thead {
-    th:not(:first-of-type){
-      display:none;
+    th:not(:first-of-type) {
+      display: none;
     }
     th:first-of-type {
       // white-space: nowrap;
@@ -905,7 +877,9 @@ export default {
   td[data-label="Select"] {
     width: 1px;
   }
-  button, a, label {
+  button,
+  a,
+  label {
     cursor: pointer;
   }
   .btn {
@@ -925,7 +899,7 @@ export default {
   .file-control-header {
     border-bottom: 1px solid #eee;
     margin-bottom: 1rem;
-    padding-bottom: .3rem;
+    padding-bottom: 0.3rem;
     padding-left: 1rem;
   }
 }
@@ -958,5 +932,4 @@ label.disabled {
   justify-content: space-between;
   width: 100%;
 }
-
 </style>
