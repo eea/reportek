@@ -7,7 +7,7 @@ from channels.routing import ProtocolTypeRouter, URLRouter
 from channels.auth import AuthMiddlewareStack
 
 
-from reportek.core.api.consumers import EnvelopeWSConsumer
+from reportek.core.consumers import EnvelopeWSConsumer
 
 
 application = ProtocolTypeRouter({

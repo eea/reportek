@@ -10,6 +10,8 @@ from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
 from reportek.core.tasks import submit_xml_to_qa
+from reportek.core.consumers.envelope import EnvelopeEvents
+
 from .log import TransitionEvent
 
 
@@ -87,6 +89,20 @@ class BaseWorkflow(TypedModel):
         """
         raise NotImplementedError
 
+    def announce_auto_qa_status(self, event):
+        channel_layer = get_channel_layer()
+        payload = {
+            'auto_qa_complete': self.envelope.auto_qa_complete,
+            'auto_qa_ok': self.envelope.auto_qa_ok,
+        }
+        async_to_sync(channel_layer.group_send)(
+            self.envelope.channel,
+            {
+                'type': f'envelope.{event.name}',
+                'data': payload
+            }
+        )
+
     @cached_property
     def xwf_cls_name(self):
         """Builds a cleaned-up name for the XWorkflow class"""
@@ -139,11 +155,10 @@ class BaseWorkflow(TypedModel):
         return {
             fname: getattr(cls, fname)
             for fname in dir(cls)
-            if callable(getattr(cls, fname)) and
-               (
-                   isinstance(getattr(cls, fname), xwf.base.TransitionWrapper) or
-                   hasattr(getattr(cls, fname), 'xworkflows_hook')
-               )
+            if callable(getattr(cls, fname)) and (
+                isinstance(getattr(cls, fname), xwf.base.TransitionWrapper) or
+                hasattr(getattr(cls, fname), 'xworkflows_hook')
+            )
         }
 
     @cached_property
@@ -183,9 +198,9 @@ class BaseWorkflow(TypedModel):
                 'finalized': self.bearer.envelope.finalized
             }
             async_to_sync(channel_layer.group_send)(
-                f'envelope_{self.bearer.envelope.pk}',
+                self.bearer.envelope.channel,
                 {
-                    'type': 'envelope.entered_state',
+                    'type': f'envelope.{EnvelopeEvents.ENTERED_STATE.name}',
                     'data': payload
                 }
             )
