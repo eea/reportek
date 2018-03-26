@@ -189,9 +189,9 @@ export default {
     this.handleSubscription();
   },
 
-  destroyed() {
-    // TODO solve multiple event for reentering the same envelope
-    this.unsubscribe();
+  beforeRouteLeave(to, from, next) {
+    this.unsubscribe(`file${this.$route.params.fileId}`);
+    next();
   },
 
   methods: {
@@ -246,12 +246,12 @@ export default {
       };
 
       this.$listen(envelopeChannel);
-      this.subscribe(observer);
+      this.subscribe(observer, `file${this.$route.params.fileId}`);
     },
 
     handleNewMessage(newMessage) {
       console.log('File got a next value: ', newMessage);
-      if (newMessage.event === 'changed_file') {
+      if (newMessage.event === 'changed_file' && newMessage.data.file_id.toString() === this.$route.params.fileId) {
         this.getFile();
       }
     },

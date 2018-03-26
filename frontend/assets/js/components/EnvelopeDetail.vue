@@ -426,9 +426,9 @@ export default {
     });
   },
 
-  destroyed() {
-    // TODO solve multiple event for reentering the same envelope
-    this.unsubscribe();
+  beforeRouteLeave(to, from, next) {
+    this.unsubscribe('envelope');
+    next();
   },
 
   methods: {
@@ -449,7 +449,7 @@ export default {
       };
 
       this.$listen(envelopeChannel);
-      this.subscribe(observer);
+      this.subscribe(observer, 'envelope');
     },
 
     handleNewMessage(newMessage) {
