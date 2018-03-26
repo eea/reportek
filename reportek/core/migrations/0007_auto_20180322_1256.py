@@ -28,11 +28,6 @@ class Migration(migrations.Migration):
             name='envelope',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='envelopeoriginalfiles', to='core.Envelope'),
         ),
-        migrations.AlterField(
-            model_name='obligationspec',
-            name='workflow_class',
-            field=models.CharField(blank=True, choices=[('reportek.core.models.workflows.demo_auto_qa.DemoFailQAWorkflow', 'DemoFailQAWorkflow'), ('reportek.core.models.workflows.demo_auto_qa.DemoAutoQAWorkflow', 'DemoAutoQAWorkflow'), ('reportek.core.models.workflows.demo_auto_qa.DemoPassQAWorkflow', 'DemoPassQAWorkflow')], max_length=256, null=True),
-        ),
         migrations.AlterUniqueTogether(
             name='envelopeoriginalfile',
             unique_together=set([('envelope', 'name')]),
