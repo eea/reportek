@@ -145,6 +145,11 @@ class Envelope(models.Model):
     def auto_qa_ok(self):
         return self.auto_qa_complete and all([r.ok for r in self.auto_qa_results])
 
+    @property
+    def channel(self):
+        """The envelope's WebSocket channel name"""
+        return f'envelope_{self.pk}'
+
     def __str__(self):
         return self.name
 
@@ -427,7 +432,7 @@ class EnvelopeFile(models.Model):
 
         if new:
             async_to_sync(channel_layer.group_send)(
-                f'envelope_{self.envelope.pk}',
+                self.envelope.channel,
                 {
                     'type': 'envelope.added_file',
                     'data': payload
@@ -435,7 +440,7 @@ class EnvelopeFile(models.Model):
             )
         else:
             async_to_sync(channel_layer.group_send)(
-                f'envelope_{self.envelope.pk}',
+                self.envelope.channel,
                 {
                     'type': 'envelope.changed_file',
                     'data': payload
@@ -450,7 +455,7 @@ class EnvelopeFile(models.Model):
             error(f'Could not delete envelope file from disk (not found): '
                   f'{self.file.path}')
 
-        envelope_id = self.envelope_id
+        channel = self.envelope.channel
         file_id = self.pk
         super().delete(*args, **kwargs)
 
@@ -460,7 +465,7 @@ class EnvelopeFile(models.Model):
         }
 
         async_to_sync(channel_layer.group_send)(
-            f'envelope_{envelope_id}',
+            channel,
             {
                 'type': 'envelope.deleted_file',
                 'data': payload

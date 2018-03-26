@@ -1,7 +1,9 @@
 import logging
 from functools import partial
+from enum import Enum
 from channels.generic.websocket import JsonWebsocketConsumer
 from asgiref.sync import AsyncToSync
+from django.utils.functional import cached_property
 
 log = logging.getLogger()
 info = log.info
@@ -27,25 +29,35 @@ class BaseWSConsumer(JsonWebsocketConsumer):
     # Concrete consumers must set this to a string, e.g. 'envelopes'
     TOPIC = None
 
-    # Concrete consumers must set this to a tuple of event names (without the topic)
+    # Concrete consumers must set this to an enum of events (without the topic)
     EVENTS = ()
 
     def __getattr__(self, item):
         allowed_topic = self.TOPIC or ''
-        allowed_events = self.EVENTS or ()
-
-        allowed_events += ('system',)
         topic, _, event = item.partition('_')
-        if topic == allowed_topic and event in allowed_events:
+
+        if topic == allowed_topic and event.lower() in self.allowed_events:
             debug(f'Creating partial handler for WS event: "{topic}.{event}"')
             return partial(self._auto_event_handler, event=event)
 
         return super().__getattribute__(item)
 
+    @cached_property
+    def allowed_events(self):
+        try:
+            evs = [ev.lower() for ev in self.EVENTS._member_names_]
+        except AttributeError:
+            evs = []
+        finally:
+            return ['system'] + evs
+
     def _auto_event_handler(self, content, event):
+        if isinstance(event, Enum):
+            event = event.name
+
         self.send_json(
             {
-                'event': event,
+                'event': event.lower(),
                 'data': content.get('data')
             }
         )
