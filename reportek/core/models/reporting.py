@@ -83,9 +83,9 @@ class Envelope(models.Model):
                                     related_name='envelope',
                                     null=True, blank=True)
 
-    author = models.ForeignKey(
+    assigned_to = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         null=True
     )
 
@@ -101,6 +101,10 @@ class Envelope(models.Model):
         if self.obligation_spec is None:
             return None
         return self.obligation_spec.obligation
+
+    @property
+    def is_assigned(self):
+        return self.assigned_to is not None
 
     @property
     def url(self):
