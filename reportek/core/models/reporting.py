@@ -234,6 +234,7 @@ class BaseEnvelopeFile(models.Model):
 
     class Meta:
         abstract = True
+        unique_together = ('envelope', 'name')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -372,9 +373,8 @@ class EnvelopeOriginalFile(BaseEnvelopeFile):
     that are converted to and stored as XML EnvelopeFiles.
     """
 
-    class Meta:
+    class Meta(BaseEnvelopeFile.Meta):
         db_table = 'core_envelope_original_file'
-        unique_together = ('envelope', 'name')
 
     # Overriding so get_download_url() works
     _download_view_name = 'api:envelope-original-file-download'
@@ -382,9 +382,8 @@ class EnvelopeOriginalFile(BaseEnvelopeFile):
 
 class EnvelopeFile(BaseEnvelopeFile):
 
-    class Meta:
+    class Meta(BaseEnvelopeFile.Meta):
         db_table = 'core_envelope_file'
-        unique_together = ('envelope', 'name')
 
     # Overriding so get_download_url() works
     _download_view_name = 'api:envelope-file-download'
