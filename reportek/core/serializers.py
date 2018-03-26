@@ -319,8 +319,8 @@ class NestedUploadTokenSerializer(
 
 
 class EnvelopeSerializer(serializers.ModelSerializer):
-    envelopefiles = NestedEnvelopeFileSerializer(many=True, read_only=True)
-    envelopeoriginalfiles = NestedEnvelopeOriginalFileSerializer(many=True, read_only=True)
+    files = NestedEnvelopeFileSerializer(many=True, read_only=True)
+    original_files = NestedEnvelopeOriginalFileSerializer(many=True, read_only=True)
     workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
 
     class Meta:
@@ -406,7 +406,7 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
 
 
 class WorkspaceEnvelopeSerializer(EnvelopeSerializer):
-    envelopefiles = EnvelopeFileSerializer(many=True, read_only=True)
+    files = EnvelopeFileSerializer(many=True, read_only=True)
     obligation = serializers.SerializerMethodField()
 
     @staticmethod

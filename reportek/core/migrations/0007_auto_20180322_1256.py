@@ -21,12 +21,12 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='envelopefile',
             name='envelope',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='envelopefiles', to='core.Envelope'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='files', to='core.Envelope'),
         ),
         migrations.AlterField(
             model_name='envelopeoriginalfile',
             name='envelope',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='envelopeoriginalfiles', to='core.Envelope'),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='original_files', to='core.Envelope'),
         ),
         migrations.AlterUniqueTogether(
             name='envelopeoriginalfile',

@@ -29,7 +29,7 @@ def submit_xml_to_qa(envelope_pk):
 
     params = defaultdict(list)
     urls_to_files = {}
-    for file in envelope.envelopefiles.all():
+    for file in envelope.files.all():
         if file.xml_schema is not None:  # only consider XML files
             file.qa_jobs.all().delete()  # delete existing jobs and results
             xml_schema = file.xml_schema.split(' ')[0]  # use the first schema listed in file

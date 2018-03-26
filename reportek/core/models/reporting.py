@@ -117,7 +117,7 @@ class Envelope(models.Model):
         """
         return [
             job
-            for file in self.envelopefiles.all()
+            for file in self.files.all()
             for job in file.qa_jobs.all()
         ]
 
@@ -136,7 +136,7 @@ class Envelope(models.Model):
         """
         return [
             result
-            for file in self.envelopefiles.all()
+            for file in self.files.all()
             for result in file.qa_results
         ]
 
@@ -242,6 +242,11 @@ class BaseEnvelopeFile(models.Model):
         self._prev_name = (None if self.pk is None
                            else self.name)
 
+    @staticmethod
+    def get_envelope_related_name():
+        """ A sane default that will be overridden in the child classes """
+        return '%(class)ss'
+
     def get_envelope_directory(self, filename):
         return os.path.join(
             self.envelope.get_storage_directory(),
@@ -251,7 +256,8 @@ class BaseEnvelopeFile(models.Model):
     # Used by get_download_url()
     _download_view_name = ''
 
-    envelope = models.ForeignKey(Envelope, related_name='%(class)ss')
+    envelope = models.ForeignKey(Envelope,
+                                 related_name=get_envelope_related_name.__func__())
 
     file = protected.fields.ProtectedFileField(upload_to=get_envelope_directory,
                                                max_length=512)
@@ -379,6 +385,11 @@ class EnvelopeOriginalFile(BaseEnvelopeFile):
     # Overriding so get_download_url() works
     _download_view_name = 'api:envelope-original-file-download'
 
+    @staticmethod
+    def get_envelope_related_name():
+        """ A cleaner related name than Django's `envelopeoriginalfiles` default """
+        return 'original_files'
+
 
 class EnvelopeFile(BaseEnvelopeFile):
 
@@ -393,6 +404,11 @@ class EnvelopeFile(BaseEnvelopeFile):
     original_file = models.ForeignKey(EnvelopeOriginalFile,
                                       related_name='envelope_files',
                                       null=True)
+
+    @staticmethod
+    def get_envelope_related_name():
+        """ A cleaner related name than Django's `envelopefiles` default """
+        return 'files'
 
     @property
     def qa_results(self):
