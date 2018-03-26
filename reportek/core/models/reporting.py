@@ -226,7 +226,7 @@ class EnvelopeFileQuerySet(models.QuerySet):
         super().delete()
 
 
-class EnvelopeFileCommon(models.Model):
+class BaseEnvelopeFile(models.Model):
     """
     Abstract base class for EnvelopeFile and EnvelopeOriginalFile,
     holding some common fields for these two.
@@ -366,7 +366,7 @@ class EnvelopeFileCommon(models.Model):
         super().delete(*args, **kwargs)
 
 
-class EnvelopeOriginalFile(EnvelopeFileCommon):
+class EnvelopeOriginalFile(BaseEnvelopeFile):
     """
     Used to describe original non-XML files uploaded to the envelope
     that are converted to and stored as XML EnvelopeFiles.
@@ -380,7 +380,7 @@ class EnvelopeOriginalFile(EnvelopeFileCommon):
     _download_view_name = 'api:envelope-original-file-download'
 
 
-class EnvelopeFile(EnvelopeFileCommon):
+class EnvelopeFile(BaseEnvelopeFile):
 
     class Meta:
         db_table = 'core_envelope_file'
