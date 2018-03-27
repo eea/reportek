@@ -242,11 +242,6 @@ class BaseEnvelopeFile(models.Model):
         self._prev_name = (None if self.pk is None
                            else self.name)
 
-    @staticmethod
-    def get_envelope_related_name():
-        """ A sane default that will be overridden in the child classes """
-        return '%(class)ss'
-
     def get_envelope_directory(self, filename):
         return os.path.join(
             self.envelope.get_storage_directory(),
@@ -255,9 +250,6 @@ class BaseEnvelopeFile(models.Model):
 
     # Used by get_download_url()
     _download_view_name = ''
-
-    envelope = models.ForeignKey(Envelope,
-                                 related_name=get_envelope_related_name.__func__())
 
     file = protected.fields.ProtectedFileField(upload_to=get_envelope_directory,
                                                max_length=512)
@@ -300,7 +292,6 @@ class BaseEnvelopeFile(models.Model):
                                 self.envelope.pk,
                                 self.name)
 
-
     @classmethod
     def get_or_create(cls, envelope, file_name):
         """
@@ -320,7 +311,6 @@ class BaseEnvelopeFile(models.Model):
             obj = cls(envelope=envelope, name=file_name)
 
         return obj, is_new
-
 
     def save(self, *args, **kwargs):
         # don't allow any operations on a final envelope
@@ -385,10 +375,7 @@ class EnvelopeOriginalFile(BaseEnvelopeFile):
     # Overriding so get_download_url() works
     _download_view_name = 'api:envelope-original-file-download'
 
-    @staticmethod
-    def get_envelope_related_name():
-        """ A cleaner related name than Django's `envelopeoriginalfiles` default """
-        return 'original_files'
+    envelope = models.ForeignKey(Envelope, related_name='original_files')
 
 
 class EnvelopeFile(BaseEnvelopeFile):
@@ -399,16 +386,13 @@ class EnvelopeFile(BaseEnvelopeFile):
     # Overriding so get_download_url() works
     _download_view_name = 'api:envelope-file-download'
 
+    envelope = models.ForeignKey(Envelope, related_name='files')
+
     xml_schema = models.CharField(max_length=200, blank=True, null=True)
 
     original_file = models.ForeignKey(EnvelopeOriginalFile,
                                       related_name='envelope_files',
                                       null=True)
-
-    @staticmethod
-    def get_envelope_related_name():
-        """ A cleaner related name than Django's `envelopefiles` default """
-        return 'files'
 
     @property
     def qa_results(self):
