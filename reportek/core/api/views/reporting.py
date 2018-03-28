@@ -35,8 +35,10 @@ from ...models import (
 
 from ...serializers import (
     EnvelopeSerializer,
-    EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
-    EnvelopeOriginalFileSerializer, CreateEnvelopeOriginalFileSerializer,
+    EnvelopeFileSerializer,
+    CreateEnvelopeFileSerializer,
+    EnvelopeOriginalFileSerializer,
+    CreateEnvelopeOriginalFileSerializer,
     NestedEnvelopeWorkflowSerializer,
     NestedUploadTokenSerializer,
     QAJobSerializer,
@@ -81,12 +83,13 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
     permission_classes_map = {
         'default': [permissions.EnvelopePermissions],
         'list': [IsAuthenticatedOrReadOnly],
-        'retrieve': [IsAuthenticatedOrReadOnly]
+        'retrieve': [IsAuthenticatedOrReadOnly],
     }
 
     def get_queryset(self):
         if self.request.user.is_anonymous:
             return Envelope.objects.filter(finalized=True).prefetch_related('files')
+
         elif self.request.user.has_perm('core.act_as_reportnet_api'):
             return Envelope.objects.all().prefetch_related('files')
 
@@ -94,8 +97,11 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         obligations = self.request.user.get_obligations()
 
         return Envelope.objects.filter(
-            Q(finalized=True) | Q(reporter__in=reporters, obligation_spec__obligation__in=obligations)
-        ).prefetch_related('files')
+            Q(finalized=True) |
+            Q(reporter__in=reporters, obligation_spec__obligation__in=obligations)
+        ).prefetch_related(
+            'files'
+        )
 
     def perform_create(self, serializer):
         serializer.validated_data['author'] = self.request.user
@@ -113,8 +119,7 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
 
         def make_response(with_error=None):
             response = {
-                'transition': transition_name,
-                'current_state': workflow.current_state,
+                'transition': transition_name, 'current_state': workflow.current_state
             }
             if with_error:
                 response['error'] = with_error
@@ -124,18 +129,19 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
             workflow.start_transition(transition_name)
         except BaseWorkflow.TransitionDoesNotExist as err:
             return Response(
-                make_response(with_error=str(err)),
-                status=status.HTTP_400_BAD_REQUEST
+                make_response(with_error=str(err)), status=status.HTTP_400_BAD_REQUEST
             )
+
         except BaseWorkflow.TransitionNotAvailable as err:
             return Response(
                 make_response(with_error=str(err)),
-                status=status.HTTP_406_NOT_ACCEPTABLE
+                status=status.HTTP_406_NOT_ACCEPTABLE,
             )
+
         except Exception as err:
             return Response(
                 make_response(with_error=str(err)),
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
 
         return Response(make_response())
@@ -152,7 +158,7 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
                 ev.timestamp.isoformat(): {
                     'transition': ev.transition,
                     'from_state': ev.from_state,
-                    'to_state': ev.to_state
+                    'to_state': ev.to_state,
                 }
                 for ev in workflow.history.all()
             }
@@ -194,10 +200,7 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
             except ValueError:
                 pass
 
-        envelopes = envelopes.order_by(
-            'reporter',
-            '-updated_at'
-        )
+        envelopes = envelopes.order_by('reporter', '-updated_at')
 
         page = self.paginate_queryset(envelopes)
         if page is not None:
@@ -216,7 +219,7 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         return Response(
             {'envelope': envelope},
             template_name='envelope_xml.html',
-            content_type='text/xml'
+            content_type='text/xml',
         )
 
     @detail_route(methods=['get'])
@@ -232,22 +235,23 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
             serializer = QAJobSerializer(page, many=True, context={'request': request})
             pager = self.paginator
             # Inject QA completion information in pager metadata
-            response = Response(OrderedDict([
-                ('auto_qa_completed', envelope.auto_qa_complete),
-                ('auto_qa_ok', envelope.auto_qa_ok),
-                ('count', pager.count),
-                ('next', pager.get_next_link()),
-                ('previous', pager.get_previous_link()),
-                ('results', serializer.data)
-            ]))
+            response = Response(
+                OrderedDict(
+                    [
+                        ('auto_qa_completed', envelope.auto_qa_complete),
+                        ('auto_qa_ok', envelope.auto_qa_ok),
+                        ('count', pager.count),
+                        ('next', pager.get_next_link()),
+                        ('previous', pager.get_previous_link()),
+                        ('results', serializer.data),
+                    ]
+                )
+            )
             return response
 
         serializer = QAJobSerializer(qa_jobs, many=True, context={'request': request})
         return Response(
-            {
-                'qa_completed': envelope.auto_qa_complete,
-                'results': serializer.data
-            }
+            {'qa_completed': envelope.auto_qa_complete, 'results': serializer.data}
         )
 
     @detail_route(methods=['get'])
@@ -265,7 +269,7 @@ class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet)
         'default': [permissions.EnvelopeOriginalFilePermissions],
         'list': [IsAuthenticatedOrReadOnly],
         'retrieve': [IsAuthenticatedOrReadOnly],
-        'download': [IsAuthenticatedOrReadOnly]
+        'download': [IsAuthenticatedOrReadOnly],
     }
 
     def get_queryset(self):
@@ -278,12 +282,11 @@ class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet)
     def get_serializer_class(self):
         if self.request.method == "POST":
             return CreateEnvelopeOriginalFileSerializer
+
         return EnvelopeOriginalFileSerializer
 
     def perform_create(self, serializer):
-        serializer.save(
-            envelope_id=self.kwargs['envelope_pk']
-        )
+        serializer.save(envelope_id=self.kwargs['envelope_pk'])
 
     @detail_route(methods=['get', 'head'], renderer_classes=(StaticHTMLRenderer,))
     def download(self, request, envelope_pk, pk):
@@ -296,16 +299,13 @@ class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet)
 
         if settings.DEBUG:
             response = static.serve(
-                request,
-                path=relpath,
-                document_root=_file.storage.location)
+                request, path=relpath, document_root=_file.storage.location
+            )
         else:
             # this does "X-Sendfile" on nginx, see
             # https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/
             response = Response(
-                headers={
-                    'X-Accel-Redirect': _file.storage.download_url(relpath)
-                }
+                headers={'X-Accel-Redirect': _file.storage.download_url(relpath)}
             )
         return response
 
@@ -317,7 +317,7 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         'list': [IsAuthenticatedOrReadOnly],
         'retrieve': [IsAuthenticatedOrReadOnly],
         'download': [IsAuthenticatedOrReadOnly],
-        'download_archive': [IsAuthenticatedOrReadOnly]
+        'download_archive': [IsAuthenticatedOrReadOnly],
     }
 
     def get_queryset(self):
@@ -330,19 +330,20 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.method == 'POST':
             return CreateEnvelopeFileSerializer
+
         return EnvelopeFileSerializer
 
     def perform_create(self, serializer):
         serializer.save(
-            envelope_id=self.kwargs['envelope_pk'],
-            uploader_id=self.request.user.pk,
+            envelope_id=self.kwargs['envelope_pk'], uploader_id=self.request.user.pk
         )
 
     @staticmethod
     def get_ids_or_404(queryset, ids):
         """
         Helper method for routes accepting file ids as a comma separated query param.
-        Will issue a 404 response if the ids aren't integers or don't belong to the envelope.
+        Will issue a 404 response if the ids aren't integers or don't belong to the
+        envelope.
 
         Returns:
             The validated ids as list of integers.
@@ -351,8 +352,10 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
             ids = [int(i) for i in ids.split(',')]
         except ValueError:
             raise NotFound
+
         if not ids or len(ids) != queryset.filter(id__in=ids).count():
             raise NotFound
+
         return ids
 
     def destroy(self, request, envelope_pk, pk=None):
@@ -363,6 +366,7 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         """
         if pk is not None:
             return super().destroy(envelope_pk, pk)
+
         else:
             qs = self.get_queryset()
             ids = self.get_ids_or_404(qs, request.query_params.get('ids', ''))
@@ -380,16 +384,13 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
 
         if settings.DEBUG:
             response = static.serve(
-                request,
-                path=relpath,
-                document_root=_file.storage.location)
+                request, path=relpath, document_root=_file.storage.location
+            )
         else:
             # this does "X-Sendfile" on nginx, see
             # https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/
             response = Response(
-                headers={
-                    'X-Accel-Redirect': _file.storage.download_url(relpath)
-                }
+                headers={'X-Accel-Redirect': _file.storage.download_url(relpath)}
             )
 
         response['Content-Disposition'] = f'attachment; filename={relpath}'
@@ -412,7 +413,8 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
             ids = self.get_ids_or_404(qs, ids)
             files = qs.filter(id__in=ids)
         envelope = Envelope.objects.get(pk=envelope_pk)
-        archive_name = f'{slugify(envelope.name)}_files_{timezone.now().strftime("%Y%m%d_%H%M%S")}.zip'
+        ts = timezone.now().strftime("%Y%m%d_%H%M%S")
+        archive_name = f'{slugify(envelope.name)}_files_{ts}.zip'
         archive_path = settings.DOWNLOAD_STAGING_ROOT / archive_name
         with ZipFile(archive_path, 'w') as archive:
             for f in files:
@@ -420,20 +422,22 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
                 if f_path is None or f_path == '':
                     error(f'Envelope file not found: {f_path}')
                     return Response(status=status.HTTP_404_NOT_FOUND)
+
                 archive.write(f_path, f_path.name)
 
             if settings.DEBUG:
                 response = static.serve(
                     request,
                     path=archive_name,
-                    document_root=settings.DOWNLOAD_STAGING_ROOT)
+                    document_root=settings.DOWNLOAD_STAGING_ROOT,
+                )
             else:
                 response = Response(
                     headers={
                         'X-Accel-Redirect': f'{settings.DOWNLOAD_STAGING_URL}{archive_name}'
                     }
                 )
-                # TODO : Cleanup job for generated ZIPs (e.g. delete older than 1 day)
+            # TODO : Cleanup job for generated ZIPs (e.g. delete older than 1 day)
 
             response['Content-Disposition'] = f'attachment; filename={archive_name}'
             return response
@@ -449,9 +453,7 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
             `max_size`
         """
         envelope_file = self.get_object()
-        remote_qa = RemoteQA(
-            envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
-        )
+        remote_qa = RemoteQA(envelope_file.envelope.obligation_spec.qa_xmlrpc_uri)
 
         scripts = []
         if envelope_file.xml_schema is not None:
@@ -472,9 +474,7 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         """
         script_id = request.data.get('script_id')
         envelope_file = self.get_object()
-        remote_qa = RemoteQA(
-            envelope_file.envelope.obligation_spec.qa_xmlrpc_uri
-        )
+        remote_qa = RemoteQA(envelope_file.envelope.obligation_spec.qa_xmlrpc_uri)
         file_url = envelope_file.fq_download_url
         return Response(remote_qa.run_script(file_url, str(script_id)))
 
@@ -531,7 +531,9 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
 
         response = HttpResponse()
         # force browser to download file
-        response['Content-Disposition'] = f'attachment; filename={conversion_result["filename"]}'
+        response[
+            'Content-Disposition'
+        ] = f'attachment; filename={conversion_result["filename"]}'
         response['Content-Type'] = conversion_result["content-type"]
         response.write(conversion_result["content"].data)
 
@@ -552,14 +554,14 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         return Response(
             {'envelope': envelope_file.envelope},
             template_name='envelope_xml.html',
-            content_type='text/xml'
+            content_type='text/xml',
         )
 
 
 class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):
     queryset = BaseWorkflow.objects.all()
     serializer_class = NestedEnvelopeWorkflowSerializer
-    permission_classes = (permissions.IsAuthenticated, )
+    permission_classes = (permissions.IsAuthenticated,)
 
 
 class UploadTokenViewSet(viewsets.ModelViewSet):
@@ -584,19 +586,17 @@ class UploadTokenViewSet(viewsets.ModelViewSet):
 
         if envelope.finalized:
             return Response(
-                {'error': 'envelope is finalized'},
-                status=status.HTTP_400_BAD_REQUEST
+                {'error': 'envelope is finalized'}, status=status.HTTP_400_BAD_REQUEST
             )
+
         elif not envelope.workflow.upload_allowed:
             return Response(
                 {'error': 'envelope state does not allow uploads'},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
 
         token = envelope.upload_tokens.create(user=request.user)
-        response = {
-                'token': token.token
-            }
+        response = {'token': token.token}
 
         # Include base64 encoded token in development environments
         if settings.DEBUG:
@@ -609,7 +609,9 @@ class UploadTokenViewSet(viewsets.ModelViewSet):
         Returns the tokens issued for a given envelope.
         """
         queryset = UploadToken.objects.filter(envelope=envelope_pk)
-        serializer = self.serializer_class(queryset, many=True, context={'request': request})
+        serializer = self.serializer_class(
+            queryset, many=True, context={'request': request}
+        )
         return Response(serializer.data)
 
 
@@ -648,34 +650,39 @@ class UploadHookView(viewsets.ViewSet):
                 token.delete()
                 error('UPLOAD denied: EXPIRED TOKEN')
                 return Response(
-                    {'error': 'expired token'},
-                    status=status.HTTP_400_BAD_REQUEST
+                    {'error': 'expired token'}, status=status.HTTP_400_BAD_REQUEST
                 )
 
             # TODO Validate user access to envelope when roles are in place
             if not token.user.is_authenticated():
-                error(f'UPLOAD denied on envelope "{token.envelope}" '
-                      f'for "{token.user}": NOT ALLOWED')
+                error(
+                    f'UPLOAD denied on envelope "{token.envelope}" '
+                    f'for "{token.user}": NOT ALLOWED'
+                )
                 return Response(
                     {'error': 'user not authenticated'},
-                    status=status.HTTP_403_FORBIDDEN
+                    status=status.HTTP_403_FORBIDDEN,
                 )
 
             if filename is None:
-                error(f'UPLOAD denied on envelope "{token.envelope}" '
-                      f'for "{token.user}": filename is missing')
+                error(
+                    f'UPLOAD denied on envelope "{token.envelope}" '
+                    f'for "{token.user}": filename is missing'
+                )
                 return Response(
                     {'error': 'filename not in MetaData'},
-                    status=status.HTTP_400_BAD_REQUEST
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
 
-            if not EnvelopeFile.has_valid_extension(filename,
-                                                    include_archives=True, include_spreadsheets=True):
-                error(f'UPLOAD denied on envelope "{token.envelope}" '
-                      f'for "{token.user}": bad file extension')
+            if not EnvelopeFile.has_valid_extension(
+                filename, include_archives=True, include_spreadsheets=True
+            ):
+                error(
+                    f'UPLOAD denied on envelope "{token.envelope}" '
+                    f'for "{token.user}": bad file extension'
+                )
                 return Response(
-                    {'error': 'bad file extension'},
-                    status=status.HTTP_400_BAD_REQUEST
+                    {'error': 'bad file extension'}, status=status.HTTP_400_BAD_REQUEST
                 )
 
             token.filename = filename
@@ -686,9 +693,9 @@ class UploadHookView(viewsets.ViewSet):
         except UploadToken.DoesNotExist:
             error('UPLOAD denied: INVALID TOKEN')
             return Response(
-                {'error': 'invalid token'},
-                status=status.HTTP_400_BAD_REQUEST
+                {'error': 'invalid token'}, status=status.HTTP_400_BAD_REQUEST
             )
+
         return Response()
 
     @staticmethod
@@ -717,9 +724,9 @@ class UploadHookView(viewsets.ViewSet):
         except UploadToken.DoesNotExist:
             error('UPLOAD denied: INVALID TOKEN')
             return Response(
-                {'error': 'invalid token'},
-                status=status.HTTP_400_BAD_REQUEST
+                {'error': 'invalid token'}, status=status.HTTP_400_BAD_REQUEST
             )
+
         return Response()
 
     @staticmethod
@@ -730,9 +737,9 @@ class UploadHookView(viewsets.ViewSet):
         underlying file on disk if one with the same name exists.
 
         Archives (only ZIPs currently) are extracted *without* directory structure.
-        If setting ``ARCHIVE_PATH_PREFIX`` is ``True`` (default), the files are saved with
-        a prefix of '_'-separated path components, i.e. 'dir1/dir2/file.xml' becomes
-        'dir1_dir2_file.xml'.
+        If setting ``ARCHIVE_PATH_PREFIX`` is ``True`` (default), the files are saved
+        with a prefix of '_'-separated path components, i.e. 'dir1/dir2/file.xml'
+        becomes 'dir1_dir2_file.xml'.
         """
 
         info(f'UPLOAD post-finish: {request.data}')
@@ -746,23 +753,21 @@ class UploadHookView(viewsets.ViewSet):
             token = UploadToken.objects.get(token=tok)
             # TODO Validate user access to envelope when roles are in place
             if not token.user.is_authenticated():
-                error(f'UPLOAD denied on envelope "{token.envelope}" '
-                      f'for "{token.user}": NOT ALLOWED')
+                error(
+                    f'UPLOAD denied on envelope "{token.envelope}" '
+                    f'for "{token.user}": NOT ALLOWED'
+                )
                 return Response(
                     {'error': 'user not authenticated'},
-                    status=status.HTTP_403_FORBIDDEN
+                    status=status.HTTP_403_FORBIDDEN,
                 )
 
             upload_id = request.data.get('ID')
 
-            file_path = os.path.join(
-                settings.TUSD_UPLOADS_DIR,
-                f'{upload_id}.bin'
-            )
+            file_path = os.path.join(settings.TUSD_UPLOADS_DIR, f'{upload_id}.bin')
 
             file_info_path = os.path.join(
-                settings.TUSD_UPLOADS_DIR,
-                f'{upload_id}.info'
+                settings.TUSD_UPLOADS_DIR, f'{upload_id}.info'
             )
 
             file_path = Path(file_path).resolve()
@@ -777,8 +782,7 @@ class UploadHookView(viewsets.ViewSet):
             info(f'allowed extensions: {settings.ALLOWED_UPLOADS_EXTENSIONS}')
             if file_ext in settings.ALLOWED_UPLOADS_EXTENSIONS:
                 envelope_file, is_new = EnvelopeFile.get_or_create(
-                    token.envelope,
-                    file_name
+                    token.envelope, file_name
                 )
                 if not is_new:
                     token.envelope.delete_disk_file(file_name)
@@ -793,8 +797,7 @@ class UploadHookView(viewsets.ViewSet):
             # Spreadsheet files that will generate XML on the envelopes
             elif file_ext in settings.ALLOWED_UPLOADS_ORIGINAL_EXTENSIONS:
                 envelope_original_file, is_new = EnvelopeOriginalFile.get_or_create(
-                    token.envelope,
-                    file_name
+                    token.envelope, file_name
                 )
 
                 # Save the original envelope file
@@ -812,17 +815,18 @@ class UploadHookView(viewsets.ViewSet):
                 if result['resultCode'] != '0':
                     # This also deletes the actual disk file
                     envelope_original_file.delete()
-                    # TODO: also inform the user
+                # TODO: also inform the user
 
                 # Now save every XML file resulted from the original's conversion
                 for converted_file in result['convertedFiles']:
                     # TODO: factor this out in a func/method
                     envelope_file, is_new = EnvelopeFile.get_or_create(
-                        token.envelope,
-                        converted_file['fileName']
+                        token.envelope, converted_file['fileName']
                     )
 
-                    envelope_file.file.save(envelope_file.name, ContentFile(converted_file['content'].data))
+                    envelope_file.file.save(
+                        envelope_file.name, ContentFile(converted_file['content'].data)
+                    )
                     if not is_new:
                         token.envelope.delete_disk_file(converted_file['fileName'])
 
@@ -840,16 +844,23 @@ class UploadHookView(viewsets.ViewSet):
                         for zip_member in up_zip.namelist():
                             member_info = up_zip.getinfo(zip_member)
                             # Skip directories and files with non-allowed extensions
-                            if member_info.is_dir() or not EnvelopeFile.has_valid_extension(member_info.filename):
+                            if (
+                                member_info.is_dir() or not
+                                EnvelopeFile.has_valid_extension(
+                                    member_info.filename
+                                )
+                            ):
                                 continue
+
                             if not settings.ARCHIVE_PATH_PREFIX:
                                 member_name = os.path.basename(zip_member)
                             else:
-                                member_name = '_'.join([p.replace(' ', '') for p in path_parts(zip_member)])
+                                member_name = '_'.join(
+                                    [p.replace(' ', '') for p in path_parts(zip_member)]
+                                )
                             member_ext = member_name.split('.')[-1].lower()
                             envelope_file, is_new = EnvelopeFile.get_or_create(
-                                token.envelope,
-                                member_name
+                                token.envelope, member_name
                             )
                             if not is_new:
                                 token.envelope.delete_disk_file(member_name)
@@ -865,8 +876,7 @@ class UploadHookView(viewsets.ViewSet):
                 except BadZipFile:
                     error(f'UPLOAD Bad ZIP file: "{file_path}"')
                     return Response(
-                        {'error': 'bad zip file'},
-                        status=status.HTTP_400_BAD_REQUEST
+                        {'error': 'bad zip file'}, status=status.HTTP_400_BAD_REQUEST
                     )
 
             # Finally, remove the token and the tusd files pair
@@ -875,18 +885,20 @@ class UploadHookView(viewsets.ViewSet):
             file_info_path.unlink()
 
         except UploadToken.DoesNotExist:
-            error(f'UPLOAD denied on envelope "{token.envelope}" '
-                  f'for "{token.user}": INVALID TOKEN')
-            return Response(
-                {'error': 'invalid token'},
-                status=status.HTTP_400_BAD_REQUEST
+            error(
+                f'UPLOAD denied on envelope "{token.envelope}" '
+                f'for "{token.user}": INVALID TOKEN'
             )
+            return Response(
+                {'error': 'invalid token'}, status=status.HTTP_400_BAD_REQUEST
+            )
+
         except FileNotFoundError as err:
             error(f'{err}')
             return Response(
-                {'error': 'file not found'},
-                status=status.HTTP_400_BAD_REQUEST
+                {'error': 'file not found'}, status=status.HTTP_400_BAD_REQUEST
             )
+
         return Response()
 
     @staticmethod
@@ -915,8 +927,7 @@ class UploadHookView(viewsets.ViewSet):
             hook_handler = getattr(self, f'handle_{hook_name.replace("-", "_")}')
         except AttributeError:
             return Response(
-                {'hook_not_supported': hook_name},
-                status=status.HTTP_400_BAD_REQUEST
+                {'hook_not_supported': hook_name}, status=status.HTTP_400_BAD_REQUEST
             )
 
         return hook_handler(request)
