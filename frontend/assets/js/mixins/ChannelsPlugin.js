@@ -8,7 +8,7 @@ export default {
 
   /**
    * will install the plugin
-   * @param {Object} Vue 
+   * @param {Object} Vue
    * @param {Object} channelOptions
    * @param {Boolean} channelOptions.debug
    * @param {number} channelOptions.reconnectInterval
@@ -25,11 +25,7 @@ export default {
      * @param {string} connection - ex: '/ws/envelopes/16'
      */
     Vue.prototype.$listen = function (connection) {
-      console.log('channels observableSocket ', observableSocket);
-
-      if(!observableSocket) {
-        observableSocket = self.fromWebSocket(connection, channelOptions);
-      }
+      observableSocket = self.fromWebSocket(connection, channelOptions);
     }
 
     /**
@@ -45,21 +41,18 @@ export default {
       let subscription = {};
 
       if(subscriptionSet[subscriptionType]) {
-        console.warn('subscription already exists!!!')
         subscriptionSet[subscriptionType].unsubscribe();
       }
       subscriptionSet[subscriptionType] = observableSocket.subscribe(observer);
-      console.log('channels subscribe subscriptionSet ', subscriptionSet);
     };
 
     /**
      * it unsubscribes and also removed the subscription from the set
-     * @param {string} subscriptionType 
+     * @param {string} subscriptionType
      */
     let unsubscribe = function (subscriptionType) {
       subscriptionSet[subscriptionType].unsubscribe();
       delete subscriptionSet[subscriptionType];
-      console.log('channels unsubscribe subscriptionSet ', subscriptionSet);
     };
 
     Vue.mixin({
@@ -70,33 +63,6 @@ export default {
     });
   },
 
-  // /**
-  //  * - will create the observable based on WebSocket
-  //  * @param {string} address - ex: '/ws/envelopes/16'
-  //  * @param {string} options - debug, reconnectInterval
-  //  * @returns {Object} observable - that was created from the websocket
-  //  */
-  // fromWebSocket(address, options) {
-  //   const webSocket = this.connect(address, [], options);
-
-  //   // Handle the data
-  //   const observable = Observable.create(function (obs) {
-  //     // Handle messages  
-  //     webSocket.onmessage = (message) => {
-  //       const data = JSON.parse(message.data);
-
-  //       obs.next(data);
-  //     }
-  //     webSocket.onerror = obs.error.bind(obs);
-  //     webSocket.onclose = obs.complete.bind(obs);
-
-  //     // Return way to unsubscribe
-  //     return webSocket.close.bind(webSocket);
-  //   });
-
-  //   return observable;
-  // },
-
   /**
    * - will create the observable based on WebSocket
    * @param {string} address - ex: '/ws/envelopes/16'
@@ -104,61 +70,48 @@ export default {
    * @returns {Object} observable - that was created from the websocket
    */
   fromWebSocket(address, options) {
-    // const webSocket = this.connect(address, [], options);
-    const webSocketBridge = new channels.WebSocketBridge();
-    webSocketBridge.connect(address, [], {debug: true, reconnectInterval: 3000});
-
+    const webSocket = this.connect(address, [], options);
     // Handle the data
     const observable = Observable.create(function (obs) {
-      // Handle messages  
-      webSocketBridge.listen(function(action, stream) {
-        console.log(action);
-        console.log(stream);
-        obs.next({ event: action.event, data: action.data });
-      });
-      webSocketBridge.socket.addEventListener("close", function() {
-          console.log(`Disconnected from channel ${address}`);
-          obs.complete();
-      });
-      webSocketBridge.socket.addEventListener("close", function() {
-          console.log(`Disconnected from channel ${address}`);
-      });
+      // Handle messages
+      webSocket.onmessage = (message) => {
+        const data = JSON.parse(message.data);
 
-      console.log('##### websocketbridge ', webSocketBridge);
-      // Return way to unsubscribe
-      // return webSocketBridge.close.bind(webSocketBridge);
-      return function () {
-        console.warn('closing socket!!!');
-        webSocketBridge.socket.close();
+        obs.next(data);
       }
+      webSocket.onerror = obs.error.bind(obs);
+      webSocket.onclose = obs.complete.bind(obs);
+
+      // Return way to unsubscribe
+      return webSocket.close.bind(webSocket);
     });
 
     return observable;
   },
 
-  // /**
-  //  * Connect to the websocket server
-  //  * @param {String} [url] The url of the websocket. Defaults to
-  //  * `window.location.host`
-  //  * @param {String[]|String} [protocols] Optional string or array of protocols.
-  //  * @param {Object} options Object of options for [`reconnecting-websocket`](https://github.com/joewalnes/reconnecting-websocket#options-1).
-  //  * @returns {Object} ReconnectingWebSocket - that was created from the websocket
-  //  */
-  // connect(url, protocols, options) {
-  //   let _url;
-  //   // Use wss:// if running on https://
-  //   const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
-  //   const base_url = `${scheme}://${window.location.host}`;
-  //   if (url === undefined) {
-  //     _url = base_url;
-  //   } else {
-  //     // Support relative URLs
-  //     if (url[0] == '/') {
-  //       _url = `${base_url}${url}`;
-  //     } else {
-  //       _url = url;
-  //     }
-  //   }
-  //   return new ReconnectingWebSocket(_url, protocols, options);
-  // }
+  /**
+   * Connect to the websocket server
+   * @param {String} [url] The url of the websocket. Defaults to
+   * `window.location.host`
+   * @param {String[]|String} [protocols] Optional string or array of protocols.
+   * @param {Object} options Object of options for [`reconnecting-websocket`](https://github.com/joewalnes/reconnecting-websocket#options-1).
+   * @returns {Object} ReconnectingWebSocket - that was created from the websocket
+   */
+  connect(url, protocols, options) {
+    let _url;
+    // Use wss:// if running on https://
+    const scheme = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    const base_url = `${scheme}://${window.location.host}`;
+    if (url === undefined) {
+      _url = base_url;
+    } else {
+      // Support relative URLs
+      if (url[0] == '/') {
+        _url = `${base_url}${url}`;
+      } else {
+        _url = url;
+      }
+    }
+    return new ReconnectingWebSocket(_url, protocols, options);
+  }
 }
