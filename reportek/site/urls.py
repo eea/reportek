@@ -23,7 +23,6 @@ from django.contrib import admin
 from rest_framework.documentation import include_docs_urls
 
 from ..core.api import urls as api_urls
-from ..core.test import urls as test_urls
 from .views import spabundle
 
 
@@ -40,9 +39,6 @@ if settings.DEBUG:
     # Enable Browsable API login/logout
     urlpatterns.append(
         url(r'^api-auth/', include('rest_framework.urls'))
-    )
-    urlpatterns.append(
-        url(r'^test/', include(test_urls, namespace='test'))
     )
     try:
         import debug_toolbar
