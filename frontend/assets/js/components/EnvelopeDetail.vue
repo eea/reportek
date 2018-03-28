@@ -441,10 +441,10 @@ export default {
           self.handleNewMessage(newMessage);
         },
         error(error) {
-          console.error('File got an error: ', error);
+          console.error('Envelope got an error: ', error);
         },
         complete() {
-          console.log('File got a complete notification');
+          console.log('Envelope got a complete notification');
         }
       };
 
@@ -453,7 +453,7 @@ export default {
     },
 
     handleNewMessage(newMessage) {
-      console.log('File got a next value: ', newMessage);
+      console.log('Envelope got a next value: ', newMessage);
       this.getEnvelope().then(resultFiles => {
         this.getEnvelopeFeedback(resultFiles);
       });
