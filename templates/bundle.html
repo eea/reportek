@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 {% csrf_token %}
+{% load static %}
 {% load render_bundle from webpack_loader %}
+<script src="{% static 'channels/js/websocketbridge.js' %}"></script>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
