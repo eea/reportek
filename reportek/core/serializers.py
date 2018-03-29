@@ -202,7 +202,7 @@ class PendingObligationSerializer(serializers.ModelSerializer):
 
 
 class EnvelopeOriginalFileSerializer(serializers.ModelSerializer):
-
+    uploader = serializers.PrimaryKeyRelatedField(read_only=True)
     content_url = serializers.SerializerMethodField()
 
     class Meta:
