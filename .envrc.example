@@ -10,6 +10,8 @@ export POSTGRES_DB=reportek
 export POSTGRES_USER=reportek
 export POSTGRES_PASSWORD=reportek
 
+export REDIS_HOST=localhost
+
 #export DJANGO_LOG_LEVEL=DEBUG
 export DJANGO_COLLECT_STATIC=yes
 export DJANGO_MIGRATE=yes

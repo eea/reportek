@@ -6,9 +6,12 @@ import App from './App';
 import router from './router';
 import '../css/main.scss';
 import VueCookies from 'vue-cookies'
+import ChannelsPlugin from './mixins/ChannelsPlugin';
 
+const channelOptions = { debug: true, reconnectInterval: 3000 }
 // Globally register bootstrap-vue components
 Vue.use(BootstrapVue);
+Vue.use(ChannelsPlugin, channelOptions);
 // Globally register vue cookies
 Vue.use(VueCookies)
 Vue.config.productionTip = false;

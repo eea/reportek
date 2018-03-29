@@ -1,6 +1,8 @@
 import logging
 import xworkflows as xwf
 
+from reportek.core.consumers.envelope import EnvelopeEvents
+
 from .base import BaseWorkflow
 
 __all__ = [
@@ -35,11 +37,6 @@ class DemoAutoQAWorkflow(BaseWorkflow):
     final_state = 'released'
     upload_states = ['draft']
 
-    OK_QA_STATUSES = (
-        'INFO',
-        'WARNING',
-    )
-
     class Meta:
         verbose_name = 'Workflow - Auto QA'
         verbose_name_plural = 'Workflows - Auto QA '
@@ -52,7 +49,6 @@ class DemoAutoQAWorkflow(BaseWorkflow):
 
     @xwf.on_enter_state('auto_qa')
     def on_enter_auto_qa(self, *args, **kwargs):
-        print(self.bearer.envelope.auto_qa_jobs, len(self.bearer.envelope.auto_qa_jobs))
         if len(self.bearer.envelope.auto_qa_jobs) == 0:
             info('No QA jobs found on entering auto_qa state')
             self.pass_qa()
@@ -67,8 +63,10 @@ class DemoAutoQAWorkflow(BaseWorkflow):
 
         if not self.envelope.auto_qa_complete:
             info('Skipping Auto QA results handling - not all jobs have completed.')
+            self.announce_auto_qa_status(EnvelopeEvents.RECEIVED_AUTO_QA_FEEDBACK)
             return
 
+        self.announce_auto_qa_status(EnvelopeEvents.COMPLETED_AUTO_QA)
         trans_name = 'pass_qa' if self.envelope.auto_qa_ok else 'fail_qa'
         trans_meth = getattr(self.xwf, trans_name)
         info(f'Automatic transition "{trans_name}" triggered by Auto QA response(s)')

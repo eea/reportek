@@ -1,15 +1,17 @@
 import re
 import logging
-from collections import OrderedDict
 from django.db import models
-from django.utils import timezone
 from django.utils.functional import cached_property
 from django.contrib.contenttypes.fields import GenericRelation
 from typedmodels.models import TypedModel
 import xworkflows as xwf
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 
 from reportek.core.tasks import submit_xml_to_qa
+from reportek.core.consumers.envelope import EnvelopeEvents
+
 from .log import TransitionEvent
 
 
@@ -87,6 +89,20 @@ class BaseWorkflow(TypedModel):
         """
         raise NotImplementedError
 
+    def announce_auto_qa_status(self, event):
+        channel_layer = get_channel_layer()
+        payload = {
+            'auto_qa_complete': self.envelope.auto_qa_complete,
+            'auto_qa_ok': self.envelope.auto_qa_ok,
+        }
+        async_to_sync(channel_layer.group_send)(
+            self.envelope.channel,
+            {
+                'type': f'envelope.{event.name}',
+                'data': payload
+            }
+        )
+
     @cached_property
     def xwf_cls_name(self):
         """Builds a cleaned-up name for the XWorkflow class"""
@@ -139,11 +155,10 @@ class BaseWorkflow(TypedModel):
         return {
             fname: getattr(cls, fname)
             for fname in dir(cls)
-            if callable(getattr(cls, fname)) and
-               (
-                   isinstance(getattr(cls, fname), xwf.base.TransitionWrapper) or
-                   hasattr(getattr(cls, fname), 'xworkflows_hook')
-               )
+            if callable(getattr(cls, fname)) and (
+                isinstance(getattr(cls, fname), xwf.base.TransitionWrapper) or
+                hasattr(getattr(cls, fname), 'xworkflows_hook')
+            )
         }
 
     @cached_property
@@ -160,6 +175,7 @@ class BaseWorkflow(TypedModel):
 
         def post_transition(self, *args, **kwargs):
             """After transition hook applied to all workflows"""
+
             info(f'Persisting state change to "{self.state.name}".')
             # Persist state
             self.bearer.previous_state = self.bearer.current_state
@@ -174,6 +190,20 @@ class BaseWorkflow(TypedModel):
                 self.bearer.envelope.finalized = False
                 self.bearer.envelope.save()
                 info(f'Envelope "{self.bearer.envelope.name}" is no longer finalized.')
+
+            channel_layer = get_channel_layer()
+            payload = {
+                'previous_state': self.bearer.previous_state,
+                'current_state': self.bearer.current_state,
+                'finalized': self.bearer.envelope.finalized
+            }
+            async_to_sync(channel_layer.group_send)(
+                self.bearer.envelope.channel,
+                {
+                    'type': f'envelope.{EnvelopeEvents.ENTERED_STATE.name}',
+                    'data': payload
+                }
+            )
 
         # Transplant the transition methods
         attrs = self.xwf_methods

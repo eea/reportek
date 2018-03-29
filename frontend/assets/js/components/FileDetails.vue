@@ -6,6 +6,7 @@
         >
         Dashboard
       </router-link>
+
       <span class="separator">/</span>
       <router-link
          :to="{name:'EnvelopesWIP', params: {reporterId: `${$route.params.reporterId}`}}"
@@ -13,6 +14,7 @@
         >
         Envelopes in progress
       </router-link>
+      
       <router-link
          :to="{name:'EnvelopesArchive', params: {reporterId: `${$route.params.reporterId}`}}"
          v-else
@@ -20,6 +22,7 @@
         Envelopes archive
       </router-link>
       <span class="separator">/</span>
+      
       <router-link
          :to="{name:'EnvelopeDetail', params: {reporterId: `${$route.params.reporterId}`, envelopeId: `${$route.params.envelopeId}`}}"
 
@@ -30,6 +33,7 @@
       <span class="current-page">{{file.name}}</span>
     </div>
     <h1>{{envelopeName}}</h1>
+
     <b-row>
       <b-col class="file-details-wrapper" lg="6">
         <div class="file-details">
@@ -99,7 +103,7 @@
         <div v-if="fileQaScripts" class="file-qa">
 
           <h3>Quality assesment</h3>
-          <div>{{fileQaScripts.length}} tests<b-btn @click="runAllQaScripts" variant="link"> Run all tests</b-btn></div>
+          <div>{{fileQaScripts.length}} tests<b-btn @click="runAllQAScripts" variant="link"> Run all tests</b-btn></div>
           <div  class="qa-tests">
             <div
               style="display: flex; justify-content: space-between"
@@ -121,11 +125,21 @@
         </div>
       </b-col>
     </b-row>
+
      <b-modal v-if="modalFile" id="downloadModal" ref="downloadModal" size="lg" title="Download">
           <filesdownload :files="modalFile"></filesdownload>
     </b-modal>
-    <div  v-if="testResult" v-for="result in testResult">
-      <div v-if="result.data" :id="result.id" v-html="result.data" class="testResult">
+    <div 
+      v-if="testResult" 
+      v-for="result in testResult"
+      :key="result.id"
+    >
+      <div
+        v-if="result.data"
+        :id="result.id"
+        v-html="result.data"
+        class="testResult"
+      >
       </div>
     </div>
     <backtotop text="Back to top"></backtotop>
@@ -134,21 +148,20 @@
 </template>
 
 <script>
-import {  fetchEnvelope,
-          fetchEnvelopeFile,
-          updateFile,
-          updateFileRestriction,
-          removeFile,
-          fetchEnvelopeFilesQAScripts,
-          runEnvelopeFilesQAScript,
-        } from '../api';
-
+import {
+  fetchEnvelope,
+  fetchEnvelopeFile,
+  updateFile,
+  updateFileRestriction,
+  removeFile,
+  fetchEnvelopeFilesQAScripts,
+  runEnvelopeFilesQAScript
+} from '../api';
 import utilsMixin from '../mixins/utils.js';
 import EnvelopeFilesDownload from './EnvelopeFilesDownload';
-import BackToTop from 'vue-backtotop'
+import BackToTop from 'vue-backtotop';
 
 export default {
-
   name: 'FileDetails',
 
   mixins: [utilsMixin],
@@ -156,13 +169,12 @@ export default {
   data() {
     return {
       file: null,
-      modalFile: [],
+      modalFile: [], // will only contain the current file, needs to be array for reusing EnvelopeFilesDownload
       envelopeName: null,
       fileQaScripts: null,
       isEditing: false,
       envelopeFinalized: false,
       testResult: [],
-
     };
   },
 
@@ -171,48 +183,123 @@ export default {
     backtotop: BackToTop,
   },
 
+  // Fetches posts when the component is created.
   created() {
-   this.getFile();
+    this.getFile();
+    this.handleSubscription();
+  },
+
+  beforeRouteLeave(to, from, next) {
+    this.unsubscribe(`file${this.$route.params.fileId}`);
+    next();
   },
 
   methods: {
-    runQAScript(file, scriptId, e) {
+    getFile() {
+      this.testResult = [];
+      this.modalFile = [];
+      
+      fetchEnvelopeFile(this.$route.params.envelopeId, this.$route.params.fileId)
+        .then(response => {
+          this.file = response.data;
+          this.modalFile.push(this.createModalFile(response.data));
 
+          fetchEnvelopeFilesQAScripts(this.$route.params.envelopeId, this.$route.params.fileId)
+            .then(response => {
+              let scripts = response.data;
+              for (let script of scripts) {
+                script.status = null;
+                this.testResult.push({ id: script.id, data: null });
+              }
+              this.fileQaScripts = scripts;
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        })
+        .catch(error => {
+          console.log(error);
+        });
+      fetchEnvelope(this.$route.params.envelopeId)
+        .then(response => {
+          this.envelopeName = response.data.name;
+          this.envelopeFinalized = response.data.finalized;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    handleSubscription() {
+      const envelopeChannel = `/ws/envelopes/` + this.$route.params.envelopeId;
+      const self = this;
+      const observer = {
+        next(newMessage) {
+          self.handleNewMessage(newMessage);
+        },
+        error(error) {
+          console.error('File got an error: ', error);
+        },
+        complete() {
+          console.log('File got a complete notification');
+        }
+      };
+
+      this.$listen(envelopeChannel);
+      this.subscribe(observer, `file${this.$route.params.fileId}`);
+    },
+
+    handleNewMessage(newMessage) {
+      console.log('File got a next value: ', newMessage);
+      if (newMessage.event === 'changed_file' && newMessage.data.file_id.toString() === this.$route.params.fileId) {
+        this.getFile();
+      }
+    },
+
+    runAllQAScripts() {
+      for (let script of this.fileQaScripts) {
+        this.runQAScript(this.file, script.id);
+      }
+    },
+
+    runQAScript(file, scriptId, e) {
       if (e) {
         e.target.innerText = 'Running test';
         e.target.setAttribute('disabled', 'true');
       } else {
-        document.querySelectorAll('.test-button').forEach(function(item,index) {
-          item.innerText = 'Running test';
-          item.setAttribute('disabled', 'true');
-        })
+        document
+          .querySelectorAll('.test-button')
+          .forEach(function(item, index) {
+            item.innerText = 'Running test';
+            item.setAttribute('disabled', 'true');
+          });
       }
 
       runEnvelopeFilesQAScript(this.$route.params.envelopeId, file.id, scriptId)
-        .then((response) => {
-          this.fileQaScripts.map((script) => {
+        .then(response => {
+          this.fileQaScripts.map(script => {
             if (script.id === scriptId) {
               script.variant = this.envelopeCodeDictionary(response.data.feedback_status);
-              console.log(response.data)
-              this.handleEnvelopeFeedback(response.data.result, scriptId)
+              this.handleEnvelopeFeedback(response.data.result, scriptId);
             }
             if (e) {
               e.target.innerText = 'Run test';
               e.target.removeAttribute('disabled');
             } else {
-              document.querySelectorAll('.test-button').forEach(function(item,index) {
-                item.innerText = 'Run test';
-                item.removeAttribute('disabled');
-              })
+              document
+                .querySelectorAll('.test-button')
+                .forEach(function(item, index) {
+                  item.innerText = 'Run test';
+                  item.removeAttribute('disabled');
+                });
             }
             return script;
           });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     },
-
 
     handleEnvelopeFeedback(result, scriptId) {
       let matchScript;
@@ -221,16 +308,16 @@ export default {
 
       let p = document.createElement('script');
       const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
-      const linkRe = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/ig;
+      const linkRe = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/gi;
 
       p.setAttribute('type', 'text/javascript');
 
-      while (matchScript = re.exec(result)) {
+      while ((matchScript = re.exec(result))) {
         // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
         p.innerHTML += matchScript[1];
       }
       let links = [];
-      while (matchLink = linkRe.exec(result)) {
+      while ((matchLink = linkRe.exec(result))) {
         links.push(matchLink[2]);
       }
       for (let link of links) {
@@ -239,76 +326,49 @@ export default {
 
       document.body.appendChild(p);
 
-      resultObject = {id: scriptId, data: result};
+      resultObject = { id: scriptId, data: result };
 
       for (let test of this.testResult) {
         if (test.id === scriptId) {
           test.data = result;
         }
       }
-
     },
-
 
     restricFile(restriction) {
-      updateFileRestriction(this.$route.params.envelopeId, this.file.id, restriction)
-        .then((response) => {
-          this.getFile();
-        });
-    },
-
-    createModalFile() {
-      this.modalFile[0] = Object.assign({},this.modalFile[0], {availableConversions: [], selectedConversion: null});
+      updateFileRestriction(
+        this.$route.params.envelopeId,
+        this.file.id,
+        restriction
+      );
     },
 
     deleteFile() {
       removeFile(this.$route.params.envelopeId, this.$route.params.fileId)
-        .then((response) => {
-          this.$router.push({ name: 'EnvelopeDetail', params: { reporterId: this.$route.params.reporterId, envelopeId: this.$route.params.envelopeId } });
+        .then(response => {
+          this.$router.push({
+            name: 'EnvelopeDetail',
+            params: {
+              reporterId: this.$route.params.reporterId,
+              envelopeId: this.$route.params.envelopeId
+            }
+          });
         })
-        .catch((error) => {
+        .catch(error => {
           console.log(error);
         });
     },
 
     showModal() {
-      this.createModalFile();
       this.$refs.downloadModal.show();
     },
 
-    runAllQaScripts() {
-      for (let script of this.fileQaScripts) {
-        this.runQAScript(this.file, script.id);
-      }
-    },
-
-    getFile() {
-      fetchEnvelopeFile(this.$route.params.envelopeId, this.$route.params.fileId)
-        .then((response) => {
-          this.file = response.data;
-          this.modalFile.push(response.data);
-          this.createModalFile();
-          fetchEnvelopeFilesQAScripts(this.$route.params.envelopeId, this.$route.params.fileId)
-          .then((response) => {
-            let scripts = response.data;
-            for (let script of scripts) {
-              script.status = null;
-              this.testResult.push({id: script.id, data: null})
-            }
-            this.fileQaScripts = scripts;
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        }).catch((error) => {
-          console.log(error);
-        });
-      fetchEnvelope(this.$route.params.envelopeId).then((response) => {
-        this.envelopeName = response.data.name;
-        this.envelopeFinalized = response.data.finalized;
-      }).catch((error) => {
-        console.log(error);
+    createModalFile(data) {
+      const file = Object.assign({}, data, {
+        availableConversions: [],
+        selectedConversion: null
       });
+      return file;
     },
 
     renameFile() {
@@ -316,23 +376,16 @@ export default {
     },
 
     updateFile() {
-      updateFile(this.$route.params.envelopeId, this.file.id, this.file.name)
-        .then((response) => {
-          this.getFile();
-          this.isEditing = false;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-  },
+      updateFile(this.$route.params.envelopeId, this.file.id, this.file.name);
+      this.isEditing = false;
+    }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
 .file-details {
-  background: url('../../img/file-background.svg');
+  background: url("../../img/file-background.svg");
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 386px;
@@ -352,7 +405,7 @@ export default {
     background: #fe7171;
     font-size: 1.6rem;
     display: inline-block;
-    padding: .5rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     color: white;
     font-weight: bold;
     position: absolute;
@@ -361,7 +414,6 @@ export default {
     transform: translateY(-40%);
   }
 
-
   .file-details-section {
     border-top: 2px solid #ddd;
     width: 60%;
@@ -369,7 +421,7 @@ export default {
   }
 
   label {
-    font-size: .8rem;
+    font-size: 0.8rem;
     color: #757575;
   }
 }
@@ -379,7 +431,7 @@ export default {
     padding: 0.375rem 0.75rem;
   }
   .btn-link {
-    font-size: 16px!important;
+    font-size: 16px !important;
     display: block;
   }
 
@@ -391,7 +443,6 @@ export default {
       border-bottom: none;
     }
   }
-
 }
 
 .file-qa-wrapper {

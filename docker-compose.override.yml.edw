@@ -31,6 +31,10 @@ services:
     labels:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes
 
+  redis:
+    labels:
+      io.rancher.scheduler.affinity:host_label_ne: frontend=yes
+
   nginx:
     labels:
       io.rancher.scheduler.affinity:host_label_ne: frontend=yes

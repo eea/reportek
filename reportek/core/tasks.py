@@ -82,11 +82,11 @@ def get_qa_results():
     qa_jobs = reportek.core.models.QAJob.objects.filter(
         completed=False, refreshing=False
     ).all()
-    results = chord(
+
+    chord(
         (get_qa_result.s(job.id) for job in qa_jobs),
         process_qa_results.s()
     )()
-    return results.get()
 
 
 @app.task(ignore_result=False)
@@ -99,11 +99,10 @@ def process_qa_results(results):
         r[0] for r in results
         if r[0] is not None and r[1] is not None
     }
-    res = group(
+    group(
         process_envelope_qa_results.s(env_id)
         for env_id in envelope_ids
     )()
-    return res.get()
 
 
 @app.task(ignore_result=False)

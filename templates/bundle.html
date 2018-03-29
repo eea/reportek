@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-{% csrf_token %}
-{% load render_bundle from webpack_loader %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Reportek</title>
+    {% load render_bundle from webpack_loader %}
 </head>
 <body>
+  {% csrf_token %}
   <div id="app"></div>
   {% render_bundle 'app' %}
 </body>
