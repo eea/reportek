@@ -821,16 +821,16 @@ class UploadHookView(viewsets.ViewSet):
                         token.envelope,
                         converted_file['fileName']
                     )
-
-                    envelope_file.file.save(envelope_file.name, ContentFile(converted_file['content'].data))
                     if not is_new:
                         token.envelope.delete_disk_file(converted_file['fileName'])
+                    envelope_file.file.save(envelope_file.name, ContentFile(converted_file['content'].data))
 
                     file_ext = envelope_file.name.split('.')[-1].lower()
                     if file_ext == 'xml':
                         envelope_file.xml_schema = envelope_file.extract_xml_schema()
 
                     envelope_file.uploader = token.user
+                    envelope_file.original_file = envelope_original_file
                     envelope_file.save()
 
             # Archives, currently zip only
