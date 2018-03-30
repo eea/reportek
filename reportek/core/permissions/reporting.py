@@ -84,11 +84,11 @@ class EnvelopePermissions(EffectiveObjectPermissions):
         if request.method in SAFE_METHODS:
             return True
         elif request.method == 'PATCH':
-            return request.user == envelope.author and not envelope.finalized
+            return request.user == envelope.assigned_to and not envelope.finalized
         elif request.method == 'DELETE':
-            return request.user == envelope.author and not envelope.finalized
+            return request.user == envelope.assigned_to and not envelope.finalized
         elif request.method == 'POST' and view.action != 'create':
-            return request.user == envelope.author and not envelope.finalized
+            return request.user == envelope.assigned_to and not envelope.finalized
 
         return False
 
@@ -129,12 +129,11 @@ class BaseEnvelopeFilePermissions(EffectiveObjectPermissions):
         if request.method in SAFE_METHODS:
             return True
         elif request.method == 'PATCH':
-            return request.user == envelope.author and not envelope.finalized
+            return request.user == envelope.assigned_to and not envelope.finalized
         elif request.method == 'DELETE':
-            return request.user == envelope.author and not envelope.finalized
+            return request.user == envelope.assigned_to and not envelope.finalized
         elif request.method == 'POST' and view.action != 'create':
-            return request.user == envelope.author and not envelope.finalized
-
+            return request.user == envelope.assigned_to and not envelope.finalized
         return False
 
 
