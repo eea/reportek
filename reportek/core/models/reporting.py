@@ -257,6 +257,9 @@ class BaseEnvelopeFile(models.Model):
     # Used by get_download_url()
     _download_view_name = ''
 
+    # Used by subclasses to properly name related names, events etc
+    _class_specifier = ''
+
     file = protected.fields.ProtectedFileField(upload_to=get_envelope_directory,
                                                max_length=512)
     # initially derived from the filename, a change triggers rename
@@ -370,7 +373,7 @@ class BaseEnvelopeFile(models.Model):
             async_to_sync(channel_layer.group_send)(
                 self.envelope.channel,
                 {
-                    'type': 'envelope.added_file',
+                    'type': f'envelope.added_{self._class_specifier}',
                     'data': payload
                 }
             )
@@ -378,7 +381,7 @@ class BaseEnvelopeFile(models.Model):
             async_to_sync(channel_layer.group_send)(
                 self.envelope.channel,
                 {
-                    'type': 'envelope.changed_file',
+                    'type': f'envelope.changed_{self._class_specifier}',
                     'data': payload
                 }
             )
@@ -388,7 +391,7 @@ class BaseEnvelopeFile(models.Model):
             os.remove(self.file.path)
             debug(f'Deleted disk file {self.file.path}')
         except FileNotFoundError:
-            error(f'Could not delete envelope file from disk (not found): '
+            error(f'Could not delete envelope {self._class_specifier} from disk (not found): '
                   f'{self.file.path}')
 
         channel = self.envelope.channel
@@ -403,7 +406,7 @@ class BaseEnvelopeFile(models.Model):
         async_to_sync(channel_layer.group_send)(
             channel,
             {
-                'type': 'envelope.deleted_file',
+                'type': f'envelope.deleted_{self._class_specifier}',
                 'data': payload
             }
         )
@@ -421,7 +424,10 @@ class EnvelopeOriginalFile(BaseEnvelopeFile):
     # Overriding so get_download_url() works
     _download_view_name = 'api:envelope-original-file-download'
 
-    envelope = models.ForeignKey(Envelope, related_name='original_files')
+    # Overriding so notifications work
+    _class_specifier = 'original_file'
+
+    envelope = models.ForeignKey(Envelope, related_name=f'{_class_specifier}s')
 
 
 class EnvelopeFile(BaseEnvelopeFile):
@@ -432,7 +438,10 @@ class EnvelopeFile(BaseEnvelopeFile):
     # Overriding so get_download_url() works
     _download_view_name = 'api:envelope-file-download'
 
-    envelope = models.ForeignKey(Envelope, related_name='files')
+    # Overriding so notifications work
+    _class_specifier = 'file'
+
+    envelope = models.ForeignKey(Envelope, related_name=f'{_class_specifier}s')
 
     xml_schema = models.CharField(max_length=200, blank=True, null=True)
 
