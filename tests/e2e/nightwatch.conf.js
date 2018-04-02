@@ -1,11 +1,11 @@
 require('babel-register')
-var config = require('../../config')
+var config = require('../../frontend/config/conf')
 
 // http://nightwatchjs.org/gettingstarted#settings-file
 module.exports = {
-  src_folders: ['test/e2e/specs'],
-  output_folder: 'test/e2e/reports',
-  custom_assertions_path: ['test/e2e/custom-assertions'],
+  src_folders: ['tests/e2e/specs'],
+  output_folder: 'tests/e2e/reports',
+  custom_assertions_path: ['tests/e2e/custom-assertions'],
 
   selenium: {
     start_process: true,
@@ -22,8 +22,11 @@ module.exports = {
       selenium_port: 4444,
       selenium_host: 'localhost',
       silent: true,
-      globals: {
-        devServerURL: 'http://localhost:' + (process.env.PORT || config.dev.port)
+      'screenshots': {
+        'enabled': true,
+        'on_failure': true,
+        'on_error': false,
+        'path': 'test/e2e/screenshots'
       }
     },
 
