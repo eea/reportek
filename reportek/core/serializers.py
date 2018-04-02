@@ -202,7 +202,7 @@ class PendingObligationSerializer(serializers.ModelSerializer):
 
 
 class EnvelopeOriginalFileSerializer(serializers.ModelSerializer):
-
+    uploader = serializers.PrimaryKeyRelatedField(read_only=True)
     content_url = serializers.SerializerMethodField()
 
     class Meta:
@@ -407,6 +407,7 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
 
 class WorkspaceEnvelopeSerializer(EnvelopeSerializer):
     files = EnvelopeFileSerializer(many=True, read_only=True)
+    original_files = EnvelopeOriginalFileSerializer(many=True, read_only=True)
     obligation = serializers.SerializerMethodField()
 
     @staticmethod
