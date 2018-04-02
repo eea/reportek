@@ -453,10 +453,11 @@ export default {
     },
 
     handleNewMessage(newMessage) {
-      console.log('Envelope got a next value: ', newMessage);
-      this.getEnvelope().then(resultFiles => {
-        this.getEnvelopeFeedback(resultFiles);
-      });
+      if(newMessage.event !== 'system') {
+        this.getEnvelope().then(resultFiles => {
+            this.getEnvelopeFeedback(resultFiles);
+          });
+      }
     },
 
     getEnvelope() {
@@ -510,28 +511,41 @@ export default {
         previous: feedback.previous,
         files: {},
       };
-      let p = document.createElement('script');
-      const re = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
-      const linkRe = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/gi;
-
-      p.setAttribute('type', 'text/javascript');
+      let scriptsSet = [];
+      const regexScriptTag = /<script\b[^>]*>([\s\S]*?)<\/script>/gm;
+      const regexScriptSrc = /<script.*?src="(.*?)"/;
+      const regexLink = /<link href\s*=\s*(['"])(https?:\/\/.+?)\1/gi;
 
       for (let file of files) {
         modifiedFeedback.files[file.name] = [];
       }
 
       for (let result of feedback.results) {
-        while ((matchScript = re.exec(result.latest_result.value))) {
+        // scripts
+        while ((matchScript = regexScriptTag.exec(result.latest_result.value))) {
+          const matchedSrc = regexScriptSrc.exec(matchScript[0]);
+      
           // full match is in match[0], whereas captured groups are in ...[1], ...[2], etc.
-          p.innerHTML += matchScript[1];
+          if(matchedSrc) {
+            // script urls
+            scriptsSet.push({ src: matchedSrc[1]});
+          } else {
+            // script functions
+            scriptsSet.push({ func: matchScript[1] });
+          }
         }
+        
         let links = [];
-        while ((matchLink = linkRe.exec(result.latest_result.value))) {
+
+        // links
+        while ((matchLink = regexLink.exec(result.latest_result.value))) {
           links.push(matchLink[2]);
         }
+
         for (let link of links) {
           result.latest_result.value = result.latest_result.value.replace(link, ' ');
         }
+
         for (let file of files) {
           if (file.id === result.envelope_file) {
             modifiedFeedback.files[file.name].push(result);
@@ -539,8 +553,31 @@ export default {
         }
       }
 
-      document.body.appendChild(p);
+      this.loadScript(scriptsSet);
       this.envelopeFeedback = modifiedFeedback;
+    },
+
+    loadScript(set) {
+      if (set.length > 0) {
+        if(set[0].func) {
+          let p = document.createElement('script');
+
+          p.setAttribute('type', 'text/javascript');
+          p.innerHTML += set[0].func;
+          document.body.appendChild(p);
+
+          this.loadScript(set.slice(1, set.length));
+        } else {
+          const newscript = document.createElement('script');
+
+          newscript.type = 'text/javascript';
+          newscript.src = set[0].src;
+          newscript.onload = () => {
+              this.loadScript(set.slice(1, set.length));
+            }
+          document.body.appendChild(newscript);
+        }
+      }
     },
 
     onFileChange(e) {
