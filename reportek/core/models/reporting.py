@@ -219,14 +219,34 @@ def validate_filename(value):
         )
 
 
-class EnvelopeOriginalFile(models.Model):
+class EnvelopeFileQuerySet(models.QuerySet):
+
+    def delete(self):
+        for obj in self:
+            try:
+                os.remove(obj.file.path)
+                debug(f'Deleted disk file {obj.file.path}')
+            except FileNotFoundError:
+                error(f'Could not delete envelope file from disk (not found): '
+                      f'{obj.file.path}')
+        super().delete()
+
+
+class BaseEnvelopeFile(models.Model):
     """
-    Used to describe original non-XML files uploaded to the envelope
-    that are converted to and stored as XML EnvelopeFiles.
+    Abstract base class for EnvelopeFile and EnvelopeOriginalFile,
+    holding some common fields for these two.
     """
 
     class Meta:
-        db_table = 'original_envelope_file'
+        abstract = True
+        unique_together = ('envelope', 'name')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # keep track of the name to handle renames
+        self._prev_name = (None if self.pk is None
+                           else self.name)
 
     def get_envelope_directory(self, filename):
         return os.path.join(
@@ -234,11 +254,21 @@ class EnvelopeOriginalFile(models.Model):
             os.path.basename(filename)
         )
 
-    envelope = models.ForeignKey(Envelope, related_name='original_files')
+    # Used by get_download_url()
+    _download_view_name = ''
+
+    # Used by subclasses to properly name related names, events etc
+    _class_specifier = ''
+
     file = protected.fields.ProtectedFileField(upload_to=get_envelope_directory,
                                                max_length=512)
     # initially derived from the filename, a change triggers rename
     name = models.CharField(max_length=256, validators=[validate_filename])
+
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    restricted = models.BooleanField(default=False)
 
     uploader = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -246,8 +276,7 @@ class EnvelopeOriginalFile(models.Model):
         null=True
     )
 
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    objects = EnvelopeFileQuerySet.as_manager()
 
     @property
     def size(self):
@@ -261,22 +290,22 @@ class EnvelopeOriginalFile(models.Model):
     def fq_download_url(self):
         return fully_qualify_url(self.download_url)
 
+    def get_download_url(self):
+        return reverse(self._download_view_name, kwargs={
+            'envelope_pk': self.envelope_id,
+            'pk': self.pk,
+        })
+
     def __repr__(self):
         return '<%s: %s/%s>' % (self.__class__.__name__,
                                 self.envelope.pk,
                                 self.name)
 
-    def get_download_url(self):
-        return reverse('api:envelope-original-file-download', kwargs={
-            'envelope_pk': self.envelope_id,
-            'pk': self.pk,
-        })
-
     @classmethod
     def get_or_create(cls, envelope, file_name):
         """
-        Locates an `EnvelopeOriginalFile` based on `file_name`, or creates a new one.
-        Returns a tuple of the `EnvelopeOriginalFile` instance and a boolean indicating
+        Locates an `EnvelopeFile` based on `file_name`, or creates a new one.
+        Returns a tuple of the `EnvelopeFile` instance and a boolean indicating
         if it is newly created.
         """
         is_new = True
@@ -291,96 +320,6 @@ class EnvelopeOriginalFile(models.Model):
             obj = cls(envelope=envelope, name=file_name)
 
         return obj, is_new
-
-    def delete(self, *args, **kwargs):
-        try:
-            os.remove(self.file.path)
-            debug(f'Deleted disk file {self.file.path}')
-        except FileNotFoundError:
-            error(f'Could not delete original envelope file from disk (not found): '
-                  f'{self.file.path}')
-        super().delete(*args, **kwargs)
-
-
-class EnvelopeFileQuerySet(models.QuerySet):
-
-    def delete(self):
-        for obj in self:
-            try:
-                os.remove(obj.file.path)
-                debug(f'Deleted disk file {obj.file.path}')
-            except FileNotFoundError:
-                error(f'Could not delete envelope file from disk (not found): '
-                      f'{obj.file.path}')
-        super().delete()
-
-
-class EnvelopeFile(models.Model):
-
-    class Meta:
-        db_table = 'core_envelope_file'
-        unique_together = ('envelope', 'name')
-
-    def get_envelope_directory(self, filename):
-        return os.path.join(
-            self.envelope.get_storage_directory(),
-            os.path.basename(filename)
-        )
-
-    envelope = models.ForeignKey(Envelope, related_name='files')
-    file = protected.fields.ProtectedFileField(upload_to=get_envelope_directory,
-                                               max_length=512)
-    # initially derived from the filename, a change triggers rename
-    name = models.CharField(max_length=256, validators=[validate_filename])
-
-    xml_schema = models.CharField(max_length=200, blank=True, null=True)
-
-    restricted = models.BooleanField(default=False)
-
-    uploader = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        null=True
-    )
-
-    original_file = models.ForeignKey(EnvelopeOriginalFile,
-                                      related_name='envelope_files',
-                                      null=True)
-
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    objects = EnvelopeFileQuerySet.as_manager()
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # keep track of the name to handle renames
-        self._prev_name = (None if self.pk is None
-                           else self.name)
-
-    def __repr__(self):
-        return '<%s: %s/%s>' % (self.__class__.__name__,
-                                self.envelope.pk,
-                                self.name)
-
-    @property
-    def size(self):
-        return self.file.size
-
-    @property
-    def download_url(self):
-        return self.get_download_url()
-
-    @property
-    def fq_download_url(self):
-        return fully_qualify_url(self.download_url)
-
-    @property
-    def qa_results(self):
-        try:
-            return QAJobResult.objects.filter(job__in=self.qa_jobs.all()).all()
-        except QAJobResult.DoesNotExist:
-            return None
 
     def save(self, *args, **kwargs):
         # don't allow any operations on a final envelope
@@ -434,7 +373,7 @@ class EnvelopeFile(models.Model):
             async_to_sync(channel_layer.group_send)(
                 self.envelope.channel,
                 {
-                    'type': 'envelope.added_file',
+                    'type': f'envelope.added_{self._class_specifier}',
                     'data': payload
                 }
             )
@@ -442,7 +381,7 @@ class EnvelopeFile(models.Model):
             async_to_sync(channel_layer.group_send)(
                 self.envelope.channel,
                 {
-                    'type': 'envelope.changed_file',
+                    'type': f'envelope.changed_{self._class_specifier}',
                     'data': payload
                 }
             )
@@ -452,7 +391,7 @@ class EnvelopeFile(models.Model):
             os.remove(self.file.path)
             debug(f'Deleted disk file {self.file.path}')
         except FileNotFoundError:
-            error(f'Could not delete envelope file from disk (not found): '
+            error(f'Could not delete envelope {self._class_specifier} from disk (not found): '
                   f'{self.file.path}')
 
         channel = self.envelope.channel
@@ -467,36 +406,55 @@ class EnvelopeFile(models.Model):
         async_to_sync(channel_layer.group_send)(
             channel,
             {
-                'type': 'envelope.deleted_file',
+                'type': f'envelope.deleted_{self._class_specifier}',
                 'data': payload
             }
         )
 
-    def get_download_url(self):
-        return reverse('api:envelope-file-download', kwargs={
-            'envelope_pk': self.envelope_id,
-            'pk': self.pk,
-        })
 
-    @classmethod
-    def get_or_create(cls, envelope, file_name):
-        """
-        Locates an `EnvelopeFile` based on `file_name`, or creates a new one.
-        Returns a tuple of the `EnvelopeFile` instance and a boolean indicating
-        if it is newly created.
-        """
-        is_new = True
+class EnvelopeOriginalFile(BaseEnvelopeFile):
+    """
+    Used to describe original non-XML files uploaded to the envelope
+    that are converted to and stored as XML EnvelopeFiles.
+    """
+
+    class Meta(BaseEnvelopeFile.Meta):
+        db_table = 'core_envelope_original_file'
+
+    # Overriding so get_download_url() works
+    _download_view_name = 'api:envelope-original-file-download'
+
+    # Overriding so notifications work
+    _class_specifier = 'original_file'
+
+    envelope = models.ForeignKey(Envelope, related_name=f'{_class_specifier}s')
+
+
+class EnvelopeFile(BaseEnvelopeFile):
+
+    class Meta(BaseEnvelopeFile.Meta):
+        db_table = 'core_envelope_file'
+
+    # Overriding so get_download_url() works
+    _download_view_name = 'api:envelope-file-download'
+
+    # Overriding so notifications work
+    _class_specifier = 'file'
+
+    envelope = models.ForeignKey(Envelope, related_name=f'{_class_specifier}s')
+
+    xml_schema = models.CharField(max_length=200, blank=True, null=True)
+
+    original_file = models.ForeignKey(EnvelopeOriginalFile,
+                                      related_name='envelope_files',
+                                      null=True)
+
+    @property
+    def qa_results(self):
         try:
-            obj = cls.objects.get(
-                envelope=envelope,
-                name=file_name
-            )
-            is_new = False
-
-        except cls.DoesNotExist:
-            obj = cls(envelope=envelope, name=file_name)
-
-        return obj, is_new
+            return QAJobResult.objects.filter(job__in=self.qa_jobs.all()).all()
+        except QAJobResult.DoesNotExist:
+            return None
 
     @staticmethod
     def has_valid_extension(filename, include_archives=False, include_spreadsheets=False):
