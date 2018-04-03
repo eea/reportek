@@ -85,7 +85,7 @@ def debug_call(f):
 
 def skip_for_superuser(f):
     """
-    Wrapper for `has_permissions` | `has_object_permissions`, skips checks for superusers.ß
+    Wrapper for `has_permissions` | `has_object_permissions`, skips checks for superusers.
     """
 
     @wraps(f)
