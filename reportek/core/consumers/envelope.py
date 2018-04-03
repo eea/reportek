@@ -7,6 +7,9 @@ class EnvelopeEvents(Enum):
     ADDED_FILE = auto()
     CHANGED_FILE = auto()
     DELETED_FILE = auto()
+    ADDED_ORIGINAL_FILE = auto()
+    CHANGED_ORIGINAL_FILE = auto()
+    DELETED_ORIGINAL_FILE = auto()
     RECEIVED_AUTO_QA_FEEDBACK = auto()
     COMPLETED_AUTO_QA = auto()
 
