@@ -29,6 +29,7 @@ from ...models import (
     BaseWorkflow,
     Obligation,
     Reporter,
+    ReportekUser,
     UploadToken,
     QAJob,
 )
@@ -257,6 +258,59 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         """
         envelope = self.get_object()
         return Response(envelope.workflow.to_json_graph())
+
+    @detail_route(methods=['post'])
+    def unassign(self, request, pk):
+        """
+        Unasigns the envelope.
+        Only the currently assigned user or an admin are allowed to do so.
+        """
+        envelope = self.get_object()
+        if not envelope.is_assigned:
+            return Response(
+                {'warning': 'Envelope was already unasigned'}, status=status.HTTP_200_OK
+            )
+
+        if envelope.assigned_to == request.user or request.user.is_staff:
+            envelope.assigned_to = None
+            envelope.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        else:
+            return Response(
+                {
+                    'error': 'Only currently assigned user or an admin can unassign'
+                    'the envelope'
+                },
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+    @detail_route(methods=['post'])
+    def assign(self, request, pk):
+        envelope = self.get_object()
+        if envelope.is_assigned:
+            return Response(
+                {'error': 'Envelope is already assigned - must unassign it first.'},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        try:
+            assigned_user = ReportekUser.objects.get(pk=request.data.get('user_id'))
+        except ReportekUser.DoesNotExist:
+            assigned_user = None
+
+        if assigned_user is None:
+            envelope.assigned_to = request.user
+        elif request.user.is_staff:
+            envelope.assigned_to = assigned_user
+        else:
+            return Response(
+                {'error': 'Only admins can assign envelopes to another user'},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        envelope.save()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
