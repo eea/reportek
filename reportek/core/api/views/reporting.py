@@ -26,6 +26,8 @@ from ...models import (
     Envelope,
     EnvelopeFile,
     EnvelopeOriginalFile,
+    EnvelopeSupportFile,
+    EnvelopeLink,
     BaseWorkflow,
     Obligation,
     Reporter,
@@ -38,6 +40,8 @@ from ...serializers import (
     EnvelopeSerializer,
     EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
     EnvelopeOriginalFileSerializer, CreateEnvelopeOriginalFileSerializer,
+    EnvelopeSupportFileSerializer, CreateEnvelopeSupportFileSerializer,
+    EnvelopeLinkSerializer,
     NestedEnvelopeWorkflowSerializer,
     NestedUploadTokenSerializer,
     QAJobSerializer,
@@ -62,8 +66,10 @@ error = log.error
 
 __all__ = [
     'EnvelopeViewSet',
-    'EnvelopeOriginalFileViewSet',
     'EnvelopeFileViewSet',
+    'EnvelopeOriginalFileViewSet',
+    'EnvelopeSupportFileViewSet',
+    'EnvelopeLinkViewSet',
     'EnvelopeWorkflowViewSet',
     'UploadTokenViewSet',
     'UploadHookView',
@@ -313,17 +319,17 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
-class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
+class EnvelopeFileMixin:
+    """
+    Common functionality for envelope file viewsets.
+    """
 
-    permission_classes_map = {
-        'default': [permissions.EnvelopeOriginalFilePermissions],
-        'list': [IsAuthenticatedOrReadOnly],
-        'retrieve': [IsAuthenticatedOrReadOnly],
-        'download': [IsAuthenticatedOrReadOnly]
-    }
+    _model = None
+    _serializer = None
+    _create_serializer = None
 
     def get_queryset(self):
-        qs = EnvelopeOriginalFile.objects.filter(envelope_id=self.kwargs['envelope_pk'])
+        qs = self._model.objects.filter(envelope_id=self.kwargs['envelope_pk'])
         if self.request.user.is_anonymous() and self.action != 'list':
             return qs.filter(restricted=False)
 
@@ -331,18 +337,19 @@ class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet)
 
     def get_serializer_class(self):
         if self.request.method == "POST":
-            return CreateEnvelopeOriginalFileSerializer
-        return EnvelopeOriginalFileSerializer
+            return self._create_serializer
+        return self._serializer
 
     def perform_create(self, serializer):
         serializer.save(
-            envelope_id=self.kwargs['envelope_pk']
+            envelope_id=self.kwargs['envelope_pk'],
+            uploader_id=self.request.user.pk,
         )
 
     @detail_route(methods=['get', 'head'], renderer_classes=(StaticHTMLRenderer,))
     def download(self, request, envelope_pk, pk):
-        envelope_original_file = self.get_object()
-        _file = envelope_original_file.file
+        envelope_file = self.get_object()
+        _file = envelope_file.file
         relpath = _file.name
 
         if relpath is None or relpath == '':
@@ -364,7 +371,35 @@ class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet)
         return response
 
 
-class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
+class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
+
+    permission_classes_map = {
+        'default': [permissions.EnvelopeOriginalFilePermissions],
+        'list': [IsAuthenticatedOrReadOnly],
+        'retrieve': [IsAuthenticatedOrReadOnly],
+        'download': [IsAuthenticatedOrReadOnly]
+    }
+
+    _model = EnvelopeOriginalFile
+    _serializer = EnvelopeOriginalFileSerializer
+    _create_serializer = CreateEnvelopeOriginalFileSerializer
+
+
+class EnvelopeSupportFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
+
+    permission_classes_map = {
+        'default': [permissions.EnvelopeSupportFilePermissions],
+        'list': [IsAuthenticatedOrReadOnly],
+        'retrieve': [IsAuthenticatedOrReadOnly],
+        'download': [IsAuthenticatedOrReadOnly]
+    }
+
+    _model = EnvelopeSupportFile
+    _serializer = EnvelopeSupportFileSerializer
+    _create_serializer = CreateEnvelopeSupportFileSerializer
+
+
+class EnvelopeFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
 
     permission_classes_map = {
         'default': [permissions.EnvelopeFilePermissions],
@@ -374,23 +409,9 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         'download_archive': [IsAuthenticatedOrReadOnly]
     }
 
-    def get_queryset(self):
-        qs = EnvelopeFile.objects.filter(envelope_id=self.kwargs['envelope_pk'])
-        if self.request.user.is_anonymous() and self.action != 'list':
-            return qs.filter(restricted=False)
-
-        return qs
-
-    def get_serializer_class(self):
-        if self.request.method == 'POST':
-            return CreateEnvelopeFileSerializer
-        return EnvelopeFileSerializer
-
-    def perform_create(self, serializer):
-        serializer.save(
-            envelope_id=self.kwargs['envelope_pk'],
-            uploader_id=self.request.user.pk,
-        )
+    _model = EnvelopeFile
+    _serializer = EnvelopeFileSerializer
+    _create_serializer = CreateEnvelopeFileSerializer
 
     @staticmethod
     def get_ids_or_404(queryset, ids):
@@ -610,6 +631,22 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         )
 
 
+class EnvelopeLinkViewSet(viewsets.ModelViewSet):
+    """
+    Common functionality for envelope file viewsets.
+    """
+
+    serializer_class = EnvelopeLinkSerializer
+
+    def get_queryset(self):
+        return EnvelopeLink.objects.filter(envelope_id=self.kwargs['envelope_pk'])
+
+    def perform_create(self, serializer):
+        serializer.save(
+            envelope_id=self.kwargs['envelope_pk'],
+        )
+
+
 class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):
     queryset = BaseWorkflow.objects.all()
     serializer_class = NestedEnvelopeWorkflowSerializer
@@ -795,7 +832,7 @@ class UploadHookView(viewsets.ViewSet):
         # filename presence was enforced during pre-create
         file_name = meta_data['filename']
         file_ext = file_name.split('.')[-1].lower()
-
+        is_support_file = meta_data.get('is_support_file', False)
         try:
             token = UploadToken.objects.get(token=tok)
             # TODO Validate user access to envelope when roles are in place
@@ -826,10 +863,24 @@ class UploadHookView(viewsets.ViewSet):
                 if not f.is_file():
                     raise FileNotFoundError(f'UPLOAD tusd file not found: {f}')
 
-            # Regular files
             info(f'file extension: {file_ext}')
             info(f'allowed extensions: {settings.ALLOWED_UPLOADS_EXTENSIONS}')
-            if file_ext in settings.ALLOWED_UPLOADS_EXTENSIONS:
+
+            # Support files
+            if is_support_file:
+                support_file, is_new = EnvelopeSupportFile.get_or_create(
+                    token.envelope,
+                    file_name
+                )
+                if not is_new:
+                    token.envelope.delete_disk_file(file_name)
+
+                support_file.file.save(file_name, File(file_path.open(mode='rb')))
+                support_file.uploader = token.user
+                support_file.save()
+
+            # Regular files
+            elif file_ext in settings.ALLOWED_UPLOADS_EXTENSIONS:
                 envelope_file, is_new = EnvelopeFile.get_or_create(
                     token.envelope,
                     file_name
