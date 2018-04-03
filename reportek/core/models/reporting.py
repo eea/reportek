@@ -47,6 +47,8 @@ __all__ = [
     'Envelope',
     'EnvelopeFile',
     'EnvelopeOriginalFile',
+    'EnvelopeSupportFile',
+    'EnvelopeLink',
     'UploadToken'
 ]
 
@@ -476,6 +478,33 @@ class EnvelopeFile(BaseEnvelopeFile):
 
     def extract_xml_schema(self):
         return get_xsd_uri(self.file.path)
+
+
+class EnvelopeSupportFile(BaseEnvelopeFile):
+    """
+    Files uploaded to the envelope as support information (e.g. PDFs)
+    """
+
+    class Meta(BaseEnvelopeFile.Meta):
+        db_table = 'core_envelope_support_file'
+
+    # Overriding so get_download_url() works
+    _download_view_name = 'api:envelope-support-file-download'
+
+    # Overriding so notifications work
+    _class_specifier = 'support_file'
+
+    envelope = models.ForeignKey(Envelope, related_name=f'{_class_specifier}s')
+
+
+class EnvelopeLink(models.Model):
+    envelope = models.ForeignKey(Envelope, on_delete=models.CASCADE, related_name='links')
+    link = models.URLField(max_length=500)
+    text = models.CharField(max_length=200, null=True, blank=True)
+
+    class Meta:
+        db_table = 'core_envelope_link'
+        unique_together = ('envelope', 'link')
 
 
 def default_token():
