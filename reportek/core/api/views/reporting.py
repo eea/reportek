@@ -783,7 +783,7 @@ class UploadHookView(viewsets.ViewSet):
                 if not is_new:
                     token.envelope.delete_disk_file(file_name)
 
-                envelope_file.file.save(file_name, File(file_path.open()))
+                envelope_file.file.save(file_name, File(file_path.open(mode='rb')))
                 if file_ext == 'xml':
                     envelope_file.xml_schema = envelope_file.extract_xml_schema()
 
@@ -798,7 +798,7 @@ class UploadHookView(viewsets.ViewSet):
                 )
 
                 # Save the original envelope file
-                envelope_original_file.file.save(file_name, File(file_path.open()))
+                envelope_original_file.file.save(file_name, File(file_path.open(mode='rb')))
                 envelope_original_file.uploader = token.user
                 envelope_original_file.save()
 
