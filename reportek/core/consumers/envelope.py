@@ -4,12 +4,19 @@ from .base import BaseWSConsumer
 
 class EnvelopeEvents(Enum):
     ENTERED_STATE = auto()
+
     ADDED_FILE = auto()
     CHANGED_FILE = auto()
     DELETED_FILE = auto()
+
     ADDED_ORIGINAL_FILE = auto()
     CHANGED_ORIGINAL_FILE = auto()
     DELETED_ORIGINAL_FILE = auto()
+
+    ADDED_SUPPORT_FILE = auto()
+    CHANGED_SUPPORT_FILE = auto()
+    DELETED_SUPPORT_FILE = auto()
+
     RECEIVED_AUTO_QA_FEEDBACK = auto()
     COMPLETED_AUTO_QA = auto()
 
