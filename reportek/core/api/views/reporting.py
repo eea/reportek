@@ -282,7 +282,7 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
                     'error': 'Only currently assigned user or an admin can unassign'
                     'the envelope'
                 },
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
     @detail_route(methods=['post'])
@@ -291,7 +291,7 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         if envelope.is_assigned:
             return Response(
                 {'error': 'Envelope is already assigned - must unassign it first.'},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         try:
@@ -306,7 +306,7 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         else:
             return Response(
                 {'error': 'Only admins can assign envelopes to another user'},
-                status=status.HTTP_401_UNAUTHORIZED,
+                status=status.HTTP_403_FORBIDDEN,
             )
 
         envelope.save()
