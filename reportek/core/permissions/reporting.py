@@ -37,9 +37,6 @@ class EnvelopePermissions(EffectiveObjectPermissions):
     @debug_call
     @skip_for_superuser
     def has_permission(self, request, view):
-        if request.user.is_superuser:
-            return True
-
         perms = super().has_permission(request, view)
         if not perms:
             return False
@@ -83,11 +80,8 @@ class EnvelopePermissions(EffectiveObjectPermissions):
     @debug_call
     @skip_for_superuser
     def has_object_permission(self, request, view, envelope):
-        # We do NOT check object permissions on the Envelope object itself,
+        # We do NOT check object permissions on the Envelope object itself,ß
         # as there are none currently in use.
-
-        if request.user.is_superuser:
-            return True
 
         if request.method in SAFE_METHODS:
             return True
@@ -120,9 +114,6 @@ class BaseEnvelopeFilePermissions(EffectiveObjectPermissions):
         if not perms:
             return False
 
-        if request.user.is_superuser:
-            return True
-
         if request.method in SAFE_METHODS:
             return True
 
@@ -152,9 +143,6 @@ class BaseEnvelopeFilePermissions(EffectiveObjectPermissions):
     def has_object_permission(self, request, view, envelope_file):
         # We do NOT check object permissions on the EnvelopeFile object itself,
         # as there are none currently in use.
-
-        if request.user.is_superuser:
-            return True
 
         envelope = envelope_file.envelope
         if request.method in SAFE_METHODS:
