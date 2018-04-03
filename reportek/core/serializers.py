@@ -16,7 +16,11 @@ from .models import (
     ObligationSpec,
     ObligationSpecReporter,
     ReportingCycle,
-    Envelope, EnvelopeFile, EnvelopeOriginalFile,
+    Envelope,
+    EnvelopeFile,
+    EnvelopeOriginalFile,
+    EnvelopeSupportFile,
+    EnvelopeLink,
     BaseWorkflow,
     UploadToken,
     QAJob,
@@ -201,41 +205,6 @@ class PendingObligationSerializer(serializers.ModelSerializer):
                   'updated_at', 'reporting_cycles')
 
 
-class EnvelopeOriginalFileSerializer(serializers.ModelSerializer):
-    uploader = serializers.PrimaryKeyRelatedField(read_only=True)
-    content_url = serializers.SerializerMethodField()
-
-    class Meta:
-        model = EnvelopeOriginalFile
-        fields = ('id', 'name', 'content_url', 'uploader', 'size', 'created', 'updated')
-        read_only_fields = ('content_url', 'uploader', 'size', 'created', 'updated')
-
-    @staticmethod
-    def get_content_url(obj):
-        return obj.fq_download_url
-
-
-class NestedEnvelopeOriginalFileSerializer(NestedHyperlinkedModelSerializer,
-                                           EnvelopeOriginalFileSerializer):
-    parent_lookup_kwargs = {
-        'envelope_pk': 'envelope__pk'
-    }
-
-    class Meta(EnvelopeOriginalFileSerializer.Meta):
-        fields = ('url', ) + EnvelopeOriginalFileSerializer.Meta.fields
-        extra_kwargs = {
-            'url': {
-                'view_name': 'api:envelope-original-file-detail',
-            }
-        }
-
-
-class CreateEnvelopeOriginalFileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EnvelopeOriginalFile
-        fields = ('file', )
-
-
 class EnvelopeFileSerializer(serializers.ModelSerializer):
     uploader = serializers.PrimaryKeyRelatedField(read_only=True)
     content_url = serializers.SerializerMethodField()
@@ -269,6 +238,50 @@ class CreateEnvelopeFileSerializer(serializers.ModelSerializer):
     class Meta:
         model = EnvelopeFile
         fields = ('file', 'uploader')
+
+
+class EnvelopeOriginalFileSerializer(EnvelopeFileSerializer):
+
+    class Meta(EnvelopeFileSerializer.Meta):
+        model = EnvelopeOriginalFile
+
+
+class NestedEnvelopeOriginalFileSerializer(NestedEnvelopeFileSerializer):
+
+    class Meta(NestedEnvelopeFileSerializer.Meta):
+        model = EnvelopeOriginalFile
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:envelope-original-file-detail',
+            }
+        }
+
+
+class CreateEnvelopeOriginalFileSerializer(CreateEnvelopeFileSerializer):
+    class Meta(CreateEnvelopeFileSerializer.Meta):
+        model = EnvelopeOriginalFile
+
+
+class EnvelopeSupportFileSerializer(EnvelopeFileSerializer):
+
+    class Meta(EnvelopeFileSerializer.Meta):
+        model = EnvelopeSupportFile
+
+
+class NestedEnvelopeSupportFileSerializer(NestedEnvelopeFileSerializer):
+
+    class Meta(NestedEnvelopeFileSerializer.Meta):
+        model = EnvelopeOriginalFile
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:envelope-support-file-detail',
+            }
+        }
+
+
+class CreateEnvelopeSupportFileSerializer(CreateEnvelopeFileSerializer):
+    class Meta(CreateEnvelopeFileSerializer.Meta):
+        model = EnvelopeSupportFile
 
 
 class EnvelopeWorkflowSerializer(serializers.ModelSerializer):
@@ -318,9 +331,33 @@ class NestedUploadTokenSerializer(
         }
 
 
+class EnvelopeLinkSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = EnvelopeLink
+        fields = ('id', 'link', 'text')
+
+
+class NestedEnvelopeLinkSerializer(NestedHyperlinkedModelSerializer,
+                                   EnvelopeLinkSerializer):
+    parent_lookup_kwargs = {
+        'envelope_pk': 'envelope__pk'
+    }
+
+    class Meta(EnvelopeLinkSerializer.Meta):
+        fields = ('url', ) + EnvelopeLinkSerializer.Meta.fields
+        extra_kwargs = {
+            'url': {
+                'view_name': 'api:envelope-link-detail',
+            }
+        }
+
+
 class EnvelopeSerializer(serializers.ModelSerializer):
     files = NestedEnvelopeFileSerializer(many=True, read_only=True)
     original_files = NestedEnvelopeOriginalFileSerializer(many=True, read_only=True)
+    support_files = NestedEnvelopeSupportFileSerializer(many=True, read_only=True)
+    links = NestedEnvelopeLinkSerializer(many=True, read_only=True)
     workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
 
     class Meta:
