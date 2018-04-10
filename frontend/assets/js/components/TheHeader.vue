@@ -23,10 +23,11 @@
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
 
+        <!-- country select -->
         <b-nav-item-dropdown right v-if="currentCountry">
           <!-- Using button-content slot -->
           <template slot="button-content">
-            <em>Reporting for
+            <em>{{ $t('reporting_for') }}
               <span v-bind:class="[countryStyleClass, 'flag-icon']"></span>{{currentCountry.name}}
             </em>
           </template>
@@ -35,12 +36,28 @@
             :key="country.id"
             :to="{ name: 'Dashboard', params: { reporterId: country.id }}"
           >
-                      <!-- :to="{ name: 'Dashboard', params: { reporterId: country.id }}" -->
-
             <span v-bind:class="[countryFlag(country.abbr), 'flag-icon']"></span>{{country.name}}
           </b-dropdown-item>
         </b-nav-item-dropdown>
 
+        <!-- language select -->
+        <em>
+          Language
+          <span>{{currentLang}}</span>
+        </em>
+        <b-nav-item-dropdown right>
+          <!-- Using button-content slot -->
+          <b-dropdown-item
+            v-for="lang in availableLanguages"
+            :key='lang.lang'
+            @click="setLang(lang)"
+            href="#"
+          >
+           {{lang.text}}
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
+
+        <!-- user select -->
         <b-nav-item-dropdown right v-if="userProfile">
           <!-- Using button-content slot -->
           <template slot="button-content">
@@ -50,13 +67,14 @@
           <b-dropdown-item @click="logout" href="#">Log out</b-dropdown-item>
         </b-nav-item-dropdown>
 
+
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
 
 <script>
-import { fetchUserProfile } from '../api';
+import { fetchUserProfile, setApiLang, getSupportedLanguages } from '../api';
 import authMixin from '../mixins/auth'
 
 export default {
@@ -71,12 +89,15 @@ export default {
       currentCountry: null,
       userProfile: null,
       countryStyleClass: null,
+      currentLang: null,
+      availableLanguages: [],
     };
   },
 
 
   created() {
     this.renderFunction();
+    this.getAvailableLanguages();
   },
 
   watch: {
@@ -86,6 +107,19 @@ export default {
   },
 
   methods: {
+    setLang(lang) {
+      this.currentLang = lang.text;
+      this.$router.push({ query: { lang: lang.lang }});
+    },
+
+    getAvailableLanguages() {
+      getSupportedLanguages()
+        .then((langs) => { 
+          this.availableLanguages = langs;
+          const langObj = this.availableLanguages[this.$i18n.locale] || this.availableLanguages[this.$i18n.fallbackLocale];
+          this.currentLang = langObj.text;
+        });
+    },
 
     renderFunction() {
       if(this.$cookies.get('authToken')) {

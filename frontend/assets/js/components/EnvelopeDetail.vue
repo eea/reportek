@@ -331,8 +331,11 @@
 
         <div class="sidebar-item">
           <div class="status-control">
+            <!-- <div class="status-control-header yellow-bg">
+              Envelope status: {{ translateCode(envelope.workflow.current_state) }}
+            </div> -->
             <div class="status-control-header yellow-bg">
-              Envelope status: {{translateCode(envelope.workflow.current_state)}}
+              {{ $t('envelope_status') }}: {{ translateCode(envelope.workflow.current_state) }}
             </div>
            <div class="status-control-body">
             <div>{{envelope.files.length}} files uploaded</div>

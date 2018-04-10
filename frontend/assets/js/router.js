@@ -10,6 +10,7 @@ import ObligationDetail from './components/ObligationDetail';
 import ObligationsPending from './components/ObligationsPending';
 import FileDetails from './components/FileDetails';
 import Login from './components/Login';
+import { loadLanguageAsync } from './setup/i18n-setup'
 
 Vue.use(Router);
 
@@ -88,7 +89,17 @@ const routerOptions = {
 
 const router = new Router(routerOptions);
 
+/**
+ * on each route change it will check:
+ * - authentication
+ * - language for translation, the language will only be set here!!
+ * other component will only trigger the language change by setting
+ * the router query to the desired language
+ */
 router.beforeEach((to, from, next) => {
+  const lang = to.query.lang;
+  loadLanguageAsync(lang).then(() => next());
+
   if (to.meta.requiresAuth) {
     const authToken = window.$cookies.get('authToken');
     
