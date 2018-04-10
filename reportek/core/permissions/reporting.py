@@ -17,7 +17,10 @@ error = log.error
 
 
 __all__ = [
-    'EnvelopePermissions', 'EnvelopeFilePermissions', 'EnvelopeOriginalFilePermissions'
+    'EnvelopePermissions',
+    'EnvelopeFilePermissions',
+    'EnvelopeOriginalFilePermissions',
+    'EnvelopeSupportFilePermissions',
 ]
 
 
@@ -165,4 +168,8 @@ class EnvelopeFilePermissions(BaseEnvelopeFilePermissions):
 
 
 class EnvelopeOriginalFilePermissions(BaseEnvelopeFilePermissions):
+    pass
+
+
+class EnvelopeSupportFilePermissions(BaseEnvelopeFilePermissions):
     pass
