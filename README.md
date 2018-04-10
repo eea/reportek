@@ -30,3 +30,5 @@ npm test
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 venv
+
+For testing on mac jdk8 is needed, later versions, like 10 will create a conflict with selenium https://github.com/SeleniumHQ/selenium/issues/4964
