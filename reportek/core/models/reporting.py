@@ -151,6 +151,16 @@ class Envelope(models.Model):
     def auto_qa_ok(self):
         return self.auto_qa_complete and all([r.ok for r in self.auto_qa_results])
 
+    @transaction.atomic
+    def delete_qa_results(self, force=False):
+        """
+        Removes the `QAJob`s and corresponding `QAJobResult`s for the envelope's files.
+        Unless `force` is `True`, this will not be done while there are unfinished QA
+        jobs.
+        """
+        for f in self.files:
+            f.delete_qa_results(force=force)
+
     @property
     def channel(self):
         """The envelope's WebSocket channel name"""
@@ -457,10 +467,21 @@ class EnvelopeFile(BaseEnvelopeFile):
 
     @property
     def qa_results(self):
-        try:
-            return QAJobResult.objects.filter(job__in=self.qa_jobs.all()).all()
-        except QAJobResult.DoesNotExist:
-            return None
+        return QAJobResult.objects.filter(job__in=self.qa_jobs.all()).all()
+
+    def delete_qa_feedback(self, force=False):
+        """
+        Deletes the file's `QAJob`s and corresponding `QAJobResult`s.
+
+        Args:
+            force(bool): Unless this is `True`, an exception is raised
+             (and nothing is deleted) when there are unfinished jobs.
+
+        """
+        if not force and self.qa_jobs.filter(completed=False).exists():
+            raise RuntimeError('Cannot delete incomplete QAJobs')
+
+        self.qa_results.delete()
 
     @staticmethod
     def has_valid_extension(filename, include_archives=False, include_spreadsheets=False):
