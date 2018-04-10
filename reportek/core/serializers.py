@@ -18,7 +18,6 @@ from .models import (
     ReportingCycle,
     Envelope,
     EnvelopeFile,
-    EnvelopeOriginalFile,
     EnvelopeSupportFile,
     EnvelopeLink,
     BaseWorkflow,
@@ -56,44 +55,51 @@ class DynamicFieldsModelSerializer(serializers.ModelSerializer):
 
 
 class InstrumentSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Instrument
         fields = ('id', 'title', 'rod_url', 'created_at', 'updated_at')
 
 
 class ClientSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Client
         fields = ('id', 'name', 'abbr', 'rod_url', 'created_at', 'updated_at')
 
 
 class ReporterSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Reporter
-        fields = ('id', 'name', 'abbr', 'slug', 'rod_url',
-                  'subdivision_categories', 'created_at', 'updated_at')
+        fields = (
+            'id',
+            'name',
+            'abbr',
+            'slug',
+            'rod_url',
+            'subdivision_categories',
+            'created_at',
+            'updated_at',
+        )
 
 
 class ReporterSubdivisionSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ReporterSubdivision
         fields = ('id', 'name', 'rod_url', 'created_at', 'updated_at')
 
 
-class NestedReporterSubdivisionSerializer(NestedHyperlinkedModelSerializer,
-                                          ReporterSubdivisionSerializer):
+class NestedReporterSubdivisionSerializer(
+    NestedHyperlinkedModelSerializer, ReporterSubdivisionSerializer
+):
 
-    parent_lookup_kwargs = {
-        'category_pk': 'category__pk'
-    }
+    parent_lookup_kwargs = {'category_pk': 'category__pk'}
 
     class Meta(ReporterSubdivisionSerializer.Meta):
-        fields = ('url', ) + ReporterSubdivisionSerializer.Meta.fields
-        extra_kwargs = {
-            'url': {
-                'view_name': 'api:subdivision-detail',
-            }
-        }
+        fields = ('url',) + ReporterSubdivisionSerializer.Meta.fields
+        extra_kwargs = {'url': {'view_name': 'api:subdivision-detail'}}
 
 
 class ReporterSubdivisionCategorySerializer(serializers.ModelSerializer):
@@ -101,22 +107,39 @@ class ReporterSubdivisionCategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReporterSubdivisionCategory
-        fields = ('id', 'name', 'reporter', 'subdivisions', 'rod_url',
-                  'created_at', 'updated_at',)
+        fields = (
+            'id',
+            'name',
+            'reporter',
+            'subdivisions',
+            'rod_url',
+            'created_at',
+            'updated_at',
+        )
 
 
 class ReportingCycleDetailsSerializer(DynamicFieldsModelSerializer):
+
     class Meta:
         model = ReportingCycle
         fields = '__all__'
 
 
 class ReportingCycleSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ReportingCycle
-        fields = ('id', 'obligation', 'obligation_spec',
-                  'reporting_start_date', 'reporting_end_date',
-                  'is_open', 'rod_url', 'created_at', 'updated_at')
+        fields = (
+            'id',
+            'obligation',
+            'obligation_spec',
+            'reporting_start_date',
+            'reporting_end_date',
+            'is_open',
+            'rod_url',
+            'created_at',
+            'updated_at',
+        )
 
 
 class ObligationSpecSerializer(serializers.ModelSerializer):
@@ -124,41 +147,55 @@ class ObligationSpecSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ObligationSpec
-        fields = ('id', 'obligation_id', 'version', 'is_current', 'draft',
-                  'schema', 'workflow_class', 'qa_xmlrpc_uri', 'reporting_cycles',
-                  'rod_url', 'created_at', 'updated_at',)
+        fields = (
+            'id',
+            'obligation_id',
+            'version',
+            'is_current',
+            'draft',
+            'schema',
+            'workflow_class',
+            'qa_xmlrpc_uri',
+            'reporting_cycles',
+            'rod_url',
+            'created_at',
+            'updated_at',
+        )
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['reporting_cycles'] = ReportingCycleDetailsSerializer(
             instance.reporting_cycles.all(),
             many=True,
-            fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open')
+            fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open'),
         ).data
         return data
 
 
-class NestedObligationSpecSerializer(NestedHyperlinkedModelSerializer,
-                                     ObligationSpecSerializer):
+class NestedObligationSpecSerializer(
+    NestedHyperlinkedModelSerializer, ObligationSpecSerializer
+):
 
-    parent_lookup_kwargs = {
-        'obligation_pk': 'obligation__pk'
-    }
+    parent_lookup_kwargs = {'obligation_pk': 'obligation__pk'}
 
     class Meta(ObligationSpecSerializer.Meta):
-        fields = ('url', ) + ObligationSpecSerializer.Meta.fields
-        extra_kwargs = {
-            'url': {
-                'view_name': 'api:obligation-spec-detail',
-            }
-        }
+        fields = ('url',) + ObligationSpecSerializer.Meta.fields
+        extra_kwargs = {'url': {'view_name': 'api:obligation-spec-detail'}}
 
 
 class ObligationSpecReporterSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = ObligationSpecReporter
-        fields = ('id', 'spec', 'reporter', 'subdivision_category',
-                  'rod_url', 'created_at', 'updated_at',)
+        fields = (
+            'id',
+            'spec',
+            'reporter',
+            'subdivision_category',
+            'rod_url',
+            'created_at',
+            'updated_at',
+        )
 
 
 class ObligationSerializer(serializers.ModelSerializer):
@@ -167,18 +204,39 @@ class ObligationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Obligation
-        fields = ('id', 'title', 'description', 'instrument', 'terminated',
-                  'client', 'active_since', 'active_until', 'reporting_duration',
-                  'reporting_frequency', 'specs', 'rod_url', 'created_at',
-                  'updated_at',)
+        fields = (
+            'id',
+            'title',
+            'description',
+            'instrument',
+            'terminated',
+            'client',
+            'active_since',
+            'active_until',
+            'reporting_duration',
+            'reporting_frequency',
+            'specs',
+            'rod_url',
+            'created_at',
+            'updated_at',
+        )
 
 
 class PendingObligationSpecSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ObligationSpec
-        fields = ('id', 'version', 'is_current', 'draft', 'schema',
-                  'workflow_class', 'rod_url', 'created_at', 'updated_at')
+        fields = (
+            'id',
+            'version',
+            'is_current',
+            'draft',
+            'schema',
+            'workflow_class',
+            'rod_url',
+            'created_at',
+            'updated_at',
+        )
 
 
 class PendingReportingCycleSerializer(serializers.ModelSerializer):
@@ -188,9 +246,17 @@ class PendingReportingCycleSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ReportingCycle
-        fields = ('id', 'reporting_start_date', 'reporting_end_date',
-                  'is_open', 'rod_url', 'created_at', 'updated_at',
-                  'obligation_spec', 'subdivisions')
+        fields = (
+            'id',
+            'reporting_start_date',
+            'reporting_end_date',
+            'is_open',
+            'rod_url',
+            'created_at',
+            'updated_at',
+            'obligation_spec',
+            'subdivisions',
+        )
 
 
 class PendingObligationSerializer(serializers.ModelSerializer):
@@ -199,10 +265,22 @@ class PendingObligationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Obligation
-        fields = ('id', 'title', 'description', 'instrument', 'terminated',
-                  'client', 'active_since', 'active_until', 'reporting_duration',
-                  'reporting_frequency', 'rod_url', 'created_at',
-                  'updated_at', 'reporting_cycles')
+        fields = (
+            'id',
+            'title',
+            'description',
+            'instrument',
+            'terminated',
+            'client',
+            'active_since',
+            'active_until',
+            'reporting_duration',
+            'reporting_frequency',
+            'rod_url',
+            'created_at',
+            'updated_at',
+            'reporting_cycles',
+        )
 
 
 class EnvelopeFileSerializer(serializers.ModelSerializer):
@@ -211,55 +289,40 @@ class EnvelopeFileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = EnvelopeFile
-        fields = ('id', 'name', 'content_url', 'restricted', 'uploader', 'size', 'created', 'updated')
-        read_only_fields = ('content', 'uploader', 'size', 'created', 'updated')
+        fields = (
+            'id',
+            'name',
+            'content_url',
+            'restricted',
+            'uploader',
+            'size',
+            'created',
+            'updated',
+            'original_file',
+            'is_support',
+        )
+        read_only_fields = ('content', 'uploader', 'size', 'created', 'updated', 'original_file')
 
     @staticmethod
     def get_content_url(obj):
         return obj.fq_download_url
 
 
-class NestedEnvelopeFileSerializer(NestedHyperlinkedModelSerializer,
-                                   EnvelopeFileSerializer):
-    parent_lookup_kwargs = {
-        'envelope_pk': 'envelope__pk'
-    }
+class NestedEnvelopeFileSerializer(
+    NestedHyperlinkedModelSerializer, EnvelopeFileSerializer
+):
+    parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
     class Meta(EnvelopeFileSerializer.Meta):
-        fields = ('url', ) + EnvelopeFileSerializer.Meta.fields
-        extra_kwargs = {
-            'url': {
-                'view_name': 'api:envelope-file-detail',
-            }
-        }
+        fields = ('url',) + EnvelopeFileSerializer.Meta.fields
+        extra_kwargs = {'url': {'view_name': 'api:envelope-file-detail'}}
 
 
 class CreateEnvelopeFileSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = EnvelopeFile
         fields = ('file', 'uploader')
-
-
-class EnvelopeOriginalFileSerializer(EnvelopeFileSerializer):
-
-    class Meta(EnvelopeFileSerializer.Meta):
-        model = EnvelopeOriginalFile
-
-
-class NestedEnvelopeOriginalFileSerializer(NestedEnvelopeFileSerializer):
-
-    class Meta(NestedEnvelopeFileSerializer.Meta):
-        model = EnvelopeOriginalFile
-        extra_kwargs = {
-            'url': {
-                'view_name': 'api:envelope-original-file-detail',
-            }
-        }
-
-
-class CreateEnvelopeOriginalFileSerializer(CreateEnvelopeFileSerializer):
-    class Meta(CreateEnvelopeFileSerializer.Meta):
-        model = EnvelopeOriginalFile
 
 
 class EnvelopeSupportFileSerializer(EnvelopeFileSerializer):
@@ -271,64 +334,56 @@ class EnvelopeSupportFileSerializer(EnvelopeFileSerializer):
 class NestedEnvelopeSupportFileSerializer(NestedEnvelopeFileSerializer):
 
     class Meta(NestedEnvelopeFileSerializer.Meta):
-        model = EnvelopeOriginalFile
-        extra_kwargs = {
-            'url': {
-                'view_name': 'api:envelope-support-file-detail',
-            }
-        }
+        model = EnvelopeSupportFile
+        extra_kwargs = {'url': {'view_name': 'api:envelope-support-file-detail'}}
 
 
 class CreateEnvelopeSupportFileSerializer(CreateEnvelopeFileSerializer):
+
     class Meta(CreateEnvelopeFileSerializer.Meta):
         model = EnvelopeSupportFile
 
 
 class EnvelopeWorkflowSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = BaseWorkflow
         fields = '__all__'
 
 
 class NestedEnvelopeWorkflowSerializer(
-        NestedHyperlinkedModelSerializer, EnvelopeWorkflowSerializer):
+    NestedHyperlinkedModelSerializer, EnvelopeWorkflowSerializer
+):
 
-    parent_lookup_kwargs = {
-        'envelope_pk': 'envelope__pk'
-    }
+    parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
     class Meta(EnvelopeWorkflowSerializer.Meta):
-        fields = ('current_state', 'previous_state',
-                  'available_transitions', 'upload_allowed',
-                  'updated_at',
-                  )
-        extra_kwargs = {
-            'url': {
-                'view_name': 'api:envelope-workflow-detail',
-            }
-        }
+        fields = (
+            'current_state',
+            'previous_state',
+            'available_transitions',
+            'upload_allowed',
+            'updated_at',
+        )
+        extra_kwargs = {'url': {'view_name': 'api:envelope-workflow-detail'}}
 
 
 class UploadTokenSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = UploadToken
         fields = '__all__'
 
 
 class NestedUploadTokenSerializer(
-        NestedHyperlinkedModelSerializer, UploadTokenSerializer):
+    NestedHyperlinkedModelSerializer, UploadTokenSerializer
+):
 
-    parent_lookup_kwargs = {
-        'envelope_pk': 'envelope__pk'
-    }
+    parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
     class Meta(UploadTokenSerializer.Meta):
         fields = ('id', 'created_at', 'token', 'filename', 'tus_id')
-        extra_kwargs = {
-            'url': {
-                'view_name': 'api:envelope-token-detail',
-            }
-        }
+        extra_kwargs = {'url': {'view_name': 'api:envelope-token-detail'}}
 
 
 class EnvelopeLinkSerializer(serializers.ModelSerializer):
@@ -338,24 +393,18 @@ class EnvelopeLinkSerializer(serializers.ModelSerializer):
         fields = ('id', 'link', 'text')
 
 
-class NestedEnvelopeLinkSerializer(NestedHyperlinkedModelSerializer,
-                                   EnvelopeLinkSerializer):
-    parent_lookup_kwargs = {
-        'envelope_pk': 'envelope__pk'
-    }
+class NestedEnvelopeLinkSerializer(
+    NestedHyperlinkedModelSerializer, EnvelopeLinkSerializer
+):
+    parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
     class Meta(EnvelopeLinkSerializer.Meta):
-        fields = ('url', ) + EnvelopeLinkSerializer.Meta.fields
-        extra_kwargs = {
-            'url': {
-                'view_name': 'api:envelope-link-detail',
-            }
-        }
+        fields = ('url',) + EnvelopeLinkSerializer.Meta.fields
+        extra_kwargs = {'url': {'view_name': 'api:envelope-link-detail'}}
 
 
 class EnvelopeSerializer(serializers.ModelSerializer):
     files = NestedEnvelopeFileSerializer(many=True, read_only=True)
-    original_files = NestedEnvelopeOriginalFileSerializer(many=True, read_only=True)
     support_files = NestedEnvelopeSupportFileSerializer(many=True, read_only=True)
     links = NestedEnvelopeLinkSerializer(many=True, read_only=True)
     workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
@@ -363,17 +412,14 @@ class EnvelopeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Envelope
         fields = '__all__'
-        read_only_fields = (
-            'workflow',
-            'finalized',
-        )
+        read_only_fields = ('workflow', 'finalized')
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         data['reporting_cycle'] = ReportingCycleDetailsSerializer(
             instance.reporting_cycle,
             many=False,
-            fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open')
+            fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open'),
         ).data
         return data
 
@@ -396,12 +442,14 @@ class QAJobSerializer(serializers.ModelSerializer):
 
 
 class GroupSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Group
         fields = ('name',)
 
 
 class WorkspaceReporterSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Reporter
         fields = ('id', 'name', 'abbr')
@@ -417,6 +465,7 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
     def get_reporters(obj):
         if not obj.is_authenticated():
             return []
+
         return [WorkspaceReporterSerializer(r).data for r in obj.get_reporters()]
 
     @staticmethod
@@ -427,24 +476,33 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
     def get_ldap_groups(obj):
         if not obj.is_authenticated():
             return []
+
         return sorted([g.name for g in obj.ldap_groups])
 
     @staticmethod
     def get_effective_groups(obj):
         if not obj.is_authenticated():
             return []
+
         return sorted([g.name for g in obj.effective_groups])
 
     class Meta:
         model = ReportekUser
-        fields = ('username', 'first_name', 'last_name', 'email',
-                  'groups', 'ldap_groups', 'effective_groups',
-                  'reporters')
+        fields = (
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'groups',
+            'ldap_groups',
+            'effective_groups',
+            'reporters',
+        )
 
 
 class WorkspaceEnvelopeSerializer(EnvelopeSerializer):
     files = EnvelopeFileSerializer(many=True, read_only=True)
-    original_files = EnvelopeOriginalFileSerializer(many=True, read_only=True)
+    support_files = EnvelopeSupportFileSerializer(many=True, read_only=True)
     obligation = serializers.SerializerMethodField()
 
     @staticmethod

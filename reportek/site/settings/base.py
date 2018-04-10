@@ -15,16 +15,14 @@ import datetime
 from pathlib import Path
 import ldap
 from django.core.exceptions import ImproperlyConfigured
-from django_auth_ldap.config import (
-    LDAPSearch,
-    NestedGroupOfUniqueNamesType
-)
+from django_auth_ldap.config import (LDAPSearch, NestedGroupOfUniqueNamesType)
 
 
 def get_env_var(var_name, default=None):
     var = os.getenv(var_name, default)
     if var is None and default is None:
         raise ImproperlyConfigured(f'Set the {var_name} environment variable')
+
     return var
 
 
@@ -37,9 +35,12 @@ def get_int_env_var(var_name, default=None):
     var = get_env_var(var_name, default)
     try:
         return int(var)
+
     except ValueError:
-        raise ImproperlyConfigured(f'Environment variable {var_name} '
-                                   f'must be an integer or integer-convertible string')
+        raise ImproperlyConfigured(
+            f'Environment variable {var_name} '
+            f'must be an integer or integer-convertible string'
+        )
 
 
 def split_env_var(var_name, sep=','):
@@ -50,8 +51,12 @@ def split_env_var(var_name, sep=','):
 def validate_dir(path):
     if not path.exists():
         raise FileNotFoundError(f'Missing required directory: {path}')
+
     if not path.is_dir():
-        raise FileNotFoundError(f'Required directory not found (exists as file): {path}')
+        raise FileNotFoundError(
+            f'Required directory not found (exists as file): {path}'
+        )
+
     return path
 
 
@@ -81,8 +86,15 @@ REPORTEK_USE_TLS = get_bool_env_var('REPORTEK_USE_TLS')
 
 TUSD_UPLOADS_DIR = get_env_var('TUSD_UPLOADS_DIR')
 ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS = split_env_var('ALLOWED_UPLOADS_ARCHIVE_EXTENSIONS')
-ALLOWED_UPLOADS_ORIGINAL_EXTENSIONS = split_env_var('ALLOWED_UPLOADS_ORIGINAL_EXTENSIONS')
 ALLOWED_UPLOADS_EXTENSIONS = split_env_var('ALLOWED_UPLOADS_EXTENSIONS')
+ALLOWED_UPLOADS_CONVERTIBLE_EXTENSIONS = split_env_var(
+    'ALLOWED_UPLOADS_CONVERTIBLE_EXTENSIONS'
+)
+
+ALLOWED_UPLOADS_EXTENSIONS = set(ALLOWED_UPLOADS_EXTENSIONS).union(
+    set(ALLOWED_UPLOADS_CONVERTIBLE_EXTENSIONS)
+)
+
 
 # QA
 QA_DEFAULT_XMLRPC_URI = get_env_var('QA_DEFAULT_XMLRPC_URI')
@@ -143,10 +155,8 @@ REDIS_HOST = get_env_var('REDIS_HOST')
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
-        'CONFIG': {
-            'hosts': [(REDIS_HOST, 6379)],
-        },
-    },
+        'CONFIG': {'hosts': [(REDIS_HOST, 6379)]},
+    }
 }
 
 ASGI_APPLICATION = 'reportek.site.routing.application'
@@ -160,9 +170,7 @@ ROOT_URLCONF = 'reportek.site.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            ROOT_DIR / 'templates',
-        ],
+        'DIRS': [ROOT_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -170,9 +178,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-            ],
+            ]
         },
-    },
+    }
 ]
 
 WSGI_APPLICATION = 'reportek.site.wsgi.application'
@@ -181,12 +189,8 @@ WSGI_APPLICATION = 'reportek.site.wsgi.application'
 # DRF
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'reportek.core.authentication.ExpiringTokenAuthentication',
-        # 'rest_framework.authentication.TokenAuthentication',
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework.authentication.BasicAuthentication', 'rest_framework.authentication.SessionAuthentication', 'reportek.core.authentication.ExpiringTokenAuthentication'),
+    # 'rest_framework.authentication.TokenAuthentication',
     'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
@@ -200,31 +204,25 @@ DATABASES = {
         'NAME': POSTGRES_DB,
         'HOST': POSTGRES_HOST,
         'USER': POSTGRES_USER,
-        'PASSWORD': POSTGRES_PASSWORD
+        'PASSWORD': POSTGRES_PASSWORD,
     }
 }
 
 
-SILENCED_SYSTEM_CHECKS = [
-    'fields.W342',  # Disable OneToOneField recommendation
-]
+SILENCED_SYSTEM_CHECKS = ['fields.W342']  # Disable OneToOneField recommendation
 
 AUTH_USER_MODEL = 'core.ReportekUser'
 
 AUTH_LDAP_SERVER_URI = get_env_var('LDAP_URI')
 
-AUTH_LDAP_CONNECTION_OPTIONS = {
-    ldap.OPT_REFERRALS: 0
-}
+AUTH_LDAP_CONNECTION_OPTIONS = {ldap.OPT_REFERRALS: 0}
 
 AUTH_LDAP_BIND_DN = get_env_var('LDAP_BIND_DN')
 AUTH_LDAP_BIND_PASSWORD = get_env_var('LDAP_BIND_PASSWORD')
 AUTH_LDAP_USER_DN_TEMPLATE = get_env_var('LDAP_USER_DN_TEMPLATE')
 
 AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
-    get_env_var('LDAP_ROLES_DN'),
-    ldap.SCOPE_SUBTREE,
-    '(objectClass=groupOfUniqueNames)'
+    get_env_var('LDAP_ROLES_DN'), ldap.SCOPE_SUBTREE, '(objectClass=groupOfUniqueNames)'
 )
 AUTH_LDAP_GROUP_TYPE = NestedGroupOfUniqueNamesType(name_attr='cn')
 AUTH_LDAP_REQUIRE_GROUP = get_env_var('LDAP_ROLES_DN')
@@ -237,9 +235,7 @@ AUTH_LDAP_CACHE_GROUPS = False
 # AUTH_LDAP_GROUP_CACHE_TIMEOUT = 300
 
 AUTH_LDAP_USER_ATTR_MAP = {
-    'first_name': 'givenName',
-    'last_name': 'sn',
-    'email': 'mail'
+    'first_name': 'givenName', 'last_name': 'sn', 'email': 'mail'
 }
 
 AUTHENTICATION_BACKENDS = [
@@ -248,7 +244,9 @@ AUTHENTICATION_BACKENDS = [
     'guardian.backends.ObjectPermissionBackend',
 ]
 
-TOKEN_EXPIRE_INTERVAL = datetime.timedelta(days=get_int_env_var('TOKEN_EXPIRE_INTERVAL'))
+TOKEN_EXPIRE_INTERVAL = datetime.timedelta(
+    days=get_int_env_var('TOKEN_EXPIRE_INTERVAL')
+)
 
 ANONYMOUS_USER_NAME = 'anonymous'
 
@@ -260,17 +258,11 @@ REPORTNET_API_CLIENTS_GROUP = 'reportnet-api-clients'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'
     },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 # Internationalization
@@ -310,21 +302,14 @@ _WEBPACK_DIST_DIR = ROOT_DIR / 'frontend' / 'dist'
 # because the staticfiles app breaks if the directory doesn't exist.)
 _WEBPACK_BUILD_DIR = _WEBPACK_DIST_DIR / 'build'
 if _WEBPACK_BUILD_DIR.is_dir():
-    STATICFILES_DIRS = (
-        _WEBPACK_BUILD_DIR,
-    )
+    STATICFILES_DIRS = (_WEBPACK_BUILD_DIR,)
 
 WEBPACK_LOADER = {
-    'DEFAULT': {
-        'BUNDLE_DIR_NAME': '',
-        'STATS_FILE': _WEBPACK_DIST_DIR / 'stats.json',
-    },
+    'DEFAULT': {'BUNDLE_DIR_NAME': '', 'STATS_FILE': _WEBPACK_DIST_DIR / 'stats.json'}
 }
 
 
-FIXTURE_DIRS = [
-    ROOT_DIR / 'data' / 'fixtures'
-]
+FIXTURE_DIRS = [ROOT_DIR / 'data' / 'fixtures']
 
 
 # Celery
@@ -360,38 +345,27 @@ LOGGING = {
         'simple': {
             'format': '%(asctime)s [%(levelname)s] %(message)s',
             'datefmt': '%Y-%m-%d %H:%M:%S',
-        },
+        }
     },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-    },
+    'handlers': {'console': {'class': 'logging.StreamHandler', 'formatter': 'simple'}},
     'loggers': {
         'django': {
-            'handlers': ['console'],
-            'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO'),
+            'handlers': ['console'], 'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO')
         },
         'django_auth_ldap': {
-            'handlers': ['console'],
-            'level': get_env_var('LDAP_LOG_LEVEL', 'INFO'),
+            'handlers': ['console'], 'level': get_env_var('LDAP_LOG_LEVEL', 'INFO')
         },
         'reportek.workflows': {
-            'handlers': ['console'],
-            'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO'),
+            'handlers': ['console'], 'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO')
         },
         'reportek.auth': {
-            'handlers': ['console'],
-            'level': get_env_var('AUTH_LOG_LEVEL', 'INFO'),
+            'handlers': ['console'], 'level': get_env_var('AUTH_LOG_LEVEL', 'INFO')
         },
         'reportek.qa': {
-            'handlers': ['console'],
-            'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO'),
+            'handlers': ['console'], 'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO')
         },
         'reportek.tasks': {
-            'handlers': ['console'],
-            'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO'),
+            'handlers': ['console'], 'level': get_env_var('DJANGO_LOG_LEVEL', 'INFO')
         },
     },
 }
