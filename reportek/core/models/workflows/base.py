@@ -59,6 +59,9 @@ class BaseWorkflow(TypedModel):
     final_state = None
     upload_states = []
 
+    # When set, envelopes will be unassigned after each transition
+    unassign_after_transition = True
+
     @property
     def finished(self):
         return self.current_state == self.final_state
@@ -69,11 +72,16 @@ class BaseWorkflow(TypedModel):
 
     @property
     def available_transitions(self):
+        """
+        Property returning the list of available transitions from the current state.
+        Availability takes into account the workflow's checks.
+        """
         state = self.xwf.state.workflow.states[self.current_state]
         return [
             t.name
             for t in self.xwf.state.workflow.transitions
             if state.name in [s.name for s in t.source]
+            and getattr(self.xwf, t.name).is_available()  # ImplementationWrapper
         ]
 
     def submit_xml_to_qa(self):
@@ -173,6 +181,9 @@ class BaseWorkflow(TypedModel):
         Builds a workflow-enabled class and returns an instance set to the current state.
         """
 
+        def transition_check_if_assigned(self, *args, **kwargs):
+            return self.bearer.envelope.is_assigned
+
         def post_transition(self, *args, **kwargs):
             """After transition hook applied to all workflows"""
 
@@ -181,6 +192,9 @@ class BaseWorkflow(TypedModel):
             self.bearer.previous_state = self.bearer.current_state
             self.bearer.current_state = self.state.name
             self.bearer.save()
+            if self.bearer.unassign_after_transition:
+                self.bearer.envelope.assigned_to = None
+                self.bearer.envelope.save()
             # Mark envelope as finazized when workflow is done
             if self.bearer.finished:
                 self.bearer.envelope.finalized = True
@@ -211,6 +225,7 @@ class BaseWorkflow(TypedModel):
             {
                 'state': self.xwf_cls(),
                 'bearer': self,
+                'transition_check': xwf.transition_check()(transition_check_if_assigned),
                 'post_transition': xwf.after_transition()(post_transition),
                 # XWorkflows needs __module__ set on the enabled class
                 '__module__': __name__
@@ -233,7 +248,12 @@ class BaseWorkflow(TypedModel):
         if name not in [t.name for t in wf.state.transitions()]:
             raise self.TransitionNotAvailable('Transition not allowed from current state')
 
-        getattr(wf, name)()
+        transition = getattr(wf, name)
+
+        if not transition.is_available():
+            raise self.TransitionNotAvailable('Transition checks not satisfied')
+
+        transition()
 
     def to_json_graph(self):
         """
