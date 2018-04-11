@@ -52,7 +52,7 @@ class WorkspaceReporterViewSet(PendingObligationsMixin,
     Lists the `Reporter`s for which the user can report, and the detail views:
 
     wip:
-    Lists evelopes in progress.
+    Lists envelopes in progress.
 
     archive:
     Lists archived (finalized) envelopes.
@@ -69,7 +69,7 @@ class WorkspaceReporterViewSet(PendingObligationsMixin,
     @staticmethod
     def get_envelopes(user, reporter, finalized=False, serialize=True):
         envelopes = Envelope.objects.filter(
-            author=user,
+            assigned_to=user,
             reporter=reporter,
             finalized=finalized
         )
