@@ -5,7 +5,7 @@ import { getTranslationForLanguage, setApiLang } from '../api/i18n_api'
 Vue.use(VueI18n);
 
 export const i18n = new VueI18n({
-  locale: 'en', // set locale
+  locale: window.navigator.language || 'en', // set locale
   fallbackLocale: 'en',
 });
 

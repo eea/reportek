@@ -4,6 +4,11 @@ import axios from 'axios';
 
 
 const langMessages = {
+  'en-US': {
+    'reporting_for': 'Reporting for',
+    'country_question': 'Which country are you reporting for?',
+    'envelope_status': 'Envelope Status',
+  },
   'en': {
     'reporting_for': 'Reporting for',
     'country_question': 'Which country are you reporting for?',
@@ -17,7 +22,7 @@ const langMessages = {
 }
 const languages = {
   en : {
-    lang: 'en',
+    lang: 'en-US',
     text: 'En'
   }, 
   ja: { 
