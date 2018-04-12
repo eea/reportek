@@ -25,7 +25,6 @@ from django.core.files import File
 from ...models import (
     Envelope,
     EnvelopeFile,
-    EnvelopeOriginalFile,
     EnvelopeSupportFile,
     EnvelopeLink,
     BaseWorkflow,
@@ -39,7 +38,6 @@ from ...models import (
 from ...serializers import (
     EnvelopeSerializer,
     EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
-    EnvelopeOriginalFileSerializer, CreateEnvelopeOriginalFileSerializer,
     EnvelopeSupportFileSerializer, CreateEnvelopeSupportFileSerializer,
     EnvelopeLinkSerializer,
     NestedEnvelopeWorkflowSerializer,
@@ -55,7 +53,6 @@ from reportek.core.utils import path_parts
 
 from reportek.core.qa import RemoteQA
 from reportek.core.conversion import RemoteConversion
-from reportek.core.utils import fully_qualify_url
 
 
 log = logging.getLogger('reportek')
@@ -67,7 +64,6 @@ error = log.error
 __all__ = [
     'EnvelopeViewSet',
     'EnvelopeFileViewSet',
-    'EnvelopeOriginalFileViewSet',
     'EnvelopeSupportFileViewSet',
     'EnvelopeLinkViewSet',
     'EnvelopeWorkflowViewSet',
@@ -346,73 +342,6 @@ class EnvelopeFileMixin:
             uploader_id=self.request.user.pk,
         )
 
-    @detail_route(methods=['get', 'head'], renderer_classes=(StaticHTMLRenderer,))
-    def download(self, request, envelope_pk, pk):
-        envelope_file = self.get_object()
-        _file = envelope_file.file
-        relpath = _file.name
-
-        if relpath is None or relpath == '':
-            return Response(status=status.HTTP_404_NOT_FOUND)
-
-        if settings.DEBUG:
-            response = static.serve(
-                request,
-                path=relpath,
-                document_root=_file.storage.location)
-        else:
-            # this does "X-Sendfile" on nginx, see
-            # https://www.nginx.com/resources/wiki/start/topics/examples/x-accel/
-            response = Response(
-                headers={
-                    'X-Accel-Redirect': _file.storage.download_url(relpath)
-                }
-            )
-        return response
-
-
-class EnvelopeOriginalFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
-
-    permission_classes_map = {
-        'default': [permissions.EnvelopeOriginalFilePermissions],
-        'list': [IsAuthenticatedOrReadOnly],
-        'retrieve': [IsAuthenticatedOrReadOnly],
-        'download': [IsAuthenticatedOrReadOnly]
-    }
-
-    _model = EnvelopeOriginalFile
-    _serializer = EnvelopeOriginalFileSerializer
-    _create_serializer = CreateEnvelopeOriginalFileSerializer
-
-
-class EnvelopeSupportFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
-
-    permission_classes_map = {
-        'default': [permissions.EnvelopeSupportFilePermissions],
-        'list': [IsAuthenticatedOrReadOnly],
-        'retrieve': [IsAuthenticatedOrReadOnly],
-        'download': [IsAuthenticatedOrReadOnly]
-    }
-
-    _model = EnvelopeSupportFile
-    _serializer = EnvelopeSupportFileSerializer
-    _create_serializer = CreateEnvelopeSupportFileSerializer
-
-
-class EnvelopeFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
-
-    permission_classes_map = {
-        'default': [permissions.EnvelopeFilePermissions],
-        'list': [IsAuthenticatedOrReadOnly],
-        'retrieve': [IsAuthenticatedOrReadOnly],
-        'download': [IsAuthenticatedOrReadOnly],
-        'download_archive': [IsAuthenticatedOrReadOnly]
-    }
-
-    _model = EnvelopeFile
-    _serializer = EnvelopeFileSerializer
-    _create_serializer = CreateEnvelopeFileSerializer
-
     @staticmethod
     def get_ids_or_404(queryset, ids):
         """
@@ -466,8 +395,6 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.Mo
                     'X-Accel-Redirect': _file.storage.download_url(relpath)
                 }
             )
-
-        response['Content-Disposition'] = f'attachment; filename={relpath}'
         return response
 
     @list_route(methods=['get', 'head'], renderer_classes=(StaticHTMLRenderer,))
@@ -512,6 +439,35 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.Mo
 
             response['Content-Disposition'] = f'attachment; filename={archive_name}'
             return response
+
+
+class EnvelopeSupportFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
+
+    permission_classes_map = {
+        'default': [permissions.EnvelopeSupportFilePermissions],
+        'list': [IsAuthenticatedOrReadOnly],
+        'retrieve': [IsAuthenticatedOrReadOnly],
+        'download': [IsAuthenticatedOrReadOnly]
+    }
+
+    _model = EnvelopeSupportFile
+    _serializer = EnvelopeSupportFileSerializer
+    _create_serializer = CreateEnvelopeSupportFileSerializer
+
+
+class EnvelopeFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
+
+    permission_classes_map = {
+        'default': [permissions.EnvelopeFilePermissions],
+        'list': [IsAuthenticatedOrReadOnly],
+        'retrieve': [IsAuthenticatedOrReadOnly],
+        'download': [IsAuthenticatedOrReadOnly],
+        'download_archive': [IsAuthenticatedOrReadOnly]
+    }
+
+    _model = EnvelopeFile
+    _serializer = EnvelopeFileSerializer
+    _create_serializer = CreateEnvelopeFileSerializer
 
     @detail_route(methods=['get'])
     def qa_scripts(self, request, envelope_pk, pk):
@@ -868,12 +824,10 @@ class UploadHookView(viewsets.ViewSet):
 
             # Support files
             if is_support_file:
-                support_file, is_new = EnvelopeSupportFile.get_or_create(
-                    token.envelope,
-                    file_name
+                support_file, is_new = EnvelopeSupportFile.objects.get_or_create(
+                    envelope=token.envelope,
+                    file=file_name
                 )
-                if not is_new:
-                    token.envelope.delete_disk_file(file_name)
 
                 support_file.file.save(file_name, File(file_path.open(mode='rb')))
                 support_file.uploader = token.user
@@ -881,12 +835,10 @@ class UploadHookView(viewsets.ViewSet):
 
             # Regular files
             elif file_ext in settings.ALLOWED_UPLOADS_EXTENSIONS:
-                envelope_file, is_new = EnvelopeFile.get_or_create(
-                    token.envelope,
-                    file_name
+                envelope_file, is_new = EnvelopeFile.objects.get_or_create(
+                    envelope=token.envelope,
+                    file=file_name
                 )
-                if not is_new:
-                    token.envelope.delete_disk_file(file_name)
 
                 envelope_file.file.save(file_name, File(file_path.open(mode='rb')))
                 if file_ext == 'xml':
@@ -894,49 +846,6 @@ class UploadHookView(viewsets.ViewSet):
 
                 envelope_file.uploader = token.user
                 envelope_file.save()
-
-            # Spreadsheet files that will generate XML on the envelopes
-            elif file_ext in settings.ALLOWED_UPLOADS_ORIGINAL_EXTENSIONS:
-                envelope_original_file, is_new = EnvelopeOriginalFile.get_or_create(
-                    token.envelope,
-                    file_name
-                )
-
-                # Save the original envelope file
-                envelope_original_file.file.save(file_name, File(file_path.open(mode='rb')))
-                envelope_original_file.uploader = token.user
-                envelope_original_file.save()
-
-                # Try to convert to xml file(s)
-                file_url = envelope_original_file.fq_download_url
-                remote_conversion = RemoteConversion(
-                    token.envelope.obligation_spec.qa_xmlrpc_uri
-                )
-                result = remote_conversion.convert_spreadsheet_to_xml(file_url)
-
-                if result['resultCode'] != '0':
-                    # This also deletes the actual disk file
-                    envelope_original_file.delete()
-                    # TODO: also inform the user
-
-                # Now save every XML file resulted from the original's conversion
-                for converted_file in result['convertedFiles']:
-                    # TODO: factor this out in a func/method
-                    envelope_file, is_new = EnvelopeFile.get_or_create(
-                        token.envelope,
-                        converted_file['fileName']
-                    )
-                    if not is_new:
-                        token.envelope.delete_disk_file(converted_file['fileName'])
-                    envelope_file.file.save(envelope_file.name, ContentFile(converted_file['content'].data))
-
-                    file_ext = envelope_file.name.split('.')[-1].lower()
-                    if file_ext == 'xml':
-                        envelope_file.xml_schema = envelope_file.extract_xml_schema()
-
-                    envelope_file.uploader = token.user
-                    envelope_file.original_file = envelope_original_file
-                    envelope_file.save()
 
             # Archives, currently zip only
             elif file_ext == 'zip':
@@ -952,12 +861,10 @@ class UploadHookView(viewsets.ViewSet):
                             else:
                                 member_name = '_'.join([p.replace(' ', '') for p in path_parts(zip_member)])
                             member_ext = member_name.split('.')[-1].lower()
-                            envelope_file, is_new = EnvelopeFile.get_or_create(
-                                token.envelope,
-                                member_name
+                            envelope_file, is_new = EnvelopeFile.objects.get_or_create(
+                                envelope=token.envelope,
+                                file=member_name
                             )
-                            if not is_new:
-                                token.envelope.delete_disk_file(member_name)
 
                             with up_zip.open(zip_member) as member_file:
                                 envelope_file.file.save(member_name, member_file)

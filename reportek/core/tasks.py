@@ -7,7 +7,7 @@ from reportek.site.celery import app
 import reportek.core.models  # avoid circular import errors
 
 from reportek.core.qa import RemoteQA
-from reportek.core.utils import fully_qualify_url
+
 
 log = logging.getLogger('reportek.tasks')
 info = log.info

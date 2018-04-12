@@ -6,7 +6,7 @@ from model_utils import FieldTracker
 from guardian.models import UserObjectPermissionBase
 from guardian.models import GroupObjectPermissionBase
 
-from .workflows import WORKFLOW_CLASSES
+from .workflows import WORKFLOW_CHOICES
 
 
 class RODModel(models.Model):
@@ -227,7 +227,7 @@ class ObligationSpec(RODModel):
     )
     workflow_class = models.CharField(
         max_length=256, null=True, blank=True,
-        choices=WORKFLOW_CLASSES
+        choices=WORKFLOW_CHOICES
     )
     qa_xmlrpc_uri = models.CharField(
         max_length=200,

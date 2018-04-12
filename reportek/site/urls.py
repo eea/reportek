@@ -30,7 +30,8 @@ API_VERSION = '0.1'
 
 
 urlpatterns = [
-    url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
+    # url(r'^api/%s/' % API_VERSION, include(api_urls, namespace='api')),
+    url(r'^api/%s/' % API_VERSION, include((api_urls, 'api'), namespace='api')),
     url(r'^admin/', admin.site.urls),
     url(r'^api-docs/', include_docs_urls(title='Reportek API Documentation', public=False)),
 ]
