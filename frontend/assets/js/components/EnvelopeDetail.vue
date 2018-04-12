@@ -270,6 +270,22 @@
 
             <div class="file-control-body">
               <b-button
+                @click="activateEnvelope"
+                variant="white sidebar-button"
+              >
+                <i class="far fa-folder-open"></i>
+                Activate Task
+              </b-button>
+
+              <b-button
+                @click="deactivateEnvelope"
+                variant="white sidebar-button"
+              >
+                <i class="far fa-folder-open"></i>
+                Deactivate Task
+              </b-button>
+
+              <b-button
                 v-show="selectedFiles"
                 @click="showModal"
                 variant="white sidebar-button"
@@ -382,7 +398,9 @@ import {
   runEnvelopeTransition,
   updateFile,
   removeFile,
-  uploadFile
+  uploadFile,
+  activateEnvelope,
+  deactivateEnvelope,
 } from '../api';
 import utilsMixin from '../mixins/utils.js';
 
@@ -432,6 +450,14 @@ export default {
   },
 
   methods: {
+
+    activateEnvelope() {
+      activateEnvelope(this.$route.params.envelopeId);
+    },
+
+    deactivateEnvelope() {
+      deactivateEnvelope(this.$route.params.envelopeId);
+    },
 
     handleSubscription() {
       const envelopeChannel = `/ws/envelopes/` + this.$route.params.envelopeId;

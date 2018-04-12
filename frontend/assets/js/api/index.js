@@ -101,6 +101,14 @@ export function fetchEnvelope(id) {
   return fetch(`envelopes/${id}/`);
 }
 
+export function activateEnvelope(id) {
+  return post(`envelopes/${id}/assign/`);
+}
+
+export function deactivateEnvelope(id) {
+  return post(`envelopes/${id}/unassign/`);
+}
+
 export function createEnvelope(envelope) {
   return post(`envelopes/`,
   {
