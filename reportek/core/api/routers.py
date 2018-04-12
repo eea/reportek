@@ -13,7 +13,6 @@ from .views import (
     ReportingCycleViewSet,
     EnvelopeViewSet,
     EnvelopeFileViewSet,
-    EnvelopeOriginalFileViewSet,
     EnvelopeSupportFileViewSet,
     EnvelopeLinkViewSet,
     EnvelopeWorkflowViewSet,
@@ -116,14 +115,6 @@ envelopes_router.register(
 )
 
 
-original_files_router = routers.NestedSimpleRouter(
-    envelopes_router, 'envelopes', lookup='envelope')
-original_files_router.register(
-    'original-files',
-    EnvelopeOriginalFileViewSet,
-    base_name='envelope-original-file'
-)
-
 support_files_router = routers.NestedSimpleRouter(
     envelopes_router, 'envelopes', lookup='envelope')
 support_files_router.register(
@@ -214,7 +205,6 @@ main_routers = [
 
 nested_routers = [
     files_router,
-    original_files_router,
     support_files_router,
     links_router,
     workflow_router,

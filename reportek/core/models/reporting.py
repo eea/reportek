@@ -1,18 +1,17 @@
 import os
 import logging
-import enum
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models.signals import post_save
 from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from typedmodels.models import TypedModel
-from edw.djutils import protected
-from model_utils import FieldTracker
+from model_utils import FieldTracker, Choices
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
@@ -62,16 +61,17 @@ class Envelope(models.Model):
     description = models.TextField(null=True, blank=True)
     coverage_note = models.CharField(max_length=256, null=True, blank=True)
 
-    reporter = models.ForeignKey(Reporter, related_name='envelopes')
-    obligation_spec = models.ForeignKey(ObligationSpec, related_name='envelopes')
+    # TODO: Review on_delete policy when implementing ROD integration
+    reporter = models.ForeignKey(Reporter, related_name='envelopes', on_delete=models.PROTECT)
+    obligation_spec = models.ForeignKey(ObligationSpec, related_name='envelopes', on_delete=models.PROTECT)
     reporter_subdivision = models.ForeignKey(
-        ReporterSubdivision, blank=True, null=True, related_name='envelopes'
+        ReporterSubdivision, blank=True, null=True, related_name='envelopes', on_delete=models.PROTECT
     )
-    reporting_cycle = models.ForeignKey(ReportingCycle, related_name='envelopes')
+    reporting_cycle = models.ForeignKey(ReportingCycle, related_name='envelopes', on_delete=models.PROTECT)
 
     workflow = models.OneToOneField(
         BaseWorkflow,
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         related_name='envelope',
         null=True,
         blank=True,
@@ -195,16 +195,6 @@ class Envelope(models.Model):
             warn(f'Could not find envelope file "{env_file}"')
 
 
-# TODO: move me somewhere nice (and improve me)
-
-
-def validate_filename(value):
-    if os.path.basename(os.path.join('test', value)) != value:
-        raise ValidationError(
-            _("'%(value)s' is not a valid file name"), params={'value': value}
-        )
-
-
 class EnvelopeFileQuerySet(models.QuerySet):
 
     def delete(self):
@@ -219,6 +209,35 @@ class EnvelopeFileQuerySet(models.QuerySet):
                 )
         super().delete()
 
+    def get_or_create(self, **kwargs):
+        if 'file' in kwargs and 'envelope' in kwargs:
+            envelope = kwargs['envelope']
+            if not isinstance(envelope, Envelope):
+                envelope = Envelope.objects.get(pk=envelope)
+            kwargs['file'] = f'{envelope.get_storage_directory()}/{kwargs["file"]}'
+        return super().get_or_create(**kwargs)
+
+
+class OverwriteFileSystemStorage(FileSystemStorage):
+    """
+    Removes the existing file when checked during `get_or_create`
+    """
+
+    def __init__(self):
+        # Keep the explicit location out of migrations
+        super().__init__(location=str(settings.PROTECTED_ROOT))
+
+    def get_available_name(self, name, max_length=None):
+        if self.exists(name):
+            print(f'Removing old file {name}...')
+            os.remove(os.path.join(self.location, name))
+            return name
+
+        return super().get_available_name(name, max_length)
+
+
+EnvelopeFileStorage = OverwriteFileSystemStorage()
+
 
 class BaseEnvelopeFile(TypedModel):
     """
@@ -226,37 +245,27 @@ class BaseEnvelopeFile(TypedModel):
     holding some common fields for these two.
     """
 
-    @enum.unique
-    class CONVERSION_STATUSES(enum.IntEnum):
-        NA = enum.auto()
-        IN_PROGRESS = enum.auto()
-        COMPLETE = enum.auto()
-        ERROR = enum.auto()
+    CONVERSION_STATUS = Choices(
+        (-1, 'error', _('error')),
+        (0, 'na', _('na')),
+        (1, 'running', _('running')),
+        (2, 'finished', _('finished')),
+    )
 
     class Meta:
         db_table = 'core_envelope_file'
-        unique_together = ('envelope', 'name')
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # keep track of the name to handle renames
-        self._prev_name = (None if self.pk is None else self.name)
+        unique_together = ('envelope', 'file')
 
     def get_envelope_directory(self, filename):
         return os.path.join(
             self.envelope.get_storage_directory(), os.path.basename(filename)
         )
 
-    # Used by subclasses to properly name related names, events etc
-    _class_specifier = ''
+    envelope = models.ForeignKey(Envelope, related_name=f'files', on_delete=models.CASCADE)
 
-    envelope = models.ForeignKey(Envelope, related_name=f'files')
-
-    file = protected.fields.ProtectedFileField(
-        upload_to=get_envelope_directory, max_length=512
+    file = models.FileField(
+        upload_to=get_envelope_directory, max_length=512, storage=EnvelopeFileStorage
     )
-    # initially derived from the filename, a change triggers rename
-    name = models.CharField(max_length=256, validators=[validate_filename])
 
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
@@ -264,7 +273,7 @@ class BaseEnvelopeFile(TypedModel):
     restricted = models.BooleanField(default=False)
 
     uploader = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )
 
     is_support = models.BooleanField(default=False)
@@ -276,13 +285,16 @@ class BaseEnvelopeFile(TypedModel):
         null=True,
         blank=True,
     )
-    conversion_status = models.CharField(
-        max_length=30, choices=((c.value, c.name) for c in CONVERSION_STATUSES),
-        default=CONVERSION_STATUSES.NA
+    conversion_status = models.IntegerField(
+        choices=CONVERSION_STATUS, default=CONVERSION_STATUS.na
     )
 
     objects = EnvelopeFileQuerySet.as_manager()
-    file_tracker = FieldTracker(fields=['file'])
+    tracker = FieldTracker()
+
+    @property
+    def name(self):
+        return os.path.basename(self.file.name)
 
     @property
     def extension(self):
@@ -309,75 +321,12 @@ class BaseEnvelopeFile(TypedModel):
     def __repr__(self):
         return '<%s: %s/%s>' % (self.__class__.__name__, self.envelope.pk, self.name)
 
-    @classmethod
-    def get_or_create(cls, envelope, file_name):
-        """
-        Locates an `EnvelopeFile` based on `file_name`, or creates a new one.
-        Returns a tuple of the `EnvelopeFile` instance and a boolean indicating
-        if it is newly created.
-        """
-        is_new = True
-        try:
-            obj = cls.objects.get(envelope=envelope, name=file_name)
-            is_new = False
-
-        except cls.DoesNotExist:
-            obj = cls(envelope=envelope, name=file_name)
-
-        return obj, is_new
-
     def save(self, *args, **kwargs):
         # don't allow any operations on a final envelope
         if self.envelope.finalized:
-            raise RuntimeError("Envelope is final.")
+            raise RuntimeError('Envelope is final.')
 
-        renamed = False
-        new = False
-        if self.pk is None:
-            new = True
-            self.name = os.path.basename(self.file.name)
-        elif self.name != self._prev_name:
-            renamed = True
-
-        if renamed:
-            # WARNING, WARNING, WARNING:
-            # validations aren't performed at save, because django.
-            # forms and drf *will* validate, but if data might come in
-            # in other ways... warning!!! !! !!
-
-            old_name = self.file.name
-            new_name = os.path.join(os.path.dirname(old_name), self.name)
-
-            old_path = self.file.path
-            new_path = os.path.join(os.path.dirname(old_path), self.name)
-
-            self.file.name = new_name
-        else:
-            new_path = old_path = self.file.path
-
-        debug(f'saving file name: {self.file.name}')
-        # save first to catch data integrity errors.
-        # TODO: wrap this in a transaction with below, who knows
-        # how that might fail...
         super().save(*args, **kwargs)
-
-        # and rename on disk
-        if renamed:
-            debug(f'renaming: {old_path} to {new_path}')
-            os.rename(old_path, new_path)
-
-        channel_layer = get_channel_layer()
-        payload = {'file_id': self.pk}
-
-        if new:
-            async_to_sync(channel_layer.group_send)(
-                self.envelope.channel, {'type': 'envelope.added_file', 'data': payload}
-            )
-        else:
-            async_to_sync(channel_layer.group_send)(
-                self.envelope.channel,
-                {'type': 'envelope.changed_file', 'data': payload},
-            )
 
     def delete(self, *args, **kwargs):
         try:
@@ -434,7 +383,7 @@ class EnvelopeFile(BaseEnvelopeFile):
         if self.extension == 'xml':
             raise RuntimeError('Cannot convert - file is already XML!')
 
-        self.conversion_status = self.CONVERSION_STATUSES.IN_PROGRESS
+        self.conversion_status = self.CONVERSION_STATUS.running
         self.save()
 
         debug(f'Starting conversion to XML for {self.name}')
@@ -445,7 +394,7 @@ class EnvelopeFile(BaseEnvelopeFile):
 
         if result.get('resultCode', 'ERROR') != '0':
             warn(f'Conversion to XML failed for {self.name}')
-            self.conversion_status = self.CONVERSION_STATUSES.ERROR
+            self.conversion_status = self.CONVERSION_STATUS.error
             self.save()
             return
 
@@ -453,13 +402,14 @@ class EnvelopeFile(BaseEnvelopeFile):
             # Save every XML file resulted from the original's conversion
             for converted_content in result.get('convertedFiles', []):
                 debug(f'Saving converted file {converted_content["fileName"]}')
-                converted_file, is_new = self.get_or_create(
-                    self.envelope,
-                    converted_content['fileName']
+                converted_file, is_new = self.objects.get_or_create(
+                    envelope=self.envelope, name=converted_content['fileName']
                 )
                 if not is_new:
                     self.envelope.delete_disk_file(converted_content['fileName'])
-                converted_file.file.save(converted_file.name, ContentFile(converted_content['content'].data))
+                converted_file.file.save(
+                    converted_file.name, ContentFile(converted_content['content'].data)
+                )
 
                 if converted_file.extension == 'xml':
                     converted_file.xml_schema = converted_file.extract_xml_schema()
@@ -468,20 +418,33 @@ class EnvelopeFile(BaseEnvelopeFile):
                 converted_file.original_file = self
                 converted_file.save()
 
-            self.conversion_status = self.CONVERSION_STATUSES.COMPLETE
+            self.conversion_status = self.CONVERSION_STATUS.finished
             self.save()
 
 
-def convert_after_save(sender, instance, **kwargs):
+def after_file_save(sender, instance, created, **kwargs):
     """
     Trigger conversion to XML after saving uploaded file.
     Only (hopefully) has effect if the file has changed.
     """
-    if instance.field_tracker.changed() and instance.extension != 'xml':
+    channel_layer = get_channel_layer()
+    payload = {'file_id': instance.pk}
+
+    if created:
+        async_to_sync(channel_layer.group_send)(
+            instance.envelope.channel, {'type': 'envelope.added_file', 'data': payload}
+        )
+    else:
+        async_to_sync(channel_layer.group_send)(
+            instance.envelope.channel,
+            {'type': 'envelope.changed_file', 'data': payload},
+        )
+
+    if instance.tracker.has_changed('file') and instance.extension != 'xml':
         instance.convert_to_xml()
 
 
-post_save.connect(convert_after_save, sender=EnvelopeFile)
+post_save.connect(after_file_save, sender=EnvelopeFile)
 
 
 class EnvelopeSupportFile(BaseEnvelopeFile):

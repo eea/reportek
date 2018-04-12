@@ -824,12 +824,10 @@ class UploadHookView(viewsets.ViewSet):
 
             # Support files
             if is_support_file:
-                support_file, is_new = EnvelopeSupportFile.get_or_create(
-                    token.envelope,
-                    file_name
+                support_file, is_new = EnvelopeSupportFile.objects.get_or_create(
+                    envelope=token.envelope,
+                    file=file_name
                 )
-                if not is_new:
-                    token.envelope.delete_disk_file(file_name)
 
                 support_file.file.save(file_name, File(file_path.open(mode='rb')))
                 support_file.uploader = token.user
@@ -837,12 +835,10 @@ class UploadHookView(viewsets.ViewSet):
 
             # Regular files
             elif file_ext in settings.ALLOWED_UPLOADS_EXTENSIONS:
-                envelope_file, is_new = EnvelopeFile.get_or_create(
-                    token.envelope,
-                    file_name
+                envelope_file, is_new = EnvelopeFile.objects.get_or_create(
+                    envelope=token.envelope,
+                    file=file_name
                 )
-                if not is_new:
-                    token.envelope.delete_disk_file(file_name)
 
                 envelope_file.file.save(file_name, File(file_path.open(mode='rb')))
                 if file_ext == 'xml':
@@ -865,12 +861,10 @@ class UploadHookView(viewsets.ViewSet):
                             else:
                                 member_name = '_'.join([p.replace(' ', '') for p in path_parts(zip_member)])
                             member_ext = member_name.split('.')[-1].lower()
-                            envelope_file, is_new = EnvelopeFile.get_or_create(
-                                token.envelope,
-                                member_name
+                            envelope_file, is_new = EnvelopeFile.objects.get_or_create(
+                                envelope=token.envelope,
+                                file=member_name
                             )
-                            if not is_new:
-                                token.envelope.delete_disk_file(member_name)
 
                             with up_zip.open(zip_member) as member_file:
                                 envelope_file.file.save(member_name, member_file)

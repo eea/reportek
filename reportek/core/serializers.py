@@ -301,7 +301,9 @@ class EnvelopeFileSerializer(serializers.ModelSerializer):
             'original_file',
             'is_support',
         )
-        read_only_fields = ('content', 'uploader', 'size', 'created', 'updated', 'original_file')
+        read_only_fields = (
+            'content', 'uploader', 'size', 'created', 'updated', 'name', 'original_file'
+        )
 
     @staticmethod
     def get_content_url(obj):

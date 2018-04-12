@@ -106,7 +106,10 @@ def get_xsd_uri(file_path):
 
     root = tree.getroot()
     try:
-        return root.attrib[root.keys()[0]]
+        if len(root.keys()) > 1:
+            return root.attrib[root.keys()[1]]
+        else:
+            return root.attrib[root.keys()[0]]
     except (AttributeError, IndexError):
         return None
 

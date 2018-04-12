@@ -124,7 +124,7 @@ INSTALLED_APPS = [
     'typedmodels',
     'rest_framework',
     'rest_framework.authtoken',
-    'django_celery_beat',
+    # 'django_celery_beat',
     'django_extensions',
     'django_object_actions',
     'corsheaders',

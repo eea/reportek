@@ -16,7 +16,6 @@ from reportek.core.models import (
     ReportingCycle,
     Envelope,
     EnvelopeFile,
-    EnvelopeOriginalFile,
 )
 
 
@@ -41,7 +40,6 @@ WORKFLOW = 'reportek.core.models.workflows.demo_auto_qa.DemoAutoQAWorkflow'
 REPORTING_MODELS = (
     Envelope,
     EnvelopeFile,
-    EnvelopeOriginalFile,
 )
 
 
@@ -51,10 +49,9 @@ def get_reporting_model_permissions():
     perm_prefixes = ['add', 'change', 'delete']
     for model_cls in REPORTING_MODELS:
         model_name = model_cls.__name__.lower()
-        model_type = ContentType.objects.get(app_label='core', model=model_name)
         for prefix in perm_prefixes:
             perms.append(
-                Permission.objects.get(content_type=model_type, codename=f'{prefix}_{model_name}')
+                Permission.objects.get(codename=f'{prefix}_{model_name}')
             )
     return perms
 
