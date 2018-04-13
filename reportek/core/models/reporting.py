@@ -3,23 +3,20 @@ import logging
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models.signals import post_save
-from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.functional import cached_property
 from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
-from typedmodels.models import TypedModel
 from model_utils import FieldTracker, Choices
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
 from .workflows import (BaseWorkflow,)
 
-from .rod import (
-    Reporter, ReporterSubdivision, Obligation, ObligationSpec, ReportingCycle
-)
+from .rod import (Reporter, ReporterSubdivision, ObligationSpec, ReportingCycle)
 
 from .qa import QAJob, QAJobResult
 from ..conversion import RemoteConversion
@@ -38,9 +35,7 @@ ENVELOPE_ROOT_DIR = 'envelopes'
 UPLOAD_TOKEN_LENGTH = 64
 UPLOAD_TOKEN_DURATION = 60 * 60  # 60 minutes
 
-__all__ = [
-    'Envelope', 'EnvelopeFile', 'EnvelopeSupportFile', 'EnvelopeLink', 'UploadToken'
-]
+__all__ = ['Envelope', 'DataFile', 'SupportFile', 'Link', 'UploadToken']
 
 
 class EnvelopeQuerySet(models.QuerySet):
@@ -56,18 +51,57 @@ class EnvelopeManager(models.Manager.from_queryset(EnvelopeQuerySet)):
 
 
 class Envelope(models.Model):
+
+    COVERAGE_INTERVAL_CHOICE = Choices(
+        (0, 'whole_year', _('Whole year')),
+        (1, 'first_half', _('First half')),
+        (2, 'second_half', _('Second half')),
+        (3, 'first_quarter', _('First quarter')),
+        (4, 'second_quarter', _('Second quarter')),
+        (5, 'third_quarter', _('Third quarter')),
+        (6, 'fourth_quarter', _('Fourth quarter')),
+        (7, 'jan', _('January')),
+        (8, 'feb', _('February')),
+        (9, 'mar', _('March')),
+        (10, 'apr', _('April')),
+        (11, 'may', _('May')),
+        (12, 'jun', _('June')),
+        (13, 'jul', _('July')),
+        (14, 'aug', _('August')),
+        (15, 'sep', _('September')),
+        (16, 'oct', _('October')),
+        (17, 'nov', _('November')),
+        (18, 'dec', _('December')),
+    )
+
     name = models.CharField(max_length=256)
 
     description = models.TextField(null=True, blank=True)
     coverage_note = models.CharField(max_length=256, null=True, blank=True)
 
     # TODO: Review on_delete policy when implementing ROD integration
-    reporter = models.ForeignKey(Reporter, related_name='envelopes', on_delete=models.PROTECT)
-    obligation_spec = models.ForeignKey(ObligationSpec, related_name='envelopes', on_delete=models.PROTECT)
-    reporter_subdivision = models.ForeignKey(
-        ReporterSubdivision, blank=True, null=True, related_name='envelopes', on_delete=models.PROTECT
+    reporter = models.ForeignKey(
+        Reporter, related_name='envelopes', on_delete=models.PROTECT
     )
-    reporting_cycle = models.ForeignKey(ReportingCycle, related_name='envelopes', on_delete=models.PROTECT)
+    obligation_spec = models.ForeignKey(
+        ObligationSpec, related_name='envelopes', on_delete=models.PROTECT
+    )
+    reporter_subdivision = models.ForeignKey(
+        ReporterSubdivision,
+        blank=True,
+        null=True,
+        related_name='envelopes',
+        on_delete=models.PROTECT,
+    )
+    reporting_cycle = models.ForeignKey(
+        ReportingCycle, related_name='envelopes', on_delete=models.PROTECT
+    )
+
+    coverage_start_year = models.IntegerField(null=True, blank=True)
+    coverage_end_year = models.IntegerField(null=True, blank=True)
+    coverage_interval = models.IntegerField(
+        null=True, blank=True, choices=COVERAGE_INTERVAL_CHOICE
+    )
 
     workflow = models.OneToOneField(
         BaseWorkflow,
@@ -112,7 +146,7 @@ class Envelope(models.Model):
         """
         The envelope's most recent QA job for each file.
         """
-        return [job for file in self.files.all() for job in file.qa_jobs.all()]
+        return [job for file in self.datafiles.all() for job in file.qa_jobs.all()]
 
     @property
     def auto_qa_complete(self):
@@ -127,7 +161,7 @@ class Envelope(models.Model):
         """
         Latest QA job results for the envelope's files.
         """
-        return [result for file in self.files.all() for result in file.qa_results]
+        return [result for file in self.datafiles.all() for result in file.qa_results]
 
     @property
     def auto_qa_ok(self):
@@ -137,6 +171,27 @@ class Envelope(models.Model):
     def channel(self):
         """The envelope's WebSocket channel name"""
         return f'envelope_{self.pk}'
+
+    @cached_property
+    def storage_path(self):
+        """
+        Generates a multi-level, stable path for the envelope:
+        envelope creation / reporter / obligation spec id / envelope id
+        """
+        year = str(self.created_at.year)
+        reporter = self.reporter.abbr
+        spec = str(self.obligation_spec_id)
+        envelope = str(self.id)
+
+        return os.path.join(ENVELOPE_ROOT_DIR, year, reporter, spec, envelope)
+
+    @cached_property
+    def data_files_path(self):
+        return os.path.join(self.storage_path, 'data_files')
+
+    @cached_property
+    def support_files_path(self):
+        return os.path.join(self.storage_path, 'support_files')
 
     def __str__(self):
         return self.name
@@ -166,18 +221,15 @@ class Envelope(models.Model):
             if self.reporter_subdivision.reporter != self.reporter:
                 raise RuntimeError('Envelope subdivision must match reporter!')
 
+        # Switch start/end coverage years if reversed
+        if (
+            self.coverage_start_year is not None
+            and self.coverage_end_year is not None
+            and self.coverage_start_year < self.coverage_end_year
+        ):
+            self.coverage_start_year, self.coverage_end_year = self.coverage_end_year, self.coverage_start_year
+
         super().save(*args, **kwargs)
-
-    def get_storage_directory(self):
-        # generate a multi-level, stable path:
-        # reporting year / reporter / obligation spec / envelope id
-
-        year = str(self.created_at.year)
-        reporter = self.reporter.abbr
-        spec = str(self.obligation_spec_id)
-        envelope = str(self.id)
-
-        return os.path.join(ENVELOPE_ROOT_DIR, year, reporter, spec, envelope)
 
     def delete_disk_file(self, file_name):
         """
@@ -185,9 +237,7 @@ class Envelope(models.Model):
         auto-renaming in `Storage.get_available_name` during
         `EnvelopeFile.file.save()`.
         """
-        env_file = os.path.join(
-            settings.PROTECTED_ROOT, self.get_storage_directory(), file_name
-        )
+        env_file = os.path.join(settings.PROTECTED_ROOT, self.storage_path, file_name)
         debug(f'Deleting envelope file: {env_file}')
         try:
             os.remove(env_file)
@@ -195,7 +245,7 @@ class Envelope(models.Model):
             warn(f'Could not find envelope file "{env_file}"')
 
 
-class EnvelopeFileQuerySet(models.QuerySet):
+class BaseEnvelopeFileQuerySet(models.QuerySet):
 
     def delete(self):
         for obj in self:
@@ -209,18 +259,24 @@ class EnvelopeFileQuerySet(models.QuerySet):
                 )
         super().delete()
 
-    def get_or_create(self, **kwargs):
-        if 'file' in kwargs and 'envelope' in kwargs:
+    @staticmethod
+    def process_kwargs(kwargs, envelope_path_attr):
+        """
+        Prepends the envelope file-specific path to the get_or_create file,
+        when used with (envelope, file) named arguments to check for re-uploads.
+        """
+        if all(k in kwargs for k in ('envelope', 'file')):
             envelope = kwargs['envelope']
             if not isinstance(envelope, Envelope):
                 envelope = Envelope.objects.get(pk=envelope)
-            kwargs['file'] = f'{envelope.get_storage_directory()}/{kwargs["file"]}'
-        return super().get_or_create(**kwargs)
+            kwargs['file'] = f'{getattr(envelope, envelope_path_attr)}/{kwargs["file"]}'
+        return kwargs
 
 
 class OverwriteFileSystemStorage(FileSystemStorage):
     """
-    Removes the existing file when checked during `get_or_create`
+    Overwrites files instead of generating unique names.
+    Existing files are removed during the check for available names.
     """
 
     def __init__(self):
@@ -239,32 +295,30 @@ class OverwriteFileSystemStorage(FileSystemStorage):
 EnvelopeFileStorage = OverwriteFileSystemStorage()
 
 
-class BaseEnvelopeFile(TypedModel):
+def get_upload_path(instance, file_name):
+    return instance.get_upload_path(file_name)
+
+
+class BaseEnvelopeFile(models.Model):
     """
-    Abstract base class for EnvelopeFile and EnvelopeOriginalFile,
+    Abstract base class for EnvelopeFile and EnvelopeSupportFile,
     holding some common fields for these two.
     """
 
-    CONVERSION_STATUS = Choices(
-        (-1, 'error', _('error')),
-        (0, 'na', _('na')),
-        (1, 'running', _('running')),
-        (2, 'finished', _('finished')),
-    )
+    # Used when building envelope channel notification type names.
+    # Set this to an appropriate name in the concrete class (e.g. 'file', 'support_file')
+    channel_qualifier = None
 
     class Meta:
-        db_table = 'core_envelope_file'
+        abstract = True
         unique_together = ('envelope', 'file')
 
-    def get_envelope_directory(self, filename):
-        return os.path.join(
-            self.envelope.get_storage_directory(), os.path.basename(filename)
-        )
-
-    envelope = models.ForeignKey(Envelope, related_name=f'files', on_delete=models.CASCADE)
+    envelope = models.ForeignKey(
+        Envelope, related_name='%(class)ss', on_delete=models.CASCADE
+    )
 
     file = models.FileField(
-        upload_to=get_envelope_directory, max_length=512, storage=EnvelopeFileStorage
+        upload_to=get_upload_path, max_length=512, storage=EnvelopeFileStorage
     )
 
     created = models.DateTimeField(auto_now_add=True)
@@ -275,22 +329,6 @@ class BaseEnvelopeFile(TypedModel):
     uploader = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
     )
-
-    is_support = models.BooleanField(default=False)
-
-    original_file = models.ForeignKey(
-        'self',
-        related_name='converted_files',
-        on_delete=models.CASCADE,
-        null=True,
-        blank=True,
-    )
-    conversion_status = models.IntegerField(
-        choices=CONVERSION_STATUS, default=CONVERSION_STATUS.na
-    )
-
-    objects = EnvelopeFileQuerySet.as_manager()
-    tracker = FieldTracker()
 
     @property
     def name(self):
@@ -313,9 +351,13 @@ class BaseEnvelopeFile(TypedModel):
         return fully_qualify_url(self.download_url)
 
     def get_download_url(self):
-        return reverse(
-            'api:envelope-file-download',
-            kwargs={'envelope_pk': self.envelope_id, 'pk': self.pk},
+        raise NotImplementedError(
+            'get_download_url must be implemented by each concrete class'
+        )
+
+    def get_upload_path(self, file_name):
+        raise NotImplementedError(
+            'get_upload_path must be implemented by each concrete class'
         )
 
     def __repr__(self):
@@ -346,11 +388,78 @@ class BaseEnvelopeFile(TypedModel):
         payload = {'file_id': file_id}
 
         async_to_sync(channel_layer.group_send)(
-            channel, {'type': 'envelope.deleted_file', 'data': payload}
+            channel,
+            {'type': f'envelope.deleted_{self.channel_qualifier}', 'data': payload},
         )
 
 
-class EnvelopeFile(BaseEnvelopeFile):
+def after_file_save(sender, instance, created, **kwargs):
+    """
+    File post-save processing:
+     - conversion to XML of non-XML files
+     - create/update notification on envelope's channel
+    """
+    channel_layer = get_channel_layer()
+    payload = {'file_id': instance.pk}
+
+    if created:
+        async_to_sync(channel_layer.group_send)(
+            instance.envelope.channel,
+            {'type': f'envelope.added_{instance.channel_qualifier}', 'data': payload},
+        )
+    else:
+        async_to_sync(channel_layer.group_send)(
+            instance.envelope.channel,
+            {'type': f'envelope.changed_{instance.channel_qualifier}', 'data': payload},
+        )
+
+    if instance.tracker.has_changed('file') and instance.extension != 'xml':
+        instance.convert_to_xml()
+
+
+class DataFileQuerySet(BaseEnvelopeFileQuerySet):
+
+    def get_or_create(self, **kwargs):
+        kwargs = self.process_kwargs(kwargs, 'data_files_path')
+        return super().get_or_create(**kwargs)
+
+
+class DataFile(BaseEnvelopeFile):
+
+    CONVERSION_STATUS = Choices(
+        (-1, 'error', _('error')),
+        (0, 'na', _('na')),
+        (1, 'running', _('running')),
+        (2, 'finished', _('finished')),
+    )
+
+    channel_qualifier = 'data_file'
+
+    original_file = models.ForeignKey(
+        'self',
+        related_name='converted_files',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+    )
+    conversion_status = models.IntegerField(
+        choices=CONVERSION_STATUS, default=CONVERSION_STATUS.na
+    )
+
+    objects = DataFileQuerySet.as_manager()
+    tracker = FieldTracker()  # Trackers don't work when set on the abstract model
+
+    class Meta(BaseEnvelopeFile.Meta):
+        db_table = 'core_data_file'
+
+    def get_upload_path(self, file_name):
+        return os.path.join(self.envelope.data_files_path, file_name)
+
+    def get_download_url(self):
+        return reverse(
+            'api:envelope-data-file-download',
+            kwargs={'envelope_pk': self.envelope_id, 'pk': self.pk},
+        )
 
     @staticmethod
     def has_valid_extension(
@@ -382,6 +491,9 @@ class EnvelopeFile(BaseEnvelopeFile):
     def convert_to_xml(self):
         if self.extension == 'xml':
             raise RuntimeError('Cannot convert - file is already XML!')
+
+        if self.original_file is not None:
+            raise RuntimeError('Cannot convert an already converted file')
 
         self.conversion_status = self.CONVERSION_STATUS.running
         self.save()
@@ -422,36 +534,40 @@ class EnvelopeFile(BaseEnvelopeFile):
             self.save()
 
 
-def after_file_save(sender, instance, created, **kwargs):
-    """
-    Trigger conversion to XML after saving uploaded file.
-    Only (hopefully) has effect if the file has changed.
-    """
-    channel_layer = get_channel_layer()
-    payload = {'file_id': instance.pk}
+post_save.connect(after_file_save, sender=DataFile)
 
-    if created:
-        async_to_sync(channel_layer.group_send)(
-            instance.envelope.channel, {'type': 'envelope.added_file', 'data': payload}
+
+class SupportFileQuerySet(BaseEnvelopeFileQuerySet):
+
+    def get_or_create(self, **kwargs):
+        kwargs = self.process_kwargs(kwargs, 'support_files_path')
+        return super().get_or_create(**kwargs)
+
+
+class SupportFile(BaseEnvelopeFile):
+
+    channel_qualifier = 'support_file'
+
+    objects = SupportFileQuerySet.as_manager()
+    tracker = FieldTracker()  # Trackers don't work when set on the abstract model
+
+    class Meta(BaseEnvelopeFile.Meta):
+        db_table = 'core_support_file'
+
+    def get_upload_path(self, file_name):
+        return os.path.join(self.envelope.support_files_path, file_name)
+
+    def get_download_url(self):
+        return reverse(
+            'api:envelope-support-file-download',
+            kwargs={'envelope_pk': self.envelope_id, 'pk': self.pk},
         )
-    else:
-        async_to_sync(channel_layer.group_send)(
-            instance.envelope.channel,
-            {'type': 'envelope.changed_file', 'data': payload},
-        )
-
-    if instance.tracker.has_changed('file') and instance.extension != 'xml':
-        instance.convert_to_xml()
 
 
-post_save.connect(after_file_save, sender=EnvelopeFile)
+post_save.connect(after_file_save, sender=SupportFile)
 
 
-class EnvelopeSupportFile(BaseEnvelopeFile):
-    pass
-
-
-class EnvelopeLink(models.Model):
+class Link(models.Model):
     envelope = models.ForeignKey(
         Envelope, on_delete=models.CASCADE, related_name='links'
     )
@@ -459,7 +575,7 @@ class EnvelopeLink(models.Model):
     text = models.CharField(max_length=200, null=True, blank=True)
 
     class Meta:
-        db_table = 'core_envelope_link'
+        db_table = 'core_link'
         unique_together = ('envelope', 'link')
 
 

@@ -15,7 +15,7 @@ from reportek.core.models import (
     Reporter,
     ReportingCycle,
     Envelope,
-    EnvelopeFile,
+    DataFile,
 )
 
 
@@ -39,7 +39,7 @@ WORKFLOW = 'reportek.core.models.workflows.demo_auto_qa.DemoAutoQAWorkflow'
 
 REPORTING_MODELS = (
     Envelope,
-    EnvelopeFile,
+    DataFile,
 )
 
 

@@ -17,9 +17,9 @@ from .models import (
     ObligationSpecReporter,
     ReportingCycle,
     Envelope,
-    EnvelopeFile,
-    EnvelopeSupportFile,
-    EnvelopeLink,
+    DataFile,
+    SupportFile,
+    Link,
     BaseWorkflow,
     UploadToken,
     QAJob,
@@ -283,12 +283,12 @@ class PendingObligationSerializer(serializers.ModelSerializer):
         )
 
 
-class EnvelopeFileSerializer(serializers.ModelSerializer):
+class DataFileSerializer(serializers.ModelSerializer):
     uploader = serializers.PrimaryKeyRelatedField(read_only=True)
     content_url = serializers.SerializerMethodField()
 
     class Meta:
-        model = EnvelopeFile
+        model = DataFile
         fields = (
             'id',
             'name',
@@ -299,7 +299,6 @@ class EnvelopeFileSerializer(serializers.ModelSerializer):
             'created',
             'updated',
             'original_file',
-            'is_support',
         )
         read_only_fields = (
             'content', 'uploader', 'size', 'created', 'updated', 'name', 'original_file'
@@ -310,56 +309,72 @@ class EnvelopeFileSerializer(serializers.ModelSerializer):
         return obj.fq_download_url
 
 
-class NestedEnvelopeFileSerializer(
-    NestedHyperlinkedModelSerializer, EnvelopeFileSerializer
+class NestedDataFileSerializer(
+    NestedHyperlinkedModelSerializer, DataFileSerializer
 ):
     parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
-    class Meta(EnvelopeFileSerializer.Meta):
-        fields = ('url',) + EnvelopeFileSerializer.Meta.fields
-        extra_kwargs = {'url': {'view_name': 'api:envelope-file-detail'}}
+    class Meta(DataFileSerializer.Meta):
+        fields = ('url',) + DataFileSerializer.Meta.fields
+        extra_kwargs = {'url': {'view_name': 'api:envelope-data-file-detail'}}
 
 
-class CreateEnvelopeFileSerializer(serializers.ModelSerializer):
+class CreateDataFileSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = EnvelopeFile
+        model = DataFile
         fields = ('file', 'uploader')
 
 
-class EnvelopeSupportFileSerializer(EnvelopeFileSerializer):
+class SupportFileSerializer(DataFileSerializer):
 
-    class Meta(EnvelopeFileSerializer.Meta):
-        model = EnvelopeSupportFile
+    class Meta(DataFileSerializer.Meta):
+        model = SupportFile
+        fields = (
+            'id',
+            'name',
+            'content_url',
+            'restricted',
+            'uploader',
+            'size',
+            'created',
+            'updated',
+        )
+        read_only_fields = (
+            'content', 'uploader', 'size', 'created', 'updated', 'name'
+        )
 
 
-class NestedEnvelopeSupportFileSerializer(NestedEnvelopeFileSerializer):
+class NestedSupportFileSerializer(
+    NestedHyperlinkedModelSerializer, DataFileSerializer
+):
+    parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
-    class Meta(NestedEnvelopeFileSerializer.Meta):
-        model = EnvelopeSupportFile
+    class Meta(SupportFileSerializer.Meta):
+        fields = ('url',) + SupportFileSerializer.Meta.fields
         extra_kwargs = {'url': {'view_name': 'api:envelope-support-file-detail'}}
 
 
-class CreateEnvelopeSupportFileSerializer(CreateEnvelopeFileSerializer):
+class CreateSupportFileSerializer(CreateDataFileSerializer):
 
-    class Meta(CreateEnvelopeFileSerializer.Meta):
-        model = EnvelopeSupportFile
+    class Meta(CreateDataFileSerializer.Meta):
+        model = SupportFile
 
 
-class EnvelopeWorkflowSerializer(serializers.ModelSerializer):
+class WorkflowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BaseWorkflow
         fields = '__all__'
 
 
-class NestedEnvelopeWorkflowSerializer(
-    NestedHyperlinkedModelSerializer, EnvelopeWorkflowSerializer
+class NestedWorkflowSerializer(
+    NestedHyperlinkedModelSerializer, WorkflowSerializer
 ):
 
     parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
-    class Meta(EnvelopeWorkflowSerializer.Meta):
+    class Meta(WorkflowSerializer.Meta):
         fields = (
             'current_state',
             'previous_state',
@@ -388,28 +403,28 @@ class NestedUploadTokenSerializer(
         extra_kwargs = {'url': {'view_name': 'api:envelope-token-detail'}}
 
 
-class EnvelopeLinkSerializer(serializers.ModelSerializer):
+class LinkSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = EnvelopeLink
+        model = Link
         fields = ('id', 'link', 'text')
 
 
-class NestedEnvelopeLinkSerializer(
-    NestedHyperlinkedModelSerializer, EnvelopeLinkSerializer
+class NestedLinkSerializer(
+    NestedHyperlinkedModelSerializer, LinkSerializer
 ):
     parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
-    class Meta(EnvelopeLinkSerializer.Meta):
-        fields = ('url',) + EnvelopeLinkSerializer.Meta.fields
+    class Meta(LinkSerializer.Meta):
+        fields = ('url',) + LinkSerializer.Meta.fields
         extra_kwargs = {'url': {'view_name': 'api:envelope-link-detail'}}
 
 
 class EnvelopeSerializer(serializers.ModelSerializer):
-    files = NestedEnvelopeFileSerializer(many=True, read_only=True)
-    support_files = NestedEnvelopeSupportFileSerializer(many=True, read_only=True)
-    links = NestedEnvelopeLinkSerializer(many=True, read_only=True)
-    workflow = NestedEnvelopeWorkflowSerializer(many=False, read_only=True)
+    datafiles = NestedDataFileSerializer(many=True, read_only=True)
+    supportfiles = NestedSupportFileSerializer(many=True, read_only=True)
+    links = NestedLinkSerializer(many=True, read_only=True)
+    workflow = NestedWorkflowSerializer(many=False, read_only=True)
 
     class Meta:
         model = Envelope
@@ -503,8 +518,8 @@ class WorkspaceUserSerializer(serializers.ModelSerializer):
 
 
 class WorkspaceEnvelopeSerializer(EnvelopeSerializer):
-    files = EnvelopeFileSerializer(many=True, read_only=True)
-    support_files = EnvelopeSupportFileSerializer(many=True, read_only=True)
+    datafiles = DataFileSerializer(many=True, read_only=True)
+    supportfiles = SupportFileSerializer(many=True, read_only=True)
     obligation = serializers.SerializerMethodField()
 
     @staticmethod
