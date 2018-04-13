@@ -9,7 +9,6 @@ from django.db.models import Q, F, Exists, OuterRef
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.text import slugify
-from django.core.files.base import ContentFile
 from rest_framework import viewsets, status
 from rest_framework.decorators import detail_route, list_route
 from rest_framework.response import Response
@@ -24,9 +23,9 @@ from django.core.files import File
 
 from ...models import (
     Envelope,
-    EnvelopeFile,
-    EnvelopeSupportFile,
-    EnvelopeLink,
+    DataFile,
+    SupportFile,
+    Link,
     BaseWorkflow,
     Obligation,
     Reporter,
@@ -37,10 +36,10 @@ from ...models import (
 
 from ...serializers import (
     EnvelopeSerializer,
-    EnvelopeFileSerializer, CreateEnvelopeFileSerializer,
-    EnvelopeSupportFileSerializer, CreateEnvelopeSupportFileSerializer,
-    EnvelopeLinkSerializer,
-    NestedEnvelopeWorkflowSerializer,
+    DataFileSerializer, CreateDataFileSerializer,
+    SupportFileSerializer, CreateSupportFileSerializer,
+    LinkSerializer,
+    NestedWorkflowSerializer,
     NestedUploadTokenSerializer,
     QAJobSerializer,
 )
@@ -63,10 +62,10 @@ error = log.error
 
 __all__ = [
     'EnvelopeViewSet',
-    'EnvelopeFileViewSet',
-    'EnvelopeSupportFileViewSet',
-    'EnvelopeLinkViewSet',
-    'EnvelopeWorkflowViewSet',
+    'DataFileViewSet',
+    'SupportFileViewSet',
+    'LinkViewSet',
+    'WorkflowViewSet',
     'UploadTokenViewSet',
     'UploadHookView',
 ]
@@ -89,16 +88,16 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_anonymous:
-            return Envelope.objects.filter(finalized=True).prefetch_related('files')
+            return Envelope.objects.filter(finalized=True).prefetch_related('datafiles')
         elif self.request.user.has_perm('core.act_as_reportnet_api'):
-            return Envelope.objects.all().prefetch_related('files')
+            return Envelope.objects.all().prefetch_related('datafiles')
 
         reporters = self.request.user.get_reporters()
         obligations = self.request.user.get_obligations()
 
         return Envelope.objects.filter(
             Q(finalized=True) | Q(reporter__in=reporters, obligation_spec__obligation__in=obligations)
-        ).prefetch_related('files')
+        ).prefetch_related('datafiles')
 
     def perform_create(self, serializer):
         serializer.validated_data['author'] = self.request.user
@@ -326,7 +325,7 @@ class EnvelopeFileMixin:
 
     def get_queryset(self):
         qs = self._model.objects.filter(envelope_id=self.kwargs['envelope_pk'])
-        if self.request.user.is_anonymous() and self.action != 'list':
+        if self.request.user.is_anonymous and self.action != 'list':
             return qs.filter(restricted=False)
 
         return qs
@@ -417,9 +416,10 @@ class EnvelopeFileMixin:
         archive_name = f'{slugify(envelope.name)}_files_{timezone.now().strftime("%Y%m%d_%H%M%S")}.zip'
         archive_path = settings.DOWNLOAD_STAGING_ROOT / archive_name
         with ZipFile(archive_path, 'w') as archive:
+            storage_directory = files.first().get_envelope_directory()
             for f in files:
-                f_path = settings.PROTECTED_ROOT / f.file.name
-                if f_path is None or f_path == '':
+                f_path = Path(storage_directory) / f.file.name
+                if not f_path.is_file():
                     error(f'Envelope file not found: {f_path}')
                     return Response(status=status.HTTP_404_NOT_FOUND)
                 archive.write(f_path, f_path.name)
@@ -441,7 +441,7 @@ class EnvelopeFileMixin:
             return response
 
 
-class EnvelopeSupportFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
+class SupportFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
 
     permission_classes_map = {
         'default': [permissions.EnvelopeSupportFilePermissions],
@@ -450,12 +450,12 @@ class EnvelopeSupportFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, view
         'download': [IsAuthenticatedOrReadOnly]
     }
 
-    _model = EnvelopeSupportFile
-    _serializer = EnvelopeSupportFileSerializer
-    _create_serializer = CreateEnvelopeSupportFileSerializer
+    _model = SupportFile
+    _serializer = SupportFileSerializer
+    _create_serializer = CreateSupportFileSerializer
 
 
-class EnvelopeFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
+class DataFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelViewSet):
 
     permission_classes_map = {
         'default': [permissions.EnvelopeFilePermissions],
@@ -465,9 +465,9 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.Mo
         'download_archive': [IsAuthenticatedOrReadOnly]
     }
 
-    _model = EnvelopeFile
-    _serializer = EnvelopeFileSerializer
-    _create_serializer = CreateEnvelopeFileSerializer
+    _model = DataFile
+    _serializer = DataFileSerializer
+    _create_serializer = CreateDataFileSerializer
 
     @detail_route(methods=['get'])
     def qa_scripts(self, request, envelope_pk, pk):
@@ -587,15 +587,15 @@ class EnvelopeFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.Mo
         )
 
 
-class EnvelopeLinkViewSet(viewsets.ModelViewSet):
+class LinkViewSet(viewsets.ModelViewSet):
     """
     Common functionality for envelope file viewsets.
     """
 
-    serializer_class = EnvelopeLinkSerializer
+    serializer_class = LinkSerializer
 
     def get_queryset(self):
-        return EnvelopeLink.objects.filter(envelope_id=self.kwargs['envelope_pk'])
+        return Link.objects.filter(envelope_id=self.kwargs['envelope_pk'])
 
     def perform_create(self, serializer):
         serializer.save(
@@ -603,9 +603,9 @@ class EnvelopeLinkViewSet(viewsets.ModelViewSet):
         )
 
 
-class EnvelopeWorkflowViewSet(viewsets.ModelViewSet):
+class WorkflowViewSet(viewsets.ModelViewSet):
     queryset = BaseWorkflow.objects.all()
-    serializer_class = NestedEnvelopeWorkflowSerializer
+    serializer_class = NestedWorkflowSerializer
     permission_classes = (permissions.IsAuthenticated, )
 
 
@@ -716,8 +716,8 @@ class UploadHookView(viewsets.ViewSet):
                     status=status.HTTP_400_BAD_REQUEST
                 )
 
-            if not EnvelopeFile.has_valid_extension(filename,
-                                                    include_archives=True, include_spreadsheets=True):
+            if not DataFile.has_valid_extension(filename,
+                                                include_archives=True, include_spreadsheets=True):
                 error(f'UPLOAD denied on envelope "{token.envelope}" '
                       f'for "{token.user}": bad file extension')
                 return Response(
@@ -824,7 +824,7 @@ class UploadHookView(viewsets.ViewSet):
 
             # Support files
             if is_support_file:
-                support_file, is_new = EnvelopeSupportFile.objects.get_or_create(
+                support_file, is_new = SupportFile.objects.get_or_create(
                     envelope=token.envelope,
                     file=file_name
                 )
@@ -833,19 +833,19 @@ class UploadHookView(viewsets.ViewSet):
                 support_file.uploader = token.user
                 support_file.save()
 
-            # Regular files
+            # Data files
             elif file_ext in settings.ALLOWED_UPLOADS_EXTENSIONS:
-                envelope_file, is_new = EnvelopeFile.objects.get_or_create(
+                data_file, is_new = DataFile.objects.get_or_create(
                     envelope=token.envelope,
                     file=file_name
                 )
 
-                envelope_file.file.save(file_name, File(file_path.open(mode='rb')))
+                data_file.file.save(file_name, File(file_path.open(mode='rb')))
                 if file_ext == 'xml':
-                    envelope_file.xml_schema = envelope_file.extract_xml_schema()
+                    data_file.xml_schema = data_file.extract_xml_schema()
 
-                envelope_file.uploader = token.user
-                envelope_file.save()
+                data_file.uploader = token.user
+                data_file.save()
 
             # Archives, currently zip only
             elif file_ext == 'zip':
@@ -854,25 +854,25 @@ class UploadHookView(viewsets.ViewSet):
                         for zip_member in up_zip.namelist():
                             member_info = up_zip.getinfo(zip_member)
                             # Skip directories and files with non-allowed extensions
-                            if member_info.is_dir() or not EnvelopeFile.has_valid_extension(member_info.filename):
+                            if member_info.is_dir() or not DataFile.has_valid_extension(member_info.filename):
                                 continue
                             if not settings.ARCHIVE_PATH_PREFIX:
                                 member_name = os.path.basename(zip_member)
                             else:
                                 member_name = '_'.join([p.replace(' ', '') for p in path_parts(zip_member)])
                             member_ext = member_name.split('.')[-1].lower()
-                            envelope_file, is_new = EnvelopeFile.objects.get_or_create(
+                            data_file, is_new = DataFile.objects.get_or_create(
                                 envelope=token.envelope,
                                 file=member_name
                             )
 
                             with up_zip.open(zip_member) as member_file:
-                                envelope_file.file.save(member_name, member_file)
+                                data_file.file.save(member_name, member_file)
                                 if member_ext == 'xml':
-                                    envelope_file.xml_schema = envelope_file.extract_xml_schema()
+                                    data_file.xml_schema = data_file.extract_xml_schema()
 
-                                envelope_file.uploader = token.user
-                                envelope_file.save()
+                                data_file.uploader = token.user
+                                data_file.save()
 
                 except BadZipFile:
                     error(f'UPLOAD Bad ZIP file: "{file_path}"')

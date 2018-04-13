@@ -29,7 +29,7 @@ def submit_xml_to_qa(envelope_pk):
 
     params = defaultdict(list)
     urls_to_files = {}
-    for file in envelope.files.all():
+    for file in envelope.datafiles.all():
         if file.xml_schema is not None:  # only consider XML files
             file.qa_jobs.all().delete()  # delete existing jobs and results
             xml_schema = file.xml_schema.split(' ')[0]  # use the first schema listed in file
@@ -42,14 +42,14 @@ def submit_xml_to_qa(envelope_pk):
         jobs = remote_qa.analyze_xml_files(params) or []
         for job_id, file_url, script_id, script_name in jobs:
             try:
-                file = reportek.core.models.EnvelopeFile.objects.get(pk=urls_to_files.get(file_url))
+                file = reportek.core.models.DataFile.objects.get(pk=urls_to_files.get(file_url))
                 qa_job = reportek.core.models.QAJob.objects.create(
                         envelope_file=file,
                         qa_job_id=job_id,
                         qa_script_id=script_id,
                         qa_script_name=script_name
                 )
-            except reportek.core.models.EnvelopeFile.DoesNotExist:
+            except reportek.core.models.DataFile.DoesNotExist:
                 continue
     else:
         jobs = []

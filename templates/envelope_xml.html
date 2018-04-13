@@ -6,10 +6,22 @@
 <countrycode>{{ envelope.reporter.abbr }}</countrycode>
 <obligation>{{ envelope.obligation.rod_url }}</obligation>
 <link>{{ envelope.fq_url }}</link>
-<year/>
-<endyear/>
-<partofyear>{{ envelope.created_at.year }}</partofyear>
-{% for file in envelope.files.all %}
+{% if envelope.coverage_start_year %}
+  <year>{{ envelope.coverage_start_year }}</year>
+{% else %}
+  <year/>
+{% endif %}
+{% if envelope.coverage_end_year %}
+  <endyear>{{ envelope.coverage_end_year }}</endyear>
+{% else %}
+  <endyear/>
+{% endif %}
+{% if envelope.coverage_interval %}
+  <partofyear>{{ envelope.coverage_interval }}</partofyear>
+{% else %}
+  <partofyear/>
+{% endif %}
+{% for file in envelope.datafiles.all %}
   <file name="{{ file.name }}" type="file_type" schema="{{ file.xml_schema }}" title="{{ file.name }}" restricted="{{ file.restricted }}" link="{{ file.fq_download_url }}"/>
 {% endfor %}
 </envelope>
