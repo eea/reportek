@@ -12,11 +12,10 @@ from .views import (
     ObligationSpecReporterViewSet,
     ReportingCycleViewSet,
     EnvelopeViewSet,
-    EnvelopeFileViewSet,
-    EnvelopeOriginalFileViewSet,
-    EnvelopeSupportFileViewSet,
-    EnvelopeLinkViewSet,
-    EnvelopeWorkflowViewSet,
+    DataFileViewSet,
+    SupportFileViewSet,
+    LinkViewSet,
+    WorkflowViewSet,
     UploadHookView,
     UploadTokenViewSet,
     WorkspaceProfileViewSet,
@@ -115,20 +114,19 @@ envelopes_router.register(
     base_name='envelope'
 )
 
-
-original_files_router = routers.NestedSimpleRouter(
+data_files_router = BulkDeleteNestedSimpleRouter(
     envelopes_router, 'envelopes', lookup='envelope')
-original_files_router.register(
-    'original-files',
-    EnvelopeOriginalFileViewSet,
-    base_name='envelope-original-file'
+data_files_router.register(
+    'data-files',
+    DataFileViewSet,
+    base_name='envelope-data-file'
 )
 
 support_files_router = routers.NestedSimpleRouter(
     envelopes_router, 'envelopes', lookup='envelope')
 support_files_router.register(
     'support-files',
-    EnvelopeSupportFileViewSet,
+    SupportFileViewSet,
     base_name='envelope-support-file'
 )
 
@@ -137,23 +135,15 @@ links_router = routers.NestedSimpleRouter(
     envelopes_router, 'envelopes', lookup='envelope')
 links_router.register(
     'links',
-    EnvelopeLinkViewSet,
+    LinkViewSet,
     base_name='envelope-link'
-)
-
-files_router = BulkDeleteNestedSimpleRouter(
-    envelopes_router, 'envelopes', lookup='envelope')
-files_router.register(
-    'files',
-    EnvelopeFileViewSet,
-    base_name='envelope-file'
 )
 
 workflow_router = routers.NestedSimpleRouter(
     envelopes_router, 'envelopes', lookup='envelope')
 workflow_router.register(
     'workflow',
-    EnvelopeWorkflowViewSet,
+    WorkflowViewSet,
     base_name='envelope-workflow'
 )
 
@@ -213,8 +203,7 @@ main_routers = [
 
 
 nested_routers = [
-    files_router,
-    original_files_router,
+    data_files_router,
     support_files_router,
     links_router,
     workflow_router,

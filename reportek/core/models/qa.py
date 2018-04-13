@@ -22,7 +22,7 @@ class QAJob(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     envelope_file = models.ForeignKey(
-        'core.EnvelopeFile',
+        'DataFile',
         on_delete=models.CASCADE,
         related_name='qa_jobs'
     )
