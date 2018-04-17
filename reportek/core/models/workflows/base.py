@@ -54,6 +54,10 @@ class WorkflowState:
     """
     name = attr.ib(validator=attr.validators.instance_of(str))
     title = attr.ib(validator=attr.validators.instance_of(str))
+    template_name = attr.ib(
+        default=None,
+        validator=attr.validators.optional(attr.validators.instance_of(str))
+    )
 
 
 def is_callable(instance, attribute, value):
@@ -171,6 +175,22 @@ class BaseWorkflow(TypedModel):
             if state.name in [s.name for s in t.source]
             and getattr(self.xwf, t.name).is_available()  # ImplementationWrapper
         ]
+
+    @property
+    def current_template(self):
+        state_cls = self._get_current_state_cls()
+        if state_cls is None:
+            return None
+
+        return state_cls.template_name
+
+    def _get_current_state_cls(self):
+        states = self.states or self.gather_states()
+        for s in states:
+            if s.name == self.current_state:
+                return s
+
+        return None
 
     @classmethod
     def gather_states(cls):
