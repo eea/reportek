@@ -15,7 +15,7 @@ from .models import (
     ObligationSpecReporter,
     ReportingCycle,
     Envelope,
-    DemoAutoQAWorkflow,
+    # DemoAutoQAWorkflow,
     TransitionEvent
 )
 
@@ -96,7 +96,7 @@ class TransitionEventAdmin(admin.ModelAdmin):
     list_display = ['timestamp', 'content_object', 'transition', 'from_state', 'to_state']
 
 
-admin.site.register(DemoAutoQAWorkflow)
+# admin.site.register(DemoAutoQAWorkflow)
 
 
 # Reporting

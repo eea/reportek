@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.utils.functional import cached_property
 from django.utils.crypto import get_random_string
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import get_user_model
 from model_utils import FieldTracker, Choices
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
@@ -203,6 +204,14 @@ class Envelope(models.Model):
     def support_files_path(self):
         return os.path.join(self.storage_path, 'support_files')
 
+    @cached_property
+    def system_user(self):
+        User = get_user_model()
+        try:
+            return User.objects.get(username='system')
+        except User.DoesNotExists:
+            return None
+
     def __str__(self):
         return self.name
 
@@ -253,6 +262,11 @@ class Envelope(models.Model):
             os.remove(env_file)
         except FileNotFoundError:
             warn(f'Could not find envelope file "{env_file}"')
+
+    def assign_to_system(self):
+        info(f'Assigning envelope "{self.name}" to SYSTEM')
+        self.assigned_to = self.system_user
+        self.save()
 
 
 class BaseEnvelopeFileQuerySet(models.QuerySet):

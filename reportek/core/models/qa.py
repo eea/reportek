@@ -2,6 +2,7 @@ import logging
 import enum
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 from reportek.core.qa import RemoteQA
 
@@ -12,7 +13,7 @@ debug = log.debug
 warn = log.warning
 error = log.error
 
-__all__ = ['QAJob', 'QAJobResult']
+__all__ = ['QAJob', 'QAJobResult', 'FeedbackComment']
 
 
 class QAJob(models.Model):
@@ -22,9 +23,7 @@ class QAJob(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     envelope_file = models.ForeignKey(
-        'DataFile',
-        on_delete=models.CASCADE,
-        related_name='qa_jobs'
+        'DataFile', on_delete=models.CASCADE, related_name='qa_jobs'
     )
     qa_job_id = models.IntegerField()
     qa_script_id = models.CharField(max_length=20, blank=True, null=True)
@@ -65,7 +64,7 @@ class QAJob(models.Model):
                 metatype=rpc_result['METATYPE'],
                 script_title=rpc_result['SCRIPT_TITLE'],
                 feedback_status=rpc_result['FEEDBACK_STATUS'],
-                feedback_message=rpc_result['FEEDBACK_MESSAGE']
+                feedback_message=rpc_result['FEEDBACK_MESSAGE'],
             )
             if not result.processing:
                 self.completed = True
@@ -100,6 +99,7 @@ class QAJob(models.Model):
         """
         try:
             return self.results.latest()
+
         except QAJobResult.DoesNotExist:
             return None
 
@@ -109,16 +109,14 @@ class QAJob(models.Model):
         """
         latest = self.latest_result
         if latest is not None:
-            QAJobResult.objects.\
-                filter(job=latest.job).\
-                exclude(pk=latest.pk).\
-                delete()
+            QAJobResult.objects.filter(job=latest.job).exclude(pk=latest.pk).delete()
 
 
 class QAJobResult(models.Model):
     """
     Result of a ``QAJob``, fetched from the QA/XMLCONV system over RPC.
     """
+
     @enum.unique
     class CODES(enum.IntEnum):
         READY = 0
@@ -134,10 +132,7 @@ class QAJobResult(models.Model):
         INFO = 'INFO'
         UNKNOWN = 'UNKNOWN'
 
-    OK_STATUSES = (
-        FEEDBACK_STATUSES.INFO,
-        FEEDBACK_STATUSES.WARNING,
-    )
+    OK_STATUSES = (FEEDBACK_STATUSES.INFO, FEEDBACK_STATUSES.WARNING)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -146,7 +141,9 @@ class QAJobResult(models.Model):
     value = models.TextField(blank=True, null=True)
     metatype = models.CharField(max_length=60, blank=True, null=True)
     script_title = models.CharField(max_length=100)
-    feedback_status = models.CharField(max_length=40, choices=((s.value, s.name) for s in FEEDBACK_STATUSES))
+    feedback_status = models.CharField(
+        max_length=40, choices=((s.value, s.name) for s in FEEDBACK_STATUSES)
+    )
     feedback_message = models.CharField(max_length=200, blank=True, null=True)
 
     @property
@@ -168,9 +165,36 @@ class QAJobResult(models.Model):
         get_latest_by = 'updated_at'
 
     def same_as(self, **kwargs):
-        return self.code == kwargs.get('CODE') and \
-            self.value == kwargs.get('VALUE') and \
-            self.metatype == kwargs.get('METATYPE') and \
-            self.script_title == kwargs.get('SCRIPT_TITLE') and \
-            self.feedback_status == kwargs.get('FEEDBACK_STATUS') and \
-            self.feedback_message == kwargs.get('FEEDBACK_MESSAGE')
+        return self.code == kwargs.get('CODE') and self.value == kwargs.get(
+            'VALUE'
+        ) and self.metatype == kwargs.get(
+            'METATYPE'
+        ) and self.script_title == kwargs.get(
+            'SCRIPT_TITLE'
+        ) and self.feedback_status == kwargs.get(
+            'FEEDBACK_STATUS'
+        ) and self.feedback_message == kwargs.get(
+            'FEEDBACK_MESSAGE'
+        )
+
+
+class FeedbackComment(models.Model):
+
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True
+    )
+
+    envelope = models.ForeignKey(
+        'Envelope', on_delete=models.CASCADE, related_name='feedback_comments'
+    )
+
+    # TODO: Set a max_length on this when requirement is clear
+    comment = models.TextField()
+
+    restricted = models.BooleanField(default=False)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'core_feedback_comm'

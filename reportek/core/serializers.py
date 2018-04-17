@@ -20,6 +20,7 @@ from .models import (
     DataFile,
     SupportFile,
     Link,
+    FeedbackComment,
     BaseWorkflow,
     UploadToken,
     QAJob,
@@ -309,9 +310,7 @@ class DataFileSerializer(serializers.ModelSerializer):
         return obj.fq_download_url
 
 
-class NestedDataFileSerializer(
-    NestedHyperlinkedModelSerializer, DataFileSerializer
-):
+class NestedDataFileSerializer(NestedHyperlinkedModelSerializer, DataFileSerializer):
     parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
     class Meta(DataFileSerializer.Meta):
@@ -340,14 +339,10 @@ class SupportFileSerializer(DataFileSerializer):
             'created',
             'updated',
         )
-        read_only_fields = (
-            'content', 'uploader', 'size', 'created', 'updated', 'name'
-        )
+        read_only_fields = ('content', 'uploader', 'size', 'created', 'updated', 'name')
 
 
-class NestedSupportFileSerializer(
-    NestedHyperlinkedModelSerializer, DataFileSerializer
-):
+class NestedSupportFileSerializer(NestedHyperlinkedModelSerializer, DataFileSerializer):
     parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
     class Meta(SupportFileSerializer.Meta):
@@ -368,9 +363,7 @@ class WorkflowSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class NestedWorkflowSerializer(
-    NestedHyperlinkedModelSerializer, WorkflowSerializer
-):
+class NestedWorkflowSerializer(NestedHyperlinkedModelSerializer, WorkflowSerializer):
 
     parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
@@ -410,14 +403,31 @@ class LinkSerializer(serializers.ModelSerializer):
         fields = ('id', 'link', 'text')
 
 
-class NestedLinkSerializer(
-    NestedHyperlinkedModelSerializer, LinkSerializer
-):
+class NestedLinkSerializer(NestedHyperlinkedModelSerializer, LinkSerializer):
     parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
 
     class Meta(LinkSerializer.Meta):
         fields = ('url',) + LinkSerializer.Meta.fields
         extra_kwargs = {'url': {'view_name': 'api:envelope-link-detail'}}
+
+
+class FeedbackCommentSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FeedbackComment
+        fields = (
+            'id', 'created', 'updated', 'envelope', 'author', 'comment', 'restricted'
+        )
+
+
+class NestedFeedbackCommentSerializer(
+    NestedHyperlinkedModelSerializer, FeedbackCommentSerializer
+):
+    parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
+
+    class Meta(FeedbackCommentSerializer.Meta):
+        fields = ('url',) + FeedbackCommentSerializer.Meta.fields
+        extra_kwargs = {'ßurl': {'view_name': 'api:envelope-feedback-comment-detail'}}
 
 
 class EnvelopeSerializer(serializers.ModelSerializer):

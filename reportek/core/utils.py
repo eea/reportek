@@ -2,6 +2,7 @@ import os
 import sys
 import logging
 from collections import defaultdict
+from collections.abc import Sequence
 import pkgutil
 import pyclbr
 import base64
@@ -273,3 +274,10 @@ def get_content_encoding(result):
         if len(enc) < 2:
             return None
         return enc[1]
+
+
+def is_proper_sequence(obj):
+    """
+    Checks if `obj` is an actual sequence (excluding strings, bytes, bytearrays).
+    """
+    return isinstance(obj, Sequence) and not isinstance(obj, (str, bytes, bytearray))

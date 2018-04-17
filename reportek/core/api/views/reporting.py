@@ -26,6 +26,7 @@ from ...models import (
     DataFile,
     SupportFile,
     Link,
+    FeedbackComment,
     BaseWorkflow,
     Obligation,
     Reporter,
@@ -124,12 +125,12 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
 
         try:
             workflow.start_transition(transition_name)
-        except BaseWorkflow.TransitionDoesNotExist as err:
+        except BaseWorkflow.TransitionDoesNotExistError as err:
             return Response(
                 make_response(with_error=str(err)),
                 status=status.HTTP_400_BAD_REQUEST
             )
-        except BaseWorkflow.TransitionNotAvailable as err:
+        except BaseWorkflow.TransitionNotAvailableError as err:
             return Response(
                 make_response(with_error=str(err)),
                 status=status.HTTP_406_NOT_ACCEPTABLE
@@ -589,7 +590,7 @@ class DataFileViewSet(MappedPermissionsMixin, EnvelopeFileMixin, viewsets.ModelV
 
 class LinkViewSet(viewsets.ModelViewSet):
     """
-    Common functionality for envelope file viewsets.
+    Envelope hyperlinks viewset.
     """
 
     serializer_class = LinkSerializer
@@ -600,6 +601,23 @@ class LinkViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(
             envelope_id=self.kwargs['envelope_pk'],
+        )
+
+
+class FeedbackCommentViewSet(viewsets.ModelViewSet):
+    """
+    Envelope feedback comments viewset.
+    """
+
+    serializer_class = FeedbackComment
+
+    def get_queryset(self):
+        return FeedbackComment.objects.filter(envelope_id=self.kwargs['envelope_pk'])
+
+    def perform_create(self, serializer):
+        serializer.save(
+            envelope_id=self.kwargs['envelope_pk'],
+            author_id=self.request.user.pk,
         )
 
 
