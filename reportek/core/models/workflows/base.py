@@ -177,7 +177,7 @@ class BaseWorkflow(TypedModel):
         ]
 
     @property
-    def current_template(self):
+    def current_state_template(self):
         state_cls = self._get_current_state_cls()
         if state_cls is None:
             return None
