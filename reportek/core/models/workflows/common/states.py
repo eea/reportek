@@ -11,11 +11,11 @@ __all__ = [
     'ReceiptConfirmed',
     'Released',
     'FinalFeedback',
+    'ReleaseRevoked',
     'AQARerunRequested',
     'CorrectionRequested',
-    'AQAResultsReleased',
     'TechnicallyAccepted',
-    'ReleaseRevoked',
+    'AQAResultsReleased',
     'End',
 ]
 
@@ -41,16 +41,16 @@ Released = WorkflowState(name='released', title='Released')
 # State during which the decision to accept or reject the envelope is taken
 FinalFeedback = WorkflowState(name='final_feedback', title='Final Feedback')
 
+ReleaseRevoked = WorkflowState(name='release_revoked', title='Release Revoked')
+
 # This state indicates that a QA re-run was initiated
 AQARerunRequested = WorkflowState(name='qa_rerun_requested', title='Auto QA Rerun Requested')
 
 CorrectionRequested = WorkflowState(name='correction_requested', title='Correction Requested')
 
-AQAResultsReleased = WorkflowState(name='qa_results_released', title='Auto QA Results Released')
-
 TechnicallyAccepted = WorkflowState(name='technically_accepted', title='Technically Accepted')
 
-ReleaseRevoked = WorkflowState(name='release_revoked', title='Release Revoked')
+AQAResultsReleased = WorkflowState(name='qa_results_released', title='Auto QA Results Released')
 
 # The cannonical final state of all envelopes
 End = WorkflowState(name='end', title='End')

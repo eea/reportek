@@ -32,12 +32,14 @@ class ReferenceWorkflow(BaseWorkflow):
         RequestCorrection,
         ReleaseAQAResults,
         TechnicallyAccept,
-        # Complete
+        Complete
     )
 
     initial_state = Draft
     final_state = End
     upload_states = [Draft]
+
+    unassign_after_transition = False
 
     class Meta:
         verbose_name = 'Workflow - Reference'

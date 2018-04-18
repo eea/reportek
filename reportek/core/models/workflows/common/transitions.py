@@ -21,8 +21,8 @@ __all__ = [
     'RequestFinalFeedback',
     'RevokeRelease',
     'RequestCorrection',
-    'ReleaseAQAResults',
     'TechnicallyAccept',
+    'ReleaseAQAResults',
     'Complete'
 ]
 
@@ -158,6 +158,7 @@ Release = WorkflowTransition(
     sources=(ReceiptConfirmed,),
     target=Released,
     implementation=release,
+    on_enter_target=auto_start_transition('request_final_feedback'),
 )
 
 
@@ -199,20 +200,7 @@ RequestCorrection = WorkflowTransition(
     target=CorrectionRequested,
     implementation=request_correction,
     allowed_actors=(WorkflowActors.CLIENT, WorkflowActors.AUDITOR),
-)
-
-
-@mock_transition
-def release_auto_qa_results(self):
-    pass
-
-
-ReleaseAQAResults = WorkflowTransition(
-    name='release_auto_qa_results',
-    sources=(FinalFeedback,),
-    target=AQAResultsReleased,
-    implementation=release_auto_qa_results,
-    allowed_actors=(WorkflowActors.CLIENT, WorkflowActors.AUDITOR),
+    on_enter_target=auto_start_transition('complete'),
 )
 
 
@@ -223,9 +211,25 @@ def technically_accept(self):
 
 TechnicallyAccept = WorkflowTransition(
     name='technically_accept',
-    sources=(AQAResultsReleased,),
+    sources=(FinalFeedback,),
     target=TechnicallyAccepted,
     implementation=technically_accept,
+    on_enter_target=auto_start_transition('release_auto_qa_results'),
+)
+
+
+@mock_transition
+def release_auto_qa_results(self):
+    pass
+
+
+ReleaseAQAResults = WorkflowTransition(
+    name='release_auto_qa_results',
+    sources=(TechnicallyAccepted,),
+    target=AQAResultsReleased,
+    implementation=release_auto_qa_results,
+    on_enter_target=auto_start_transition('complete'),
+    allowed_actors=(WorkflowActors.CLIENT, WorkflowActors.AUDITOR),
 )
 
 
@@ -236,7 +240,7 @@ def complete(self):
 
 Complete = WorkflowTransition(
     name='complete',
-    sources=(CorrectionRequested, TechnicallyAccepted),
+    sources=(CorrectionRequested, AQAResultsReleased),
     target=End,
     implementation=complete,
 )
