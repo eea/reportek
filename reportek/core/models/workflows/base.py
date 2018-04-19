@@ -2,7 +2,6 @@ import logging
 from functools import wraps
 import enum
 from django.db import models
-from django.utils.functional import cached_property
 from django.contrib.contenttypes.fields import GenericRelation
 from typedmodels.models import TypedModel
 import xworkflows as xwf
@@ -105,8 +104,7 @@ class WorkflowTransition:
 
 class BaseWorkflow(XWorkflowBearerMixin, TypedModel):
     """
-    Base class for workflows.
-    Workflows are implemented as concrete types based on this.
+    Base class for workflows, provides single table storage and XWorkflows features.
     """
 
     name = models.CharField(max_length=100)
@@ -133,6 +131,7 @@ class BaseWorkflow(XWorkflowBearerMixin, TypedModel):
         super().save(*args, **kwargs)
 
     def force_state(self, state):
+        """Workflow management method, forcefully sets the current state."""
         if state not in self.state_names():
             raise StateDoesNotExistError(f'Unknown state: {state}')
 

@@ -12,15 +12,35 @@ error = log.error
 
 
 class XWorkflowBearerMixin:
+    """
+    Adds `XWorkflows`-powered workflow functionality.
 
-    # Concrete types MUST set these; see `ReferenceWorkflow`.
-    transitions = ()  # WorkflowTransition tuple
-    initial_state = None  # The initial WorkflowState
-    final_state = None  # The final WorkflowState
+    The child class specifies the workflow by setting the attributes:
 
-    # Override this to indicate the attribute holding the current
-    # state on the host class, if different.
-    current_state_attr = 'current_state'
+    - `transitions`: a tuple of `WorkflowTransition` instances.
+    - `initial_state` and `final_state`: `WorkflowState` instances.
+    - `current_state_field` (optional): name of the attribute holding
+    the current state; defaults to `current_state`.
+
+    The `xwf` property returns a fresh `XWFEnabled` workflow instance,
+    with its current state set to the child class'.
+
+    Each time the workflow is instantiated, methods for its transitions
+    and hooks logic are collected from:
+        - the `implementation` and `on_enter_target` attributes on the
+        `WorkflowTransition`s.
+        - the XWorkflow-decorated methods on the child class.
+
+    An extra attribute `bearer` is set on the workflow instance as back reference
+    to this instance, for use inside transition and hook methods.
+
+    """
+
+    transitions = ()
+    initial_state = None
+    final_state = None
+
+    current_state_field = 'current_state'
 
     @classmethod
     def collect_states(cls):
@@ -34,31 +54,35 @@ class XWorkflowBearerMixin:
         return tuple(states)
 
     def _get_current_state_cls(self):
+        """
+        Finds the `WorkflowState` class with a `name` matching the
+        current state attribute on the host class, or `None`.
+        """
         states = self.collect_states()
         for s in states:
-            if s.name == getattr(self, self.current_state_attr):
+            if s.name == getattr(self, self.current_state_field):
                 return s
 
         return None
 
     @property
-    def current_state_template(self):
-        state_cls = self._get_current_state_cls()
-        if state_cls is None:
-            return None
-
-        return state_cls.template_name
+    def current_template_name(self):
+        """Returns the current state's template name, or `None`."""
+        return getattr(self._get_current_state_cls(), 'template_name', None)
 
     @classmethod
     def state_names(cls):
+        """Returns a tuple of the state names."""
         return tuple(s.name for s in cls.collect_states())
 
     @classmethod
     def transition_names(cls):
+        """Returns a tuple of the transition names."""
         return tuple(t.name for t in cls.transitions)
 
     @classmethod
-    def get_digraph(cls):
+    def _digraph(cls):
+        """Returns a directed graph of the workflow, as a `networkx.DiGraph`."""
         graph = nx.DiGraph()
         for t in cls.transitions:
             for src in t.sources:
@@ -71,8 +95,7 @@ class XWorkflowBearerMixin:
         Validates the workflow.
 
         Checks performed:
-         - `initial_state` is in `states`
-         - `final_state` is in `states`
+         - `initial_state` and `final_state` are among states derived from `transitions`
          - there is a single possible end state, and it is `final_state`.
         """
         states = cls.collect_states()
@@ -88,7 +111,7 @@ class XWorkflowBearerMixin:
                 f'not in `states`: {cls.state_names()}'
             )
 
-        digraph = cls.get_digraph()
+        digraph = cls._digraph()
         expected_end_state = cls.final_state.name
         end_states = list(nx.attracting_components(digraph))
         if end_states != [{expected_end_state}]:
@@ -112,6 +135,10 @@ class XWorkflowBearerMixin:
 
     @classmethod
     def get_transition_logger(cls):
+        """
+        Override in the host class to return a custom transition logging method,
+        otherwise the default XWorkflows logging is used.
+        """
         return None
 
     def xwf_cls(self):
@@ -167,7 +194,7 @@ class XWorkflowBearerMixin:
                 continue
 
             # Delete the dict attribute XWorkflows sets on hook methods, if present.
-            # Otherwise, each hook collection when building the dynamic XWFEnabled class
+            # Otherwise, when building the dynamic XWFEnabled class each hook collection
             # will add it again to this register-like attribute, leading to multiple hook
             # execution!
             try:
@@ -187,7 +214,7 @@ class XWorkflowBearerMixin:
         Gets the transition and hook methods from the concrete workflow class.
 
         XWorkflows methods are identified based on the effects of their decorators:
-        - @transition wraps methods in a TransisionWrapper
+        - @transition wraps methods in a `TransisionWrapper`
         - hook decorators (@before|after_transition, @on_enter|leave_state)
           set a `xworkflows_hook` attribute on the method
         """
@@ -223,23 +250,23 @@ class XWorkflowBearerMixin:
         """
 
         wf_cls = self.xwf_cls()
-        # Transplant the transition methods
+        # Transplant the transition & hook methods
         attrs = self._collect_xwf_methods()
         attrs.update(
             {
                 'state': wf_cls(),
                 'bearer': self,
-                # XWorkflows needs __module__ set on the enabled class
-                '__module__': __name__
+                '__module__': __name__  # XWorkflows wants __module__ on the enabled class
             }
         )
         klass = type(f'XWFEnabled{self.__class__.__name__}', (xwf.WorkflowEnabled,), attrs)
         wf = klass()
-        wf.state = getattr(self, self.current_state_attr)  # Force to current state
+        wf.state = getattr(self, self.current_state_field)  # Force to current state
         return wf
 
-    def inspect_xwf_hooks(self, transition):
+    def _get_xwf_implementation(self, transition):
         """
-        Returns the hooks available on the XWorkflow instance for `transition`.
+        Returns the `ImplementationProperty` for `transition`, that includes some
+        useful attributes when debugging, e.g. `hooks`, `implementation`.
         """
-        return self.xwf._xworkflows_implems['state'].implementations[transition].hooks
+        return self.xwf._xworkflows_implems['state'].implementations.get(transition)
