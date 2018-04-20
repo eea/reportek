@@ -105,6 +105,18 @@ class WorkflowTransition:
 class BaseWorkflow(XWorkflowBearerMixin, TypedModel):
     """
     Base class for workflows, provides single table storage and XWorkflows features.
+
+    Non-field attributes:
+
+         `upload_states` (`WorkflowState` tuple): states during which uploading is
+            allowed.
+
+         `unassign_after_transition` (default `True`): if on, the envelope will be
+            unassigned post-transition.
+
+         `finalize_on_end_state` (default `True`): if on, the envelope is finalized
+            when the workflow enters its last state.
+
     """
 
     name = models.CharField(max_length=100)
@@ -116,8 +128,9 @@ class BaseWorkflow(XWorkflowBearerMixin, TypedModel):
 
     upload_states = ()  # The WorkflowState's that allow uploading
 
-    # When set, envelopes will be unassigned after each transition
     unassign_after_transition = True
+
+    finalize_on_end_state = True
 
     class Meta:
         db_table = 'core_workflow'
@@ -231,9 +244,10 @@ class BaseWorkflow(XWorkflowBearerMixin, TypedModel):
             info(f'Envelope "{self.bearer.envelope.name}" was unassigned')
 
         if wflow.finished:
-            wflow.envelope.finalized = True
-            wflow.envelope.save()
-            info(f'Envelope "{self.bearer.envelope.name}" has been finalized.')
+            if wflow.finalize_on_end_state:
+                wflow.envelope.finalized = True
+                wflow.envelope.save()
+                info(f'Envelope "{self.bearer.envelope.name}" has been finalized.')
         elif wflow.envelope.finalized:
             wflow.envelope.finalized = False
             wflow.envelope.save()
