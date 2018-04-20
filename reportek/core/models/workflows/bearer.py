@@ -2,6 +2,7 @@ import logging
 import xworkflows as xwf
 import networkx as nx
 
+from .common.states import End
 from .exceptions import MisconfiguredWorkflowError
 
 log = logging.getLogger('reportek.workflows')
@@ -18,7 +19,8 @@ class XWorkflowBearerMixin:
     The child class specifies the workflow by setting the attributes:
 
     - `transitions`: a tuple of `WorkflowTransition` instances.
-    - `initial_state` and `final_state`: `WorkflowState` instances.
+    - `initial_state`: a `WorkflowState` instance
+    - `final_state` (optional): a `WorkflowState` instance, defaults to `End`.
     - `current_state_field` (optional): name of the attribute holding
     the current state; defaults to `current_state`.
 
@@ -38,7 +40,7 @@ class XWorkflowBearerMixin:
 
     transitions = ()
     initial_state = None
-    final_state = None
+    final_state = End
 
     current_state_field = 'current_state'
 

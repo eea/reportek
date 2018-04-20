@@ -36,7 +36,6 @@ class ReferenceWorkflow(BaseWorkflow):
     )
 
     initial_state = Draft
-    final_state = End
     upload_states = [Draft]
 
     unassign_after_transition = False
