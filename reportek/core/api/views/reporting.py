@@ -104,10 +104,6 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
             Q(finalized=True) | Q(reporter__in=reporters, obligation_spec__obligation__in=obligations)
         ).prefetch_related('files')
 
-    def perform_create(self, serializer):
-        serializer.validated_data['author'] = self.request.user
-        return super().perform_create(serializer)
-
     @detail_route(methods=['post'])
     def transition(self, request, pk):
         """
