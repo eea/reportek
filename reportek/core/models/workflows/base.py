@@ -14,6 +14,7 @@ from .bearer import XWorkflowBearerMixin
 from .exceptions import (
     TransitionDoesNotExistError,
     TransitionNotAvailableError,
+    TransitionHistoryError,
     StateDoesNotExistError,
 )
 from .log import TransitionEvent
@@ -74,6 +75,20 @@ class BaseWorkflow(XWorkflowBearerMixin, TypedModel):
 
         self.current_state = state
         self.save()
+
+    def get_prev_state(self, steps=1):
+        """
+        Returns the name of the previous state.
+
+        Arguments:
+            steps (int): The number of transitions to walk back, defaults to `1`.
+        """
+        try:
+            return self.history.all()[steps - 1].from_state
+        except IndexError:
+            raise TransitionHistoryError(
+                f'Transition history depth exceeded for "{self.name}": {steps} steps'
+            )
 
     @property
     def finished(self):

@@ -23,5 +23,6 @@ class TransitionEvent(models.Model):
 
     class Meta:
         db_table = 'core_transition_event'
+        ordering = ['-timestamp']
         verbose_name = 'workflow event'
         unique_together = ('timestamp', 'object_id', 'from_state', 'to_state')

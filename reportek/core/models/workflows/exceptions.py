@@ -15,5 +15,9 @@ class TransitionNotAvailableError(ReportekWorkflowError):
     pass
 
 
+class TransitionHistoryError(ReportekWorkflowError):
+    pass
+
+
 class StateDoesNotExistError(ReportekWorkflowError):
     pass
