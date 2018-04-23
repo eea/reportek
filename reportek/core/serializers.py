@@ -427,7 +427,7 @@ class NestedFeedbackCommentSerializer(
 
     class Meta(FeedbackCommentSerializer.Meta):
         fields = ('url',) + FeedbackCommentSerializer.Meta.fields
-        extra_kwargs = {'ßurl': {'view_name': 'api:envelope-feedback-comment-detail'}}
+        extra_kwargs = {'url': {'view_name': 'api:envelope-feedback-comment-detail'}}
 
 
 class EnvelopeSerializer(serializers.ModelSerializer):
