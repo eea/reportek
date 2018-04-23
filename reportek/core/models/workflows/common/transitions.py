@@ -1,6 +1,6 @@
 import logging
 from functools import wraps
-from ..base import WorkflowTransition, WorkflowActors, as_system
+from . import WorkflowTransition, WorkflowActors
 from .states import *
 
 log = logging.getLogger('reportek.workflows')
@@ -39,6 +39,18 @@ def auto_start_transition(transition):
         getattr(self, transition)()
 
     return _auto_transition
+
+
+def as_system(f):
+    """
+    Transition method wrapper that first assigns the envelope to the system user.
+    For use with automatic transitions to avoid failing the assignment check.
+    """
+    @wraps(f)
+    def wrapper(self, *args, **kwargs):
+        self.bearer.envelope.assign_to_system()
+        return f(self, *args, **kwargs)
+    return wrapper
 
 
 def mock_transition(method):

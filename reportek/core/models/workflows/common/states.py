@@ -1,4 +1,4 @@
-from ..base import WorkflowState
+from . import WorkflowState
 
 __all__ = [
     'Draft',
