@@ -151,6 +151,7 @@
                     variant="link"
                     v-on:click="renameFile(row.item)"
                     v-if="!row.item.isEditing"
+                    :disabled="!envelope.assigned_to"
                   >
                     Rename File
                   </b-btn>
@@ -270,11 +271,29 @@
 
             <div class="file-control-body">
               <b-button
+                v-show="!envelope.assigned_to"
+                @click="activateEnvelope"
+                variant="white sidebar-button"
+              >
+                <i class="far fa-envelope-open"></i>
+                Activate Task
+              </b-button>
+
+              <b-button
+                v-show="envelope.assigned_to"
+                @click="deactivateEnvelope"
+                variant="white sidebar-button"
+              >
+                <i class="fa fa-envelope"></i>
+                Deactivate Task
+              </b-button>
+
+              <b-button
                 v-show="selectedFiles"
                 @click="showModal"
                 variant="white sidebar-button"
               >
-                <i class="far fa-folder-open"></i>
+                <i class="fa fa-folder-open"></i>
                 Download
               </b-button>
 
@@ -291,6 +310,7 @@
                 v-show="selectedFiles"
                 v-on:click="deleteFiles"
                 variant="white sidebar-button"
+                :disabled="!envelope.assigned_to"
               >
                 <i class="far fa-trash-alt"></i>
                 Delete
@@ -301,7 +321,7 @@
               novalidate
               class="upload-form">
                   <label
-                    :class="[ {'disabled': filesUploading || !envelope.workflow.upload_allowed }, 'btn', 'btn-white', 'sidebar-button']"
+                    :class="[ { 'disabled': (filesUploading || !envelope.workflow.upload_allowed) || !envelope.assigned_to }, 'btn', 'btn-white', 'sidebar-button']"
                     for="file_uploads"
                   >
                     <i class="far fa-folder-open"></i>
@@ -311,7 +331,7 @@
                     type="file"
                     id="file_uploads"
                     class="hidden-input"
-                    :disabled="filesUploading || !envelope.workflow.upload_allowed"
+                    :disabled="(filesUploading || !envelope.workflow.upload_allowed) || !envelope.assigned_to"
                     v-on:change="onFileChange"
                     multiple
                   >
@@ -382,7 +402,9 @@ import {
   runEnvelopeTransition,
   updateFile,
   removeFile,
-  uploadFile
+  uploadFile,
+  activateEnvelope,
+  deactivateEnvelope,
 } from '../api';
 import utilsMixin from '../mixins/utils.js';
 
@@ -432,6 +454,24 @@ export default {
   },
 
   methods: {
+
+    activateEnvelope() {
+      activateEnvelope(this.$route.params.envelopeId)
+        .then(() => {
+          this.getEnvelope().then(resultFiles => {
+            this.getEnvelopeFeedback(resultFiles);
+          });
+        });
+    },
+
+    deactivateEnvelope() {
+      deactivateEnvelope(this.$route.params.envelopeId)
+        .then(() => {
+          this.getEnvelope().then(resultFiles => {
+            this.getEnvelopeFeedback(resultFiles);
+          });
+        });
+    },
 
     handleSubscription() {
       const envelopeChannel = `/ws/envelopes/` + this.$route.params.envelopeId;

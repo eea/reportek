@@ -65,8 +65,18 @@
             <div v-if="!file.restricted" style="color:#1ea83a;"><i class="fas fa-eye"></i> Public file</div>
             <div v-else style="color: red;"><i class="fas fa-eye"></i> Restricted file</div>
 
-            <b-btn v-if="!file.restricted" @click="restricFile(!file.restricted)" variant="link">Restrict from public</b-btn>
-            <b-btn v-else @click="restricFile(!file.restricted)" variant="link">Make file public</b-btn>
+            <b-btn 
+              v-if="!file.restricted"
+              @click="restricFile(!file.restricted)"
+              variant="link"
+              :disabled="!isEnvelopeAssigned"
+            >Restrict from public</b-btn>
+            <b-btn
+              v-else 
+              @click="restricFile(!file.restricted)"
+              variant="link"
+              :disabled="!isEnvelopeAssigned"
+            >Make file public</b-btn>
 
           </div>
           <div class="actions-section">
@@ -75,9 +85,10 @@
           </div>
            <div class="actions-section">
             <b-btn
-             variant="link"
-             @click="renameFile()"
-             v-if="!isEditing"
+              variant="link"
+              @click="renameFile()"
+              v-if="!isEditing"
+              :disabled="!isEnvelopeAssigned"
             >
               Rename
             </b-btn>
@@ -93,6 +104,7 @@
               style="color: red"
               @click="deleteFile"
               variant="link"
+              :disabled="!isEnvelopeAssigned"
             >
               Remove
             </b-btn>
@@ -171,6 +183,7 @@ export default {
       file: null,
       modalFile: [], // will only contain the current file, needs to be array for reusing EnvelopeFilesDownload
       envelopeName: null,
+      isEnvelopeAssigned: null,
       fileQaScripts: null,
       isEditing: false,
       envelopeFinalized: false,
@@ -224,6 +237,7 @@ export default {
         .then(response => {
           this.envelopeName = response.data.name;
           this.envelopeFinalized = response.data.finalized;
+          this.isEnvelopeAssigned = response.data.assigned_to;
         })
         .catch(error => {
           console.log(error);

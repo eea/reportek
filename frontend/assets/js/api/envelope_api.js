@@ -71,3 +71,11 @@ export function fetchWipEnvelopes(reporterId) {
 export function fetchArchiveEnvelopes(reporterId) {
   return fetch(`workspace-reporter/${reporterId}/archive/`);
 }
+
+export function activateEnvelope(id) {
+  return post(`envelopes/${id}/assign/`);
+}
+
+export function deactivateEnvelope(id) {
+  return post(`envelopes/${id}/unassign/`);
+}
