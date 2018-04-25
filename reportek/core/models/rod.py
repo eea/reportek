@@ -173,7 +173,10 @@ class Obligation(RODModel):
     @property
     def spec(self):
         """the current spec"""
-        return self.specs.get(is_current=True)
+        try:
+            return self.specs.get(is_current=True)
+        except (ObligationSpec.DoesNotExist, ObligationSpec.MultipleObjectsReturned):
+            return None
 
     @property
     def reporters(self):
