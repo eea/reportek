@@ -3,6 +3,8 @@ import logging
 from django.conf import settings
 from django.db import models, transaction
 from django.db.models.signals import post_save
+from django.db.models.aggregates import Count
+from django.core.exceptions import ValidationError
 from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
@@ -15,9 +17,16 @@ from model_utils import FieldTracker, Choices
 from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 
+from .mixins import ValidateOnSaveMixin
 from .workflows import (BaseWorkflow,)
 
-from .rod import (Reporter, ReporterSubdivision, ObligationSpec, ReportingCycle)
+from .rod import (
+    Reporter,
+    ReporterSubdivision,
+    Obligation,
+    ObligationSpec,
+    ReportingCycle
+)
 
 from .qa import QAJob, QAJobResult
 from ..conversion import RemoteConversion
@@ -51,7 +60,7 @@ class EnvelopeManager(models.Manager.from_queryset(EnvelopeQuerySet)):
         )
 
 
-class Envelope(models.Model):
+class Envelope(ValidateOnSaveMixin, models.Model):
 
     COVERAGE_INTERVAL_CHOICE = Choices(
         (0, 'whole_year', _('Whole year')),
@@ -84,9 +93,9 @@ class Envelope(models.Model):
     reporter = models.ForeignKey(
         Reporter, related_name='envelopes', on_delete=models.PROTECT
     )
-    obligation_spec = models.ForeignKey(
-        ObligationSpec, related_name='envelopes', on_delete=models.PROTECT
-    )
+
+    obligation_specs = models.ManyToManyField(ObligationSpec, through='core.EnvelopeObligationSpec')
+
     reporter_subdivision = models.ForeignKey(
         ReporterSubdivision,
         blank=True,
@@ -124,11 +133,8 @@ class Envelope(models.Model):
     tracker = FieldTracker()
 
     @property
-    def obligation(self):
-        if self.obligation_spec is None:
-            return None
-
-        return self.obligation_spec.obligation
+    def obligations(self):
+        return (s.obligation for s in self.obligation_specs.all())
 
     @property
     def is_assigned(self):
@@ -187,11 +193,14 @@ class Envelope(models.Model):
     def storage_path(self):
         """
         Generates a multi-level, stable path for the envelope:
-        envelope creation / reporter / obligation spec id / envelope id
+        envelope creation year /
+            reporter id /
+                underscore-separated obligation ids /
+                    envelope id /
         """
         year = str(self.created_at.year)
-        reporter = self.reporter.abbr
-        spec = str(self.obligation_spec_id)
+        reporter = self.reporter.pk
+        spec = '_'.join(sorted(o.pk for o in self.obligations))
         envelope = str(self.id)
 
         return os.path.join(ENVELOPE_ROOT_DIR, year, reporter, spec, envelope)
@@ -218,27 +227,25 @@ class Envelope(models.Model):
     def handle_auto_qa_results(self):
         return self.workflow.handle_auto_qa_results()
 
-    def save(self, *args, **kwargs):
-        # don't allow any operations on a final envelope
-        if self.tracker.changed() and self.tracker.previous('finalized'):
-            raise RuntimeError("Envelope is final.")
+    def get_workflow_cls(self):
+        try:
+            wf_path_components = self.obligation_specs.first().workflow_class.split('.')
+        except AttributeError:
+            return None
+        module_name = '.'.join(wf_path_components[:-1])
+        class_name = wf_path_components[-1]
+        module = __import__(module_name, fromlist=[class_name])
+        return getattr(module, class_name)
 
-        # On first save:
-        if not self.pk or kwargs.get('force_insert', False):
-            # - import the workflow class set on the envelope's obligation spec
-            wf_path_components = self.obligation_spec.workflow_class.split('.')
-            module_name = '.'.join(wf_path_components[:-1])
-            class_name = wf_path_components[-1]
-            module = __import__(module_name, fromlist=[class_name])
-            # Instantiate a new workflow and set it on the envelope
-            wf_class = getattr(module, class_name)
-            workflow = wf_class(name=f'Envelope "{self.name}"\'s workflow')
-            workflow.save()
-            self.workflow = workflow
+    def clean(self):
+        if self.tracker.changed() and self.tracker.previous('finalized'):
+            raise ValidationError(_('Finalized envelopes cannot be changed'))
 
         if self.reporter_subdivision is not None:
             if self.reporter_subdivision.reporter != self.reporter:
-                raise RuntimeError('Envelope subdivision must match reporter!')
+                raise ValidationError(
+                    {'reporter_subdivision': _('Envelope subdivision must match reporter!')}
+                )
 
         # Switch start/end coverage years if reversed
         if (
@@ -247,6 +254,14 @@ class Envelope(models.Model):
             and self.coverage_start_year < self.coverage_end_year
         ):
             self.coverage_start_year, self.coverage_end_year = self.coverage_end_year, self.coverage_start_year
+
+    def save(self, *args, **kwargs):
+        # On first save, instantiate a new workflow and set it on the envelope
+        if self._state.adding:
+            wf_class = self.get_workflow_cls()
+            workflow = wf_class(name=f'Envelope "{self.name}"\'s workflow')
+            workflow.save()
+            self.workflow = workflow
 
         super().save(*args, **kwargs)
 
@@ -267,6 +282,13 @@ class Envelope(models.Model):
         info(f'Assigning envelope "{self.name}" to SYSTEM')
         self.assigned_to = self.system_user
         self.save()
+
+
+class EnvelopeObligationSpec(models.Model):
+
+    envelope = models.ForeignKey(Envelope, on_delete=models.CASCADE)
+    obligation_spec = models.ForeignKey(ObligationSpec, on_delete=models.PROTECT)
+    reporting_cycle = models.ForeignKey(ReportingCycle, on_delete=models.PROTECT)
 
 
 class BaseEnvelopeFileQuerySet(models.QuerySet):
