@@ -16,7 +16,7 @@
         <span class="separator">/</span>
         <span class="current-page">{{obligation.title}}</span>
       </div>
-      <h1>Reporting for: {{obligation.title}}</h1>
+      <h1>{{ $t('reporting_for') }}: {{obligation.title}}</h1>
       <h3>Details</h3>
       <b-tabs>
         <b-tab title="Overview">

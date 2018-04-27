@@ -5,7 +5,8 @@
         <p>
           You have permission to report for multiple countries
         </p>
-        <h2>Which country are you reporting for ?</h2>
+        <!-- <h2>Which country are you reporting for ?</h2> -->
+        <h2>{{ $t('country_question') }}</h2>
         </div>
       <ul >
         <li
