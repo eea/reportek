@@ -5,7 +5,7 @@ from collections import OrderedDict
 import logging
 from base64 import b64encode
 from django.views import static
-from django.db.models import Q, F, Exists, OuterRef
+from django.db.models import Q, F, Exists, OuterRef, FilteredRelation
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.text import slugify
@@ -23,12 +23,14 @@ from django.core.files import File
 
 from ...models import (
     Envelope,
+    EnvelopeObligationSpec,
     DataFile,
     SupportFile,
     Link,
     FeedbackComment,
     BaseWorkflow,
     Obligation,
+    ObligationSpec,
     Reporter,
     ReportekUser,
     UploadToken,
@@ -36,7 +38,7 @@ from ...models import (
 )
 
 from ...serializers import (
-    EnvelopeSerializer,
+    EnvelopeSerializer, CreateEnvelopeSerializer,
     DataFileSerializer, CreateDataFileSerializer,
     SupportFileSerializer, CreateSupportFileSerializer,
     LinkSerializer,
@@ -73,12 +75,12 @@ __all__ = [
 
 
 class EnvelopeResultsSetPagination(LimitOffsetPagination):
-    default_limit = 20
+    default_limit = 10
     max_limit = 100
 
 
 class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
-    serializer_class = EnvelopeSerializer
+
     pagination_class = EnvelopeResultsSetPagination
 
     permission_classes_map = {
@@ -86,6 +88,11 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         'list': [IsAuthenticatedOrReadOnly],
         'retrieve': [IsAuthenticatedOrReadOnly]
     }
+
+    def get_serializer_class(self):
+        if self.request.method in ('POST', 'PUT', 'PATCH'):
+            return CreateEnvelopeSerializer
+        return EnvelopeSerializer
 
     def get_queryset(self):
         if self.request.user.is_anonymous:
@@ -96,9 +103,31 @@ class EnvelopeViewSet(MappedPermissionsMixin, viewsets.ModelViewSet):
         reporters = self.request.user.get_reporters()
         obligations = self.request.user.get_obligations()
 
-        return Envelope.objects.filter(
-            Q(finalized=True) | Q(reporter__in=reporters, obligation_spec__obligation__in=obligations)
-        ).prefetch_related('datafiles')
+        sql_query = f"""
+        SELECT e.id FROM {Envelope._meta.db_table} AS e 
+        WHERE 
+          e.finalized = TRUE 
+          OR (reporter_id in %s 
+            AND ( 
+              ARRAY(
+                SELECT DISTINCT obligation_id FROM {ObligationSpec._meta.db_table} 
+                WHERE id in (SELECT obligation_spec_id FROM {EnvelopeObligationSpec._meta.db_table} WHERE envelope_id = e.id)
+              ) 
+              <@ ARRAY(SELECT id FROM core_obligation WHERE id in %s) 
+            )            
+        )
+        """
+
+        envelopes = Envelope.objects.raw(
+            sql_query,
+            (
+                tuple(r.id for r in reporters.all()),
+                tuple(o.id for o in obligations.all())
+            )
+        )
+
+        # TODO: Replace raw query with ORM query, if possible, to avoid hitting db twice
+        return Envelope.objects.filter(pk__in=[e.id for e in envelopes])
 
     @detail_route(methods=['post'])
     def transition(self, request, pk):

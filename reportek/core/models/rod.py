@@ -270,6 +270,17 @@ class ObligationSpec(RODModel):
 
         super().save(*args, **kwargs)
 
+    @property
+    def workflow_cls(self):
+        try:
+            wf_path_components = self.workflow_class.split('.')
+        except AttributeError:
+            return None
+        module_name = '.'.join(wf_path_components[:-1])
+        class_name = wf_path_components[-1]
+        module = __import__(module_name, fromlist=[class_name])
+        return getattr(module, class_name)
+
     class Meta:
         verbose_name = 'Obligation Specification'
         db_table = 'core_oblig_spec'

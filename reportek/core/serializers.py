@@ -17,6 +17,7 @@ from .models import (
     ObligationSpecReporter,
     ReportingCycle,
     Envelope,
+    EnvelopeObligationSpec,
     DataFile,
     SupportFile,
     Link,
@@ -221,6 +222,13 @@ class ObligationSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         )
+
+
+class DynamicObligationSerializer(DynamicFieldsModelSerializer):
+
+    class Meta:
+        model = Obligation
+        fields = '__all__'
 
 
 class PendingObligationSpecSerializer(serializers.ModelSerializer):
@@ -430,25 +438,91 @@ class NestedFeedbackCommentSerializer(
         extra_kwargs = {'url': {'view_name': 'api:envelope-feedback-comment-detail'}}
 
 
+class EnvelopeObligationSpecSerializer(serializers.ModelSerializer):
+
+    obligation = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_obligation(obj):
+        return DynamicObligationSerializer(
+            obj.obligation_spec.obligation,
+            read_only=True,
+            fields=('id', 'title', 'terminated')
+        ).data
+
+    class Meta:
+        model = EnvelopeObligationSpec
+        fields = ('obligation_spec', 'obligation', 'reporting_cycle')
+
+
+class NestedEnvelopeObligationSpecSerializer(
+    NestedHyperlinkedModelSerializer, EnvelopeObligationSpecSerializer
+):
+
+    parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
+
+    class Meta(EnvelopeObligationSpecSerializer.Meta):
+        fields = ('url',) + EnvelopeObligationSpecSerializer.Meta.fields
+        extra_kwargs = {'url': {'view_name': 'api:envelope-obligation-spec-detail'}}
+
+
 class EnvelopeSerializer(serializers.ModelSerializer):
     datafiles = NestedDataFileSerializer(many=True, read_only=True)
     supportfiles = NestedSupportFileSerializer(many=True, read_only=True)
     links = NestedLinkSerializer(many=True, read_only=True)
     workflow = NestedWorkflowSerializer(many=False, read_only=True)
+    obligation_specs = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_obligation_specs(obj):
+        return EnvelopeObligationSpecSerializer(
+            EnvelopeObligationSpec.objects.filter(
+                envelope=obj, obligation_spec__in=obj.obligation_specs.all()
+            ).all(),
+            many=True
+        ).data
 
     class Meta:
         model = Envelope
         fields = '__all__'
         read_only_fields = ('workflow', 'finalized')
 
+
+class CreateEnvelopeSerializer(serializers.ModelSerializer):
+    """
+    Serializer for creating and updating `Envelope`s, also handles creating
+    `EnvelopeObligationSpec` intermediary model instances.
+    """
+
+    obligation_specs = EnvelopeObligationSpecSerializer(many=True, required=False)
+
+    class Meta:
+        model = Envelope
+        fields = ('name', 'reporter', 'obligation_specs')
+
+    def create(self, validated_data):
+        oblig_data = validated_data.pop('obligation_specs', [])
+        envelope = Envelope.objects.create(**validated_data)
+        for data in oblig_data:
+            d = dict(data)  # convert from OrderedDict
+            EnvelopeObligationSpec.objects.create(envelope=envelope, **d)
+
+        return envelope
+
+    def update(self, instance, validated_data):
+        oblig_data = validated_data.pop('obligation_specs', [])
+        for item in validated_data:
+            if Envelope._meta.get_field(item):
+                setattr(instance, item, validated_data[item])
+        EnvelopeObligationSpec.objects.filter(envelope=instance).delete()
+        for data in oblig_data:
+            d = dict(data)  # convert from OrderedDict
+            EnvelopeObligationSpec.objects.create(envelope=instance, **d)
+        instance.save()
+        return instance
+
     def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data['reporting_cycle'] = ReportingCycleDetailsSerializer(
-            instance.reporting_cycle,
-            many=False,
-            fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open'),
-        ).data
-        return data
+        return EnvelopeSerializer().to_representation(instance)
 
 
 class QAJobResultSerializer(serializers.ModelSerializer):
