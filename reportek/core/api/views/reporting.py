@@ -5,7 +5,6 @@ from collections import OrderedDict
 import logging
 from base64 import b64encode
 from django.views import static
-from django.db.models import Q, F, Exists, OuterRef, FilteredRelation
 from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.text import slugify
