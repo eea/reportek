@@ -137,6 +137,7 @@ INSTALLED_APPS = [
     'webpack_loader',
     'guardian',
     'channels',
+    'mptt',
 ]
 
 MIDDLEWARE = [
