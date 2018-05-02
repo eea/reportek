@@ -242,6 +242,8 @@ class Envelope(ValidateOnSaveMixin, models.Model):
         return self.workflow.handle_auto_qa_results()
 
     def clean(self):
+        # Note that the tracker does NOT work on m2m fields,
+        # changes there must be tracked on 'through' model.
         if self.tracker.changed() and self.tracker.previous('finalized'):
             raise ValidationError(_('Finalized envelopes cannot be changed'))
 
@@ -262,16 +264,6 @@ class Envelope(ValidateOnSaveMixin, models.Model):
             and self.coverage_start_year < self.coverage_end_year
         ):
             self.coverage_start_year, self.coverage_end_year = self.coverage_end_year, self.coverage_start_year
-
-    # def save(self, *args, **kwargs):
-    #     # On first save, instantiate a new workflow and set it on the envelope
-    #     if self._state.adding:
-    #         wf_class = self.obligation_specs.first().obligation_spec.workflow_cls()
-    #         workflow = wf_class(name=f'Envelope "{self.name}"\'s workflow')
-    #         workflow.save()
-    #         self.workflow = workflow
-    #
-    #     super().save(*args, **kwargs)
 
     def delete_disk_file(self, file_name):
         """
@@ -298,6 +290,8 @@ class EnvelopeObligationSpec(models.Model):
     obligation_spec = models.ForeignKey(ObligationSpec, on_delete=models.PROTECT)
     reporting_cycle = models.ForeignKey(ReportingCycle, on_delete=models.PROTECT)
 
+    tracker = FieldTracker()
+
     class Meta:
         unique_together = ('envelope', 'obligation_spec')
 
@@ -306,19 +300,22 @@ class EnvelopeObligationSpec(models.Model):
                f'obligation_spec={self.obligation_spec.pk}), ' \
                f'reporting_cycle={self.reporting_cycle.pk})'
 
-    def save(self, *args, **kwargs):
+    def clean(self):
+        if self.tracker.changed() and self.envelope.finalized:
+            raise ValidationError(_('Cannot alter obligations on a finalized envelope.'))
+
         if self._state.adding:
             another_spec = self.__class__.objects.filter(envelope=self.envelope).first()
             if another_spec is not None \
                 and another_spec.obligation_spec.workflow_class != self.obligation_spec.workflow_class:
 
-                raise RuntimeError(
-                    'All obligation specs on an envelope must have the same workflow'
+                raise ValidationError(
+                    _('All obligation specs on an envelope must have the same workflow')
                 )
 
             if self.envelope.reporter not in self.obligation_spec.reporters.all():
-                raise RuntimeError(
-                    f'Envelope reporter is not mapped to obligation spec {self.obligation_spec}'
+                raise ValidationError(
+                    _('Envelope reporter is not mapped to obligation spec')
                 )
 
             reporter_mapping = ObligationSpecReporter.objects.filter(
@@ -333,16 +330,16 @@ class EnvelopeObligationSpec(models.Model):
                 ).exclude(
                     subdivision_category=reporter_mapping.subdivision_category
                 ).exists():
-                    raise RuntimeError(
-                        'All obligation specs on an envelope must have the same subdivision category (or none)'
+                    raise ValidationError(
+                        _('All obligation specs on an envelope must have the same subdivision category (or none)')
                     )
 
+    def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 
-        print(self)
         # Instantiate envelope's workflow
-        if self.envelope.workflow is None:
-            wf_class = self.obligation_spec.workflow_cls
+        wf_class = self.obligation_spec.workflow_cls
+        if self.envelope.workflow is None and wf_class is not None:
             workflow = wf_class(name=f'Envelope "{self.envelope.name}"\'s workflow')
             workflow.save()
             self.envelope.workflow = workflow

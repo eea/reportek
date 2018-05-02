@@ -1,4 +1,7 @@
 from django.conf import settings
+from django.db import transaction
+from django.core.exceptions import ValidationError as DjangoValidationError
+from rest_framework.exceptions import ValidationError
 from rest_framework import serializers
 from rest_framework_nested.serializers import NestedHyperlinkedModelSerializer
 
@@ -455,17 +458,6 @@ class EnvelopeObligationSpecSerializer(serializers.ModelSerializer):
         fields = ('obligation_spec', 'obligation', 'reporting_cycle')
 
 
-class NestedEnvelopeObligationSpecSerializer(
-    NestedHyperlinkedModelSerializer, EnvelopeObligationSpecSerializer
-):
-
-    parent_lookup_kwargs = {'envelope_pk': 'envelope__pk'}
-
-    class Meta(EnvelopeObligationSpecSerializer.Meta):
-        fields = ('url',) + EnvelopeObligationSpecSerializer.Meta.fields
-        extra_kwargs = {'url': {'view_name': 'api:envelope-obligation-spec-detail'}}
-
-
 class EnvelopeSerializer(serializers.ModelSerializer):
     datafiles = NestedDataFileSerializer(many=True, read_only=True)
     supportfiles = NestedSupportFileSerializer(many=True, read_only=True)
@@ -502,10 +494,16 @@ class CreateEnvelopeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         oblig_data = validated_data.pop('obligation_specs', [])
-        envelope = Envelope.objects.create(**validated_data)
-        for data in oblig_data:
-            d = dict(data)  # convert from OrderedDict
-            EnvelopeObligationSpec.objects.create(envelope=envelope, **d)
+        try:
+            with transaction.atomic():
+                envelope = Envelope.objects.create(**validated_data)
+                for data in oblig_data:
+                    d = dict(data)  # convert from OrderedDict
+                    oblig_mapping = EnvelopeObligationSpec(envelope=envelope, **d)
+                    oblig_mapping.full_clean()
+                    oblig_mapping.save()
+        except (ValidationError, DjangoValidationError) as exc:
+            raise ValidationError(detail=serializers.as_serializer_error(exc))
 
         return envelope
 
@@ -514,11 +512,20 @@ class CreateEnvelopeSerializer(serializers.ModelSerializer):
         for item in validated_data:
             if Envelope._meta.get_field(item):
                 setattr(instance, item, validated_data[item])
-        EnvelopeObligationSpec.objects.filter(envelope=instance).delete()
-        for data in oblig_data:
-            d = dict(data)  # convert from OrderedDict
-            EnvelopeObligationSpec.objects.create(envelope=instance, **d)
-        instance.save()
+        try:
+            with transaction.atomic():
+                if oblig_data:
+                    EnvelopeObligationSpec.objects.filter(envelope=instance).delete()
+                # Manually clean obligation mappings, since m2m relatiopnships skip validation
+                for data in oblig_data:
+                    d = dict(data)  # convert from OrderedDict
+                    oblig_mapping = EnvelopeObligationSpec(envelope=instance, **d)
+                    oblig_mapping.full_clean()
+                    oblig_mapping.save()
+                instance.save()
+        except (ValidationError, DjangoValidationError) as exc:
+            raise ValidationError(detail=serializers.as_serializer_error(exc))
+
         return instance
 
     def to_representation(self, instance):
