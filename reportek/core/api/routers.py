@@ -20,6 +20,7 @@ from .views import (
     UploadTokenViewSet,
     WorkspaceProfileViewSet,
     WorkspaceReporterViewSet,
+    CollectionsViewSet,
 )
 
 
@@ -186,6 +187,14 @@ auth_tokens_router.register(
     base_name='auth-token'
 )
 
+collections_router = routers.SimpleRouter()
+collections_router.register(
+    'collection',
+    CollectionsViewSet,
+    base_name='collection'
+)
+
+
 main_routers = [
     instruments_router,
     clients_router,
@@ -199,6 +208,7 @@ main_routers = [
     workspace_profile_router,
     workspace_reporter_router,
     auth_tokens_router,
+    collections_router,
 ]
 
 
