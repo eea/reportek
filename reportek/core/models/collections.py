@@ -50,7 +50,7 @@ class Collection(MPTTModel):
 
     @cached_property
     def ancestors(self):
-        return self.get_ancestors(ascending=False).all()
+        return self.get_ancestors(ascending=True).all()
 
     def clean(self):
         if self.reporter is not None:
