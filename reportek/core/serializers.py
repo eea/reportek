@@ -1,4 +1,7 @@
 from django.conf import settings
+from django.db import transaction
+from django.core.exceptions import ValidationError as DjangoValidationError
+from rest_framework.exceptions import ValidationError
 from rest_framework import serializers
 from rest_framework_nested.serializers import NestedHyperlinkedModelSerializer
 
@@ -17,6 +20,7 @@ from .models import (
     ObligationSpecReporter,
     ReportingCycle,
     Envelope,
+    EnvelopeObligationSpec,
     DataFile,
     SupportFile,
     Link,
@@ -221,6 +225,13 @@ class ObligationSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         )
+
+
+class DynamicObligationSerializer(DynamicFieldsModelSerializer):
+
+    class Meta:
+        model = Obligation
+        fields = '__all__'
 
 
 class PendingObligationSpecSerializer(serializers.ModelSerializer):
@@ -430,25 +441,95 @@ class NestedFeedbackCommentSerializer(
         extra_kwargs = {'url': {'view_name': 'api:envelope-feedback-comment-detail'}}
 
 
+class EnvelopeObligationSpecSerializer(serializers.ModelSerializer):
+
+    obligation = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_obligation(obj):
+        return DynamicObligationSerializer(
+            obj.obligation_spec.obligation,
+            read_only=True,
+            fields=('id', 'title', 'terminated')
+        ).data
+
+    class Meta:
+        model = EnvelopeObligationSpec
+        fields = ('obligation_spec', 'obligation', 'reporting_cycle')
+
+
 class EnvelopeSerializer(serializers.ModelSerializer):
     datafiles = NestedDataFileSerializer(many=True, read_only=True)
     supportfiles = NestedSupportFileSerializer(many=True, read_only=True)
     links = NestedLinkSerializer(many=True, read_only=True)
     workflow = NestedWorkflowSerializer(many=False, read_only=True)
+    obligation_specs = serializers.SerializerMethodField()
+
+    @staticmethod
+    def get_obligation_specs(obj):
+        return EnvelopeObligationSpecSerializer(
+            EnvelopeObligationSpec.objects.filter(
+                envelope=obj, obligation_spec__in=obj.obligation_specs.all()
+            ).all(),
+            many=True
+        ).data
 
     class Meta:
         model = Envelope
         fields = '__all__'
         read_only_fields = ('workflow', 'finalized')
 
+
+class CreateEnvelopeSerializer(serializers.ModelSerializer):
+    """
+    Serializer for creating and updating `Envelope`s, also handles creating
+    `EnvelopeObligationSpec` intermediary model instances.
+    """
+
+    obligation_specs = EnvelopeObligationSpecSerializer(many=True, required=False)
+
+    class Meta:
+        model = Envelope
+        fields = ('name', 'reporter', 'obligation_specs')
+
+    def create(self, validated_data):
+        oblig_data = validated_data.pop('obligation_specs', [])
+        try:
+            with transaction.atomic():
+                envelope = Envelope.objects.create(**validated_data)
+                for data in oblig_data:
+                    d = dict(data)  # convert from OrderedDict
+                    oblig_mapping = EnvelopeObligationSpec(envelope=envelope, **d)
+                    oblig_mapping.full_clean()
+                    oblig_mapping.save()
+        except (ValidationError, DjangoValidationError) as exc:
+            raise ValidationError(detail=serializers.as_serializer_error(exc))
+
+        return envelope
+
+    def update(self, instance, validated_data):
+        oblig_data = validated_data.pop('obligation_specs', [])
+        for item in validated_data:
+            if Envelope._meta.get_field(item):
+                setattr(instance, item, validated_data[item])
+        try:
+            with transaction.atomic():
+                if oblig_data:
+                    EnvelopeObligationSpec.objects.filter(envelope=instance).delete()
+                # Manually clean obligation mappings, since m2m relatiopnships skip validation
+                for data in oblig_data:
+                    d = dict(data)  # convert from OrderedDict
+                    oblig_mapping = EnvelopeObligationSpec(envelope=instance, **d)
+                    oblig_mapping.full_clean()
+                    oblig_mapping.save()
+                instance.save()
+        except (ValidationError, DjangoValidationError) as exc:
+            raise ValidationError(detail=serializers.as_serializer_error(exc))
+
+        return instance
+
     def to_representation(self, instance):
-        data = super().to_representation(instance)
-        data['reporting_cycle'] = ReportingCycleDetailsSerializer(
-            instance.reporting_cycle,
-            many=False,
-            fields=('id', 'reporting_start_date', 'reporting_end_date', 'is_open'),
-        ).data
-        return data
+        return EnvelopeSerializer().to_representation(instance)
 
 
 class QAJobResultSerializer(serializers.ModelSerializer):
