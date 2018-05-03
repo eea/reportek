@@ -27,6 +27,7 @@ from .models import (
     FeedbackComment,
     BaseWorkflow,
     UploadToken,
+    Collection,
     QAJob,
     QAJobResult,
     ReportekUser,
@@ -640,3 +641,62 @@ class AuthTokenByValueSerializer(serializers.ModelSerializer):
     @staticmethod
     def get_expires(obj):
         return obj.created + settings.TOKEN_EXPIRE_INTERVAL
+
+
+class CollectionSerializer(serializers.ModelSerializer):
+
+    children = serializers.SerializerMethodField()
+    reporter = serializers.SerializerMethodField()
+    obligations = serializers.SerializerMethodField()
+    coverage_start_year = serializers.SerializerMethodField()
+    coverage_end_year = serializers.SerializerMethodField()
+    coverage_interval = serializers.SerializerMethodField()
+    coverage_note = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Collection
+        fields = (
+            'id',
+            'parent',
+            'children',
+            'reporter',
+            'obligations',
+            'coverage_start_year',
+            'coverage_end_year',
+            'coverage_interval',
+            'coverage_note',
+            'allows_envelopes',
+            'allows_collections',
+            'allows_referrals',
+            'deprecated',
+            'created',
+            'updated',
+        )
+
+    @staticmethod
+    def get_children(obj):
+        return [c.pk for c in obj.get_children()]
+
+    @staticmethod
+    def get_reporter(obj):
+        return getattr(obj.get_reporter(), 'pk')
+
+    @staticmethod
+    def get_obligations(obj):
+        return [o.pk for o in obj.get_obligations()]
+
+    @staticmethod
+    def get_coverage_start_year(obj):
+        return obj.get_coverage_start_year()
+
+    @staticmethod
+    def get_coverage_end_year(obj):
+        return obj.get_coverage_end_year()
+
+    @staticmethod
+    def get_coverage_interval(obj):
+        return obj.get_coverage_interval()
+
+    @staticmethod
+    def get_coverage_note(obj):
+        return obj.get_coverage_note()

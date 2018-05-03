@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from guardian.admin import GuardedModelAdmin
+from mptt.admin import MPTTModelAdmin
 from django_object_actions import DjangoObjectActions
 
 from .models import (
@@ -12,7 +13,7 @@ from .models import (
     Instrument,
     Obligation,
     ObligationSpec,
-    ObligationSpecReporter,
+    Collection,
     ReportingCycle,
     Envelope,
     # DemoAutoQAWorkflow,
@@ -102,3 +103,5 @@ class TransitionEventAdmin(admin.ModelAdmin):
 # Reporting
 
 admin.site.register(Envelope)
+
+admin.site.register(Collection, MPTTModelAdmin)
